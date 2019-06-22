@@ -1,8 +1,11 @@
+$toolbar-height: 48px;
+
 mat-toolbar {
   position: -webkit-sticky;
   position: fixed;
   top: 0;
   z-index: 100;
+  height: $toolbar-height;
 
   .left {}
 
@@ -10,15 +13,15 @@ mat-toolbar {
 }
 
 mat-sidenav-container.global {
-  padding-top: 64px;
+  padding-top: $toolbar-height;
   height: 100%;
   z-index: 99;
 
-  mat-sidenav{
-      padding-top: 64px;
+  mat-sidenav {
+    padding-top: $toolbar-height;
   }
 
-  .main-container{
-      margin: 15px 20px;
+  .main-container {
+    margin: 5px;
   }
 }

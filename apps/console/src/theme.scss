@@ -1,0 +1,88 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$shepherd-custom-palette: (50: #eceff1,
+  100: #cfd8dc,
+  200: #b0bec5,
+  300: #90a4ae,
+  400: #78909c,
+  500: #5400E8,
+  600: #546e7a,
+  700: #455a64,
+  800: #37474f,
+  900: #263238,
+  A100: #cfd8dc,
+  A200: #b0bec5,
+  A400: #78909c,
+  A700: #455a64,
+  contrast: (50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ));
+
+$shepherd-custom-primary: mat-palette($shepherd-custom-palette);
+$shepherd-custom-accent: mat-palette($mat-lime, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$shepherd-custom-warn: mat-palette($mat-red);
+
+// Background palette for light themes.
+$shepherd-custom-theme-background: (status-bar: map_get($mat-grey, 300),
+  app-bar: map_get($mat-grey, 100),
+  background: map_get($mat-grey, 50),
+  hover: rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+  card: white,
+  dialog: white,
+  disabled-button: rgba(black, 0.12),
+  raised-button: white,
+  focused-button: $dark-focused,
+  selected-button: map_get($mat-grey, 300),
+  selected-disabled-button: map_get($mat-grey, 400),
+  disabled-button-toggle: map_get($mat-grey, 200),
+  unselected-chip: map_get($mat-grey, 300),
+  disabled-list-option: map_get($mat-grey, 200),
+);
+
+// Foreground palette for light themes.
+$shepherd-custom-theme-foreground: (base: black,
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: rgba(black, 0.26),
+  disabled-text: $dark-disabled-text,
+  elevation: black,
+  hint-text: $dark-disabled-text,
+  secondary-text: $dark-secondary-text,
+  icon: rgba(black, 0.54),
+  icons: rgba(black, 0.54),
+  text: rgba(black, 0.65),
+  slider-min: rgba(black, 0.87),
+  slider-off: rgba(black, 0.26),
+  slider-off-active: rgba(black, 0.38),
+);
+
+// Create the theme object (a Sass map containing all of the palettes).
+//$shepherd-custom-theme: mat-light-theme($shepherd-custom-primary, $shepherd-custom-accent, $shepherd-custom-warn);
+$shepherd-custom-theme: (primary: $shepherd-custom-primary,
+  accent: $shepherd-custom-accent,
+  warn: $shepherd-custom-warn,
+  is-dark: false,
+  foreground: $shepherd-custom-theme-foreground,
+  background: $shepherd-custom-theme-background);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($shepherd-custom-theme);

@@ -26,7 +26,9 @@
               "apps/console/src/favicon.ico",
               "apps/console/src/assets"
             ],
-            "styles": ["apps/console/src/styles.scss"],
+            "styles": [
+              "apps/console/src/theme.scss",
+              "apps/console/src/styles.scss"],
             "scripts": []
           },
           "configurations": {

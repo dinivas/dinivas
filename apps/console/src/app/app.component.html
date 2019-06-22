@@ -20,28 +20,116 @@
 </mat-toolbar>
 <mat-sidenav-container class="global">
   <mat-sidenav #sidenav mode="over" [(opened)]="sideNavOpened">
-    <mat-list>
+    <mat-nav-list>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>home</mat-icon>
+        <h4 mat-line>Home</h4>
+      </a>
       <h3 mat-subheader>Compute</h3>
-      <mat-list-item>
-        <mat-icon mat-list-icon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Instances</h4>
-      </mat-list-item>
-      <mat-divider></mat-divider>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Disks</h4>
+      </a>
+      <!-- Network -->
       <h3 mat-subheader>Networking</h3>
-      <mat-list-item>
-        <mat-icon mat-list-icon>note</mat-icon>
-        <h4 mat-line>Private Network</h4>
-      </mat-list-item>
-      <mat-list-item>
-          <mat-icon mat-list-icon>note</mat-icon>
-          <h4 mat-line>Managed Radius</h4>
-        </mat-list-item>
-    </mat-list>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Private network</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Radius</h4>
+      </a>
+      <!-- Messaging -->
+      <h3 mat-subheader>Messaging</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed RabbitMQ</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Kafka</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>IOT / Managed MQTT</h4>
+      </a>
+      <!-- Storage -->
+      <h3 mat-subheader>Storage</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed PostgreSQL</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Redis</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Elasticsearch</h4>
+      </a>
+      <!-- Build & Deploy -->
+      <h3 mat-subheader>Build & Deploy</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Jenkins</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Gitlab</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed DroneCI</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Nexus repository</h4>
+      </a>
+      <!-- Ansible -->
+      <h3 mat-subheader>Ansible</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Galaxy</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>History</h4>
+      </a>
+      <!-- Monitoring -->
+      <h3 mat-subheader>Security</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Dashboard</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Logging (Graylog)</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Tracing</h4>
+      </a>
+      <!-- Security -->
+      <h3 mat-subheader>Security</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>IAM (Keycloak)</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Managed Vault</h4>
+      </a>
+    </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <div class="main-container">
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
