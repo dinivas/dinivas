@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'console';
+  sideNavOpened: boolean;
+
+  toggleSideNav() {
+    this.sideNavOpened = !this.sideNavOpened;
+  }
 }

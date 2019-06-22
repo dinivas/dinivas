@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@shepherd/data": ["libs/data/src/index.ts"]
+      "@shepherd/data": ["libs/data/src/index.ts"],
+      "@shepherd/material": ["libs/material/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,27 +1,47 @@
-<div style="text-align:center">
-  <h1>Welcome to {{ title }}!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png"
-  />
-</div>
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="left">
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span>
+      Shepherd Cloud Platform
+    </span>
+  </div>
+  <div class="right">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item class="logout" (click)="logout()">
+        Logout
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+<mat-sidenav-container class="global">
+  <mat-sidenav #sidenav mode="over" [(opened)]="sideNavOpened">
+    <mat-list>
+      <h3 mat-subheader>Compute</h3>
+      <mat-list-item>
+        <mat-icon mat-list-icon>folder</mat-icon>
+        <h4 mat-line>Instances</h4>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader>Networking</h3>
+      <mat-list-item>
+        <mat-icon mat-list-icon>note</mat-icon>
+        <h4 mat-line>Private Network</h4>
+      </mat-list-item>
+      <mat-list-item>
+          <mat-icon mat-list-icon>note</mat-icon>
+          <h4 mat-line>Managed Radius</h4>
+        </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
 
-<p>This is an Angular app built with <a href="https://nx.dev">Nx</a>.</p>
-<p>🔎 **Nx is a set of Angular CLI power-ups for modern development.**</p>
-
-<h2>Quick Start & Documentation</h2>
-
-<ul>
-  <li>
-    <a href="https://nx.dev/getting-started/what-is-nx"
-      >30-minute video showing all Nx features</a
-    >
-  </li>
-  <li>
-    <a href="https://nx.dev/tutorial/01-create-application"
-      >Interactive tutorial</a
-    >
-  </li>
-</ul>
-
-<router-outlet></router-outlet>
+  <mat-sidenav-content>
+    <div class="main-container">
+        <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

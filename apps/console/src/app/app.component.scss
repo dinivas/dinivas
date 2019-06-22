@@ -1,0 +1,24 @@
+mat-toolbar {
+  position: -webkit-sticky;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+
+  .left {}
+
+  .right {}
+}
+
+mat-sidenav-container.global {
+  padding-top: 64px;
+  height: 100%;
+  z-index: 99;
+
+  mat-sidenav{
+      padding-top: 64px;
+  }
+
+  .main-container{
+      margin: 15px 20px;
+  }
+}
