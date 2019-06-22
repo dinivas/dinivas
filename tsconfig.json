@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@shepherd/data": ["libs/data/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
