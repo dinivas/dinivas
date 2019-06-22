@@ -12,7 +12,8 @@ import {
     MatProgressSpinnerModule,
     MatMenuModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
 } from '@angular/material';
 
 @NgModule({
@@ -28,7 +29,8 @@ import {
         MatProgressSpinnerModule,
         MatMenuModule,
         MatTableModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDialogModule
     ],
     exports: [
         FlexLayoutModule,
@@ -42,7 +44,8 @@ import {
         MatProgressSpinnerModule,
         MatMenuModule,
         MatTableModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDialogModule
     ]
 })
 export class MaterialModule { }

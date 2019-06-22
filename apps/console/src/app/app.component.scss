@@ -9,7 +9,11 @@ mat-toolbar {
 
   .left {}
 
-  .right {}
+  .right {
+      span.username{
+          font-size: 14px;
+      }
+  }
 }
 
 mat-sidenav-container.global {

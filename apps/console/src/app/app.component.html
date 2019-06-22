@@ -8,11 +8,15 @@
     </span>
   </div>
   <div class="right">
+    <span class="username" *ngIf="userDetails">{{ userDetails.firstName }}</span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item class="logout" (click)="logout()">
+      <button mat-menu-item class="" (click)="profileManagement()">
+        Profile
+      </button>
+      <button mat-menu-item class="" (click)="logout()">
         Logout
       </button>
     </mat-menu>

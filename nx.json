@@ -22,6 +22,9 @@
     },
     "material": {
       "tags": []
+    },
+    "auth": {
+      "tags": []
     }
   }
 }
