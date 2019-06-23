@@ -1,3 +1,4 @@
+import { ApiInfoService } from './api-info.service';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 import { Component } from '@angular/core';
@@ -15,11 +16,13 @@ export class AppComponent {
 
   constructor(
     private readonly keycloakService: KeycloakService,
+    private readonly apiInfoService: ApiInfoService,
     public dialog: MatDialog) { }
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
+      this.apiInfoService.getApiServerInfo().subscribe(res => console.log(res))
     }
   }
 

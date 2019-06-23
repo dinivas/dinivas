@@ -1,3 +1,4 @@
+import { ApiInfoService } from './api-info.service';
 import { AuthModule } from '@shepherd/auth';
 import { MaterialModule } from '@shepherd/material';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, DashboardComponent, ConfirmationDialogComponent],
@@ -24,12 +26,13 @@ import { ConfirmationDialogComponent } from './components/shared/confirmation-di
     MatIconModule,
     MatButtonModule,
     LayoutModule,
-    AuthModule
+    AuthModule,
+    HttpClientModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
-  providers: [],
+  providers: [ApiInfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

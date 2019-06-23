@@ -6,6 +6,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:3333/api',
   keycloak: {
     url: 'http://localhost:8083/auth',
     realm: 'shepherd',
