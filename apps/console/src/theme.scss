@@ -2,7 +2,7 @@
 
 @include mat-core();
 
-$shepherd-custom-palette: (50: #eceff1,
+$dinivas-custom-palette: (50: #eceff1,
   100: #cfd8dc,
   200: #b0bec5,
   300: #90a4ae,
@@ -32,14 +32,14 @@ $shepherd-custom-palette: (50: #eceff1,
     A700: $light-primary-text,
   ));
 
-$shepherd-custom-primary: mat-palette($shepherd-custom-palette);
-$shepherd-custom-accent: mat-palette($mat-lime, A200, A100, A400);
+$dinivas-custom-primary: mat-palette($dinivas-custom-palette);
+$dinivas-custom-accent: mat-palette($mat-lime, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$shepherd-custom-warn: mat-palette($mat-red);
+$dinivas-custom-warn: mat-palette($mat-red);
 
 // Background palette for light themes.
-$shepherd-custom-theme-background: (status-bar: map_get($mat-grey, 300),
+$dinivas-custom-theme-background: (status-bar: map_get($mat-grey, 300),
   app-bar: map_get($mat-grey, 100),
   background: map_get($mat-grey, 50),
   hover: rgba(black, 0.04), // TODO(kara): check style with Material Design UX
@@ -56,7 +56,7 @@ $shepherd-custom-theme-background: (status-bar: map_get($mat-grey, 300),
 );
 
 // Foreground palette for light themes.
-$shepherd-custom-theme-foreground: (base: black,
+$dinivas-custom-theme-foreground: (base: black,
   divider: $dark-dividers,
   dividers: $dark-dividers,
   disabled: $dark-disabled-text,
@@ -74,15 +74,15 @@ $shepherd-custom-theme-foreground: (base: black,
 );
 
 // Create the theme object (a Sass map containing all of the palettes).
-//$shepherd-custom-theme: mat-light-theme($shepherd-custom-primary, $shepherd-custom-accent, $shepherd-custom-warn);
-$shepherd-custom-theme: (primary: $shepherd-custom-primary,
-  accent: $shepherd-custom-accent,
-  warn: $shepherd-custom-warn,
+//$dinivas-custom-theme: mat-light-theme($dinivas-custom-primary, $dinivas-custom-accent, $dinivas-custom-warn);
+$dinivas-custom-theme: (primary: $dinivas-custom-primary,
+  accent: $dinivas-custom-accent,
+  warn: $dinivas-custom-warn,
   is-dark: false,
-  foreground: $shepherd-custom-theme-foreground,
-  background: $shepherd-custom-theme-background);
+  foreground: $dinivas-custom-theme-foreground,
+  background: $dinivas-custom-theme-background);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($shepherd-custom-theme);
+@include angular-material-theme($dinivas-custom-theme);

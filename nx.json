@@ -1,5 +1,5 @@
 {
-  "npmScope": "shepherd",
+  "npmScope": "dinivas",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",

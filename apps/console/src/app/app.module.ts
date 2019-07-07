@@ -1,6 +1,6 @@
 import { ApiInfoService } from './api-info.service';
-import { AuthModule } from '@shepherd/auth';
-import { MaterialModule } from '@shepherd/material';
+import { AuthModule } from '@dinivas/auth';
+import { MaterialModule } from '@dinivas/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 

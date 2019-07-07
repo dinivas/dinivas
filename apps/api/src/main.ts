@@ -15,8 +15,8 @@ async function bootstrap() {
 
   // Documentation
   const options = new DocumentBuilder()
-    .setTitle('Shepherd API')
-    .setDescription('Shepherd API description')
+    .setTitle('Dinivas API')
+    .setDescription('Dinivas API description')
     .setVersion('1.0')
     .setBasePath('/api/v1')
     .addBearerAuth()

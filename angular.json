@@ -12,7 +12,7 @@
       },
       "root": "apps/console",
       "sourceRoot": "apps/console/src",
-      "prefix": "shepherd",
+      "prefix": "dinivas",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
