@@ -6,11 +6,11 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3333/api',
+  apiUrl: 'http://localhost:3000/api/v1',
   keycloak: {
     url: 'http://localhost:8083/auth',
-    realm: 'shepherd',
-    clientId: 'shepherd-console'
+    realm: 'dinivas',
+    clientId: 'dinivas-console'
   }
 };
 

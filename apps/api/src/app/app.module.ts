@@ -9,10 +9,9 @@ import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
 import { CsurfMiddleware } from '@nest-middlewares/csurf';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [],
   controllers: [InfoController],
   providers: [
     AppService,
@@ -34,16 +33,6 @@ export class AppModule implements NestModule {
       MorganMiddleware.configure('dev');
       consumer.apply(MorganMiddleware).forRoutes('/*');
     }
-
-    //consumer.apply(require('./auth/keycloak').keycloak.protect('real:admin')).forRoutes(InfoController)
-    // // var keycloak = new Keycloak({}, environment.keyCloakConfig);
-    // var keycloak = new Keycloak({});
-    // keycloak.middleware();
-    // consumer
-    //   .apply(keycloak.checkSso())
-    //   //.apply(keycloak.protect('realm:admin', {response_mode: 'token'}))
-    //   //.apply(keycloak.protect('admin'))
-    //   .forRoutes(InfoController);
   }
 
 }

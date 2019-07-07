@@ -12,6 +12,8 @@ import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButt
 import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent, DashboardComponent, ConfirmationDialogComponent],
@@ -27,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     LayoutModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [
     ConfirmationDialogComponent

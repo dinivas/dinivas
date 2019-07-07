@@ -1,0 +1,83 @@
+enable-default-deny: true
+#skip-token-verification: true
+# is the url for retrieve the OpenID configuration - normally the <server>/auth/realm/<realm_name>
+discovery-url: http://localhost:8083/auth/realms/dinivas
+# the client id for the 'client' application
+client-id: dinivas-api
+# the secret associated to the 'client' application
+client-secret: 60de3dca-6c42-42c3-b542-28ca5feb7fc7
+# the interface definition you wish the proxy to listen, all interfaces is specified as ':<port>', unix sockets as unix://<REL_PATH>|</ABS PATH>
+listen: :3000
+# whether to enable refresh tokens
+enable-refresh-tokens: true
+secure-cookie: false
+# log all incoming requests
+enable-logging: true
+# log in json format
+enable-json-logging: true
+verbose: true
+enable-metrics: true
+# should the access token be encrypted - you need an encryption-key if 'true'
+enable-encrypted-token: false
+# do not redirec the request, simple 307 it
+no-redirects: true
+# the location of a certificate you wish the proxy to use for TLS support
+tls-cert:
+# the location of a private key for TLS
+tls-private-key:
+# the redirection url, essentially the site url, note: /oauth/callback is added at the end
+#redirection-url: http://localhost:3000
+# the encryption key used to encode the session state
+encryption-key: vGcLt8ZUdPX5fXhtLZaPHZkGWHZrT6T8
+# the name of the access cookie, defaults to kc-access
+cookie-access-name:
+# the name of the refresh cookie, default to kc-state
+cookie-refresh-name:
+
+# the upstream endpoint which we should proxy request
+upstream-url: http://localhost:3333
+upstream-keepalives: true
+# additional scopes to add to add to the default (openid+email+profile)
+scopes: []
+# - vpn-user
+# a collection of resource i.e. urls that you wish to protect
+# enables a more extra secuirty features
+enable-security-filter: true
+# headers:
+#   myheader_name: my_header_value
+resources:
+- uri: /api/v1/info
+  # the methods on this url that should be protected, if missing, we assuming all
+  methods:
+  - GET
+  - OPTIONS
+  # a list of roles the user must have in order to access urls under the above
+  # If all you want is authentication ONLY, simply remove the roles array - the user must be authenticated but
+  # no roles are required
+  roles:
+  - admin
+- uri: /admin/*
+  methods:
+  - GET
+  roles:
+  - openvpn:vpn-user
+  - openvpn:commons-prod-vpn
+cors-origins: ['*']
+cors-headers:
+  - Authorization
+# cors-methods:
+# - GET
+# - HEAD
+# - PUT
+# - PATCH
+# - POST
+# - DELETE
+# - OPTIONS
+# cors-exposed-headers:
+# - Origin
+# - Accept
+# - X-Requested-With
+# - Content-Type
+# - Access-Control-Request-Method
+# - Access-Control-Request-Headers
+# - Authorization

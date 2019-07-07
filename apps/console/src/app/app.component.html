@@ -3,9 +3,9 @@
     <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <span>
-      Shepherd Cloud Platform
-    </span>
+    <a mat-button routerLink="/" class="logo">
+      <span>Dinivas Console</span>
+    </a>
   </div>
   <div class="right">
     <span class="username" *ngIf="userDetails">{{ userDetails.firstName }}</span>
@@ -23,12 +23,14 @@
   </div>
 </mat-toolbar>
 <mat-sidenav-container class="global">
-  <mat-sidenav #sidenav mode="over" [(opened)]="sideNavOpened">
+  <mat-sidenav #sidenav mode="over" [(opened)]="sideNavOpened" style="overflow: hidden;">
     <mat-nav-list>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
         <mat-icon matListIcon>home</mat-icon>
         <h4 mat-line>Home</h4>
       </a>
+    </mat-nav-list>
+    <mat-nav-list class="available-items-nav-list">
       <h3 mat-subheader>Compute</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
         <mat-icon matListIcon>folder</mat-icon>
@@ -76,6 +78,10 @@
         <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Managed Elasticsearch</h4>
       </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 mat-line>Cloud storage</h4>
+      </a>
       <!-- Build & Deploy -->
       <h3 mat-subheader>Build & Deploy</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
@@ -105,7 +111,7 @@
         <h4 mat-line>History</h4>
       </a>
       <!-- Monitoring -->
-      <h3 mat-subheader>Security</h3>
+      <h3 mat-subheader>Monitoring</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
         <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Dashboard</h4>

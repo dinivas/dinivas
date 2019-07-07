@@ -1,6 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
+import { environment } from 'apps/api/src/environments/environment';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -15,11 +16,12 @@ export class RolesGuard implements CanActivate {
             return true;
         }
         const request = context.switchToHttp().getRequest();
-        const grant = request.kauth.grant;
-        if (!grant || !grant.access_token.content.realm_access.roles) {
+        // This header should be provide by Keycloak Gatekeeper
+        if (!request.header(environment.headerRoleAttribute)) {
             return false;
         }
-        const hasRole = () => grant.access_token.content.realm_access.roles.some((role) => roles.includes(role));
-        return grant && grant.access_token.content.realm_access && hasRole();
+        const user_roles = request.headers[environment.headerRoleAttribute].split(',');
+        const hasRole = () => user_roles.some((role) => roles.includes(role));
+        return hasRole();
     }
 }

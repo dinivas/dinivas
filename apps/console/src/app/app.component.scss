@@ -7,12 +7,17 @@ mat-toolbar {
   z-index: 100;
   height: $toolbar-height;
 
-  .left {}
+  .left {
+
+    a.logo {
+      font-size: 18px;
+    }
+  }
 
   .right {
-      span.username{
-          font-size: 14px;
-      }
+    span.username {
+      font-size: 16px;
+    }
   }
 }
 
@@ -23,6 +28,19 @@ mat-sidenav-container.global {
 
   mat-sidenav {
     padding-top: $toolbar-height;
+
+    a.mat-list-item {
+      height: 44px;
+    }
+
+    .mat-drawer-inner-container {
+      overflow: hidden;
+
+      .available-items-nav-list {
+        overflow: auto;
+        height: 100%;
+      }
+    }
   }
 
   .main-container {
