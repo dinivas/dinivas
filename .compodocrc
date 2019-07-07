@@ -1,0 +1,12 @@
+---
+name: Dinivas
+tsconfig: ./tsconfig.json
+output: ./documentation
+theme: material
+hideGenerator: true
+disableSourceCode: true
+disablePrivate: true
+disableProtected: true
+disableInternal: true
+disableGraph: false
+silent: false

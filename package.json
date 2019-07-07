@@ -17,7 +17,7 @@
     "affected:lint": "nx affected:lint",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
-    "compodoc": "npx compodoc -p tsconfig.app.json",
+    "compodoc": "npx compodoc",
     "format": "nx format:write",
     "format:write": "nx format:write",
     "format:check": "nx format:check",
