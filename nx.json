@@ -25,6 +25,9 @@
     },
     "auth": {
       "tags": []
+    },
+    "common-ui": {
+      "tags": []
     }
   }
 }

@@ -25,102 +25,115 @@
 <mat-sidenav-container class="global">
   <mat-sidenav #sidenav mode="over" [(opened)]="sideNavOpened" style="overflow: hidden;">
     <mat-nav-list>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
         <mat-icon matListIcon>home</mat-icon>
         <h4 mat-line>Home</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/admin']" (click)="toggleSideNav()">
+        <mat-icon matListIcon>supervisor_account</mat-icon>
+        <h4 mat-line>Admin</h4>
       </a>
     </mat-nav-list>
     <mat-nav-list class="available-items-nav-list">
       <h3 mat-subheader>Compute</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/compute/instances']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="server"></mat-icon>
         <h4 mat-line>Instances</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/compute/disks']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="hard_drive"></mat-icon>
         <h4 mat-line>Disks</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/compute/images']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="disc"></mat-icon>
+        <h4 mat-line>Images</h4>
       </a>
       <!-- Network -->
       <h3 mat-subheader>Networking</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
         <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Private network</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="radius"></mat-icon>
         <h4 mat-line>Managed Radius</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon>router</mat-icon>
+        <h4 mat-line>Service discovery</h4>
       </a>
       <!-- Messaging -->
       <h3 mat-subheader>Messaging</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="rabbitmq"></mat-icon>
         <h4 mat-line>Managed RabbitMQ</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="kafka"></mat-icon>
         <h4 mat-line>Managed Kafka</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="mosquitto"></mat-icon>
         <h4 mat-line>IOT / Managed MQTT</h4>
       </a>
       <!-- Storage -->
       <h3 mat-subheader>Storage</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/postgresql']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="postgresql"></mat-icon>
         <h4 mat-line>Managed PostgreSQL</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/redis']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="redis"></mat-icon>
         <h4 mat-line>Managed Redis</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/elasticsearch']"
+        (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="elasticsearch"></mat-icon>
         <h4 mat-line>Managed Elasticsearch</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/minio']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="minio"></mat-icon>
         <h4 mat-line>Cloud storage</h4>
       </a>
       <!-- Build & Deploy -->
       <h3 mat-subheader>Build & Deploy</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="jenkins"></mat-icon>
         <h4 mat-line>Managed Jenkins</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="gitlab"></mat-icon>
         <h4 mat-line>Managed Gitlab</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="drone"></mat-icon>
         <h4 mat-line>Managed DroneCI</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
         <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Managed Nexus repository</h4>
       </a>
       <!-- Ansible -->
       <h3 mat-subheader>Ansible</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="ansible"></mat-icon>
         <h4 mat-line>Galaxy</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="ara"></mat-icon>
         <h4 mat-line>History</h4>
       </a>
       <!-- Monitoring -->
       <h3 mat-subheader>Monitoring</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
         <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Dashboard</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="graylog"></mat-icon>
         <h4 mat-line>Logging (Graylog)</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']" (click)="toggleSideNav()">
         <mat-icon matListIcon>folder</mat-icon>
         <h4 mat-line>Tracing</h4>
       </a>

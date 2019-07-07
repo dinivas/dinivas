@@ -18,7 +18,8 @@
     "paths": {
       "@dinivas/data": ["libs/data/src/index.ts"],
       "@dinivas/material": ["libs/material/src/index.ts"],
-      "@dinivas/auth": ["libs/auth/src/index.ts"]
+      "@dinivas/auth": ["libs/auth/src/index.ts"],
+      "@dinivas/common-ui": ["libs/common-ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

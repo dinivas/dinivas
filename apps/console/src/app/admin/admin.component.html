@@ -1,0 +1,6 @@
+<nav mat-tab-nav-bar >
+  <a mat-tab-link routerLinkActive #rlaDashboard="routerLinkActive" [active]="rlaDashboard.isActive" routerLink="dashboard">Dashboard</a>
+  <a mat-tab-link routerLinkActive #rlaCloudprovider="routerLinkActive" [active]="rlaCloudprovider.isActive" routerLink="cloudprovider">Cloud provider</a>
+  <a mat-tab-link routerLinkActive #rlaServerInfo="routerLinkActive" [active]="rlaServerInfo.isActive" routerLink="serverinfo">Server info</a>
+</nav>
+<router-outlet></router-outlet>

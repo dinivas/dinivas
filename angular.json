@@ -253,6 +253,33 @@
           }
         }
       }
+    },
+    "common-ui": {
+      "projectType": "library",
+      "root": "libs/common-ui",
+      "sourceRoot": "libs/common-ui/src",
+      "prefix": "dinivas",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/common-ui/tsconfig.lib.json",
+              "libs/common-ui/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/common-ui/jest.config.js",
+            "tsConfig": "libs/common-ui/tsconfig.spec.json",
+            "setupFile": "libs/common-ui/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

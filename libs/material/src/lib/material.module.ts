@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import {
     MatInputModule,
@@ -13,12 +12,13 @@ import {
     MatMenuModule,
     MatTableModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatGridListModule,
+    MatTabsModule
 } from '@angular/material';
 
 @NgModule({
     imports: [
-        FlexLayoutModule,
         MatInputModule,
         MatCardModule,
         MatButtonModule,
@@ -30,10 +30,11 @@ import {
         MatMenuModule,
         MatTableModule,
         MatSelectModule,
-        MatDialogModule
+        MatDialogModule,
+        MatGridListModule,
+        MatTabsModule
     ],
     exports: [
-        FlexLayoutModule,
         MatInputModule,
         MatCardModule,
         MatButtonModule,
@@ -45,7 +46,9 @@ import {
         MatMenuModule,
         MatTableModule,
         MatSelectModule,
-        MatDialogModule
+        MatDialogModule,
+        MatGridListModule,
+        MatTabsModule
     ]
 })
 export class MaterialModule { }
