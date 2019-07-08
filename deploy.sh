@@ -4,7 +4,7 @@ GIT_DEPLOY_REPO=${GIT_DEPLOY_REPO:-$(node -p -e "require('./package.json').repos
 
 cd documentation && \
 
-rm -R .git
+#rm -R .git
 git init && \
 
 git config user.name "Travis CI" && \

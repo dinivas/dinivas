@@ -11,5 +11,5 @@ script:
     - bash ./deploy.sh
 env:
   global:
-    - GH_REF: github.com:dinivas/dinivas.git
+    - GH_REF: github.com/dinivas/dinivas.git
 
