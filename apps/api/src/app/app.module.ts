@@ -9,9 +9,10 @@ import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
 import { CsurfMiddleware } from '@nest-middlewares/csurf';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { AppService } from './app.service';
+import { ComputeModule } from './compute/compute.module';
 
 @Module({
-  imports: [],
+  imports: [ComputeModule],
   controllers: [InfoController],
   providers: [
     AppService,

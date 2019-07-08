@@ -46,6 +46,9 @@ enable-security-filter: true
 # headers:
 #   myheader_name: my_header_value
 resources:
+# Swagger uri
+- uri: /docs/*
+  white-listed: true
 - uri: /api/v1/info
   # the methods on this url that should be protected, if missing, we assuming all
   methods:
@@ -54,6 +57,12 @@ resources:
   # a list of roles the user must have in order to access urls under the above
   # If all you want is authentication ONLY, simply remove the roles array - the user must be authenticated but
   # no roles are required
+  roles:
+  - admin
+- uri: /api/v1/compute/images
+  methods:
+    - GET
+    - OPTIONS
   roles:
   - admin
 - uri: /admin/*

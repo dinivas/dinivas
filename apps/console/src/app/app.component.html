@@ -6,6 +6,11 @@
     <a mat-button routerLink="/" class="logo">
       <span>Dinivas Console</span>
     </a>
+    <button mat-button>
+      <mat-icon *ngIf="currentProject">folder_special</mat-icon>
+      {{ currentProject ? currentProject?.name: 'Select project' }}
+      <mat-icon>arrow_drop_down</mat-icon>
+  </button>
   </div>
   <div class="right">
     <span class="username" *ngIf="userDetails">{{ userDetails.firstName }}</span>

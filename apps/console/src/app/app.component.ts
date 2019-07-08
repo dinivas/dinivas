@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material';
 export class AppComponent {
   sideNavOpened: boolean;
   userDetails: Keycloak.KeycloakProfile;
+  currentProject: any;
 
 
   constructor(
