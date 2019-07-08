@@ -1,3 +1,4 @@
+import { IServerInfo } from '@dinivas/model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'apps/console/src/environments/environment';
@@ -12,7 +13,7 @@ export class ApiInfoService {
     private httpClient: HttpClient
   ) { }
 
-  public getApiServerInfo(): Observable<any> {
-    return this.httpClient.get(`${environment.apiUrl}/info`);
+  public getApiServerInfo(): Observable<IServerInfo> {
+    return this.httpClient.get<IServerInfo>(`${environment.apiUrl}/info`);
   }
 }

@@ -17,9 +17,6 @@
     "api": {
       "tags": []
     },
-    "data": {
-      "tags": []
-    },
     "material": {
       "tags": []
     },
@@ -27,6 +24,9 @@
       "tags": []
     },
     "common-ui": {
+      "tags": []
+    },
+    "model": {
       "tags": []
     }
   }

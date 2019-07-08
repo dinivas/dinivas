@@ -1,3 +1,4 @@
+import { IServerInfo } from '@dinivas/model';
 import { ApiInfoService } from './api-info.service';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
@@ -22,7 +23,7 @@ export class AppComponent {
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
-      this.apiInfoService.getApiServerInfo().subscribe(res => console.log(res))
+      this.apiInfoService.getApiServerInfo().subscribe((res: IServerInfo) => console.log(res))
     }
   }
 

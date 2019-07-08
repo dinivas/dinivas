@@ -1,3 +1,4 @@
+import { ServerInfo } from '@dinivas/model';
 import { Roles } from './auth/roles.decorator';
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -11,8 +12,6 @@ export class InfoController {
     @Get()
     @Roles('admin')
     apiInfo(): any {
-        return {
-            serverInfo: 'Serverinfo'
-        };
+        return new ServerInfo('Version', 'ddd');
     }
 }

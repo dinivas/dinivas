@@ -4,17 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'instances',
-    loadChildren: () =>
-      import('./instances/instances.module').then(m => m.InstancesModule)
+    loadChildren: './instances/instances.module#InstancesModule'
   },
   {
     path: 'disks',
-    loadChildren: () => import('./disks/disks.module').then(m => m.DisksModule)
+    loadChildren: './disks/disks.module#DisksModule'
   },
   {
     path: 'images',
-    loadChildren: () =>
-      import('./images/images.module').then(m => m.ImagesModule)
+    loadChildren: './images/images.module#ImagesModule'
   }
 ];
 

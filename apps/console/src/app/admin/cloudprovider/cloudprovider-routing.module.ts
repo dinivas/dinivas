@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: 'list', component: ListComponent },
-  { path: '',   redirectTo: 'list' },
+  { path: '',   redirectTo: 'list' }
 ];
 
 @NgModule({

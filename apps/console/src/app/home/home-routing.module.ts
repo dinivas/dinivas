@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
-  { path: '',   redirectTo: 'dashboard' },
+  { path: '',   redirectTo: 'dashboard' }
 ];
 
 @NgModule({

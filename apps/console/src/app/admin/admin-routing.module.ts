@@ -13,10 +13,7 @@ const routes: Routes = [
       { path: 'serverinfo', component: ServerInfoComponent },
       {
         path: 'cloudprovider',
-        loadChildren: () =>
-          import('./cloudprovider/cloudprovider.module').then(
-            m => m.CloudproviderModule
-          )
+        loadChildren: './cloudprovider/cloudprovider.module#CloudproviderModule'
       },
       { path: '', redirectTo: 'dashboard' }
     ]
