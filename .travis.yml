@@ -8,7 +8,7 @@ install:
     - npm install
 script:
     - npm run compodoc
-    - bash ./deploy.sh
+    - bash ./hack/deploy-gh-pages.sh
 env:
   global:
     - GH_REF: github.com/dinivas/dinivas.git
