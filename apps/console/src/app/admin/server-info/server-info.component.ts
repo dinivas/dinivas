@@ -1,3 +1,5 @@
+import { IServerInfo } from '@dinivas/model';
+import { ApiInfoService } from './../../api-info.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./server-info.component.scss']
 })
 export class ServerInfoComponent implements OnInit {
+  serverInfo: IServerInfo;
 
-  constructor() { }
+  constructor(private readonly apiInfoService: ApiInfoService) {}
 
   ngOnInit() {
+    this.apiInfoService
+      .getApiServerInfo()
+      .subscribe((serverInfo: IServerInfo) => (this.serverInfo = serverInfo));
   }
-
 }

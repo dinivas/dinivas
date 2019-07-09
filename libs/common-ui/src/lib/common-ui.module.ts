@@ -6,6 +6,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -13,9 +14,17 @@ import { DomSanitizer } from '@angular/platform-browser';
     MaterialModule,
     FlexLayoutModule,
     LayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
-  exports: [MaterialModule, FlexLayoutModule, LayoutModule],
+  exports: [
+    MaterialModule,
+    FlexLayoutModule,
+    LayoutModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -50,7 +59,8 @@ export function registerCustomMatIcon(
       'ara',
       'graylog',
       'disc',
-      'hard_drive'
+      'hard_drive',
+      'mongodb'
     ];
     customSvgIcons.forEach(icon =>
       matIconRegistry.addSvgIcon(

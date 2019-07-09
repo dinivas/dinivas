@@ -1,0 +1,13 @@
+@import 'mixins';
+
+.container {
+  @include center-block;
+  @include screen('tablet') {
+    width: 90%;
+    padding: 15px 10px;
+  }
+  @include screen('desktop') {
+    width: 75%;
+    padding: 20px 10px;
+  }
+}

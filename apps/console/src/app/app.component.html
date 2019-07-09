@@ -87,6 +87,10 @@
         <mat-icon matListIcon svgIcon="postgresql"></mat-icon>
         <h4 mat-line>Managed PostgreSQL</h4>
       </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/mongodb']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="mongodb"></mat-icon>
+        <h4 mat-line>Managed MongoDB</h4>
+      </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/redis']" (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="redis"></mat-icon>
         <h4 mat-line>Managed Redis</h4>

@@ -14,17 +14,20 @@ export class AppComponent {
   sideNavOpened: boolean;
   userDetails: Keycloak.KeycloakProfile;
   currentProject: any;
-
+  serverInfo: IServerInfo;
 
   constructor(
     private readonly keycloakService: KeycloakService,
     private readonly apiInfoService: ApiInfoService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog
+  ) {}
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
-      this.apiInfoService.getApiServerInfo().subscribe((res: IServerInfo) => console.log(res))
+      this.apiInfoService
+        .getApiServerInfo()
+        .subscribe((serverInfo: IServerInfo) => (this.serverInfo = serverInfo));
     }
   }
 
@@ -38,13 +41,12 @@ export class AppComponent {
   logout() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: "Do you want to logout from the console?"
+      data: 'Do you want to logout from the console?'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.keycloakService.logout();
       }
     });
-
   }
 }

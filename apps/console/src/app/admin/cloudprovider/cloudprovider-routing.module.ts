@@ -1,9 +1,9 @@
-import { ListComponent } from './list/list.component';
+import { CloudproviderListComponent } from './cloudprovider-list/cloudprovider-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'list', component: ListComponent },
+  { path: 'list', component: CloudproviderListComponent },
   { path: '',   redirectTo: 'list' }
 ];
 

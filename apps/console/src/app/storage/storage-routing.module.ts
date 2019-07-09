@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path: 'postgresql', loadChildren: './postgresql/postgresql.module#PostgresqlModule'},
+  {path: 'mongodb', loadChildren: './mongodb/mongodb.module#MongodbModule'},
   {path: 'redis', loadChildren: './redis/redis.module#RedisModule'}
 ];
 

@@ -55,14 +55,18 @@
     "@nestjs/passport": "^6.1.0",
     "@nestjs/platform-express": "^6.2.4",
     "@nestjs/swagger": "^3.0.2",
+    "@nestjs/typeorm": "^6.1.2",
     "@nrwl/angular": "^8.1.2",
     "core-js": "^2.5.4",
+    "git-repo-info": "^2.1.0",
     "keycloak-angular": "^6.1.0",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
+    "pg": "^7.11.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "~6.4.0",
     "swagger-ui-express": "^4.0.6",
+    "typeorm": "^0.2.18",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {

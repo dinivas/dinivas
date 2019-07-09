@@ -1,0 +1,33 @@
+<h1 mat-dialog-title *ngIf="!cloudprovider">New Cloud provider to add</h1>
+<h1 mat-dialog-title *ngIf="cloudprovider">Edit Cloud provider to add</h1>
+<form [formGroup]="cloudproviderForm" (ngSubmit)="submit(cloudproviderForm.value)">
+  <div mat-dialog-content>
+    <div class="mat-form-container" fxLayout="column">
+      <mat-form-field class="">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Cloud type</mat-label>
+        <mat-select formControlName="cloud">
+          <mat-option *ngFor="let cloudType of cloudTypes" [value]="cloudType.code">
+            {{ cloudType.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field class="">
+          <mat-label>Config</mat-label>
+          <textarea matInput formControlName="config"></textarea>
+        </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+      <button mat-button (click)="cancel()" type="button">Cancel</button>
+      <button mat-button color="primary" type="submit" [disabled]="!isFormValid()">
+          {{ cloudprovider ? "Update" : "Create" }}
+      </button>
+  </div></form>
