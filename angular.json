@@ -280,6 +280,31 @@
           }
         }
       }
+    },
+    "dto": {
+      "root": "libs/dto",
+      "sourceRoot": "libs/dto/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/dto/tsconfig.lib.json",
+              "libs/dto/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/dto/jest.config.js",
+            "tsConfig": "libs/dto/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {

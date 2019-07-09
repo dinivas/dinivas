@@ -1,6 +1,6 @@
 import { Roles } from './../../auth/roles.decorator';
 import { RolesGuard } from './../../auth/roles.guard';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import {
   Controller,
   UseGuards,
@@ -13,6 +13,7 @@ import {
 
 @ApiUseTags('Compute images')
 @Controller('compute/images')
+@ApiBearerAuth()
 @UseGuards(RolesGuard)
 export class ImagesController {
   @Get()

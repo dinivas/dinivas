@@ -10,9 +10,10 @@ import { CsurfMiddleware } from '@nest-middlewares/csurf';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { AppService } from './app.service';
 import { ComputeModule } from './compute/compute.module';
+import { CloudproviderModule } from './cloudprovider/cloudprovider.module';
 
 @Module({
-  imports: [ComputeModule],
+  imports: [ComputeModule, CloudproviderModule],
   controllers: [InfoController],
   providers: [
     AppService,

@@ -1,4 +1,4 @@
-import { Cloudprovider, CloudproviderType, CLOUD_TYPES } from '@dinivas/model';
+import { CloudproviderDTO, CloudproviderType, CLOUD_TYPES } from '@dinivas/dto';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +15,7 @@ export class CloudproviderDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CloudproviderDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public cloudprovider: Cloudprovider
+    @Inject(MAT_DIALOG_DATA) public cloudprovider: CloudproviderDTO
   ) {}
 
   ngOnInit() {

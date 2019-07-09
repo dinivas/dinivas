@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["node", "jest"]
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../dto/src/lib/cloudprovider-type.ts", "../dto/src/lib/cloudprovider.dto.ts"]
 }
