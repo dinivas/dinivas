@@ -19,7 +19,8 @@ import {
   MatPaginatorModule,
   MatSnackBarModule,
   MatTooltipModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatCheckboxModule
 } from '@angular/material';
 
 @NgModule({
@@ -43,7 +44,8 @@ import {
     MatTableModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatCheckboxModule
   ],
   exports: [
     MatInputModule,
@@ -65,7 +67,8 @@ import {
     MatTableModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule {}

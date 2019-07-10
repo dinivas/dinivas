@@ -113,7 +113,7 @@ export class MatCrudComponent implements OnInit {
               this.paginator.pageIndex.toString()
             );
             httpParams = httpParams.append(
-              'size',
+              'limit',
               this.paginator.pageSize.toString()
             );
             httpParams = httpParams.append(
@@ -131,8 +131,8 @@ export class MatCrudComponent implements OnInit {
             // Flip flag to show that loading has finished.
             this.selection.clear();
             this.isLoadingResults = false;
-            this.totalEntitiesCount = data.totalCount;
-            return data.result;
+            this.totalEntitiesCount = data.totalItems;
+            return data.items;
           }),
           catchError(() => {
             this.selection.clear();

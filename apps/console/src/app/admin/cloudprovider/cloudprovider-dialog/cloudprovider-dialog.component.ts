@@ -1,3 +1,4 @@
+import { CloudproviderService } from './../../../shared/cloudprovider/cloudprovider.service';
 import { CloudproviderDTO, CloudproviderType, CLOUD_TYPES } from '@dinivas/dto';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -15,7 +16,8 @@ export class CloudproviderDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CloudproviderDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public cloudprovider: CloudproviderDTO
+    @Inject(MAT_DIALOG_DATA) public cloudprovider: CloudproviderDTO,
+    private cloudproviderService: CloudproviderService
   ) {}
 
   ngOnInit() {
@@ -48,7 +50,8 @@ export class CloudproviderDialogComponent implements OnInit {
   }
 
   submit(cloudprovider) {
-    console.log(cloudprovider);
-    this.dialogRef.close(cloudprovider);
+    this.cloudproviderService.createCloudprovider(cloudprovider).subscribe(()=>{
+      this.dialogRef.close(cloudprovider);
+    });
   }
 }

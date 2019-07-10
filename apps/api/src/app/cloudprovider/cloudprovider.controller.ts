@@ -1,6 +1,6 @@
 import { CloudproviderService } from './cloudprovider.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { CloudproviderDTO } from '@dinivas/dto';
+import { CloudproviderDTO, Pagination } from '@dinivas/dto';
 import { Roles } from './../auth/roles.decorator';
 import { RolesGuard } from './../auth/roles.guard';
 import {
@@ -11,7 +11,8 @@ import {
   Put,
   Delete,
   Body,
-  Post
+  Post,
+  Query
 } from '@nestjs/common';
 
 @ApiUseTags('Cloud providers')
@@ -23,13 +24,13 @@ export class CloudproviderController {
 
   @Get()
   @Roles('admin')
-  async findAll(): Promise<CloudproviderDTO[]> {
-    return this.cloudproviderService.findAll();
+  async findAll(@Query('page') page: number = 0, @Query('limit') limit: number = 10): Promise<Pagination<CloudproviderDTO>> {
+    return this.cloudproviderService.findAll({page, limit, route: 'http://cats.com/cats',});
   }
 
   @Get(':id')
   @Roles('admin')
-  findOne(@Param('id') id: number): CloudproviderDTO {
+  async findOne(@Param('id') id: number): Promise<CloudproviderDTO> {
     return this.cloudproviderService.findOne(id);
   }
 

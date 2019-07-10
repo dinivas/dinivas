@@ -8,11 +8,16 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CloudproviderService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getCloudproviders(httpParams: HttpParams): Observable<CloudproviderDTO[]> {
     return this.http.get<CloudproviderDTO[]>(
-      `${environment.apiUrl}/cloudproviders`, {params: httpParams}
+      `${environment.apiUrl}/cloudproviders`, { params: httpParams }
     );
   }
+
+  createCloudprovider(cloudprovider: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/cloudproviders`, cloudprovider);
+  }
+
 }

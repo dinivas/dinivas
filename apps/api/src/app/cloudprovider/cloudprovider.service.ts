@@ -1,4 +1,4 @@
-import { CloudproviderDTO } from '@dinivas/dto';
+import { CloudproviderDTO, paginate, IPaginationOptions, Pagination } from '@dinivas/dto';
 import { Cloudprovider } from './cloudprovider.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,15 +11,15 @@ export class CloudproviderService {
     private readonly cloudproviderRepository: Repository<Cloudprovider>
   ) {}
 
-  findAll(): Promise<Cloudprovider[]> {
-    return this.cloudproviderRepository.find();
+  async findAll(paginationOption: IPaginationOptions): Promise<Pagination<Cloudprovider>> {
+    return await paginate<Cloudprovider>(this.cloudproviderRepository, paginationOption);
   }
 
   findOne(id: number): Promise<Cloudprovider> {
     return this.cloudproviderRepository.findOne(id);
   }
 
-  create(cloudproviderDTO: CloudproviderDTO) {
-    return this.cloudproviderRepository.save(cloudproviderDTO);
+  async create(cloudproviderDTO: CloudproviderDTO) {
+    return await this.cloudproviderRepository.save(cloudproviderDTO);
   }
 }

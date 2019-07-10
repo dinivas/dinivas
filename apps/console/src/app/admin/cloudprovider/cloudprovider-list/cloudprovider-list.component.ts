@@ -18,15 +18,12 @@ import { MatDialog } from '@angular/material';
 })
 export class CloudproviderListComponent extends MatCrudComponent
   implements DataProvider<CloudproviderDTO> {
-  filterPlaceholder = 'Filtrer les dépenses';
+  filterPlaceholder = 'Filter';
   dataProvider = this;
   deleteConfirmQuestion: Function = entity =>
     `Delete Cloud provider ${entity.name} (${entity.cloud} ?`;
 
   columnDefs: Array<ColumnDef>;
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name', 'cloud', 'description'];
 
   constructor(
     public dialog: MatDialog,
@@ -55,14 +52,14 @@ export class CloudproviderListComponent extends MatCrudComponent
     const newHttpParams = new HttpParams()
       .set('filter', JSON.stringify(newFilter))
       .set('page', httpParams.get('page'))
-      .set('size', httpParams.get('size'))
+      .set('limit', httpParams.get('limit'))
       .set('sort', httpParams.get('sort'));
     return this.cloudproviderService.getCloudproviders(newHttpParams);
   }
 
   addCloudProvider() {
     const addEntityDialogRef = this.dialog.open(CloudproviderDialogComponent, {
-      width: '600px'
+      width: '500px'
     });
 
     addEntityDialogRef.afterClosed().subscribe(
