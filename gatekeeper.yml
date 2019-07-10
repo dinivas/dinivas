@@ -65,7 +65,10 @@ resources:
     - OPTIONS
   roles:
   - admin
-- uri: /api/v1/cloudproviders
+- uri: /api/v1/cloudproviders*
+  methods:
+    - GET
+    - OPTIONS
   roles:
   - admin
 - uri: /admin/*

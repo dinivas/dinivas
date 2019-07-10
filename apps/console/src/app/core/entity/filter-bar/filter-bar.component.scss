@@ -1,0 +1,47 @@
+.filter-bar {
+  padding: 0 16px;
+  display: flex; // flex-wrap: wrap;
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .criteria {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    .filter {
+      max-width: 250px;
+      &.criterion {
+        padding: 0 1rem;
+        display: flex;
+        button.close {
+          top: 5px;
+        }
+      }
+    }
+  }
+}
+
+.mat-toolbar {
+  font-size: inherit;
+  background: white;
+  justify-content: space-between;
+  .mat-toolbar-row {
+    .spacer {
+      flex: 1 1 auto;
+    }
+    &.selected-row {
+      background-color: #E8F0FE;
+    }
+  }
+}
+
+@media(max-width: 600px) {
+  .filter-bar {
+    .criteria {
+      width: 100%;
+      mat-form-field.global-fiter {
+        width: 100%;
+      }
+    }
+  }
+}

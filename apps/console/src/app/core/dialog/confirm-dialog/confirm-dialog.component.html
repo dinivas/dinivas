@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Veuillez confirmer l'action SVP !</h1>
+<div mat-dialog-content>
+  <p>{{ data.question}}</p>
+</div>
+<div mat-dialog-actions class="is-pulled-right">
+  <button type="button" mat-button (click)="onCancelClick()" >Annuler</button>
+  <button type="button" mat-button class="confirm-button" (click)="executeFn()" cdkFocusInitial>Je confirme</button>
+</div>

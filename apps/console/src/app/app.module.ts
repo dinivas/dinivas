@@ -1,3 +1,4 @@
+import { CloudproviderService } from './shared/cloudprovider/cloudprovider.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonUiModule } from '@dinivas/common-ui';
 import { ApiInfoService } from './api-info.service';
@@ -11,6 +12,7 @@ import { ConfirmationDialogComponent } from './components/shared/confirmation-di
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent, ConfirmationDialogComponent],
@@ -20,13 +22,15 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     CommonUiModule,
     AuthModule,
-    HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+
+    CoreModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
-  providers: [ApiInfoService],
+  providers: [ApiInfoService, CloudproviderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

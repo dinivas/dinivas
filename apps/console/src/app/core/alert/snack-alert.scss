@@ -1,0 +1,14 @@
+
+.snack-alert {
+  font-weight: 600;
+  font-size: 14px;
+  &.success {
+    color: green;
+  }
+  &.danger {
+    color: red;
+  }
+  &.warning {
+    color: orange;
+  }
+}

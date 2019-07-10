@@ -1,3 +1,4 @@
+import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { RolesGuard } from './auth/roles.guard';
 import { environment } from './../environments/environment';
 import { InfoController } from './info.controller';
@@ -11,30 +12,44 @@ import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { AppService } from './app.service';
 import { ComputeModule } from './compute/compute.module';
 import { CloudproviderModule } from './cloudprovider/cloudprovider.module';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
 
 @Module({
-  imports: [ComputeModule, CloudproviderModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      ...ormConfigJson,
+      entities: [Cloudprovider]
+    }),
+    ComputeModule,
+    CloudproviderModule
+  ],
   controllers: [InfoController],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
-    }],
+      useClass: RolesGuard
+    }
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
-    HelmetMiddleware.configure({})
-    CsurfMiddleware.configure({ cookie: true })
+    HelmetMiddleware.configure({});
+    CsurfMiddleware.configure({ cookie: true });
     consumer
-      .apply(HelmetMiddleware).forRoutes('/*')
-      .apply(CompressionMiddleware).forRoutes('/*')
-      .apply(CookieParserMiddleware).forRoutes('/*')
-      .apply(CsurfMiddleware).forRoutes('/*');
+      .apply(HelmetMiddleware)
+      .forRoutes('/*')
+      .apply(CompressionMiddleware)
+      .forRoutes('/*')
+      .apply(CookieParserMiddleware)
+      .forRoutes('/*')
+      // .apply(CsurfMiddleware)
+      // .forRoutes('/*');
     if (!environment.production) {
       MorganMiddleware.configure('dev');
       consumer.apply(MorganMiddleware).forRoutes('/*');
     }
   }
-
 }

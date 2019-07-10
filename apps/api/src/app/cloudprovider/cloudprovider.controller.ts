@@ -1,39 +1,42 @@
+import { CloudproviderService } from './cloudprovider.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CloudproviderDTO } from '@dinivas/dto';
 import { Roles } from './../auth/roles.decorator';
 import { RolesGuard } from './../auth/roles.guard';
 import {
-    Controller,
-    UseGuards,
-    Get,
-    Param,
-    Put,
-    Delete,
-    Body,
-    Post
-  } from '@nestjs/common';
+  Controller,
+  UseGuards,
+  Get,
+  Param,
+  Put,
+  Delete,
+  Body,
+  Post
+} from '@nestjs/common';
 
 @ApiUseTags('Cloud providers')
 @Controller('cloudproviders')
 @ApiBearerAuth()
 @UseGuards(RolesGuard)
 export class CloudproviderController {
+  constructor(private readonly cloudproviderService: CloudproviderService) {}
+
   @Get()
-  
-  findAll(): CloudproviderDTO[] {
-    return [];
+  @Roles('admin')
+  async findAll(): Promise<CloudproviderDTO[]> {
+    return this.cloudproviderService.findAll();
   }
 
   @Get(':id')
   @Roles('admin')
-  findOne(@Param('id') id: string): CloudproviderDTO {
-    return null;
+  findOne(@Param('id') id: number): CloudproviderDTO {
+    return this.cloudproviderService.findOne(id);
   }
-  
+
   @Post()
   @Roles('admin')
-  create(@Body() cloudProvider: CloudproviderDTO) {
-    return null;
+  async create(@Body() cloudProvider: CloudproviderDTO) {
+    await this.cloudproviderService.create(cloudProvider);
   }
 
   @Put(':id')
