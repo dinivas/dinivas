@@ -33,7 +33,7 @@ $dinivas-custom-palette: (50: #eceff1,
   ));
 
 $dinivas-custom-primary: mat-palette($dinivas-custom-palette);
-$dinivas-custom-accent: mat-palette($mat-lime, A200, A100, A400);
+$dinivas-custom-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $dinivas-custom-warn: mat-palette($mat-red);

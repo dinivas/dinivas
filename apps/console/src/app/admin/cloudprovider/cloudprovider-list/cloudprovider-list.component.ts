@@ -21,7 +21,7 @@ export class CloudproviderListComponent extends MatCrudComponent
   filterPlaceholder = 'Filter';
   dataProvider = this;
   deleteConfirmQuestion: Function = entity =>
-    `Delete Cloud provider ${entity.name} (${entity.cloud} ?`;
+    `Delete Cloud provider ${entity.name} (${entity.cloud}) ?`;
 
   columnDefs: Array<ColumnDef>;
 
@@ -75,7 +75,25 @@ export class CloudproviderListComponent extends MatCrudComponent
   deleteSelected(selection: any[]): Observable<any> {
     return Observable.create((observer: Observer<any>) => {});
   }
-  delete(entity: any): Observable<any> {
-    return Observable.create((observer: Observer<any>) => {});
+  delete(cloudproviderDTO: CloudproviderDTO): Observable<any> {
+    return this.cloudproviderService.deleteCloudprovider(cloudproviderDTO.id);
+  }
+
+  entityCanEdit = (cloudproviderDTO: CloudproviderDTO) => true;
+
+  entityEdit(cloudproviderDTO: CloudproviderDTO) {
+    const addEntityDialogRef = this.dialog.open(CloudproviderDialogComponent, {
+      width: '500px',
+      data: cloudproviderDTO
+    });
+
+    addEntityDialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          this.refreshDatas();
+        }
+      },
+      err => console.log(err)
+    );
   }
 }

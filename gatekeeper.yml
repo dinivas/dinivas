@@ -69,25 +69,23 @@ resources:
   methods:
     - GET
     - OPTIONS
+    - POST
+    - PUT
+    - DELETE
   roles:
   - admin
-- uri: /admin/*
-  methods:
-  - GET
-  roles:
-  - openvpn:vpn-user
-  - openvpn:commons-prod-vpn
-cors-origins: ['*']
+cors-origins:
+  - '*'
 cors-headers:
-  - Authorization
-# cors-methods:
-# - GET
-# - HEAD
-# - PUT
-# - PATCH
-# - POST
-# - DELETE
-# - OPTIONS
+  - '*'
+cors-methods:
+- GET
+- HEAD
+- PUT
+- PATCH
+- POST
+- DELETE
+- OPTIONS
 # cors-exposed-headers:
 # - Origin
 # - Accept

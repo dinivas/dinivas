@@ -24,8 +24,15 @@ export class CloudproviderController {
 
   @Get()
   @Roles('admin')
-  async findAll(@Query('page') page: number = 0, @Query('limit') limit: number = 10): Promise<Pagination<CloudproviderDTO>> {
-    return this.cloudproviderService.findAll({page, limit, route: 'http://cats.com/cats',});
+  async findAll(
+    @Query('page') page: number = 0,
+    @Query('limit') limit: number = 10
+  ): Promise<Pagination<CloudproviderDTO>> {
+    return this.cloudproviderService.findAll({
+      page,
+      limit,
+      route: 'http://cats.com/cats'
+    });
   }
 
   @Get(':id')
@@ -42,13 +49,16 @@ export class CloudproviderController {
 
   @Put(':id')
   @Roles('admin')
-  update(@Param('id') id: string, @Body() cloudProvider: CloudproviderDTO) {
-    return `This action updates a #${id} cat`;
+  async update(
+    @Param('id') id: number,
+    @Body() cloudProvider: CloudproviderDTO
+  ) {
+    await this.cloudproviderService.update(id, cloudProvider);
   }
 
   @Delete(':id')
   @Roles('admin')
-  remove(@Param('id') id: string) {
-    return `This action removes a #${id} cat`;
+  async remove(@Param('id') id: number) {
+    await this.cloudproviderService.delete(id);
   }
 }

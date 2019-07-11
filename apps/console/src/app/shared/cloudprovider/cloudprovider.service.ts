@@ -16,8 +16,16 @@ export class CloudproviderService {
     );
   }
 
-  createCloudprovider(cloudprovider: any): Observable<any> {
+  createCloudprovider(cloudprovider: CloudproviderDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}/cloudproviders`, cloudprovider);
+  }
+
+  updateCloudprovider(cloudprovider: CloudproviderDTO): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/cloudproviders/${cloudprovider.id}`, cloudprovider);
+  }
+
+  deleteCloudprovider(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/cloudproviders/${id}`);
   }
 
 }

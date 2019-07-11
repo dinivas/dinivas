@@ -23,6 +23,12 @@
       }
     }
   }
+  mat-card-content {
+    .mat-table {
+      padding: 0px 5px;
+    }
+  }
+
   .mat-toolbar {
     font-size: inherit;
     background: white;
@@ -32,7 +38,7 @@
         flex: 1 1 auto;
       }
       &.selected-row {
-        background-color: #E8F0FE;
+        background-color: #e8f0fe;
       }
     }
   }
@@ -48,7 +54,7 @@
     align-items: center;
     justify-content: center;
   }
-  mat-table.mat-table {
+  .mat-table {
     max-height: 70vh;
     overflow-y: auto;
     mat-header-cell,
@@ -85,7 +91,7 @@
       &.row-action {
         max-width: 160px;
         justify-content: flex-end;
-        @media(max-width: 600px) {
+        @media (max-width: 600px) {
           max-width: inherit;
         }
       }
@@ -94,14 +100,14 @@
           &.edit {
             &:hover {
               mat-icon {
-                color: black
+                color: black;
               }
             }
           }
           &.approve {
             &:hover {
               mat-icon {
-                color: #00E676;
+                color: #00e676;
               }
             }
           }
@@ -129,15 +135,15 @@
       z-index: 1;
     }
     .mat-row:hover {
-      background-color: #EEEEEE;
+      background-color: #eeeeee;
     }
     .mat-row.selected {
-      background-color: rgba(243, 243, 243, .85);
+      background-color: rgba(243, 243, 243, 0.85);
     }
   }
 }
 
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   .mat-table {
     @include mat-elevation(4);
   }

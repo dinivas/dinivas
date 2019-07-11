@@ -20,3 +20,18 @@ body {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+.confirm-dialog-panel {
+  .mat-dialog-container {
+    background: #5400E8;
+    color: #fff;
+    .mat-dialog-title {
+      color: hsl(0, 0%, 71%);
+    }
+    button {
+      &.confirm-button {
+        font-weight: 600;
+      }
+    }
+  }
+}

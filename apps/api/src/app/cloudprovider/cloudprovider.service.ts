@@ -22,4 +22,12 @@ export class CloudproviderService {
   async create(cloudproviderDTO: CloudproviderDTO) {
     return await this.cloudproviderRepository.save(cloudproviderDTO);
   }
+
+  async update(id: number, cloudproviderDTO: CloudproviderDTO) {
+    return await this.cloudproviderRepository.save(cloudproviderDTO);
+  }
+
+  async delete(id: number) {
+    await this.cloudproviderRepository.delete(id);
+  }
 }

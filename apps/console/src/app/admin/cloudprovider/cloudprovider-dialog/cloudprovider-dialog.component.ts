@@ -50,8 +50,15 @@ export class CloudproviderDialogComponent implements OnInit {
   }
 
   submit(cloudprovider) {
-    this.cloudproviderService.createCloudprovider(cloudprovider).subscribe(()=>{
-      this.dialogRef.close(cloudprovider);
-    });
+    if (!this.cloudprovider) { // create
+      this.cloudproviderService.createCloudprovider(cloudprovider).subscribe(()=>{
+        this.dialogRef.close(cloudprovider);
+      });
+    } else { // update
+      cloudprovider.id = this.cloudprovider.id;
+      this.cloudproviderService.updateCloudprovider(cloudprovider).subscribe(()=>{
+        this.dialogRef.close(cloudprovider);
+      });
+    }
   }
 }
