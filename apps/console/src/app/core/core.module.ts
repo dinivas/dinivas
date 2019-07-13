@@ -1,3 +1,4 @@
+import { NotificationInterceptor } from './interceptor/notification.interceptor';
 import { CommonUiModule } from '@dinivas/common-ui';
 import { FilterCriterionComponent } from './entity/filter-criterion/filter-criterion.component';
 import { SelectedFilterPipe } from './entity/filter-bar/selected-filter.pipe';
@@ -9,9 +10,10 @@ import {
   SnackAlertDangerComponent,
   AlertService
 } from './alert/alert.service';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,14 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
   ],
   providers: [
     AlertService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NotificationInterceptor,
+      multi: true,
+      deps: [
+        Injector
+      ]
+    },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 10000 } },
     {
       provide: LOCALE_ID,

@@ -1,14 +1,16 @@
 
+@import '../../../assets/styles/variables';
+
 .snack-alert {
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 16px;
   &.success {
-    color: green;
+    color: $dinivas-green;
   }
   &.danger {
-    color: red;
+    color: $dinivas-red;
   }
   &.warning {
-    color: orange;
+    color: $dinivas-orange;
   }
 }

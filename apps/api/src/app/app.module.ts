@@ -1,3 +1,6 @@
+import { CloudApiFactory } from './core/cloudapi/cloudapi.factory';
+import { OpenstackApiService } from './core/cloudapi/openstack.api.service';
+import { Project } from './projects/project.entity';
 import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { RolesGuard } from './auth/roles.guard';
 import { environment } from './../environments/environment';
@@ -13,6 +16,7 @@ import { AppService } from './app.service';
 import { ComputeModule } from './compute/compute.module';
 import { CloudproviderModule } from './cloudprovider/cloudprovider.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ProjectsModule } from './projects/projects.module';
 
 const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
 
@@ -20,10 +24,11 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
   imports: [
     TypeOrmModule.forRoot({
       ...ormConfigJson,
-      entities: [Cloudprovider]
+      entities: [Cloudprovider, Project]
     }),
     ComputeModule,
-    CloudproviderModule
+    CloudproviderModule,
+    ProjectsModule
   ],
   controllers: [InfoController],
   providers: [

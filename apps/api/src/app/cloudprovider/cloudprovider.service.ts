@@ -1,4 +1,11 @@
-import { CloudproviderDTO, paginate, IPaginationOptions, Pagination } from '@dinivas/dto';
+import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
+import {
+  CloudproviderDTO,
+  paginate,
+  IPaginationOptions,
+  Pagination,
+  ICloudApi
+} from '@dinivas/dto';
 import { Cloudprovider } from './cloudprovider.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,11 +15,17 @@ import { Repository } from 'typeorm';
 export class CloudproviderService {
   constructor(
     @InjectRepository(Cloudprovider)
-    private readonly cloudproviderRepository: Repository<Cloudprovider>
+    private readonly cloudproviderRepository: Repository<Cloudprovider>,
+    private cloudApiFactory: CloudApiFactory
   ) {}
 
-  async findAll(paginationOption: IPaginationOptions): Promise<Pagination<Cloudprovider>> {
-    return await paginate<Cloudprovider>(this.cloudproviderRepository, paginationOption);
+  async findAll(
+    paginationOption: IPaginationOptions
+  ): Promise<Pagination<CloudproviderDTO>> {
+    return await paginate<Cloudprovider>(
+      this.cloudproviderRepository,
+      paginationOption
+    );
   }
 
   findOne(id: number): Promise<Cloudprovider> {
@@ -29,5 +42,25 @@ export class CloudproviderService {
 
   async delete(id: number) {
     await this.cloudproviderRepository.delete(id);
+  }
+
+  async checkConnection(id: number) {
+    let cloudprovider = await this.cloudproviderRepository.findOne(id);
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getProjectInfo(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
+  static toDTO(cloudprovider: Cloudprovider): CloudproviderDTO {
+    if (cloudprovider != null) {
+      delete cloudprovider.config;
+    }
+    return cloudprovider;
   }
 }

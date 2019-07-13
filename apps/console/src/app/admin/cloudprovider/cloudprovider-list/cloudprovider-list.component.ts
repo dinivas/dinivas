@@ -1,3 +1,4 @@
+import { AlertService } from './../../../core/alert/alert.service';
 import { FilterType } from './../../../core/entity/filter-bar/filter';
 import { Observable, Observer } from 'rxjs/';
 import { HttpParams } from '@angular/common/http';
@@ -26,9 +27,10 @@ export class CloudproviderListComponent extends MatCrudComponent
   columnDefs: Array<ColumnDef>;
 
   constructor(
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private readonly cloudproviderService: CloudproviderService,
-    public confirmDialog: ConfirmDialogService
+    public confirmDialog: ConfirmDialogService,
+    private alertService: AlertService
   ) {
     super(confirmDialog);
     this.columnDefs = [
@@ -95,5 +97,17 @@ export class CloudproviderListComponent extends MatCrudComponent
       },
       err => console.log(err)
     );
+  }
+
+  checkConnection(cloudproviderDTO: CloudproviderDTO) {
+    this.cloudproviderService
+      .checkCloudproviderConnection(cloudproviderDTO)
+      .subscribe(response =>
+        this.alertService.success(
+          `Config validated for user ${response.user_name} and project ${
+            response.project_name
+          }.`
+        )
+      );
   }
 }

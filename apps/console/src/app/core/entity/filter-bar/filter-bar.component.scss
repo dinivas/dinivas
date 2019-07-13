@@ -1,3 +1,5 @@
+@import '../../../../assets/styles/mixins';
+
 .filter-bar {
   padding: 0 16px;
   display: flex; // flex-wrap: wrap;
@@ -31,6 +33,7 @@
     }
     &.selected-row {
       background-color: #E8F0FE;
+      @include transition(all 1s ease);
     }
   }
 }

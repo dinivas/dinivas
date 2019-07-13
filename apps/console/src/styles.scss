@@ -3,6 +3,7 @@
 @import 'assets/styles/variables';
 @import 'assets/styles/mixins';
 @import 'assets/styles/layout';
+@import 'assets/styles/dinivas';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 body,
@@ -23,7 +24,7 @@ body {
 
 .confirm-dialog-panel {
   .mat-dialog-container {
-    background: #5400E8;
+    background: rgba(84,0,232, 0.88);
     color: #fff;
     .mat-dialog-title {
       color: hsl(0, 0%, 71%);

@@ -1,7 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "types": ["node", "jest"]
-  },
-  "include": ["**/*.ts", "../dto/src/lib/cloudprovider-type.ts", "../dto/src/lib/cloudprovider.dto.ts"]
-}

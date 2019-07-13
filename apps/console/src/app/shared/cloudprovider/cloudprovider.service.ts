@@ -28,4 +28,8 @@ export class CloudproviderService {
     return this.http.delete(`${environment.apiUrl}/cloudproviders/${id}`);
   }
 
+  checkCloudproviderConnection(cloudprovider: CloudproviderDTO): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/cloudproviders/${cloudprovider.id}/check_connection`);
+  }
+
 }

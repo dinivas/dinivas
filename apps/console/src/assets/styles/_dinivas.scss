@@ -1,0 +1,25 @@
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+mat-toolbar {
+  &.header-toolbar {
+    height: 48px;
+    margin-left: -5px;
+    margin-right: -5px;
+    border-bottom: 1px solid #d3d3d3;
+    max-height: 64px;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    background: transparent;
+    .page-title {
+      font-weight: 400;
+      small {
+        margin-left: 10px;
+      }
+    }
+  }
+}

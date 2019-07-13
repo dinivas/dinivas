@@ -12,8 +12,10 @@ import {
   Delete,
   Body,
   Post,
-  Query
+  Query,
+  Res
 } from '@nestjs/common';
+import { Response } from 'express';
 
 @ApiUseTags('Cloud providers')
 @Controller('cloudproviders')
@@ -26,11 +28,13 @@ export class CloudproviderController {
   @Roles('admin')
   async findAll(
     @Query('page') page: number = 0,
-    @Query('limit') limit: number = 10
+    @Query('limit') limit: number = 10,
+    @Query('sort') sort: string = 'id,desc'
   ): Promise<Pagination<CloudproviderDTO>> {
     return this.cloudproviderService.findAll({
       page,
       limit,
+      sort,
       route: 'http://cats.com/cats'
     });
   }
@@ -39,6 +43,17 @@ export class CloudproviderController {
   @Roles('admin')
   async findOne(@Param('id') id: number): Promise<CloudproviderDTO> {
     return this.cloudproviderService.findOne(id);
+  }
+
+  @Get(':id/check_connection')
+  @Roles('admin')
+  async checkConnection(@Param('id') id: number, @Res() response: Response): Promise<any> {
+    try {
+      const connectionInfo = await this.cloudproviderService.checkConnection(id);
+      response.status(200).json(connectionInfo);
+    } catch (err) {
+      response.status(err.detail.remoteCode).json({error: err.detail.remoteMessage})
+    }
   }
 
   @Post()

@@ -1,6 +1,7 @@
 export interface IPaginationOptions {
     limit: number;
     page: number;
+    sort: string;
     route?: string;
 }
 

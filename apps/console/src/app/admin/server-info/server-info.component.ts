@@ -1,4 +1,4 @@
-import { IServerInfo } from '@dinivas/model';
+import { IServerInfo } from '@dinivas/dto';
 import { ApiInfoService } from './../../api-info.service';
 import { Component, OnInit } from '@angular/core';
 

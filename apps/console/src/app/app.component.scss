@@ -8,7 +8,6 @@ mat-toolbar {
   height: $toolbar-height;
 
   .left {
-
     a.logo {
       font-size: 18px;
     }
@@ -26,9 +25,17 @@ mat-sidenav-container.global {
   height: 100%;
   z-index: 99;
 
-  mat-sidenav {
+  .mat-sidenav {
     padding-top: $toolbar-height;
 
+    .mat-nav-list {
+      .mat-list-item.active {
+        color: #5400e8;
+        background-color: rgba(#5400e8, 0.05);
+        .mat-list-item-content {
+        }
+      }
+    }
     a.mat-list-item {
       height: 44px;
     }

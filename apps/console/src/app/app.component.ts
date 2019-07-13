@@ -1,5 +1,4 @@
-import { IServerInfo } from '@dinivas/model';
-import { ApiInfoService } from './api-info.service';
+import { IServerInfo } from '@dinivas/dto';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 import { Component } from '@angular/core';
@@ -11,10 +10,12 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  sideNavMode = 'side';
   sideNavOpened: boolean;
   userDetails: Keycloak.KeycloakProfile;
   currentProject: any;
   serverInfo: IServerInfo;
+  routerLinkActiveOptionsExact: any = { exact: true };
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -25,10 +26,15 @@ export class AppComponent {
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
     }
+    if (this.sideNavMode === 'side') this.sideNavOpened = true;
   }
 
-  toggleSideNav() {
-    this.sideNavOpened = !this.sideNavOpened;
+  toggleSideNav(force: boolean) {
+    if (this.sideNavMode != 'side' || force) {
+      this.sideNavOpened = !this.sideNavOpened;
+    } else {
+      this.sideNavOpened = true;
+    }
   }
 
   profileManagement() {

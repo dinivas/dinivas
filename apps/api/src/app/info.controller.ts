@@ -1,4 +1,4 @@
-import { ServerInfo, IGitInfo } from '@dinivas/model';
+import { ServerInfo, IGitInfo } from '@dinivas/dto';
 import { Roles } from './auth/roles.decorator';
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';

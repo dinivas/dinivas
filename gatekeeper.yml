@@ -36,7 +36,8 @@ cookie-refresh-name:
 
 # the upstream endpoint which we should proxy request
 upstream-url: http://localhost:3333
-upstream-keepalives: true
+#upstream-keepalives: true
+#upstream-timeout: 20000 # connect timeout in milliseconds
 # additional scopes to add to add to the default (openid+email+profile)
 scopes: []
 # - vpn-user
@@ -66,6 +67,15 @@ resources:
   roles:
   - admin
 - uri: /api/v1/cloudproviders*
+  methods:
+    - GET
+    - OPTIONS
+    - POST
+    - PUT
+    - DELETE
+  roles:
+  - admin
+- uri: /api/v1/projects*
   methods:
     - GET
     - OPTIONS

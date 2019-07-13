@@ -1,4 +1,6 @@
 @import '~@angular/material/theming';
+@import '../../../../assets/styles/mixins';
+
 .entity-table-card {
   padding: 0px;
   .filter-bar {
@@ -38,7 +40,8 @@
         flex: 1 1 auto;
       }
       &.selected-row {
-        background-color: #e8f0fe;
+        //background-color: #e8f0fe;
+        //@include transition(all 1s ease);
       }
     }
   }
@@ -89,7 +92,7 @@
     }
     .mat-cell {
       &.row-action {
-        max-width: 160px;
+        max-width: 100px;
         justify-content: flex-end;
         @media (max-width: 600px) {
           max-width: inherit;

@@ -15,7 +15,6 @@ export class ConfirmDialogService {
   doOnConfirm(question: string, fn: Function | Promise<any> | Observable<any>) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent, {
       panelClass: 'confirm-dialog-panel',
-      backdropClass: 'confirm-dialog-backdrop',
       data: { question: question, passedFn: fn }
     });
     dialogRef.afterClosed().subscribe(result => {
