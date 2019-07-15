@@ -23,3 +23,22 @@ mat-toolbar {
     }
   }
 }
+
+.mat-menu-panel.project-selection {
+  button.project-selection-item {
+    &.selected {
+      color: #5400e8;
+    }
+  }
+}
+
+.mat-list-base .mat-list-item {
+  font-size: 14px;
+}
+.mat-list-base .mat-list-item .mat-list-icon {
+  font-size: 18px;
+}
+.mat-list-base .mat-list-item .mat-list-text > *,
+.mat-list-base .mat-list-option .mat-list-text > * {
+  font-weight: 500 !important;
+}

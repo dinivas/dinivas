@@ -1,16 +1,18 @@
+import { MandatorySelectedProjectGuard } from './core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', loadChildren: './home/home.module#HomeModule' },
-  { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
-  { path: 'compute', loadChildren: './compute/compute.module#ComputeModule' },
-  { path: 'build', loadChildren: './build/build.module#BuildModule' },
-  { path: 'storage', loadChildren: './storage/storage.module#StorageModule' },
-  { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule' },
+  { path: '', loadChildren: './home/home.module#HomeModule', canActivate: [MandatorySelectedProjectGuard]},
+  { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'compute', loadChildren: './compute/compute.module#ComputeModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'build', loadChildren: './build/build.module#BuildModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'storage', loadChildren: './storage/storage.module#StorageModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'projects', loadChildren: './projects/projects.module#ProjectsModule', canActivate: [MandatorySelectedProjectGuard] },
   {
     path: 'messaging',
-    loadChildren: './messaging/messaging.module#MessagingModule'
+    loadChildren: './messaging/messaging.module#MessagingModule',
+    canActivate: [MandatorySelectedProjectGuard]
   },
   { path: '**', redirectTo: '', pathMatch: 'prefix' }
 ];

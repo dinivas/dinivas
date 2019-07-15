@@ -1,3 +1,4 @@
+import { MandatorySelectedProjectGuard } from './guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NotificationInterceptor } from './interceptor/notification.interceptor';
 import { CommonUiModule } from '@dinivas/common-ui';
 import { FilterCriterionComponent } from './entity/filter-criterion/filter-criterion.component';
@@ -47,7 +48,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     {
       provide: LOCALE_ID,
       useValue: 'fr-FR'
-    }
+    },
+    MandatorySelectedProjectGuard
   ]
 })
 export class CoreModule {}
