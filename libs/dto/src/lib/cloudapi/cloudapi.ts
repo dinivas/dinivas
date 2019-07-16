@@ -19,6 +19,14 @@ export interface ICloudApiInstance {
 export interface ICloudApiImage {
   id: string;
   name: string;
+  container_format: string;
+  owner: string;
+  size: number;
+  status: string;
+  min_disk: number;
+  visibility: string,
+  date: string,
+  tags: string[]
 }
 
 export interface ICloudApi {

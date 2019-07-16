@@ -1,11 +1,12 @@
+import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'jenkins', loadChildren: './jenkins/jenkins.module#JenkinsModule' },
-  { path: 'gitlab', loadChildren: './gitlab/gitlab.module#GitlabModule' },
-  { path: 'droneci', loadChildren: './droneci/droneci.module#DroneciModule' },
-  { path: 'ansible', loadChildren: './ansible/ansible.module#AnsibleModule' },
+  { path: 'jenkins', loadChildren: './jenkins/jenkins.module#JenkinsModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'gitlab', loadChildren: './gitlab/gitlab.module#GitlabModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'droneci', loadChildren: './droneci/droneci.module#DroneciModule', canActivate: [MandatorySelectedProjectGuard] },
+  { path: 'ansible', loadChildren: './ansible/ansible.module#AnsibleModule', canActivate: [MandatorySelectedProjectGuard] },
   { path: '', redirectTo: 'jenkins', pathMatch: 'prefix' }
 ];
 

@@ -6,5 +6,5 @@
     "password": "Pa55W0rd",
     "database": "dinivas",
     "synchronize": true,
-    "logging": true
+    "logging": false
 }

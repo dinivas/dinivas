@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
+export class ProjectsService {
   constructor(private http: HttpClient) {}
 
   getProjects(httpParams: HttpParams): Observable<ProjectDTO[]> {

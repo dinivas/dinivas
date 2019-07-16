@@ -25,11 +25,26 @@ export class OpenstackApiService implements ICloudApi {
 
   getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]> {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {
-      project.glance.listImages((error, images_array) => {
+      project.glance.listImages((error, images_array: any[]) => {
         if (error) {
           reject(error);
         } else {
-          resolve(images_array.map());
+          resolve(
+            images_array.map(img => {
+              return {
+                id: img.id,
+                name: img.name,
+                container_format: img.container_format,
+                owner: img.owner_user_name,
+                size: img.size,
+                status: img.status,
+                min_disk: img.min_disk,
+                visibility: img.visibility,
+                date: img.updated_at,
+                tags: img.tags
+              } as ICloudApiImage;
+            })
+          );
         }
       });
     });

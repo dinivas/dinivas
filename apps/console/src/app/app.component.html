@@ -8,15 +8,14 @@
     </a>
     <button mat-button [matMenuTriggerFor]="project_selection_menu">
       <mat-icon *ngIf="currentProject">folder_special</mat-icon>
-      {{ currentProject ? currentProject?.name: 'Select project' }}
+      {{ currentProject ? currentProject?.name + ' ( ' + currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud +' )' : 'Select project' }}
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #project_selection_menu="matMenu" class="project-selection">
       <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"
-        [class.selected]="project.id === currentProject?.id"
-        (click)="switchCurrentProject(project)">
+        [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">
         <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>
-        {{ project.name }}
+        {{ project?.name + ' ( ' + project.cloud_provider.name + ' on ' + project.cloud_provider.cloud +' )' }}
       </button>
     </mat-menu>
   </div>
@@ -67,6 +66,23 @@
         <mat-icon matListIcon svgIcon="disc"></mat-icon>
         <h4 mat-line>Images</h4>
       </a>
+      <!-- Cluster -->
+      <h3 mat-subheader>Cluster</h3>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
+        [routerLink]="['/cluster/kubernetes']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="kubernetes"></mat-icon>
+        <h4 mat-line>Kubernetes</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
+        [routerLink]="['/cluster/openshift']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="openshift"></mat-icon>
+        <h4 mat-line>Openshift</h4>
+      </a>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
+        [routerLink]="['/cluster/dockerswarm']" (click)="toggleSideNav()">
+        <mat-icon matListIcon svgIcon="docker"></mat-icon>
+        <h4 mat-line>Docker Swarm</h4>
+      </a>
       <!-- Network -->
       <h3 mat-subheader>Networking</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
@@ -115,7 +131,8 @@
         <mat-icon matListIcon svgIcon="redis"></mat-icon>
         <h4 mat-line>Managed Redis</h4>
       </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/elasticsearch']" (click)="toggleSideNav()">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/elasticsearch']"
+        (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="elasticsearch"></mat-icon>
         <h4 mat-line>Managed Elasticsearch</h4>
       </a>
@@ -145,12 +162,12 @@
       <!-- Ansible -->
       <h3 mat-subheader>Ansible</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
+        [routerLink]="['/build/ansible/galaxy']" (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="ansible"></mat-icon>
         <h4 mat-line>Galaxy</h4>
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
+        [routerLink]="['/build/ansible/history']" (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="ara"></mat-icon>
         <h4 mat-line>History</h4>
       </a>

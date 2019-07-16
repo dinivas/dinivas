@@ -8,9 +8,9 @@ import { ColumnDef } from './../core/entity/mat-crud/column-def';
 import { MatDialog } from '@angular/material';
 import { ProjectDTO } from '@dinivas/dto';
 import { MatCrudComponent } from './../core/entity/mat-crud/mat-crud.component';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataProvider } from '../core/entity/mat-crud/data-provider';
-import { ProjectService } from '../shared/project/project.service';
+import { ProjectsService } from '../shared/project/projects.service';
 
 @Component({
   selector: 'dinivas-projects',
@@ -28,7 +28,7 @@ export class ProjectsComponent extends MatCrudComponent
 
   constructor(
     public dialog: MatDialog,
-    private readonly projectService: ProjectService,
+    private readonly projectService: ProjectsService,
     public confirmDialog: ConfirmDialogService
   ) {
     super(confirmDialog);

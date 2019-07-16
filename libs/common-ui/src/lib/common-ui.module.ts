@@ -60,7 +60,10 @@ export function registerCustomMatIcon(
       'graylog',
       'disc',
       'hard_drive',
-      'mongodb'
+      'mongodb',
+      'kubernetes',
+      'openshift',
+      'docker'
     ];
     customSvgIcons.forEach(icon =>
       matIconRegistry.addSvgIcon(

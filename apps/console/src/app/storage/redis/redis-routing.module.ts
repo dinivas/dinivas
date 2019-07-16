@@ -1,10 +1,9 @@
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { RedisComponent } from './redis.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: '',   redirectTo: 'dashboard' }
+  { path: '', component: RedisComponent }
 ];
 
 @NgModule({

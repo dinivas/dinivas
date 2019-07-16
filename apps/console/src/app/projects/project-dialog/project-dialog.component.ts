@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { CloudproviderService } from './../../shared/cloudprovider/cloudprovider.service';
-import { ProjectService } from './../../shared/project/project.service';
+import { ProjectsService } from '../../shared/project/projects.service';
 import { ProjectDTO, CloudproviderDTO } from '@dinivas/dto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -19,7 +19,7 @@ export class ProjectDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<ProjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public project: ProjectDTO,
-    private projectService: ProjectService,
+    private projectService: ProjectsService,
     private readonly cloudproviderService: CloudproviderService
   ) {}
 

@@ -23,7 +23,6 @@ import { HttpParams } from '@angular/common/http';
 import { switchMap, delay, startWith, map, catchError } from 'rxjs/operators';
 import { merge, of } from 'rxjs';
 
-
 export class MatCrudComponent implements OnInit {
   @ViewChild('tableDataViewChild', { read: ViewContainerRef, static: true })
   _container: ViewContainerRef;
@@ -41,7 +40,7 @@ export class MatCrudComponent implements OnInit {
 
   filters: Filter[] = [];
 
-  @ViewChild(MatPaginator ,{ static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -84,9 +83,7 @@ export class MatCrudComponent implements OnInit {
 
   @Output() onRejectEntity: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    public confirmDialog: ConfirmDialogService
-  ) {}
+  constructor(public confirmDialog: ConfirmDialogService) {}
 
   ngOnInit() {
     this.initDisplayedColumns();
@@ -131,8 +128,8 @@ export class MatCrudComponent implements OnInit {
             // Flip flag to show that loading has finished.
             this.selection.clear();
             this.isLoadingResults = false;
-            this.totalEntitiesCount = data.totalItems;
-            return data.items;
+            this.totalEntitiesCount = data.totalItems || data.length;
+            return data.items || data;
           }),
           catchError(() => {
             this.selection.clear();

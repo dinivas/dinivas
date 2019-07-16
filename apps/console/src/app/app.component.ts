@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { ProjectService } from './shared/project/project.service';
+import { ProjectsService } from './shared/project/projects.service';
 import { IServerInfo, ProjectDTO } from '@dinivas/dto';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
@@ -32,7 +32,7 @@ export class AppComponent {
   constructor(
     private readonly keycloakService: KeycloakService,
     public dialog: MatDialog,
-    private projectService: ProjectService,
+    private projectService: ProjectsService,
     private router: Router,
     private route: ActivatedRoute,
     @Inject(LOCAL_STORAGE) private storage: StorageService
