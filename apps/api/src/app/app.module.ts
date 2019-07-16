@@ -1,5 +1,4 @@
-import { CloudApiFactory } from './core/cloudapi/cloudapi.factory';
-import { OpenstackApiService } from './core/cloudapi/openstack.api.service';
+import { ProjectProviderMiddleware } from './core/middleware/project-provider/project-provider.middleware';
 import { Project } from './projects/project.entity';
 import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { RolesGuard } from './auth/roles.guard';
@@ -49,6 +48,8 @@ export class AppModule implements NestModule {
       .apply(CompressionMiddleware)
       .forRoutes('/*')
       .apply(CookieParserMiddleware)
+      .forRoutes('/*')
+      .apply(ProjectProviderMiddleware)
       .forRoutes('/*')
       // .apply(CsurfMiddleware)
       // .forRoutes('/*');

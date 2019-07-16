@@ -1,3 +1,4 @@
+import { ApiInterceptor } from './interceptor/api.interceptor';
 import { MandatorySelectedProjectGuard } from './guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NotificationInterceptor } from './interceptor/notification.interceptor';
 import { CommonUiModule } from '@dinivas/common-ui';
@@ -15,8 +16,19 @@ import { NgModule, LOCALE_ID, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  SelectProjectDialogComponent,
+  SelectProjectDialogEntryComponent
+} from './dialog/select-project-dialog/select-project-dialog.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
+  imports: [
+    CommonModule,
+    CommonUiModule,
+    RouterModule
+  ],
+  exports: [FilterBarComponent, FilterCriterionComponent, SelectedFilterPipe],
   declarations: [
     SnackAlertSuccessComponent,
     SnackAlertWarningComponent,
@@ -24,15 +36,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     FilterBarComponent,
     SelectedFilterPipe,
     FilterCriterionComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    SelectProjectDialogComponent,
+    SelectProjectDialogEntryComponent
   ],
-  imports: [CommonModule, CommonUiModule],
-  exports: [FilterBarComponent, FilterCriterionComponent, SelectedFilterPipe],
   entryComponents: [
     SnackAlertSuccessComponent,
     SnackAlertWarningComponent,
     SnackAlertDangerComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    SelectProjectDialogComponent
   ],
   providers: [
     AlertService,
@@ -40,9 +53,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
       provide: HTTP_INTERCEPTORS,
       useClass: NotificationInterceptor,
       multi: true,
-      deps: [
-        Injector
-      ]
+      deps: [Injector]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 10000 } },
     {

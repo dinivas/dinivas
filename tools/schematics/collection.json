@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "name": "dinivas-schematics-collection",
+  "version": "0.0.1",
+  "extends": ["@nrwl/schematics"],
+  "schematics": {
+    "mat-entity-crud": {
+      "factory": "../../dist/out-tsc/tools/schematics/mat-entity-crud",
+      "schema": "./mat-entity-crud/schema.json",
+      "description": "Easy entity CRUD provide by angular material"
+    }
+  }
+}

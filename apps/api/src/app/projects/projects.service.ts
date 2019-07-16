@@ -28,8 +28,12 @@ export class ProjectsService {
     );
   }
 
-  findOne(id: number): Promise<Project> {
-    return this.projectRepository.findOne(id);
+  async findOne(id: number): Promise<Project> {
+    return ProjectsService.toDTO(
+      await this.projectRepository.findOne(id, {
+        relations: ['cloud_provider']
+      })
+    );
   }
 
   async create(projectDTO: ProjectDTO) {

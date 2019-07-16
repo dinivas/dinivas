@@ -3,9 +3,17 @@ import { ProjectService } from './shared/project/project.service';
 import { IServerInfo, ProjectDTO } from '@dinivas/dto';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Router, ActivatedRoute, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  Event,
+  NavigationStart,
+  NavigationEnd,
+  NavigationError
+} from '@angular/router';
+import { StorageService, LOCAL_STORAGE } from 'ngx-webstorage-service';
 
 @Component({
   selector: 'dinivas-root',
@@ -19,44 +27,53 @@ export class AppComponent {
   currentProject: ProjectDTO;
   serverInfo: IServerInfo;
   routerLinkActiveOptionsExact: any = { exact: true };
-  projects: ProjectDTO;
+  projects: ProjectDTO[];
 
   constructor(
     private readonly keycloakService: KeycloakService,
     public dialog: MatDialog,
     private projectService: ProjectService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
 
   async ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.projectService
+        .getProjects(new HttpParams())
+        .subscribe((data: any) => {
+          this.projects = data.items;
+          this.projects
+            .filter(p => p.id == params['project'])
+            .forEach(p => (this.currentProject = p));
+        });
+    });
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
     }
     if (this.sideNavMode === 'side') this.sideNavOpened = true;
-    this.projectService.getProjects(new HttpParams()).subscribe((data: any) => {
-      this.projects = data.items;
-    });
-    this.watchRouteChanged()
+
+    this.watchRouteChanged();
   }
 
   watchRouteChanged() {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-          // Show loading indicator
+        // Show loading indicator
       }
 
       if (event instanceof NavigationEnd) {
-          // Hide loading indicator
+        // Hide loading indicator
       }
 
       if (event instanceof NavigationError) {
-          // Hide loading indicator
+        // Hide loading indicator
 
-          // Present error to user
-          console.log(event.error);
+        // Present error to user
+        console.log(event.error);
       }
-  });
+    });
   }
 
   toggleSideNav(force: boolean) {
@@ -88,6 +105,7 @@ export class AppComponent {
       (project && project.id != this.currentProject.id)
     ) {
       this.currentProject = project;
+      this.storage.set('dinivas-projectId', this.currentProject.id);
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { project: this.currentProject.id },

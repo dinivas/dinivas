@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { Injectable, Inject } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -12,7 +13,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MandatorySelectedProjectGuard implements CanActivate {
-  constructor(private router: Router) {}
+  lastProjectId: any;
+
+  constructor(
+    private router: Router,
+    @Inject(LOCAL_STORAGE) private storage: StorageService
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -22,17 +28,26 @@ export class MandatorySelectedProjectGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (!next.queryParams['project']) {
+    this.lastProjectId = next.queryParams['project'] || this.lastProjectId;
+    if (!this.lastProjectId) {
       console.log('MandatorySelectedProjectGuard project param does not exist');
-      // this.router.navigate([state.url], {
-      //   queryParams: {
-      //     project: next.queryParams['project']
-      //   }
-      // });
-      return true;
-    } else {
-      console.log('MandatorySelectedProjectGuard project param exist');
-      return true;
+      this.router.navigate(['/selectProject'], {
+        queryParams: {
+          nextState: state.url
+        }
+      });
+      return false;
     }
+    if (!next.queryParams['redirected']) {
+      this.storage.set('dinivas-projectId', this.lastProjectId);
+      this.router.navigate([state.url], {
+        queryParams: {
+          project: this.lastProjectId,
+          redirected: true
+        }
+      });
+      return false;
+    }
+    return true;
   }
 }

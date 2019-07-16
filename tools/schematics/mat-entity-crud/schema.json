@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "mat-entity-crud",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Easy entity CRUD provide by angular material",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    }
+  },
+  "required": ["name"]
+}

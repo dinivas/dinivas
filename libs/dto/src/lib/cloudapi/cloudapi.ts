@@ -16,7 +16,13 @@ export interface ICloudApiInstance {
   name: string;
 }
 
+export interface ICloudApiImage {
+  id: string;
+  name: string;
+}
+
 export interface ICloudApi {
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo>;
-  getAllinstances(cloudConfig: ICloudApiConfig): ICloudApiInstance[];
+  getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
+  getAllImages(loudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
 }

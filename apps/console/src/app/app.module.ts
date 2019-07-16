@@ -21,10 +21,8 @@ import { CoreModule } from './core/core.module';
     AppRoutingModule,
     CommonUiModule,
     AuthModule,
-
+    CoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-
-    CoreModule
   ],
   entryComponents: [
     ConfirmationDialogComponent

@@ -26,7 +26,7 @@ mat-sidenav-container.global {
   z-index: 99;
 
   .mat-sidenav {
-    padding-top: $toolbar-height;
+    padding: $toolbar-height 0px;
 
     .mat-nav-list {
       .mat-list-item.active {

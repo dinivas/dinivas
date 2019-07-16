@@ -14,6 +14,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
   app.useGlobalFilters(new AllExceptionsFilter());
+
   const globalPrefix = 'api/v1';
 
   // Documentation

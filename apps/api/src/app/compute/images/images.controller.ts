@@ -1,6 +1,7 @@
 import { Roles } from './../../auth/roles.decorator';
 import { RolesGuard } from './../../auth/roles.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import { Request } from 'express';
 import {
   Controller,
   UseGuards,
@@ -8,7 +9,8 @@ import {
   Param,
   Put,
   Delete,
-  Body
+  Body,
+  Req
 } from '@nestjs/common';
 
 @ApiUseTags('Compute images')
@@ -18,7 +20,7 @@ import {
 export class ImagesController {
   @Get()
   @Roles('admin')
-  findAll(): any {
+  findAll(@Req() request: Request): any {
     return { images: 'dd' };
   }
 

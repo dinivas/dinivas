@@ -1,6 +1,7 @@
 import { MandatorySelectedProjectGuard } from './core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SelectProjectDialogEntryComponent } from './core/dialog/select-project-dialog/select-project-dialog.component';
 
 const routes: Routes = [
   { path: '', loadChildren: './home/home.module#HomeModule', canActivate: [MandatorySelectedProjectGuard]},
@@ -13,6 +14,10 @@ const routes: Routes = [
     path: 'messaging',
     loadChildren: './messaging/messaging.module#MessagingModule',
     canActivate: [MandatorySelectedProjectGuard]
+  },
+  {
+    path: 'selectProject',
+    component: SelectProjectDialogEntryComponent
   },
   { path: '**', redirectTo: '', pathMatch: 'prefix' }
 ];
