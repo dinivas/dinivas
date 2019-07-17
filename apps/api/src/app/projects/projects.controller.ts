@@ -45,8 +45,8 @@ export class ProjectsController {
 
   @Post()
   @Roles('admin')
-  async create(@Body() project: ProjectDTO) {
-    await this.projectsService.create(project);
+  create(@Body() project: ProjectDTO): Promise<ProjectDTO> {
+    return this.projectsService.create(project);
   }
 
   @Put(':id')

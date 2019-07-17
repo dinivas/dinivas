@@ -36,8 +36,8 @@ export class ProjectsService {
     );
   }
 
-  async create(projectDTO: ProjectDTO) {
-    return await this.projectRepository.save(projectDTO);
+  async create(projectDTO: ProjectDTO): Promise<ProjectDTO> {
+    return ProjectsService.toDTO(await this.projectRepository.save(projectDTO as Project));
   }
 
   async update(id: number, projectDTO: ProjectDTO) {

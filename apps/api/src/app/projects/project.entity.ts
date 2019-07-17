@@ -4,7 +4,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   JoinColumn,
-  OneToOne
+  ManyToOne
 } from 'typeorm';
 import { ApiModelProperty } from '@nestjs/swagger';
 
@@ -20,7 +20,7 @@ export class Project {
   @Column('text', { nullable: true })
   @ApiModelProperty()
   description: string;
-  @OneToOne(type => Cloudprovider)
+  @ManyToOne(type => Cloudprovider)
   @JoinColumn()
   cloud_provider: Cloudprovider;
 }
