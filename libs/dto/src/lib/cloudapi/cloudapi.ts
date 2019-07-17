@@ -11,9 +11,23 @@ export interface ICloudApiInfo {
   project_name: string;
 }
 
+// Instance
+
+export interface ICloudApiInstanceAdress {
+  addr: string;
+  type: string;
+  version: string
+}
+
 export interface ICloudApiInstance {
   id: string;
   name: string;
+  status: string;
+  adresses: ICloudApiInstanceAdress[];
+  keys: string[],
+  created_date: string;
+  updated_date: string
+
 }
 
 export interface ICloudApiImage {

@@ -10,13 +10,19 @@ export class ImagesService {
   constructor(private http: HttpClient) {}
 
   getImages(httpParams: HttpParams): Observable<ICloudApiImage[]> {
-    return this.http.get<ICloudApiImage[]>(`${environment.apiUrl}/compute/images`, {
-      params: httpParams
-    });
+    return this.http.get<ICloudApiImage[]>(
+      `${environment.apiUrl}/compute/images`,
+      {
+        params: httpParams
+      }
+    );
   }
 
   createImage(cloudprovider: ProjectDTO): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/compute/images`, cloudprovider);
+    return this.http.post(
+      `${environment.apiUrl}/compute/images`,
+      cloudprovider
+    );
   }
 
   updateImage(cloudprovider: ProjectDTO): Observable<any> {

@@ -1,11 +1,11 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@nestjs/common';
 import {
   ICloudApi,
   ICloudApiInfo,
   ICloudApiConfig,
   ICloudApiInstance,
-  ICloudApiImage
+  ICloudApiImage,
+  ICloudApiInstanceAdress
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
@@ -20,7 +20,37 @@ export class OpenstackApiService implements ICloudApi {
     });
   }
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]> {
-    return null;
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.listServers((error, servers_array: any[]) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(
+            servers_array.map(srv => {
+              let currentSrvAdresses: ICloudApiInstanceAdress[] = [];
+              Object.keys(srv.addresses).forEach(function(key) {
+                srv.addresses[key].forEach(addr => {
+                  currentSrvAdresses.push({
+                    addr: addr.addr,
+                    type: addr['OS-EXT-IPS:type'],
+                    version: addr.version
+                  });
+                });
+              });
+              return {
+                id: srv.id,
+                name: srv.name,
+                keys: srv.key_name,
+                status: srv.status,
+                adresses: currentSrvAdresses,
+                created_date: srv.created,
+                updated_date: srv.updated
+              } as ICloudApiInstance;
+            })
+          );
+        }
+      });
+    });
   }
 
   getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]> {
@@ -38,7 +68,7 @@ export class OpenstackApiService implements ICloudApi {
                 owner: img.owner_user_name,
                 size: img.size,
                 status: img.status,
-                min_disk: img.min_disk,
+                min_disk: img.min_disk ? img.min_disk * 1024 * 1024 * 1024 : 0, //min disk on openstack always in GB, but apimust return bytes
                 visibility: img.visibility,
                 date: img.updated_at,
                 tags: img.tags

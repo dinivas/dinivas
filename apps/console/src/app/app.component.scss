@@ -1,3 +1,4 @@
+@import '../assets/styles/mixins';
 $toolbar-height: 48px;
 
 mat-toolbar {
@@ -51,6 +52,36 @@ mat-sidenav-container.global {
   }
 
   .main-container {
-    margin: 5px;
+    margin: 5px 5px 52px;
+    overflow: auto;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 48px;
+    border-top: 1px solid #d3d3d3;
+    background-color: #fafafa;
+
+    .container {
+      display: flex;
+      justify-content: flex-end;
+      .copyright {
+        font-weight: 500;
+        font-size: 13px;
+      }
+    }
+  }
+
+  eco-fab-speed-dial {
+    position: fixed;
+    bottom: 29px;
+    left: 60px;
+    z-index: 10;
+    @include transition(all 0.3s ease);
+    &.sidenavopen {
+      left: 280px;
+    }
   }
 }

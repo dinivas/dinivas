@@ -13,7 +13,7 @@ import {
   AlertService
 } from './alert/alert.service';
 import { NgModule, LOCALE_ID, Injector } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
@@ -21,14 +21,17 @@ import {
   SelectProjectDialogEntryComponent
 } from './dialog/select-project-dialog/select-project-dialog.component';
 import { RouterModule } from '@angular/router';
+import { NgMathPipesModule, BytesPipe } from 'angular-pipes';
+import locale from '@angular/common/locales/fr';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CommonUiModule,
-    RouterModule
+  imports: [CommonModule, CommonUiModule, NgMathPipesModule, RouterModule],
+  exports: [
+    FilterBarComponent,
+    FilterCriterionComponent,
+    SelectedFilterPipe,
+    BytesPipe
   ],
-  exports: [FilterBarComponent, FilterCriterionComponent, SelectedFilterPipe],
   declarations: [
     SnackAlertSuccessComponent,
     SnackAlertWarningComponent,
@@ -68,4 +71,8 @@ import { RouterModule } from '@angular/router';
     MandatorySelectedProjectGuard
   ]
 })
-export class CoreModule {}
+export class CoreModule {
+  constructor() {
+    registerLocaleData(locale);
+  }
+}

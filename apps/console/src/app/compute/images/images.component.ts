@@ -20,7 +20,7 @@ export class ImagesComponent extends MatCrudComponent
   filterPlaceholder = 'Filter';
   dataProvider = this;
   deleteConfirmQuestion: Function = entity =>
-    `Delete image ${entity.name} (${entity.code}) ?`;
+    `Delete image ${entity.name} ?`;
 
   columnDefs: Array<ColumnDef>;
   constructor(
@@ -32,6 +32,7 @@ export class ImagesComponent extends MatCrudComponent
     this.columnDefs = [
       new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
       new ColumnDef('name', 'Name', true, true, false, FilterType.TEXT),
+      new ColumnDef('dinivasImage', '', false, false, false),
       new ColumnDef('status', 'Status', true, true, false, FilterType.TEXT),
       new ColumnDef('owner', 'Owner', false),
       new ColumnDef('size', 'Image size', false),

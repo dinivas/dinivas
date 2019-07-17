@@ -5,6 +5,7 @@ import { ApiInfoService } from './api-info.service';
 import { AuthModule } from '@dinivas/auth';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { EcoFabSpeedDialModule } from "@ecodev/fab-speed-dial";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +23,7 @@ import { CoreModule } from './core/core.module';
     CommonUiModule,
     AuthModule,
     CoreModule,
+    EcoFabSpeedDialModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   entryComponents: [

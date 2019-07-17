@@ -6,16 +6,18 @@
     <a mat-button routerLink="/" class="logo">
       <span>Dinivas Console</span>
     </a>
-    <button mat-button [matMenuTriggerFor]="project_selection_menu">
+    <button mat-button [matMenuTriggerFor]="project_selection_menu"
+      [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"
+      matTooltipPosition="below">
       <mat-icon *ngIf="currentProject">folder_special</mat-icon>
-      {{ currentProject ? currentProject?.name + ' ( ' + currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud +' )' : 'Select project' }}
+      {{ currentProject ? currentProject?.name  : 'Select project' }}
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #project_selection_menu="matMenu" class="project-selection">
       <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"
         [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">
         <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>
-        {{ project?.name + ' ( ' + project.cloud_provider.name + ' on ' + project.cloud_provider.cloud +' )' }}
+        {{ project?.name }}
       </button>
     </mat-menu>
   </div>
@@ -207,5 +209,28 @@
     <div class="main-container">
       <router-outlet></router-outlet>
     </div>
+    <footer>
+      <div class="container">
+        <span class="copyright">Dinivas@2018</span>
+      </div>
+    </footer>
+    <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
+      <eco-fab-speed-dial-trigger [spin]="true" class="">
+        <button mat-fab (click)="doAction('trigger')">
+          <mat-icon class="spin180">add</mat-icon>
+        </button>
+      </eco-fab-speed-dial-trigger>
+      <eco-fab-speed-dial-actions>
+        <button mat-mini-fab (click)="doAction('action1')">
+          <mat-icon matTooltip="New instance" matTooltipPosition="right">computer</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="doAction('action2')">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="doAction('action3')">
+          <mat-icon>search</mat-icon>
+        </button>
+      </eco-fab-speed-dial-actions>
+    </eco-fab-speed-dial>
   </mat-sidenav-content>
 </mat-sidenav-container>
