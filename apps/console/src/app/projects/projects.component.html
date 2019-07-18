@@ -37,7 +37,11 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-          <td mat-cell *matCellDef="let row">{{row.name}}</td>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" [routerLink]="['/projects', 'edit', row.id]" queryParamsHandling="merge">
+              {{row.name}}
+            </button>
+          </td>
         </ng-container>
 
         <!-- Code Column -->
@@ -63,7 +67,7 @@
           </th>
           <td mat-cell *matCellDef="let entity" class="row-action edit-action">
             <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
-              (click)="entityEdit(entity)">
+              [routerLink]="['/projects', 'edit', entity.id]" [state]="{ data: {project: entity}}">
               <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
             </a>
             <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"

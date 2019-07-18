@@ -50,10 +50,13 @@ mat-sidenav-container.global {
       }
     }
   }
+  .mat-sidenav-content {
+    // background: #fff;
+  }
 
   .main-container {
     margin: 5px 5px 52px;
-    overflow: auto;
+    overflow-x: hidden;
   }
 
   footer {

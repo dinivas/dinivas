@@ -1,4 +1,3 @@
-import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
 import { Observer } from 'rxjs/';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
@@ -11,6 +10,7 @@ import { MatCrudComponent } from './../core/entity/mat-crud/mat-crud.component';
 import { Component } from '@angular/core';
 import { DataProvider } from '../core/entity/mat-crud/data-provider';
 import { ProjectsService } from '../shared/project/projects.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dinivas-projects',
@@ -29,7 +29,8 @@ export class ProjectsComponent extends MatCrudComponent
   constructor(
     public dialog: MatDialog,
     private readonly projectService: ProjectsService,
-    public confirmDialog: ConfirmDialogService
+    public confirmDialog: ConfirmDialogService,
+    private readonly router: Router
   ) {
     super(confirmDialog);
     this.columnDefs = [
@@ -52,18 +53,7 @@ export class ProjectsComponent extends MatCrudComponent
   }
 
   addProject() {
-    const addEntityDialogRef = this.dialog.open(ProjectDialogComponent, {
-      width: '500px'
-    });
-
-    addEntityDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          this.refreshDatas();
-        }
-      },
-      err => console.log(err)
-    );
+    this.router.navigate(['/projects/new'], { preserveQueryParams: true });
   }
 
   deleteSelected(selection: any[]): Observable<any> {
@@ -76,18 +66,5 @@ export class ProjectsComponent extends MatCrudComponent
   entityCanEdit = (projectDTO: ProjectDTO) => true;
 
   entityEdit(projectDTO: ProjectDTO) {
-    const addEntityDialogRef = this.dialog.open(ProjectDialogComponent, {
-      width: '500px',
-      data: projectDTO
-    });
-
-    addEntityDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          this.refreshDatas();
-        }
-      },
-      err => console.log(err)
-    );
   }
 }

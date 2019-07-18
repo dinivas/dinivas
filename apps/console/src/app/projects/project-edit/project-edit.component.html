@@ -1,0 +1,57 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <button mat-icon-button color="primary" [routerLink]="['/projects']" queryParamsHandling="merge">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="page-title">{{ project ? 'Edit project ' + project.name : 'New project'}}</span>
+</mat-toolbar>
+<div class="form-container">
+  <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submit(projectForm.value)">
+    <div class="mat-form-container" fxLayout="column">
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Cloud provider configuration</mat-label>
+        <mat-select formControlName="cloud_provider" [compareWith]="compareFn" required>
+          <mat-option *ngFor="let cp of cloudproviders" [value]="cp">
+            {{ cp.name }} ({{ cp.cloud }})
+          </mat-option>
+        </mat-select>
+        <mat-hint>The existing cloud provider configuration (created by admin)</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Project name</mat-label>
+        <input type="text" matInput formControlName="name" required>
+        <mat-hint>This is the display project name</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Project code</mat-label>
+        <input type="text" matInput formControlName="code" required>
+        <mat-hint>The project code will be used to suffix most components</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Public router name</mat-label>
+        {{ cloudprovider?.id }}
+        <mat-select formControlName="public_router" required>
+          <mat-option *ngFor="let cloudprovider of cloudproviders;trackBy: trackByIdFn" [value]="cloudprovider">
+            {{ cloudprovider.name }} ({{ cloudprovider.cloud }})
+          </mat-option>
+        </mat-select>
+        <mat-hint>The name of the router to use as an external gateway</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Floating Ip pool</mat-label>
+        <mat-select formControlName="floating_ip_pool" required>
+          <mat-option *ngFor="let cloudprovider of cloudproviders;trackBy: trackByIdFn" [value]="cloudprovider">
+            {{ cloudprovider.name }} ({{ cloudprovider.cloud }})
+          </mat-option>
+        </mat-select>
+        <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="actions">
+      <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
+      <button mat-raised-button color="primary" class="ml-10" type="submit" [disabled]="!isFormValid()">
+        {{ project ? "Update" : "Create" }}
+      </button>
+    </div>
+  </form>
+</div>

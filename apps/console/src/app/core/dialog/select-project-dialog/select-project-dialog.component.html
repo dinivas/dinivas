@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Please select a project before continue</h1>
 <div mat-dialog-content>
-  <mat-nav-list>
+  <mat-nav-list dense>
     <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}" (click)="onCancelClick(project)" *ngFor="let project of projects">
       {{ project.code }} - {{ project.name }}
     </a>

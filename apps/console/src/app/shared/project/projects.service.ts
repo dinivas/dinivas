@@ -26,6 +26,10 @@ export class ProjectsService {
     );
   }
 
+  getOneProject(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/projects/${id}`);
+  }
+
   deleteProject(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/projects/${id}`);
   }
