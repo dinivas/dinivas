@@ -1,3 +1,5 @@
+import { CoreModule } from './../core/core.module';
+import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +13,8 @@ import { CommonUiModule } from '@dinivas/common-ui';
   imports: [
     CommonModule,
     CommonUiModule,
+    SharedModule,
+    CoreModule,
     IamRoutingModule
   ]
 })
