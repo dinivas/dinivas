@@ -51,6 +51,11 @@ const routes: Routes = [
     canActivate: [MandatorySelectedProjectGuard]
   },
   {
+    path: 'iam-admin',
+    loadChildren: './iam/iam.module#IamModule',
+    canActivate: [MandatorySelectedProjectGuard]
+  },
+  {
     path: 'selectProject',
     component: SelectProjectDialogEntryComponent
   },

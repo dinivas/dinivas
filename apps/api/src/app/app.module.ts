@@ -1,7 +1,9 @@
-import { ProjectProviderMiddleware } from './core/middleware/project-provider/project-provider.middleware';
+import { AuthzMiddleware } from './core/middlewares/authz/authz.middleware';
+import { Keycloak } from './auth/keycloak';
+import { ProjectProviderMiddleware } from './core/middlewares/project-provider/project-provider.middleware';
 import { Project } from './projects/project.entity';
 import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
-import { RolesGuard } from './auth/roles.guard';
+import { AuthzGuard } from './auth/authz.guard';
 import { environment } from './../environments/environment';
 import { InfoController } from './info.controller';
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
@@ -16,6 +18,7 @@ import { ComputeModule } from './compute/compute.module';
 import { CloudproviderModule } from './cloudprovider/cloudprovider.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
+import { IamModule } from './iam/iam.module';
 
 const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
 
@@ -27,14 +30,15 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
     }),
     ComputeModule,
     CloudproviderModule,
-    ProjectsModule
+    ProjectsModule,
+    IamModule
   ],
   controllers: [InfoController],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
+      useClass: AuthzGuard
     }
   ]
 })
@@ -50,12 +54,21 @@ export class AppModule implements NestModule {
       .apply(CookieParserMiddleware)
       .forRoutes('/*')
       .apply(ProjectProviderMiddleware)
-      .forRoutes('/*')
-      // .apply(CsurfMiddleware)
-      // .forRoutes('/*');
+      .forRoutes('/*');
+      //.apply(CsurfMiddleware)
+      //.forRoutes('/*');
     if (!environment.production) {
       MorganMiddleware.configure('dev');
       consumer.apply(MorganMiddleware).forRoutes('/*');
     }
+    // Keycloak Sso middleware
+    consumer
+      .apply(Keycloak.middleware(), Keycloak.checkSso())
+      .forRoutes('/*');
+
+    // Keycloak Authz middleware
+    //consumer
+    //  .apply(AuthzMiddleware)
+    //  .forRoutes('/*');
   }
 }

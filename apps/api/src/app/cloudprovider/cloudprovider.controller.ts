@@ -2,7 +2,7 @@ import { CloudproviderService } from './cloudprovider.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CloudproviderDTO, Pagination } from '@dinivas/dto';
 import { Roles } from './../auth/roles.decorator';
-import { RolesGuard } from './../auth/roles.guard';
+import { AuthzGuard } from '../auth/authz.guard';
 import {
   Controller,
   UseGuards,
@@ -20,7 +20,7 @@ import { Response } from 'express';
 @ApiUseTags('Cloud providers')
 @Controller('cloudproviders')
 @ApiBearerAuth()
-@UseGuards(RolesGuard)
+@UseGuards(AuthzGuard)
 export class CloudproviderController {
   constructor(private readonly cloudproviderService: CloudproviderService) {}
 

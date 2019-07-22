@@ -1,4 +1,4 @@
-import { ProjectsService } from './../../../projects/projects.service';
+import { ProjectsService } from '../../../projects/projects.service';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ProjectDTO } from '@dinivas/dto';
 

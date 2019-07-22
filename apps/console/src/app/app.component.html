@@ -192,9 +192,8 @@
       </a>
       <!-- Security -->
       <h3 mat-subheader>Security</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/iam-admin']" (click)="toggleSideNav()">
+        <mat-icon matListIcon>security</mat-icon>
         <h4 mat-line>IAM (Keycloak)</h4>
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"

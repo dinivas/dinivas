@@ -1,18 +1,12 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- **/
-
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
 import { AllExceptionsFilter } from './app/core/all-exceptions.filter';
 
-
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-
+  const app = await NestFactory.create(AppModule, {
+    cors: true
+  });
   app.useGlobalFilters(new AllExceptionsFilter());
 
   const globalPrefix = 'api/v1';

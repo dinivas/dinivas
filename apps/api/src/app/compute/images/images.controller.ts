@@ -1,6 +1,6 @@
+import { Permissions } from './../../auth/permissions.decorator';
 import { ImagesService } from './images.service';
-import { Roles } from './../../auth/roles.decorator';
-import { RolesGuard } from './../../auth/roles.guard';
+import { AuthzGuard } from '../../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { Request } from 'express';
 import {
@@ -18,12 +18,12 @@ import { ICloudApiImage, ProjectDTO } from '@dinivas/dto';
 @ApiUseTags('Compute images')
 @Controller('compute/images')
 @ApiBearerAuth()
-@UseGuards(RolesGuard)
+@UseGuards(AuthzGuard)
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Get()
-  @Roles('admin')
+  @Permissions('compute.images.list')
   async findAll(@Req() request: Request): Promise<ICloudApiImage[]> {
     const project = request['project'] as ProjectDTO;
     return this.imagesService.getImages(project.cloud_provider.id);

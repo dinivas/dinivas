@@ -1,5 +1,5 @@
 import { InstancesService } from './instances.service';
-import { RolesGuard } from './../../auth/roles.guard';
+import { AuthzGuard } from '../../auth/authz.guard';
 import { Roles } from './../../auth/roles.decorator';
 import {
   Controller,
@@ -17,7 +17,7 @@ import { ICloudApiInstance, ProjectDTO } from '@dinivas/dto';
 @ApiUseTags('Compute instances')
 @Controller('compute/instances')
 @ApiBearerAuth()
-@UseGuards(RolesGuard)
+@UseGuards(AuthzGuard)
 export class InstancesController {
   constructor(private readonly instancesService: InstancesService) {}
 

@@ -26,7 +26,10 @@
         <input type="text" matInput formControlName="code" required>
         <mat-hint>The project code will be used to suffix most components</mat-hint>
       </mat-form-field>
-
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+      </mat-form-field>
       <mat-form-field class="" appearance="outline">
         <mat-label>Public router name</mat-label>
         {{ cloudprovider?.id }}

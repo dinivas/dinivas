@@ -1,25 +1,27 @@
 import { Pagination, ProjectDTO } from '@dinivas/dto';
 import { Roles } from './../auth/roles.decorator';
-import { RolesGuard } from './../auth/roles.guard';
+import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ProjectsService } from './projects.service';
 import {
-    Controller,
-    UseGuards,
-    Get,
-    Param,
-    Put,
-    Delete,
-    Body,
-    Post,
-    Query
-  } from '@nestjs/common';
+  Controller,
+  UseGuards,
+  Get,
+  Param,
+  Put,
+  Delete,
+  Body,
+  Post,
+  Query,
+  Logger
+} from '@nestjs/common';
 
 @ApiUseTags('Projects')
 @Controller('projects')
 @ApiBearerAuth()
-@UseGuards(RolesGuard)
+@UseGuards(AuthzGuard)
 export class ProjectsController {
+  private readonly logger = new Logger(ProjectsController.name);
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get()
@@ -50,11 +52,8 @@ export class ProjectsController {
   }
 
   @Put(':id')
-  @Roles('admin')
-  async update(
-    @Param('id') id: number,
-    @Body() project: ProjectDTO
-  ) {
+  async update(@Param('id') id: number, @Body() project: ProjectDTO) {
+    this.logger.debug(`Updating project ${project.id} ${project.name}`);
     await this.projectsService.update(id, project);
   }
 
