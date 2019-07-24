@@ -43,3 +43,21 @@ mat-toolbar {
 .mat-list-base .mat-list-option .mat-list-text > * {
   font-weight: 500 !important;
 }
+
+.mat-card {
+  &.empty-item-card {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    .mat-card-header {
+      border-bottom: 1px solid #d3d3d3;
+    }
+    .mat-card-content {
+      p {
+        margin: 15px;
+      }
+    }
+  }
+}

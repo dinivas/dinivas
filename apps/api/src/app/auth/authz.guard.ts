@@ -34,7 +34,7 @@ export class AuthzGuard implements CanActivate {
     // Check Keycloak permissions
     return new Promise<boolean>((resolve, reject) => {
       try {
-        Keycloak.enforcer(computedPermissions, {
+        Keycloak.enforcer(permissions, {
           response_mode: 'permissions'
         })(request, response, () => {
           resolve(true);

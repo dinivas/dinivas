@@ -5,7 +5,8 @@ import {
   ICloudApiConfig,
   ICloudApiInstance,
   ICloudApiImage,
-  ICloudApiInstanceAdress
+  ICloudApiInstanceAdress,
+  ICloudApiDisk
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
@@ -73,6 +74,31 @@ export class OpenstackApiService implements ICloudApi {
                 date: img.updated_at,
                 tags: img.tags
               } as ICloudApiImage;
+            })
+          );
+        }
+      });
+    });
+  }
+
+  getAllDisks(cloudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.glance.listImages((error, volumes_array: any[]) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(
+            volumes_array.map(volume => {
+              return {
+                id: volume.id,
+                name: volume.name,
+                description: volume.container_format,
+                size: volume.size,
+                status: volume.status,
+                volumeType: volume.visibility,
+                date: volume.updated_at,
+                metedata: volume.tags
+              } as ICloudApiDisk;
             })
           );
         }

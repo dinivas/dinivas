@@ -43,8 +43,21 @@ export interface ICloudApiImage {
   tags: string[]
 }
 
+// Disks
+
+export interface ICloudApiDisk {
+  id: string;
+  name: string;
+  size: number;
+  status: string;
+  volumeType: string;
+  date: string;
+  metedata: {};
+}
+
 export interface ICloudApi {
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo>;
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
   getAllImages(loudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
+  getAllDisks(loudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
 }

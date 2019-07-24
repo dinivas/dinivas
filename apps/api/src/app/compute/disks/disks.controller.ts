@@ -1,8 +1,7 @@
 import { Permissions } from './../../auth/permissions.decorator';
-import { ImagesService } from './images.service';
-import { AuthzGuard } from '../../auth/authz.guard';
+import { DisksService } from './disks.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { Request } from 'express';
+import { AuthzGuard } from '../../auth/authz.guard';
 import {
   Controller,
   UseGuards,
@@ -13,35 +12,35 @@ import {
   Body,
   Req
 } from '@nestjs/common';
-import { ICloudApiImage, ProjectDTO } from '@dinivas/dto';
+import { ProjectDTO, ICloudApiDisk } from '@dinivas/dto';
 
-@ApiUseTags('Compute images')
-@Controller('compute/images')
+@ApiUseTags('Compute disks')
+@Controller('compute/disks')
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
-export class ImagesController {
-  constructor(private readonly imagesService: ImagesService) {}
+export class DisksController {
+  constructor(private readonly disksServices: DisksService) {}
 
   @Get()
-  @Permissions('compute.images:list')
-  async findAll(@Req() request: Request): Promise<ICloudApiImage[]> {
+  @Permissions('compute.disks:list')
+  async findAll(@Req() request: Request): Promise<ICloudApiDisk[]> {
     const project = request['project'] as ProjectDTO;
-    return this.imagesService.getImages(project.cloud_provider.id);
+    return this.disksServices.getDisks(project.cloud_provider.id);
   }
 
   @Get(':id')
-  @Permissions('compute.images:get')
+  @Permissions('compute.disks:get')
   findOne(@Param('id') id: string) {
     return `This action returns a #${id} cat`;
   }
   @Put(':id')
-  @Permissions('compute.images:edit')
+  @Permissions('compute.disks:edit')
   update(@Param('id') id: string, @Body() updateCatDto: any) {
     return `This action updates a #${id} cat`;
   }
 
   @Delete(':id')
-  @Permissions('compute.images:delete')
+  @Permissions('compute.disks:delete')
   remove(@Param('id') id: string) {
     return `This action removes a #${id} cat`;
   }

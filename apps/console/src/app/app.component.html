@@ -22,7 +22,7 @@
     </mat-menu>
   </div>
   <div class="right">
-    <span class="username" *ngIf="userDetails">{{ userDetails.firstName }}</span>
+    <span class="username" *ngIf="userDetails" [matTooltip]="userDetails.email">{{ userDetails.firstName }}</span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
