@@ -56,6 +56,21 @@ export class KeycloakAdmin {
     );
   }
 
+  findUserById(userId: string) {
+    return adminClient(this.config)
+      .then(client =>
+        client.users.find(this.config.realm, {
+          id: userId
+        })
+      )
+      .then(users => {
+        let user = users && users[0];
+        return user && user.id
+          ? Promise.resolve(user)
+          : Promise.reject('user not found');
+      });
+  }
+
   findTestUser() {
     return adminClient(this.config)
       .then(client =>

@@ -35,6 +35,7 @@ export class ImagesComponent extends MatCrudComponent
       new ColumnDef('dinivasImage', '', false, false, false),
       new ColumnDef('status', 'Status', true, true, false, FilterType.TEXT),
       new ColumnDef('owner', 'Owner', false),
+      new ColumnDef('visibility', 'Visibility', false),
       new ColumnDef('size', 'Image size', false),
       new ColumnDef('min_disk', 'Min disk', false)
     ];

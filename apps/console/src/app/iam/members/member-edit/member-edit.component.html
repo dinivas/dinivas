@@ -1,0 +1,6 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <button mat-icon-button color="primary" [routerLink]="['/iam-admin','members']" queryParamsHandling="merge">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="page-title">{{ user ? 'Edit user ' + user.firstName : 'Add user '}}</span>
+</mat-toolbar>

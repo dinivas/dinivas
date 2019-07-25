@@ -12,6 +12,7 @@ export class FilterBarComponent implements OnInit {
   @Input() public filterPlaceholder: string;
   @Input() selection = new SelectionModel<any>(true, []);
   @Input() public showAddButton = true;
+  @Input() public addButtonLabel = 'Add';
   @Input() filters: Filter[] = [];
 
   @Output() onFilterChanged: EventEmitter<any> = new EventEmitter;

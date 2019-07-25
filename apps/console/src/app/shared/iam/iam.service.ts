@@ -8,8 +8,13 @@ import { UserRepresentation } from '@dinivas/dto';
   providedIn: 'root'
 })
 export class IamService {
-
   constructor(private http: HttpClient) {}
+
+  getOneUser(memberId: string): Observable<UserRepresentation> {
+    return this.http.get<UserRepresentation>(
+      `${environment.apiUrl}/iam/members/${memberId}`
+    );
+  }
 
   getAllUsers(httpParams: HttpParams): Observable<UserRepresentation[]> {
     return this.http.get<UserRepresentation[]>(

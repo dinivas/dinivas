@@ -9,4 +9,8 @@ export class IamService {
   async findAllUsers(): Promise<UserRepresentation[]> {
     return this.keycloakAdmin.usersList();
   }
+
+  async findOneUser(userId: string): Promise<UserRepresentation> {
+    return this.keycloakAdmin.findUserById(userId);
+  }
 }

@@ -4,17 +4,17 @@ import { SharedModule } from './../../shared/shared.module';
 import { CoreModule } from './../../core/core.module';
 import { CommonUiModule } from '@dinivas/common-ui';
 
-import { RabbitmqRoutingModule } from './rabbitmq-routing.module';
-import { RabbitmqComponent } from './rabbitmq.component';
+import { MqttRoutingModule } from './mqtt-routing.module';
+import { MqttComponent } from './mqtt.component';
 
 @NgModule({
-  declarations: [RabbitmqComponent],
+  declarations: [MqttComponent],
   imports: [
     CommonModule,
     CommonUiModule,
     SharedModule,
     CoreModule,
-    RabbitmqRoutingModule
+    MqttRoutingModule
   ]
 })
-export class RabbitmqModule {}
+export class MqttModule { }

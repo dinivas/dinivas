@@ -105,17 +105,17 @@
       <!-- Messaging -->
       <h3 mat-subheader>Messaging</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
+        [routerLink]="['/messaging','rabbitmq']" (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="rabbitmq"></mat-icon>
         <h4 mat-line>Managed RabbitMQ</h4>
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
+        [routerLink]="['/messaging','kafka']" (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="kafka"></mat-icon>
         <h4 mat-line>Managed Kafka</h4>
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
+        [routerLink]="['/messaging','mqtt']" (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="mosquitto"></mat-icon>
         <h4 mat-line>IOT / Managed MQTT</h4>
       </a>
@@ -182,8 +182,8 @@
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
         [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="graylog"></mat-icon>
-        <h4 mat-line>Logging (Graylog)</h4>
+        <mat-icon matListIcon>notes</mat-icon>
+        <h4 mat-line>Logging</h4>
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
         [routerLink]="['']" (click)="toggleSideNav()">
@@ -194,7 +194,7 @@
       <h3 mat-subheader>Security</h3>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/iam-admin']" (click)="toggleSideNav()">
         <mat-icon matListIcon>security</mat-icon>
-        <h4 mat-line>IAM (Keycloak)</h4>
+        <h4 mat-line>IAM</h4>
       </a>
       <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
         [routerLink]="['']">

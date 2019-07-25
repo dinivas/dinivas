@@ -80,6 +80,7 @@ mat-sidenav-container.global {
           height: 25px;
           flex: 1;
           &.openstack {
+            opacity: 0.3;
             background: url('../assets/icons/openstack-horizontal.svg')
               no-repeat center;
           }
@@ -90,17 +91,17 @@ mat-sidenav-container.global {
           span.type {
             margin-right: 10px;
             text-transform: uppercase;
-            font-size: 16px;
+            font-size: 10px;
             font-weight: 500;
           }
           span.in-use {
-            font-size: 22px;
+            font-size: 16px;
             font-weight: 600;
             margin-right: 5px;
             color: #00695c;
           }
           span.limit {
-            font-size: 20px;
+            font-size: 14px;
             font-weight: 500;
             margin-left: 5px;
           }

@@ -49,6 +49,43 @@
         </mat-select>
         <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
       </mat-form-field>
+      <div class="slide-toggle-container">
+        <mat-slide-toggle formControlName="monitoring" color="accent">
+          {{ projectForm?.value.monitoring ? 'Disable project monitoring' : 'Enable project monitoring'}}
+        </mat-slide-toggle>
+        <mat-hint>Prometheus will be installed at project level</mat-hint>
+      </div>
+      <div class="slide-toggle-container">
+        <mat-slide-toggle formControlName="logging" color="accent">
+          {{ projectForm?.value.logging ? 'Disable project logging' : 'Enable project logging'}}
+        </mat-slide-toggle>
+        <mat-hint>When enabled, you'll have to select the Logging stack to install</mat-hint>
+      </div>
+      <div class="logging-stack" *ngIf="projectForm?.value.logging">
+        <h5>Select logging stack bellow</h5>
+        <div class="stack-container">
+          <mat-card (click)="loggingStack = 'graylog'" [class.selected]="loggingStack === 'graylog'">
+            <mat-icon>check</mat-icon>
+            <mat-card-header>
+              <mat-card-title>Graylog</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="graylog"></div>
+              <p>This will install Graylog stack</p>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="" (click)="loggingStack = 'kibana'" [class.selected]="loggingStack === 'kibana'">
+            <mat-icon>check</mat-icon>
+            <mat-card-header>
+              <mat-card-title>Kibana</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="kibana"></div>
+              <p>This will install Kibana stack</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
     </div>
     <div class="actions">
       <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>

@@ -1,3 +1,4 @@
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { MembersComponent } from './members/members.component';
 import { IamComponent } from './iam.component';
@@ -12,6 +13,16 @@ const routes: Routes = [
       {
         path: 'members',
         component: MembersComponent,
+        canActivate: [MandatorySelectedProjectGuard]
+      },
+      {
+        path: 'members/new',
+        component: MemberEditComponent,
+        canActivate: [MandatorySelectedProjectGuard]
+      },
+      {
+        path: 'members/edit/:memberId',
+        component: MemberEditComponent,
         canActivate: [MandatorySelectedProjectGuard]
       },
       { path: '', redirectTo: 'members' }

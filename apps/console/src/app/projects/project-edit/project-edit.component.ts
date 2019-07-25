@@ -15,6 +15,7 @@ export class ProjectEditComponent implements OnInit {
   project: ProjectDTO;
   projectForm: FormGroup;
   cloudproviders: CloudproviderDTO[];
+  loggingStack = 'graylog';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +58,9 @@ export class ProjectEditComponent implements OnInit {
       ],
       description: [this.project ? this.project.description : null, null],
       public_router: [this.project ? this.project.description : null, null],
-      floating_ip_pool: [this.project ? this.project.name : null, null]
+      floating_ip_pool: [this.project ? this.project.name : null, null],
+      monitoring: [this.project ? this.project.monitoring : true, null],
+      logging: [this.project ? this.project.logging : false, null]
     });
     this.projectForm.controls['cloud_provider'].patchValue(
       this.project ? this.project.cloud_provider : null,
@@ -68,7 +71,8 @@ export class ProjectEditComponent implements OnInit {
     this.onChanges();
   }
 
-  submit(project) {
+  submit(project: ProjectDTO) {
+    project.logging_stack = this.loggingStack;
     if (!this.project) {
       // create
       this.projectService.createProject(project).subscribe(() => {

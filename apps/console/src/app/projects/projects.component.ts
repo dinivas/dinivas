@@ -38,7 +38,9 @@ export class ProjectsComponent extends MatCrudComponent
       new ColumnDef('name', 'Name', true, true, false, FilterType.TEXT),
       new ColumnDef('code', 'Code', true, true, false, FilterType.TEXT),
       new ColumnDef('description', 'Description', false),
-      new ColumnDef('cloud_provider', 'Cloud config', false)
+      new ColumnDef('cloud_provider', 'Cloud config', false),
+      new ColumnDef('monitoring', 'Monitoring', false),
+      new ColumnDef('logging', 'Logging', false)
     ];
   }
 

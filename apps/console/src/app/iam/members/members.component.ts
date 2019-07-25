@@ -2,7 +2,6 @@ import { FilterType } from './../../core/entity/filter-bar/filter';
 import { ColumnDef } from './../../core/entity/mat-crud/column-def';
 import { Observable, Observer } from 'rxjs/';
 import { ConfirmDialogService } from './../../core/dialog/confirm-dialog/confirm-dialog.service';
-import { MatDialog } from '@angular/material';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
 import { HttpParams } from '@angular/common/http';
@@ -24,7 +23,6 @@ export class MembersComponent extends MatCrudComponent
   columnDefs: Array<ColumnDef>;
 
   constructor(
-    public dialog: MatDialog,
     private iamService: IamService,
     public confirmDialog: ConfirmDialogService
   ) {
@@ -56,5 +54,6 @@ export class MembersComponent extends MatCrudComponent
     return null;
   }
 
+  addMember() {}
   entityCanEdit = (userRepresentation: UserRepresentation) => true;
 }

@@ -7,9 +7,10 @@ import { IamRoutingModule } from './iam-routing.module';
 import { IamComponent } from './iam.component';
 import { MembersComponent } from './members/members.component';
 import { CommonUiModule } from '@dinivas/common-ui';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 @NgModule({
-  declarations: [IamComponent, MembersComponent],
+  declarations: [IamComponent, MembersComponent, MemberEditComponent],
   imports: [
     CommonModule,
     CommonUiModule,

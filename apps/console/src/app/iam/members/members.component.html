@@ -4,8 +4,8 @@
     </mat-card-header>
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
-        [showAddButton]="showAddButton" (onFilterChanged)="filterChanged($event)" (onRefreshData)="refreshDatas()"
-        (onAddEntity)="addImage()" (onDeleteSelection)="deleteEntity($event)"></dinivas-filter-bar>
+        [showAddButton]="showAddButton" addButtonLabel="Add user" (onFilterChanged)="filterChanged($event)" (onRefreshData)="refreshDatas()"
+        (onAddEntity)="addMember()" (onDeleteSelection)="deleteEntity($event)"></dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
         <mat-spinner></mat-spinner>
       </div>
@@ -57,7 +57,7 @@
           </th>
           <td mat-cell *matCellDef="let entity" class="row-action edit-action">
             <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
-              [routerLink]="['/projects', 'edit', entity.id]" [state]="{ data: {user: entity}}">
+              [routerLink]="['/iam-admin','members', 'edit', entity.id]" [state]="{ data: {user: entity}}">
               <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
             </a>
           </td>

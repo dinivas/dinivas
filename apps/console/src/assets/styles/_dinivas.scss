@@ -61,3 +61,19 @@ mat-toolbar {
     }
   }
 }
+
+.form-container {
+  .slide-toggle-container {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    margin: 10px 0px;
+    .mat-hint {
+      font-size: 70%;
+      padding: 0 1em;
+      display: block;
+    padding: 10px 1em;
+    }
+  }
+}
