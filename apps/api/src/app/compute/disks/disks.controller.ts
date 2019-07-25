@@ -29,7 +29,7 @@ export class DisksController {
   }
 
   @Get(':id')
-  @Permissions('compute.disks:get')
+  @Permissions('compute.disks:view')
   findOne(@Param('id') id: string) {
     return `This action returns a #${id} cat`;
   }

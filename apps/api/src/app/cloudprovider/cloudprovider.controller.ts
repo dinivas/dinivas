@@ -1,3 +1,4 @@
+import { Permissions } from './../auth/permissions.decorator';
 import { CloudproviderService } from './cloudprovider.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CloudproviderDTO, Pagination } from '@dinivas/dto';
@@ -25,7 +26,7 @@ export class CloudproviderController {
   constructor(private readonly cloudproviderService: CloudproviderService) {}
 
   @Get()
-  @Roles('admin')
+  @Permissions('cloudproviders:list')
   async findAll(
     @Query('page') page: number = 0,
     @Query('limit') limit: number = 10,
@@ -40,13 +41,13 @@ export class CloudproviderController {
   }
 
   @Get(':id')
-  @Roles('admin')
+  @Permissions('cloudproviders:view')
   async findOne(@Param('id') id: number): Promise<CloudproviderDTO> {
     return this.cloudproviderService.findOne(id);
   }
 
   @Get(':id/check_connection')
-  @Roles('admin')
+  @Permissions('cloudproviders:view')
   async checkConnection(@Param('id') id: number, @Res() response: Response): Promise<any> {
     try {
       const connectionInfo = await this.cloudproviderService.checkConnection(id);
@@ -57,13 +58,13 @@ export class CloudproviderController {
   }
 
   @Post()
-  @Roles('admin')
+  @Permissions('cloudproviders:create')
   async create(@Body() cloudProvider: CloudproviderDTO) {
     await this.cloudproviderService.create(cloudProvider);
   }
 
   @Put(':id')
-  @Roles('admin')
+  @Permissions('cloudproviders:edit')
   async update(
     @Param('id') id: number,
     @Body() cloudProvider: CloudproviderDTO
@@ -72,7 +73,7 @@ export class CloudproviderController {
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Permissions('cloudproviders:delete')
   async remove(@Param('id') id: number) {
     await this.cloudproviderService.delete(id);
   }

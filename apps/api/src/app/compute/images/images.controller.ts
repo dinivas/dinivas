@@ -30,7 +30,7 @@ export class ImagesController {
   }
 
   @Get(':id')
-  @Permissions('compute.images:get')
+  @Permissions('compute.images:view')
   findOne(@Param('id') id: string) {
     return `This action returns a #${id} cat`;
   }

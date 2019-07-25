@@ -5,7 +5,9 @@ import { AllExceptionsFilter } from './app/core/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true
+    cors: {
+      exposedHeaders: ['X-Dinivas-Auth-Error', 'X-Dinivas-Auth-Required-Permissions']
+    }
   });
   app.useGlobalFilters(new AllExceptionsFilter());
 

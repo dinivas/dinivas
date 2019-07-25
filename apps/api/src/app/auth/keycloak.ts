@@ -8,6 +8,9 @@ const KeycloakDefinition = new Keycloakconnect(
 KeycloakDefinition['accessDenied'] = function(request, response) {
   response.status(403);
   response.setHeader('X-Dinivas-Auth-Error', 'Access denied to this resource');
+  if (request['requiredPermissions']) {
+    response.setHeader('X-Dinivas-Auth-Required-Permissions', request['requiredPermissions']);
+  }
   response.end('Access denied');
 };
 

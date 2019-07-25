@@ -18,19 +18,15 @@ export class AuthzGuard implements CanActivate {
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
-    const permissions = this.reflector.get<string[]>(
-      'permissions',
-      context.getHandler()
-    ) || [];
+    const permissions =
+      this.reflector.get<string[]>('permissions', context.getHandler()) || [];
     if (!roles && (!permissions || (permissions && permissions.length === 0))) {
       return true;
     }
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
 
-    const computedPermissions = permissions.map(
-      p => `project-${request.project.id}:${p}`
-    );
+    request['requiredPermissions'] = permissions;
     // Check Keycloak permissions
     return new Promise<boolean>((resolve, reject) => {
       try {

@@ -29,7 +29,7 @@ export class InstancesController {
   }
 
   @Get(':id')
-  @Permissions('compute.instances:get')
+  @Permissions('compute.instances:view')
   findOne(@Param('id') id: string) {
     return `This action returns a #${id} cat`;
   }
