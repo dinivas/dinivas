@@ -28,9 +28,11 @@ export class MandatorySelectedProjectGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    if (next.queryParams['appInitialisation']) {
+      return true;
+    }
     this.lastProjectId = next.queryParams['project'] || this.lastProjectId;
     if (!this.lastProjectId) {
-      console.log('MandatorySelectedProjectGuard project param does not exist');
       this.router.navigate(['/selectProject'], {
         queryParams: {
           nextState: state.url

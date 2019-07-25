@@ -74,7 +74,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Logging</th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox [checked]="row.logging" [disableRipple]="true" disabled></mat-checkbox>
-            <span *ngIf="row.logging">{{ row.logging_stack }}</span>
+            <span class="ml-10" *ngIf="row.logging">{{ row.logging_stack }}</span>
           </td>
         </ng-container>
         <!-- Actions -->

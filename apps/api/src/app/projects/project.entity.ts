@@ -23,4 +23,10 @@ export class Project {
   @ManyToOne(type => Cloudprovider)
   @JoinColumn()
   cloud_provider: Cloudprovider;
+  @Column()
+  monitoring: boolean;
+  @Column()
+  logging: boolean;
+  @Column()
+  logging_stack: string;
 }

@@ -118,11 +118,10 @@ mat-sidenav-container.global {
   eco-fab-speed-dial {
     position: fixed;
     bottom: 29px;
-    left: 60px;
+    right: 80px;
     z-index: 10;
     @include transition(all 0.3s ease);
     &.sidenavopen {
-      left: 280px;
     }
   }
 }

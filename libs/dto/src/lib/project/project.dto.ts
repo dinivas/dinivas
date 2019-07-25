@@ -7,6 +7,6 @@ export class ProjectDTO {
     description: string;
     cloud_provider: CloudproviderDTO;
     monitoring: boolean;
-    logging: true;
+    logging: boolean;
     logging_stack: string;
 }

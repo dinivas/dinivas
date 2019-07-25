@@ -15,11 +15,13 @@ export class ApiInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    request = request.clone({
-      setHeaders: {
-        'X-Dinivas-Project-Id': this.storage.get('dinivas-projectId')
-      }
-    });
+    if (this.storage.has('dinivas-projectId')){
+      request = request.clone({
+        setHeaders: {
+          'X-Dinivas-Project-Id': this.storage.get('dinivas-projectId')
+        }
+      });
+    }
     return next.handle(request);
   }
 }
