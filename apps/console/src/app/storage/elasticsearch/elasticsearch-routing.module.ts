@@ -1,13 +1,13 @@
-import { CloudproviderListComponent } from './cloudprovider-list/cloudprovider-list.component';
+import { ElasticsearchComponent } from './elasticsearch.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: CloudproviderListComponent },
+  {path: '', component: ElasticsearchComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CloudproviderRoutingModule { }
+export class ElasticsearchRoutingModule { }

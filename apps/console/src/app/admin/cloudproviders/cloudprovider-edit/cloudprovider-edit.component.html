@@ -1,0 +1,41 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <button mat-icon-button color="primary" [routerLink]="['/admin/cloudproviders']" queryParamsHandling="merge">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span
+    class="page-title">{{ cloudprovider ? 'Edit Cloud provider ' + cloudprovider.name : 'New Cloud provider to add'}}</span>
+</mat-toolbar>
+<div class="form-container">
+  <form [formGroup]="cloudproviderForm" *ngIf="cloudproviderForm" (ngSubmit)="submit(cloudproviderForm.value)">
+    <div class="mat-form-container" fxLayout="column">
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Cloud type</mat-label>
+        <mat-select formControlName="cloud" required>
+          <mat-option *ngFor="let cloudType of cloudTypes" [value]="cloudType.code"
+            [disabled]="cloudType.code != 'openstack'">
+            {{ cloudType.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="2"></textarea>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Config</mat-label>
+        <textarea matInput formControlName="config" rows=10 required></textarea>
+        <mat-hint *ngIf="cloudproviderForm.value.cloud === 'openstack'">For Openstack use the cloud.yaml file</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="actions">
+      <button mat-button [routerLink]="['/admin', 'cloudproviders']" queryParamsHandling="merge" type="button">Cancel</button>
+      <button mat-raised-button color="primary" class="ml-10" type="submit" [disabled]="!isFormValid()">
+        {{ cloudprovider ? "Update" : "Create" }}
+      </button>
+    </div>
+  </form>
+</div>

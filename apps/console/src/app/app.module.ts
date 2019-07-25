@@ -24,7 +24,7 @@ import { CoreModule } from './core/core.module';
     AuthModule,
     CoreModule,
     EcoFabSpeedDialModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [
     ConfirmationDialogComponent

@@ -69,10 +69,47 @@ mat-sidenav-container.global {
 
     .container {
       display: flex;
-      justify-content: flex-end;
+      padding: 10px 20px;
+
+      .resources-container {
+        display: flex;
+        justify-content: space-between;
+        flex: 3;
+        .provider {
+          width: 200px;
+          height: 25px;
+          flex: 1;
+          &.openstack {
+            background: url('../assets/icons/openstack-horizontal.svg')
+              no-repeat center;
+          }
+        }
+        .quota {
+          flex: 1;
+          margin: 0px 15px;
+          span.type {
+            margin-right: 10px;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 500;
+          }
+          span.in-use {
+            font-size: 22px;
+            font-weight: 600;
+            margin-right: 5px;
+            color: #00695c;
+          }
+          span.limit {
+            font-size: 20px;
+            font-weight: 500;
+            margin-left: 5px;
+          }
+        }
+      }
       .copyright {
-        font-weight: 500;
-        font-size: 13px;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 3em;
       }
     }
   }

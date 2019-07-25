@@ -1,6 +1,10 @@
 import { HttpParams } from '@angular/common/http';
 import { ProjectsService } from './shared/project/projects.service';
-import { IServerInfo, ProjectDTO } from '@dinivas/dto';
+import {
+  IServerInfo,
+  ProjectDTO,
+  ICloudApiProjectQuotaDetail
+} from '@dinivas/dto';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 import { Component, Inject } from '@angular/core';
@@ -28,6 +32,10 @@ export class AppComponent {
   serverInfo: IServerInfo;
   routerLinkActiveOptionsExact: any = { exact: true };
   projects: ProjectDTO[];
+  ramQuota: ICloudApiProjectQuotaDetail;
+  coresQuota: ICloudApiProjectQuotaDetail;
+  instancesQuota: ICloudApiProjectQuotaDetail;
+  floatIpQuota: ICloudApiProjectQuotaDetail;
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -46,7 +54,15 @@ export class AppComponent {
           this.projects = data.items;
           this.projects
             .filter(p => p.id == params['project'])
-            .forEach(p => (this.currentProject = p));
+            .forEach(p => {
+              this.currentProject = p;
+              this.projectService.getProjectQuota(p.id).subscribe(quota => {
+                this.ramQuota = quota.ram;
+                this.coresQuota = quota.cores;
+                this.instancesQuota = quota.instances;
+                this.floatIpQuota = quota.floating_ips;
+              });
+            });
         });
     });
     if (await this.keycloakService.isLoggedIn()) {

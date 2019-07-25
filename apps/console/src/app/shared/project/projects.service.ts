@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ProjectDTO } from '@dinivas/dto';
+import { ProjectDTO, ICloudApiProjectQuota } from '@dinivas/dto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
@@ -28,6 +28,12 @@ export class ProjectsService {
 
   getOneProject(id: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/projects/${id}`);
+  }
+
+  getProjectQuota(id: number): Observable<ICloudApiProjectQuota> {
+    return this.http.get<ICloudApiProjectQuota>(
+      `${environment.apiUrl}/projects/quota/${id}`
+    );
   }
 
   deleteProject(id: number): Observable<any> {

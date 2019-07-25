@@ -18,7 +18,12 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
+          <div class="chart ram" *ngIf="pieChartRamData && card.id === 1">
+            <h4>Ram</h4>
+            <canvas baseChart [data]="pieChartRamData" [labels]="pieChartRamLabels" [chartType]="pieChartType"
+              [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartRamLegend">
+            </canvas>
+          </div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

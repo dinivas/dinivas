@@ -21,9 +21,9 @@ const routes: Routes = [
         canActivate: [MandatorySelectedProjectGuard]
       },
       {
-        path: 'cloudprovider',
+        path: 'cloudproviders',
         loadChildren:
-          './cloudprovider/cloudprovider.module#CloudproviderModule',
+          './cloudproviders/cloudproviders.module#CloudprovidersModule',
         canActivate: [MandatorySelectedProjectGuard]
       },
       { path: '', redirectTo: 'dashboard' }

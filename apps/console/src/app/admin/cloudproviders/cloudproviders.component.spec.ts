@@ -1,16 +1,16 @@
+import { CloudprovidersComponent } from './cloudproviders.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 
-import { CloudproviderListComponent } from './cloudprovider-list.component';
 
 describe('ListComponent', () => {
-  let component: CloudproviderListComponent;
-  let fixture: ComponentFixture<CloudproviderListComponent>;
+  let component: CloudprovidersComponent;
+  let fixture: ComponentFixture<CloudprovidersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CloudproviderListComponent ],
+      declarations: [ CloudprovidersComponent ],
       imports: [
         NoopAnimationsModule,
         MatPaginatorModule,
@@ -21,7 +21,7 @@ describe('ListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CloudproviderListComponent);
+    fixture = TestBed.createComponent(CloudprovidersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

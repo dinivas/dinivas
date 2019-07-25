@@ -1,23 +1,22 @@
-import { AlertService } from './../../../core/alert/alert.service';
-import { FilterType } from './../../../core/entity/filter-bar/filter';
+import { Router } from '@angular/router';
+import { AlertService } from '../../core/alert/alert.service';
+import { FilterType } from '../../core/entity/filter-bar/filter';
 import { Observable, Observer } from 'rxjs/';
 import { HttpParams } from '@angular/common/http';
-import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
-import { DataProvider } from './../../../core/entity/mat-crud/data-provider';
-import { MatCrudComponent } from './../../../core/entity/mat-crud/mat-crud.component';
-import { ColumnDef } from './../../../core/entity/mat-crud/column-def';
-import { CloudproviderService } from './../../../shared/cloudprovider/cloudprovider.service';
+import { ConfirmDialogService } from '../../core/dialog/confirm-dialog/confirm-dialog.service';
+import { DataProvider } from '../../core/entity/mat-crud/data-provider';
+import { MatCrudComponent } from '../../core/entity/mat-crud/mat-crud.component';
+import { ColumnDef } from '../../core/entity/mat-crud/column-def';
+import { CloudproviderService } from '../../shared/cloudprovider/cloudprovider.service';
 import { CloudproviderDTO } from '@dinivas/dto';
-import { CloudproviderDialogComponent } from './../cloudprovider-dialog/cloudprovider-dialog.component';
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
 
 @Component({
-  selector: 'dinivas-cloudprovider-list',
-  templateUrl: './cloudprovider-list.component.html',
-  styleUrls: ['./cloudprovider-list.component.scss']
+  selector: 'dinivas-cloudproviders',
+  templateUrl: './cloudproviders.component.html',
+  styleUrls: ['./cloudproviders.component.scss']
 })
-export class CloudproviderListComponent extends MatCrudComponent
+export class CloudprovidersComponent extends MatCrudComponent
   implements DataProvider<CloudproviderDTO> {
   filterPlaceholder = 'Filter';
   dataProvider = this;
@@ -27,10 +26,10 @@ export class CloudproviderListComponent extends MatCrudComponent
   columnDefs: Array<ColumnDef>;
 
   constructor(
-    private dialog: MatDialog,
     private readonly cloudproviderService: CloudproviderService,
     public confirmDialog: ConfirmDialogService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private readonly router: Router
   ) {
     super(confirmDialog);
     this.columnDefs = [
@@ -60,18 +59,9 @@ export class CloudproviderListComponent extends MatCrudComponent
   }
 
   addCloudProvider() {
-    const addEntityDialogRef = this.dialog.open(CloudproviderDialogComponent, {
-      width: '500px'
+    this.router.navigate(['/admin/cloudproviders/new'], {
+      preserveQueryParams: true
     });
-
-    addEntityDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          this.refreshDatas();
-        }
-      },
-      err => console.log(err)
-    );
   }
 
   deleteSelected(selection: any[]): Observable<any> {
@@ -83,21 +73,7 @@ export class CloudproviderListComponent extends MatCrudComponent
 
   entityCanEdit = (cloudproviderDTO: CloudproviderDTO) => true;
 
-  entityEdit(cloudproviderDTO: CloudproviderDTO) {
-    const addEntityDialogRef = this.dialog.open(CloudproviderDialogComponent, {
-      width: '500px',
-      data: cloudproviderDTO
-    });
-
-    addEntityDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          this.refreshDatas();
-        }
-      },
-      err => console.log(err)
-    );
-  }
+  entityEdit(cloudproviderDTO: CloudproviderDTO) {}
 
   checkConnection(cloudproviderDTO: CloudproviderDTO) {
     this.cloudproviderService

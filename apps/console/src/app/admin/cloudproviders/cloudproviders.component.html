@@ -1,3 +1,6 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <span class="page-title">Cloud providers</span>
+</mat-toolbar>
 <mat-card class="entity-table-card">
   <mat-card-header>
   </mat-card-header>
@@ -52,11 +55,12 @@
         <th mat-header-cell *matHeaderCellDef class="action-cell ">
         </th>
         <td mat-cell *matCellDef="let entity" class="row-action edit-action">
-          <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entity.config" (click)="checkConnection(entity)">
+          <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entity.config"
+            (click)="checkConnection(entity)">
             <mat-icon matTooltip="Check connection" matTooltipPosition="left">replay</mat-icon>
           </a>
           <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
-            (click)="entityEdit(entity)">
+          [routerLink]="['/admin','cloudproviders', 'edit', entity.id]">
             <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
           </a>
           <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
