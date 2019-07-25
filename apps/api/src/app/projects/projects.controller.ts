@@ -1,5 +1,5 @@
-import { Pagination, ProjectDTO } from '@dinivas/dto';
-import { Roles } from './../auth/roles.decorator';
+import { Permissions } from './../auth/permissions.decorator';
+import { Pagination, ProjectDTO, ICloudApiProjectQuota } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ProjectsService } from './projects.service';
@@ -25,7 +25,7 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get()
-  @Roles('admin')
+  @Permissions('projects:list')
   async findAll(
     @Query('page') page: number = 0,
     @Query('limit') limit: number = 10,
@@ -40,25 +40,32 @@ export class ProjectsController {
   }
 
   @Get(':id')
-  @Roles('admin')
+  @Permissions('projects:view')
   async findOne(@Param('id') id: number): Promise<ProjectDTO> {
     return this.projectsService.findOne(id);
   }
 
+  @Get('quota/:id')
+  @Permissions('projects:view')
+  async projectQuota(@Param('id') id: number): Promise<ICloudApiProjectQuota> {
+    return this.projectsService.getProjectQuota(id);
+  }
+
   @Post()
-  @Roles('admin')
+  @Permissions('projects:create')
   create(@Body() project: ProjectDTO): Promise<ProjectDTO> {
     return this.projectsService.create(project);
   }
 
   @Put(':id')
+  @Permissions('projects:edit')
   async update(@Param('id') id: number, @Body() project: ProjectDTO) {
     this.logger.debug(`Updating project ${project.id} ${project.name}`);
     await this.projectsService.update(id, project);
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Permissions('projects:delete')
   async remove(@Param('id') id: number) {
     await this.projectsService.delete(id);
   }

@@ -1,10 +1,12 @@
+import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   ProjectDTO,
   paginate,
   IPaginationOptions,
-  Pagination
+  Pagination,
+  ICloudApiProjectQuota
 } from '@dinivas/dto';
 import { Project } from './project.entity';
 import { Injectable } from '@nestjs/common';
@@ -15,7 +17,8 @@ import { Terraform } from '../core/terraform';
 export class ProjectsService {
   constructor(
     @InjectRepository(Project)
-    private readonly projectRepository: Repository<Project>
+    private readonly projectRepository: Repository<Project>,
+    private cloudApiFactory: CloudApiFactory
   ) {}
 
   async findAll(
@@ -35,6 +38,19 @@ export class ProjectsService {
         relations: ['cloud_provider']
       })
     );
+  }
+
+  async getProjectQuota(id: number): Promise<ICloudApiProjectQuota> {
+    const project: Project =await this.projectRepository.findOne(id, {
+      relations: ['cloud_provider']
+    });
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      project.cloud_provider.cloud
+    );
+    return cloudApi.getProjectQuota(this.cloudApiFactory.getCloudApiConfig(
+      project.cloud_provider.cloud,
+      project.cloud_provider.config
+    ));
   }
 
   async create(projectDTO: ProjectDTO): Promise<ProjectDTO> {

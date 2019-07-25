@@ -11,12 +11,28 @@ export interface ICloudApiInfo {
   project_name: string;
 }
 
+// Project
+
+export interface ICloudApiProjectQuotaDetail {
+  in_use: number;
+  limit: number;
+  reserved: number;
+}
+
+export interface ICloudApiProjectQuota {
+  id: string;
+  instances: ICloudApiProjectQuotaDetail;
+  cores: ICloudApiProjectQuotaDetail;
+  ram: ICloudApiProjectQuotaDetail;
+  floating_ips: ICloudApiProjectQuotaDetail;
+}
+
 // Instance
 
 export interface ICloudApiInstanceAdress {
   addr: string;
   type: string;
-  version: string
+  version: string;
 }
 
 export interface ICloudApiInstance {
@@ -24,10 +40,9 @@ export interface ICloudApiInstance {
   name: string;
   status: string;
   adresses: ICloudApiInstanceAdress[];
-  keys: string[],
+  keys: string[];
   created_date: string;
-  updated_date: string
-
+  updated_date: string;
 }
 
 export interface ICloudApiImage {
@@ -38,9 +53,9 @@ export interface ICloudApiImage {
   size: number;
   status: string;
   min_disk: number;
-  visibility: string,
-  date: string,
-  tags: string[]
+  visibility: string;
+  date: string;
+  tags: string[];
 }
 
 // Disks
@@ -57,6 +72,7 @@ export interface ICloudApiDisk {
 
 export interface ICloudApi {
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo>;
+  getProjectQuota(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectQuota>;
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
   getAllImages(loudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
   getAllDisks(loudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;

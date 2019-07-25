@@ -6,7 +6,8 @@ import {
   ICloudApiInstance,
   ICloudApiImage,
   ICloudApiInstanceAdress,
-  ICloudApiDisk
+  ICloudApiDisk,
+  ICloudApiProjectQuota
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
@@ -20,6 +21,29 @@ export class OpenstackApiService implements ICloudApi {
       });
     });
   }
+
+  getProjectQuota(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectQuota> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.getQuotaSet(`${cloudConfig.project_id}/detail`,(error, quota_set) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({
+            id: quota_set.id,
+            instances: quota_set.instances,
+            cores: quota_set.cores,
+            ram: quota_set.ram,
+            floating_ips: quota_set.floating_ips
+          });
+        }
+      });
+    });
+  }
+
+
+
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]> {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {
       project.nova.listServers((error, servers_array: any[]) => {
