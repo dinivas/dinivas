@@ -17,7 +17,6 @@
     "baseUrl": ".",
     "paths": {
       "@dinivas/material": ["libs/material/src/index.ts"],
-      "@dinivas/auth": ["libs/auth/src/index.ts"],
       "@dinivas/common-ui": ["libs/common-ui/src/index.ts"],
       "@dinivas/model": ["libs/model/src/index.ts"],
       "@dinivas/dto": ["libs/dto/src/index.ts"]

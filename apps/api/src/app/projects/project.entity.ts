@@ -24,9 +24,9 @@ export class Project {
   @JoinColumn()
   cloud_provider: Cloudprovider;
   @Column()
-  monitoring: boolean;
+  monitoring: boolean = false;
   @Column()
-  logging: boolean;
+  logging: boolean = false;
   @Column()
   logging_stack: string;
 }

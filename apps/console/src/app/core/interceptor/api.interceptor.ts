@@ -5,20 +5,22 @@ import {
   HttpEvent
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StorageService, LOCAL_STORAGE } from 'ngx-webstorage-service';
-import { Inject } from '@angular/core';
+import { LocalStorageService } from 'ngx-webstorage';
+import { CONSTANT } from '@dinivas/dto';
 
 export class ApiInterceptor implements HttpInterceptor {
-  constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {}
+  constructor(private storage: LocalStorageService) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.storage.has('dinivas-projectId')){
+    if (this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)) {
       request = request.clone({
         setHeaders: {
-          'X-Dinivas-Project-Id': this.storage.get('dinivas-projectId')
+          'X-Dinivas-Project-Id': this.storage.retrieve(
+            CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY
+          )
         }
       });
     }

@@ -1,5 +1,4 @@
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -8,6 +7,8 @@ import {
   Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from 'ngx-webstorage';
+import { CONSTANT } from '@dinivas/dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,7 @@ import { Observable } from 'rxjs';
 export class MandatorySelectedProjectGuard implements CanActivate {
   lastProjectId: any;
 
-  constructor(
-    private router: Router,
-    @Inject(LOCAL_STORAGE) private storage: StorageService
-  ) {}
+  constructor(private router: Router, private storage: LocalStorageService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -41,7 +39,7 @@ export class MandatorySelectedProjectGuard implements CanActivate {
       return false;
     }
     if (!next.queryParams['redirected']) {
-      this.storage.set('dinivas-projectId', this.lastProjectId);
+      this.storage.store(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY, this.lastProjectId);
       this.router.navigate([state.url], {
         queryParams: {
           project: this.lastProjectId,

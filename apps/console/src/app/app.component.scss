@@ -27,7 +27,9 @@ mat-sidenav-container.global {
   z-index: 99;
 
   .mat-sidenav {
-    padding: $toolbar-height 0px;
+    padding: $toolbar-height 0px 0px;
+    margin-bottom: $toolbar-height;
+    border-bottom: 1px solid rgb(211, 211, 211);
 
     .mat-nav-list {
       .mat-list-item.active {
@@ -89,7 +91,7 @@ mat-sidenav-container.global {
           flex: 1;
           margin: 0px 15px;
           span.type {
-            margin-right: 10px;
+            margin-right: 5px;
             text-transform: uppercase;
             font-size: 10px;
             font-weight: 500;
@@ -97,13 +99,16 @@ mat-sidenav-container.global {
           span.in-use {
             font-size: 16px;
             font-weight: 600;
-            margin-right: 5px;
+            margin-right: 3px;
             color: #00695c;
           }
           span.limit {
             font-size: 14px;
             font-weight: 500;
-            margin-left: 5px;
+            margin-left: 2px;
+          }
+          small {
+            font-size: 75%;
           }
         }
       }

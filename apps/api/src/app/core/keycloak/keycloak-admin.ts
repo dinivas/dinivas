@@ -1,5 +1,5 @@
+import { ConfigService } from './../config/config.service';
 import { Injectable } from '@nestjs/common';
-import { environment } from './../../../environments/environment';
 import * as adminClient from 'keycloak-admin-client';
 import * as getToken from 'keycloak-request-token';
 import * as request from 'request-promise-native';
@@ -8,18 +8,18 @@ import * as request from 'request-promise-native';
 export class KeycloakAdmin {
   config: any;
   request: KeyCloakAdminRequest;
-  constructor() {
-    this.config = KeycloakAdmin.createAdminClientConfig();
+  constructor(private configService: ConfigService) {
+    this.config = this.createAdminClientConfig();
     this.request = new KeyCloakAdminRequest(this.config);
   }
 
-  static createAdminClientConfig() {
+  createAdminClientConfig() {
     return {
-      realm: environment.keyCloakConfig.realm,
-      baseUrl: environment.keyCloakConfig['auth-server-url'],
-      resource: environment.keyCloakConfig.resource,
-      username: environment.keycloakAdmin.username,
-      password: environment.keycloakAdmin.password,
+      realm: this.configService.getKeycloakConfig().realm,
+      baseUrl: this.configService.getKeycloakConfig()['auth-server-url'],
+      resource: this.configService.getKeycloakConfig().resource,
+      username: this.configService.get('keycloak.admin.username'),
+      password: this.configService.get('keycloak.admin.password'),
       grant_type: 'password',
       client_id: 'admin-cli'
     };

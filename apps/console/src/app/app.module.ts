@@ -1,8 +1,8 @@
+import { AuthModule } from './auth/auth.module';
 import { CloudproviderService } from './shared/cloudprovider/cloudprovider.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonUiModule } from '@dinivas/common-ui';
 import { ApiInfoService } from './api-info.service';
-import { AuthModule } from '@dinivas/auth';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { EcoFabSpeedDialModule } from "@ecodev/fab-speed-dial";

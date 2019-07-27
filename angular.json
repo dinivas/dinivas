@@ -33,6 +33,14 @@
             "scripts": []
           },
           "configurations": {
+            "serveo": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/console/src/environments/environment.ts",
+                  "with": "apps/console/src/environments/environment.serveo.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -141,6 +149,17 @@
             "assets": ["apps/api/src/assets"]
           },
           "configurations": {
+            "serveo": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.serveo.ts"
+                }
+              ]
+            },
             "production": {
               "optimization": true,
               "extractLicenses": true,
@@ -201,31 +220,6 @@
           "options": {
             "jestConfig": "libs/material/jest.config.js",
             "tsConfig": "libs/material/tsconfig.spec.json"
-          }
-        }
-      }
-    },
-    "auth": {
-      "root": "libs/auth",
-      "sourceRoot": "libs/auth/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/auth/tsconfig.lib.json",
-              "libs/auth/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/auth/jest.config.js",
-            "tsConfig": "libs/auth/tsconfig.spec.json"
           }
         }
       }

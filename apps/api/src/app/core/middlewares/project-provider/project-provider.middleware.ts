@@ -1,17 +1,27 @@
 import { ProjectsService } from '../../../projects/projects.service';
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { ProjectDTO } from '@dinivas/dto';
+import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
+import { ProjectDTO, CONSTANT } from '@dinivas/dto';
 
 @Injectable()
 export class ProjectProviderMiddleware implements NestMiddleware {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  async use(req: Request, res: Response, next: Function) {
-    if (req.headers['x-dinivas-project-id']) {
-      const projectDTO: ProjectDTO = await this.projectsService.findOne(
-        req.headers['x-dinivas-project-id']
-      );
-      req['project'] = projectDTO;
+  async use(req: any, res: Response, next: Function) {
+    if (req.headers[CONSTANT.HTTP_HEADER_PROJECT_ID.toLowerCase()]) {
+      try {
+        const projectDTO: ProjectDTO = await this.projectsService.findOne(
+          req.headers[CONSTANT.HTTP_HEADER_PROJECT_ID]
+        );
+        req['project'] = projectDTO;
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          req.res.header(
+            CONSTANT.HTTP_HEADER_PROJECT_UNKNOWN,
+            req.headers[CONSTANT.HTTP_HEADER_PROJECT_ID]
+          );
+          throw error;
+        }
+      }
     }
     next();
   }

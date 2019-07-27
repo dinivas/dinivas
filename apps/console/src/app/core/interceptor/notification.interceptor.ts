@@ -1,4 +1,3 @@
-import { Injectable, Injector } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
@@ -10,12 +9,20 @@ import {
 import { AlertService } from '../alert/alert.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
+import { CONSTANT } from '@dinivas/dto';
 
 export class NotificationInterceptor implements HttpInterceptor {
-  private alertService: AlertService;
-
-  constructor(private injector: Injector) {
-    setTimeout(() => (this.alertService = injector.get(AlertService)));
+  constructor(
+    private alertService: AlertService,
+    private router: Router,
+    private storage: LocalStorageService
+  ) {
+    setTimeout(() => {
+      //this.alertService = injector.get(AlertService);
+      //injector.get(StorageService)
+    });
   }
 
   intercept(
@@ -36,20 +43,25 @@ export class NotificationInterceptor implements HttpInterceptor {
         (event: HttpEvent<any>) => {
           if (
             event instanceof HttpErrorResponse &&
-            event.headers.has('X-Dinivas-Auth-Error')
+            event.headers.has(CONSTANT.HTTP_HEADER_AUTH_ERROR)
           ) {
             const alertMessage = `[${event.status}] ${event.headers.get(
-              'X-Dinivas-Auth-Error'
+              CONSTANT.HTTP_HEADER_AUTH_ERROR
             )}, missing permissions: ${event.headers.get(
-              'X-Dinivas-Auth-Required-Permissions'
+              CONSTANT.HTTP_HEADER_AUTH_REQUIRED_PERMISSIONS
             )}`;
             this.alertService.error(alertMessage);
           } else if (
             event instanceof HttpErrorResponse &&
-            event.headers.has('X-yacraApp-alert')
+            event.headers.has(CONSTANT.HTTP_HEADER_PROJECT_UNKNOWN)
           ) {
-            const alertKey = event.headers.get('X-yacraApp-alert');
-            this.alertService.error(alertKey);
+            this.alertService.error(
+              `The project with id: ${event.headers.get(
+                CONSTANT.HTTP_HEADER_PROJECT_UNKNOWN
+              )} does not exist!`
+            );
+            this.storage.clear(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
+            this.router.navigate(['/']);
           } else if (
             event instanceof HttpErrorResponse &&
             event.status &&
@@ -57,7 +69,7 @@ export class NotificationInterceptor implements HttpInterceptor {
           ) {
             this.alertService.error(
               `[${event.status}] ${event.statusText} ${
-                event.error ? event.error.error : ''
+                event.message ? event.message : ''
               }`
             );
           }

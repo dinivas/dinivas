@@ -3,7 +3,8 @@ import { ProjectsService } from './shared/project/projects.service';
 import {
   IServerInfo,
   ProjectDTO,
-  ICloudApiProjectQuotaDetail
+  ICloudApiProjectQuotaDetail,
+  CONSTANT
 } from '@dinivas/dto';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
@@ -17,7 +18,7 @@ import {
   NavigationEnd,
   NavigationError
 } from '@angular/router';
-import { StorageService, LOCAL_STORAGE } from 'ngx-webstorage-service';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'dinivas-root',
@@ -43,7 +44,7 @@ export class AppComponent {
     private projectService: ProjectsService,
     private router: Router,
     private route: ActivatedRoute,
-    @Inject(LOCAL_STORAGE) private storage: StorageService
+    private storage: LocalStorageService
   ) {}
 
   async ngOnInit() {
@@ -121,7 +122,7 @@ export class AppComponent {
       (project && project.id != this.currentProject.id)
     ) {
       this.currentProject = project;
-      this.storage.set('dinivas-projectId', this.currentProject.id);
+      this.storage.store(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY, this.currentProject.id);
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { project: this.currentProject.id },

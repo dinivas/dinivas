@@ -14,6 +14,16 @@ export const environment = {
   }
 };
 
+// export const environment = {
+//   production: false,
+//   apiUrl: 'http://api.dinivas.serveo.net/api/v1',
+//   keycloak: {
+//     url: 'http://auth.dinivas.serveo.net/auth',
+//     realm: 'dinivas',
+//     clientId: 'dinivas-console'
+//   }
+// };
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -1,18 +1,24 @@
-<h1 mat-dialog-title>{{ projects && projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}</h1>
+<h1 mat-dialog-title>
+  {{ projects && projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}
+</h1>
 <div mat-dialog-content>
   <mat-nav-list dense *ngIf="projects && projects.length > 0">
-    <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}" (click)="onCancelClick(project)" *ngFor="let project of projects">
+    <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}"
+      (click)="onCancelClick(project)" *ngFor="let project of projects">
       {{ project.code }} - {{ project.name }}
     </a>
   </mat-nav-list>
-  <button mat-raised-button color="primary" *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0" [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
+  <button mat-raised-button color="primary"
+    *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0"
+    [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
     <!-- No project found  -->
     Create the first project
   </button>
-  <button mat-raised-button color="primary" *ngIf="projects && projects?.length === 0 && cloudproviders?.length === 0" [routerLink]="['/admin/cloudproviders/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
-      <!-- No project found  -->
-      Create the first Cloudprovider
-    </button>
+  <button mat-raised-button color="primary" *ngIf="projects && projects?.length === 0 && cloudproviders?.length === 0"
+    [routerLink]="['/admin/cloudproviders/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
+    <!-- No project found  -->
+    Create the first Cloudprovider
+  </button>
 </div>
 <!-- <div mat-dialog-actions class="" align="end">
   <button type="button" mat-button (click)="onCancelClick()" >Cancel</button>

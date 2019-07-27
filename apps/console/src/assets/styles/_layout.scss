@@ -2,11 +2,11 @@
 
 .container {
   @include center-block;
-  @include screen('tablet') {
+  @include for-tablet-landscape-up {
     width: 90%;
     padding: 15px 10px;
   }
-  @include screen('desktop') {
+  @include for-big-desktop-up {
     width: 75%;
     padding: 20px 10px;
   }
