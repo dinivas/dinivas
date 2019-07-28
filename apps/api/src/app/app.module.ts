@@ -1,4 +1,10 @@
-import { AuthzMiddleware } from './core/middlewares/authz/authz.middleware';
+import { TerraformState } from './terraform/terraform-state/terraform-state.entity';
+import { IamController } from './iam/iam.controller';
+import { InstancesController } from './compute/instances/instances.controller';
+import { DisksController } from './compute/disks/disks.controller';
+import { ProjectsController } from './projects/projects.controller';
+import { ImagesController } from './compute/images/images.controller';
+import { CloudproviderController } from './cloudprovider/cloudprovider.controller';
 import { Keycloak } from './auth/keycloak';
 import { ProjectProviderMiddleware } from './core/middlewares/project-provider/project-provider.middleware';
 import { Project } from './projects/project.entity';
@@ -19,6 +25,7 @@ import { CloudproviderModule } from './cloudprovider/cloudprovider.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
 import { IamModule } from './iam/iam.module';
+import { TerraformModule } from './terraform/terraform.module';
 
 const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
 
@@ -26,12 +33,13 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
   imports: [
     TypeOrmModule.forRoot({
       ...ormConfigJson,
-      entities: [Cloudprovider, Project]
+      entities: [Cloudprovider, Project, TerraformState]
     }),
     ComputeModule,
     CloudproviderModule,
     ProjectsModule,
-    IamModule
+    IamModule,
+    TerraformModule
   ],
   controllers: [InfoController],
   providers: [
@@ -55,8 +63,8 @@ export class AppModule implements NestModule {
       .forRoutes('/*')
       .apply(ProjectProviderMiddleware)
       .forRoutes('/*');
-      //.apply(CsurfMiddleware)
-      //.forRoutes('/*');
+    //.apply(CsurfMiddleware)
+    //.forRoutes('/*');
     if (!environment.production) {
       MorganMiddleware.configure('dev');
       consumer.apply(MorganMiddleware).forRoutes('/*');
@@ -64,7 +72,15 @@ export class AppModule implements NestModule {
     // Keycloak Sso middleware
     consumer
       .apply(Keycloak.middleware(), Keycloak.checkSso())
-      .forRoutes('/*');
+      .forRoutes(
+        CloudproviderController,
+        ImagesController,
+        ProjectsController,
+        DisksController,
+        InstancesController,
+        IamController,
+        InfoController
+      );
 
     // Keycloak Authz middleware
     //consumer

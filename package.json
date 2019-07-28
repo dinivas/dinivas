@@ -59,6 +59,7 @@
     "@nestjs/swagger": "^3.1.0",
     "@nestjs/typeorm": "^6.1.2",
     "@nrwl/angular": "^8.1.2",
+    "@types/express": "^4.17.0",
     "angular-pipes": "^9.0.2",
     "chart.js": "^2.8.0",
     "config": "^3.2.2",
