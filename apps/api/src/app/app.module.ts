@@ -1,3 +1,6 @@
+import { statusMonitorConfig } from './utils/status-monitor';
+import { CoreModule } from './core/core.module';
+import { StatusMonitorModule } from 'nest-status-monitor';
 import { TerraformState } from './terraform/terraform-state/terraform-state.entity';
 import { IamController } from './iam/iam.controller';
 import { InstancesController } from './compute/instances/instances.controller';
@@ -12,9 +15,14 @@ import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { AuthzGuard } from './auth/authz.guard';
 import { environment } from './../environments/environment';
 import { InfoController } from './info.controller';
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod
+} from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { HelmetMiddleware } from '@nest-middlewares/helmet';
+import { HelmetMiddleware, HelmetContentSecurityPolicyMiddleware } from '@nest-middlewares/helmet';
 import { CompressionMiddleware } from '@nest-middlewares/compression';
 import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
 import { CsurfMiddleware } from '@nest-middlewares/csurf';
@@ -39,7 +47,9 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
     CloudproviderModule,
     ProjectsModule,
     IamModule,
-    TerraformModule
+    TerraformModule,
+    CoreModule,
+    StatusMonitorModule.setUp(statusMonitorConfig)
   ],
   controllers: [InfoController],
   providers: [
@@ -52,11 +62,24 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
-    HelmetMiddleware.configure({});
+    HelmetMiddleware.configure({
+      frameguard: {
+        action: 'allow-from',
+        domain: 'http://localhost:4200'
+      }
+    });
+    HelmetContentSecurityPolicyMiddleware.configure({
+      directives: {
+        defaultSrc: ["'self'", 'localhost', 'cdnjs.cloudflare.com'],
+        styleSrc: ["'self'",'localhost' ,'cdnjs.cloudflare.com'],
+        frameSrc: ["'self'", 'localhost:4200'],
+      }});
     CsurfMiddleware.configure({ cookie: true });
     consumer
       .apply(HelmetMiddleware)
       .forRoutes('/*')
+      //.apply(HelmetContentSecurityPolicyMiddleware)
+      //.forRoutes('/*')
       .apply(CompressionMiddleware)
       .forRoutes('/*')
       .apply(CookieParserMiddleware)

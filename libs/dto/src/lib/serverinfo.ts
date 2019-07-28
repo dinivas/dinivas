@@ -8,9 +8,22 @@ export interface IServerInfo {
   gitInfo?: IGitInfo;
 }
 
+export interface ITerraformModuleInfo {
+  name: string;
+  type: string;
+  provider: string;
+  url: string;
+}
+
+export interface ITerraformInfo {
+  modules: ITerraformModuleInfo[];
+}
+
+
 export class ServerInfo implements IServerInfo {
-  constructor(public version?: string, public gitInfo?: IGitInfo) {
+  constructor(public version?: string, public gitInfo?: IGitInfo, public terraform?: ITerraformInfo) {
     this.version = version;
     this.gitInfo = gitInfo;
+    this.terraform = terraform;
   }
 }

@@ -24,6 +24,7 @@ import {
 import { RouterModule, Router } from '@angular/router';
 import { NgMathPipesModule, BytesPipe } from 'angular-pipes';
 import locale from '@angular/common/locales/fr';
+import { SafePipe } from './pipes/safe.pipe';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import locale from '@angular/common/locales/fr';
     FilterBarComponent,
     FilterCriterionComponent,
     SelectedFilterPipe,
-    BytesPipe
+    BytesPipe,
+    SafePipe
   ],
   declarations: [
     SnackAlertSuccessComponent,
@@ -48,7 +50,8 @@ import locale from '@angular/common/locales/fr';
     FilterCriterionComponent,
     ConfirmDialogComponent,
     SelectProjectDialogComponent,
-    SelectProjectDialogEntryComponent
+    SelectProjectDialogEntryComponent,
+    SafePipe
   ],
   entryComponents: [
     SnackAlertSuccessComponent,

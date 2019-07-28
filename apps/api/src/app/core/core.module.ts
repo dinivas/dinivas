@@ -8,6 +8,6 @@ import { ConfigService } from './config/config.service';
   imports: [],
   controllers: [],
   providers: [OpenstackApiService, CloudApiFactory, KeycloakAdmin, ConfigService],
-  exports: [OpenstackApiService, CloudApiFactory, KeycloakAdmin]
+  exports: [OpenstackApiService, CloudApiFactory, KeycloakAdmin, ConfigService]
 })
 export class CoreModule {}

@@ -14,6 +14,6 @@ export class ApiInfoService {
   ) { }
 
   public getApiServerInfo(): Observable<IServerInfo> {
-    return this.httpClient.get<IServerInfo>(`${environment.apiUrl}/info`);
+    return this.httpClient.get<IServerInfo>(`${environment.apiUrl}/server-info`);
   }
 }

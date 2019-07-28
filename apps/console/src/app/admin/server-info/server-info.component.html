@@ -1,2 +1,35 @@
-<h2>Dinivas</h2>
-<p>{{ serverInfo | json }}</p>
+<mat-toolbar class="mat-toolbar header-toolbar">
+    <span class="page-title">Dinivas <small class="ml-10"><small>version:</small> {{ serverInfo?.version }}</small>
+    </span>
+</mat-toolbar>
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Git Infos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <dl>
+                <dt>Branch</dt>
+                <dd>{{ serverInfo?.gitInfo?.branch }}</dd>
+
+                <dt>Sha</dt>
+                <dd>{{ serverInfo?.gitInfo?.branch }}</dd>
+            </dl>
+        </mat-card-content>
+    </mat-card>
+    <h3>Terraform modules</h3>
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let module of serverInfo?.terraform.modules" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ module.name }}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{ module.provider }}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            {{ module.type }} - <a [href]="module.url">{{ module.url }}</a>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

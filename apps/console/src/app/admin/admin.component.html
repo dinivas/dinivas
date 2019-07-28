@@ -8,8 +8,10 @@
   <a mat-tab-link routerLinkActive #rlaCloudprovider="routerLinkActive" [active]="rlaCloudprovider.isActive"
     routerLink="cloudproviders">Cloud providers</a>
   <a mat-tab-link routerLinkActive #rlaServerInfo="routerLinkActive" [active]="rlaServerInfo.isActive"
-    routerLink="serverinfo">Server infos</a>
+    routerLink="server-info">Server infos</a>
+  <a mat-tab-link routerLinkActive #rlaServerMonitorStatus="routerLinkActive" [active]="rlaServerMonitorStatus.isActive"
+    routerLink="server-monitor-status">Server Monitor status</a>
 </nav>
-<div class="container">
+<div class="">
   <router-outlet></router-outlet>
 </div>

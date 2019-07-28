@@ -1,3 +1,4 @@
+import { ApiUseTags } from '@nestjs/swagger';
 import { TerraformStateService } from './terraform-state.service';
 import {
   Controller,
@@ -8,11 +9,15 @@ import {
   Req,
   Logger,
   Query,
-  Res
+  Res,
+  UseGuards
 } from '@nestjs/common';
-import { Request, Response, response } from 'express';
+import { Request, Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
+@ApiUseTags('Projects')
 @Controller('terraform/state')
+@UseGuards(AuthGuard('terraform-state-basic'))
 export class TerraformStateController {
   private readonly logger = new Logger(TerraformStateController.name);
 
@@ -20,7 +25,6 @@ export class TerraformStateController {
 
   @Get()
   async getState(
-    @Req() request: Request,
     @Query('projectId') projectId: number,
     @Query('module') moduleName: string
   ): Promise<any> {

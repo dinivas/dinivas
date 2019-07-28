@@ -1,19 +1,24 @@
-import { ServerInfo, IGitInfo } from '@dinivas/dto';
-import { Roles } from './auth/roles.decorator';
+import { ConfigService } from './core/config/config.service';
+import {
+  ServerInfo,
+  IGitInfo,
+  ITerraformInfo,
+  ITerraformModuleInfo
+} from '@dinivas/dto';
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthzGuard } from 'apps/api/src/app/auth/authz.guard';
 
-@ApiUseTags('info')
+@ApiUseTags('server-info')
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
-@Controller('info')
+@Controller('server-info')
 export class InfoController {
   getGitRepoInfo: any;
   gitInfo: any;
   packageInfo: string;
 
-  constructor() {
+  constructor(private configService: ConfigService) {
     const getGitRepoInfo = require('git-repo-info');
     this.gitInfo = getGitRepoInfo();
     const packageJson = {
@@ -23,12 +28,19 @@ export class InfoController {
     this.packageInfo = `${packageJson.name}-${packageJson.version}`;
   }
   @Get()
-  @Roles('admin')
   apiInfo(): any {
-    return new ServerInfo(`${this.packageInfo}`, <IGitInfo>{
-      branch: this.gitInfo.branch,
-      sha: this.gitInfo.sha,
-      abbreviatedSha: this.gitInfo.abbreviatedSha
-    });
+    return new ServerInfo(
+      `${this.packageInfo}`,
+      <IGitInfo>{
+        branch: this.gitInfo.branch,
+        sha: this.gitInfo.sha,
+        abbreviatedSha: this.gitInfo.abbreviatedSha
+      },
+      <ITerraformInfo>{
+        modules: this.configService.get(
+          'terraform.modules'
+        ) as ITerraformModuleInfo[]
+      }
+    );
   }
 }

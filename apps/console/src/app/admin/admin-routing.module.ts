@@ -1,3 +1,4 @@
+import { ServerMonitorStatusComponent } from './server-monitor-status/server-monitor-status.component';
 import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { ServerInfoComponent } from './server-info/server-info.component';
 import { AdminComponent } from './admin.component';
@@ -16,8 +17,13 @@ const routes: Routes = [
         canActivate: [MandatorySelectedProjectGuard]
       },
       {
-        path: 'serverinfo',
+        path: 'server-info',
         component: ServerInfoComponent,
+        canActivate: [MandatorySelectedProjectGuard]
+      },
+      {
+        path: 'server-monitor-status',
+        component: ServerMonitorStatusComponent,
         canActivate: [MandatorySelectedProjectGuard]
       },
       {
