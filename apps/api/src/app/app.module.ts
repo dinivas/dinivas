@@ -68,12 +68,12 @@ export class AppModule implements NestModule {
         domain: 'http://localhost:4200'
       }
     });
-    HelmetContentSecurityPolicyMiddleware.configure({
-      directives: {
-        defaultSrc: ["'self'", 'localhost', 'cdnjs.cloudflare.com'],
-        styleSrc: ["'self'",'localhost' ,'cdnjs.cloudflare.com'],
-        frameSrc: ["'self'", 'localhost:4200'],
-      }});
+    // HelmetContentSecurityPolicyMiddleware.configure({
+    //   directives: {
+    //     defaultSrc: ["'self'", 'localhost', 'cdnjs.cloudflare.com'],
+    //     styleSrc: ["'self'",'localhost' ,'cdnjs.cloudflare.com'],
+    //     frameSrc: ["'self'", 'localhost:4200'],
+    //   }});
     CsurfMiddleware.configure({ cookie: true });
     consumer
       .apply(HelmetMiddleware)

@@ -12,6 +12,7 @@ import { CloudproviderService } from './cloudprovider.service';
     CoreModule
   ],
   controllers: [CloudproviderController],
-  providers: [CloudproviderService]
+  providers: [CloudproviderService],
+  exports: [CloudproviderService]
 })
 export class CloudproviderModule {}

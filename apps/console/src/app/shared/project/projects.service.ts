@@ -15,14 +15,18 @@ export class ProjectsService {
     });
   }
 
-  createProject(cloudprovider: ProjectDTO): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/projects`, cloudprovider);
+  createProject(project: ProjectDTO): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/projects`, project);
   }
 
-  updateProject(cloudprovider: ProjectDTO): Observable<any> {
+  planProject(project: ProjectDTO): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/projects/plan`, project);
+  }
+
+  updateProject(project: ProjectDTO): Observable<any> {
     return this.http.put(
-      `${environment.apiUrl}/projects/${cloudprovider.id}`,
-      cloudprovider
+      `${environment.apiUrl}/projects/${project.id}`,
+      project
     );
   }
 

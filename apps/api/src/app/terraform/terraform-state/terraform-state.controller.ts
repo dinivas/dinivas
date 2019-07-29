@@ -25,15 +25,13 @@ export class TerraformStateController {
 
   @Get()
   async getState(
-    @Query('projectId') projectId: number,
+    @Query('projectCode') projectCode: string,
     @Query('module') moduleName: string
   ): Promise<any> {
     this.logger.debug(
-      `Receive get state query with params: projectId=${Number(
-        projectId
-      )}, module=${moduleName}`
+      `Receive get state query with params: projectCode=${projectCode}, module=${moduleName}`
     );
-    const state = await this.stateService.findState(projectId, moduleName);
+    const state = await this.stateService.findState(projectCode, moduleName);
     return JSON.parse(state.state);
   }
 
@@ -41,11 +39,11 @@ export class TerraformStateController {
   async updateState(
     @Req() request: Request,
     @Res() response: Response,
-    @Query('projectId') projectId: number,
+    @Query('projectCode') projectCode: string,
     @Query('module') moduleName: string
   ): Promise<any> {
     this.logger.debug(
-      `Receive update state query with params: projectId=${projectId}, module=${moduleName}`
+      `Receive update state query with params: projectCode=${projectCode}, module=${moduleName}`
     );
     const lockId = request.query.ID;
     if (lockId) {
@@ -55,7 +53,10 @@ export class TerraformStateController {
     }
 
     this.logger.debug(`checking for existing lock`);
-    const existingLock = await this.stateService.getLock(projectId, moduleName);
+    const existingLock = await this.stateService.getLock(
+      projectCode,
+      moduleName
+    );
 
     if (existingLock) {
       if (lockId !== existingLock.ID) {
@@ -79,7 +80,7 @@ export class TerraformStateController {
     }
 
     // Update state
-    await this.stateService.updateState(projectId, moduleName, request.body);
+    await this.stateService.updateState(projectCode, moduleName, request.body);
 
     // Send success
     response.status(200).end();
@@ -88,18 +89,18 @@ export class TerraformStateController {
   @Delete()
   deleteState(
     @Req() request: Request,
-    @Query('projectId') projectId: number,
+    @Query('projectCode') projectCode: string,
     @Query('module') moduleName: string
   ): Promise<any> {
     this.logger.debug(
-      `Receive delete state query with params: projectId=${projectId}, module=${moduleName}`
+      `Receive delete state query with params: projectCode=${projectCode}, module=${moduleName}`
     );
     return null;
   }
 
   @All()
   async lockOrUnlockState(
-    @Query('projectId') projectId: number,
+    @Query('projectCode') projectCode: string,
     @Query('module') module: string,
     @Req() request: Request,
     @Res() response: Response
@@ -107,7 +108,7 @@ export class TerraformStateController {
     // Decide if need lock or unlock
     if (request.method === 'LOCK') {
       this.logger.debug(`Receive lock query`);
-      const existingLock = await this.stateService.getLock(projectId, module);
+      const existingLock = await this.stateService.getLock(projectCode, module);
       if (existingLock) {
         this.logger.debug(`existing lock ${existingLock.ID} found`);
         response
@@ -120,13 +121,13 @@ export class TerraformStateController {
       // Lock it
       const newLock = request.body;
       this.logger.debug(`locking with ${newLock.ID}`);
-      await await this.stateService.lock(projectId, module, newLock);
+      await await this.stateService.lock(projectCode, module, newLock);
       this.logger.debug(`locked with ${newLock.ID}`);
       // Send success
       response.status(200).end();
     } else if (request.method === 'UNLOCK') {
       this.logger.debug(`Receive unlock query`);
-      const existingLock = await this.stateService.getLock(projectId, module);
+      const existingLock = await this.stateService.getLock(projectCode, module);
       if (!existingLock) {
         this.logger.debug(`no existing lock found, already unlocked`);
         response.status(409).end();
@@ -148,7 +149,7 @@ export class TerraformStateController {
 
       this.logger.debug(`unlocking`);
       // Unlock it
-      await this.stateService.unlock(projectId, module);
+      await this.stateService.unlock(projectCode, module);
 
       this.logger.debug(`unlocked`);
       // Send success

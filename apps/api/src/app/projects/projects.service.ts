@@ -1,3 +1,4 @@
+import { ConfigService } from './../core/config/config.service';
 import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,7 +12,6 @@ import {
 import { Project } from './project.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Terraform } from '../core/terraform';
 
 @Injectable()
 export class ProjectsService {
@@ -60,14 +60,6 @@ export class ProjectsService {
   async create(projectDTO: ProjectDTO): Promise<ProjectDTO> {
     const project: ProjectDTO = ProjectsService.toDTO(
       await this.projectRepository.save(projectDTO as Project)
-    );
-
-    const terraform = new Terraform();
-    await terraform.plan(
-      '/Users/chidi/.dinivas/workspace/terraform-os-shepherdcloud-base',
-      {
-        silent: false
-      }
     );
     return project;
   }

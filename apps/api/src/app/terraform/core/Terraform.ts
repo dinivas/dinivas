@@ -1,3 +1,5 @@
+import { Logger } from '@nestjs/common';
+import { ConfigService } from './../../core/config/config.service';
 import {
   Base,
   ApplyOptions,
@@ -15,9 +17,13 @@ import {
   ResourceCounts,
   ChangeTypes
 } from './Types';
+const fs = require('fs')
+const path = require('path');
 
-class Terraform extends Base {
-  constructor() {
+export class Terraform extends Base {
+
+  private readonly nestLogger = new Logger(Terraform.name);
+  constructor(private configService: ConfigService) {
     super('terraform', '-auto-approve');
     this.addTriggerWordForInteractiveMode(
       "Only 'yes' will be accepted to approve"
@@ -26,8 +32,10 @@ class Terraform extends Base {
       "Only 'yes' will be accepted to confirm"
     );
   }
-  public async init(path: string, options: ExecuteOptions = { silent: true }) {
-    await this.executeSync(path, 'init', { silent: options.silent });
+  public async init(path: string, commandLineArgs: string[], options: ExecuteOptions = { silent: true }) {
+    const commandToExecute = `init ${commandLineArgs.join(' ')}`;
+    this.nestLogger.debug(commandToExecute);
+    await this.executeSync(path, commandToExecute, { silent: options.silent });
   }
 
   public async output(
@@ -79,9 +87,12 @@ class Terraform extends Base {
 
   public async plan(
     path: string,
+    commandLineArgs: string[],
     options: ExecuteOptions = {}
   ): Promise<ResourceCounts> {
-    const { stdout } = await this.executeSync(path, 'plan', {
+    const commandToExecute = `plan ${commandLineArgs.join(' ')}`;
+    this.nestLogger.debug(commandToExecute);
+    const { stdout } = await this.executeSync(path, commandToExecute, {
       silent: options.silent || false
     });
     return this.parseResourceChanges(stdout, ChangeTypes.PLAN);
@@ -156,6 +167,41 @@ class Terraform extends Base {
       `Could not extract added, changed and destroyed count with regexp ${regexp} from command ${rawStringWithResourceChanges}`
     );
   }
-}
 
-export { Terraform };
+  addBackendConfigFileToModule(projectCode: string, module: string, destination: string) {
+    const backendContent = `
+    terraform {
+      required_version = ">= 0.12.2"
+      backend "http" {
+        address        = "http://localhost:${process.env.PORT || 3333}/api/v1/terraform/state?projectCode=${projectCode}&module=${module}"
+        lock_address   = "http://localhost:${process.env.PORT || 3333}/api/v1/terraform/state?projectCode=${projectCode}&module=${module}"
+        unlock_address = "http://localhost:${process.env.PORT || 3333}/api/v1/terraform/state?projectCode=${projectCode}&module=${module}"
+        username       = "${this.configService.get('terraform.state.username')}"
+        password       = "${this.configService.get('terraform.state.password')}"
+      }
+    }
+    `;
+    try {
+      fs.writeFileSync(path.join(destination, 'backend.tf'), backendContent);
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  addProviderConfigFileToModule(cloudConfig: any, destination: string) {
+    const providerContent = `
+    provider "openstack" {
+      user_name   = "${cloudConfig.clouds.openstack.auth.username}"
+      tenant_name = "${cloudConfig.clouds.openstack.auth.project_name}"
+      password    = "${cloudConfig.clouds.openstack.auth.password}"
+      auth_url    = "${cloudConfig.clouds.openstack.auth.auth_url}"
+      region      = "${cloudConfig.clouds.openstack.region_name}"
+    }
+    `;
+    try {
+      fs.writeFileSync(path.join(destination, 'provider.tf'), providerContent);
+    } catch (err) {
+      this.nestLogger.error(err)
+    }
+  }
+}

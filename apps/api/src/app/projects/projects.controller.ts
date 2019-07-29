@@ -1,3 +1,5 @@
+import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
+import { PlanProjectCommand } from './commands/impl/plan-project.command';
 import { Permissions } from './../auth/permissions.decorator';
 import { Pagination, ProjectDTO, ICloudApiProjectQuota } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
@@ -15,6 +17,9 @@ import {
   Query,
   Logger
 } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+
+import YAML from 'yaml';
 
 @ApiUseTags('Projects')
 @Controller('projects')
@@ -22,7 +27,11 @@ import {
 @UseGuards(AuthzGuard)
 export class ProjectsController {
   private readonly logger = new Logger(ProjectsController.name);
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(
+    private readonly projectsService: ProjectsService,
+    private readonly cloudproviderService: CloudproviderService,
+    private readonly commandBus: CommandBus
+  ) {}
 
   @Get()
   @Permissions('projects:list')
@@ -55,6 +64,24 @@ export class ProjectsController {
   @Permissions('projects:create')
   create(@Body() project: ProjectDTO): Promise<ProjectDTO> {
     return this.projectsService.create(project);
+  }
+
+  @Post('plan')
+  @Permissions('projects:create')
+  async planproject(@Body() project: ProjectDTO): Promise<ProjectDTO> {
+    const cloudprovider = await this.cloudproviderService.findOne(project.cloud_provider.id);
+    return this.commandBus.execute(
+      new PlanProjectCommand(
+        project.name,
+        project.code,
+        project.description,
+        project.monitoring,
+        project.logging,
+        project.logging_stack,
+        'public',
+        YAML.parse(cloudprovider.config)
+      )
+    );
   }
 
   @Put(':id')

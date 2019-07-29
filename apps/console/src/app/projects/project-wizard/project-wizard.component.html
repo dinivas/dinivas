@@ -1,0 +1,137 @@
+<h1 mat-dialog-title>{{ !project ? 'New project creation wizard' : 'Edit project wizard' }}</h1>
+<div mat-dialog-content>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+    <mat-step [completed]="projectPlanSubmited">
+      <div class="form-container">
+        <form [formGroup]="projectForm" (ngSubmit)="submit(projectForm.value)">
+          <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
+              resources</span></ng-template>
+          <div class="mat-form-container" fxLayout="column">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Cloud provider configuration</mat-label>
+              <mat-select formControlName="cloud_provider" [compareWith]="compareFn" required>
+                <mat-option *ngFor="let cp of cloudproviders" [value]="cp">
+                  {{ cp.name }} ({{ cp.cloud }})
+                </mat-option>
+              </mat-select>
+              <mat-hint>The existing cloud provider configuration (created by admin)</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Project name</mat-label>
+              <input type="text" matInput formControlName="name" required>
+              <mat-hint>This is the display project name</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Project code</mat-label>
+              <input type="text" matInput formControlName="code" required>
+              <mat-hint>The project code will be used to suffix most components</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Public router name</mat-label>
+              {{ cloudprovider?.id }}
+              <mat-select formControlName="public_router" required>
+                <mat-option *ngFor="let cloudprovider of cloudproviders;trackBy: trackByIdFn" [value]="cloudprovider">
+                  {{ cloudprovider.name }} ({{ cloudprovider.cloud }})
+                </mat-option>
+              </mat-select>
+              <mat-hint>The name of the router to use as an external gateway</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Floating Ip pool</mat-label>
+              <mat-select formControlName="floating_ip_pool" required>
+                <mat-option *ngFor="let cloudprovider of cloudproviders;trackBy: trackByIdFn" [value]="cloudprovider">
+                  {{ cloudprovider.name }} ({{ cloudprovider.cloud }})
+                </mat-option>
+              </mat-select>
+              <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
+            </mat-form-field>
+            <div class="slide-toggle-container">
+              <mat-slide-toggle formControlName="monitoring" color="accent">
+                {{ projectForm?.value.monitoring ? 'Disable project monitoring' : 'Enable project monitoring'}}
+              </mat-slide-toggle>
+              <mat-hint>Prometheus will be installed at project level</mat-hint>
+            </div>
+            <div class="slide-toggle-container">
+              <mat-slide-toggle formControlName="logging" color="accent">
+                {{ projectForm?.value.logging ? 'Disable project logging' : 'Enable project logging'}}
+              </mat-slide-toggle>
+              <mat-hint>When enabled, you'll have to select the Logging stack to install</mat-hint>
+            </div>
+            <div class="logging-stack" *ngIf="projectForm?.value.logging">
+              <h5>Select logging stack bellow</h5>
+              <div class="stack-container">
+                <mat-card (click)="loggingStack = 'graylog'" [class.selected]="loggingStack === 'graylog'">
+                  <mat-icon>check</mat-icon>
+                  <mat-card-header>
+                    <mat-card-title>Graylog</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="graylog"></div>
+                    <p>This will install Graylog stack</p>
+                  </mat-card-content>
+                </mat-card>
+                <mat-card class="" (click)="loggingStack = 'kibana'" [class.selected]="loggingStack === 'kibana'">
+                  <mat-icon>check</mat-icon>
+                  <mat-card-header>
+                    <mat-card-title>Kibana</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="kibana"></div>
+                    <p>This will install Kibana stack</p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button"
+              (click)="cancel()">Cancel</button>
+            <button mat-button matStepperNext color="primary" class="ml-10" [disabled]="!isFormValid()">Plan project
+              resources</button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="projectPlanFormGroup">
+      <form [formGroup]="projectPlanFormGroup">
+        <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
+            not create any resources</span></ng-template>
+        <div class="actions">
+            <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button"
+            (click)="cancel()">Cancel</button>
+          <button mat-button matStepperPrevious class="ml-10">Back</button>
+          <button mat-raised-button matStepperNext color="primary" class="ml-10">Apply resources changes</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      You are now done.
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+
+</div>
+
+
+
+
+
+<!-- <form [formGroup]="projectForm" (ngSubmit)="submit(projectForm.value)">
+  <div mat-dialog-content>
+
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()" type="button">Cancel</button>
+    <button mat-button color="primary" type="submit" [disabled]="!isFormValid()">
+      {{ project ? "Update" : "Create" }}
+    </button>
+  </div>
+</form> -->

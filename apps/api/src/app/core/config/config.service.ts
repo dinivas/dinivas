@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { IConfig } from 'config';
+import { ITerraformModuleInfo } from '@dinivas/dto';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../config/';
 }
@@ -16,7 +17,7 @@ export class ConfigService {
         process.env['NODE_CONFIG_DIR']
       }`
     );
-    this.checkWorkspacePath();
+    this.checkRequiredPath();
   }
   get(path: string) {
     return config.get(`${this.configRootPrefix}.${path}`);
@@ -30,12 +31,22 @@ export class ConfigService {
     return this.get('workspace.root-path');
   }
 
-  private checkWorkspacePath() {
+  private checkRequiredPath() {
     var fs = require('fs');
-    var dir = this.getWorkspaceRootPath();
+    [this.getWorkspaceRootPath(), this.getTerraformModulesRootPath()].forEach(
+      path => {
+        if (!fs.existsSync(path)) {
+          fs.mkdirSync(path);
+        }
+      }
+    );
+  }
 
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
+  getTerraformModules() {
+    return this.get('terraform.modules') as ITerraformModuleInfo[];
+  }
+
+  getTerraformModulesRootPath() {
+    return `${this.getWorkspaceRootPath()}/terraform_modules`;
   }
 }

@@ -1,3 +1,4 @@
+import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
 import { Observer } from 'rxjs/';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
@@ -55,7 +56,23 @@ export class ProjectsComponent extends MatCrudComponent
   }
 
   addProject() {
-    this.router.navigate(['/projects/new'], { preserveQueryParams: true });
+    //this.router.navigate(['/projects/new'], { preserveQueryParams: true });
+    const addEntityDialogRef = this.dialog.open(ProjectWizardComponent, {
+      maxWidth: '90vw',
+      width: '80vw',
+      //height: '90vw',
+      minHeight: '600px',
+      disableClose: true
+    });
+
+    addEntityDialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          this.refreshDatas();
+        }
+      },
+      err => console.log(err)
+    );
   }
 
   deleteSelected(selection: any[]): Observable<any> {

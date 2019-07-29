@@ -1,5 +1,14 @@
 @import 'variables';
+@import '~@angular/material/theming';
+@include mat-core();
 
 .text-yellow {
-    color: $yellow-color;
+  color: $yellow-color;
+}
+
+@mixin dinivas-custom-theme($theme) {
+  $warn: map-get($theme, warn);
+  .text-warn {
+    color: mat-color($warn);
+  }
 }

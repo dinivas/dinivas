@@ -7,9 +7,10 @@ import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './projects.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
 
 @NgModule({
-  declarations: [ProjectsComponent, ProjectEditComponent],
+  declarations: [ProjectsComponent, ProjectEditComponent, ProjectWizardComponent],
   imports: [
     CommonModule,
     CommonUiModule,
@@ -17,6 +18,6 @@ import { ProjectEditComponent } from './project-edit/project-edit.component';
     CoreModule,
     ProjectsRoutingModule
   ],
-  entryComponents: []
+  entryComponents: [ProjectWizardComponent]
 })
 export class ProjectsModule { }

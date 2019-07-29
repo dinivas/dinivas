@@ -2,12 +2,13 @@
 
 @include mat-core();
 
-$dinivas-custom-palette: (50: #eceff1,
+$dinivas-custom-palette: (
+  50: #eceff1,
   100: #cfd8dc,
   200: #b0bec5,
   300: #90a4ae,
   400: #78909c,
-  500: #5400E8,
+  500: #5400e8,
   600: #546e7a,
   700: #455a64,
   800: #37474f,
@@ -16,7 +17,8 @@ $dinivas-custom-palette: (50: #eceff1,
   A200: #b0bec5,
   A400: #78909c,
   A700: #455a64,
-  contrast: (50: $dark-primary-text,
+  contrast: (
+    50: $dark-primary-text,
     100: $dark-primary-text,
     200: $dark-primary-text,
     300: $dark-primary-text,
@@ -29,8 +31,9 @@ $dinivas-custom-palette: (50: #eceff1,
     A100: $dark-primary-text,
     A200: $dark-primary-text,
     A400: $light-primary-text,
-    A700: $light-primary-text,
-  ));
+    A700: $light-primary-text
+  )
+);
 
 $dinivas-custom-primary: mat-palette($dinivas-custom-palette);
 $dinivas-custom-accent: mat-palette($mat-pink, A200, A100, A400);
@@ -39,11 +42,12 @@ $dinivas-custom-accent: mat-palette($mat-pink, A200, A100, A400);
 $dinivas-custom-warn: mat-palette($mat-red);
 
 // Background palette for light themes.
-$dinivas-custom-theme-background: (status-bar: map_get($mat-grey, 300),
+$dinivas-custom-theme-background: (
+  status-bar: map_get($mat-grey, 300),
   app-bar: map_get($mat-grey, 100),
   background: map_get($mat-grey, 50),
-  hover: rgba(black, 0.04), // TODO(kara): check style with Material Design UX
-  card: white,
+  hover: rgba(black, 0.04),
+  // TODO(kara): check style with Material Design UX card: white,
   dialog: white,
   disabled-button: rgba(black, 0.12),
   raised-button: white,
@@ -52,11 +56,12 @@ $dinivas-custom-theme-background: (status-bar: map_get($mat-grey, 300),
   selected-disabled-button: map_get($mat-grey, 400),
   disabled-button-toggle: map_get($mat-grey, 200),
   unselected-chip: map_get($mat-grey, 300),
-  disabled-list-option: map_get($mat-grey, 200),
+  disabled-list-option: map_get($mat-grey, 200)
 );
 
 // Foreground palette for light themes.
-$dinivas-custom-theme-foreground: (base: black,
+$dinivas-custom-theme-foreground: (
+  base: black,
   divider: $dark-dividers,
   dividers: $dark-dividers,
   disabled: $dark-disabled-text,
@@ -70,19 +75,22 @@ $dinivas-custom-theme-foreground: (base: black,
   text: rgba(black, 0.65),
   slider-min: rgba(black, 0.87),
   slider-off: rgba(black, 0.26),
-  slider-off-active: rgba(black, 0.38),
+  slider-off-active: rgba(black, 0.38)
 );
 
 // Create the theme object (a Sass map containing all of the palettes).
 //$dinivas-custom-theme: mat-light-theme($dinivas-custom-primary, $dinivas-custom-accent, $dinivas-custom-warn);
-$dinivas-custom-theme: (primary: $dinivas-custom-primary,
+$dinivas-custom-theme: (
+  primary: $dinivas-custom-primary,
   accent: $dinivas-custom-accent,
   warn: $dinivas-custom-warn,
   is-dark: false,
   foreground: $dinivas-custom-theme-foreground,
-  background: $dinivas-custom-theme-background);
+  background: $dinivas-custom-theme-background
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
+
 @include angular-material-theme($dinivas-custom-theme);

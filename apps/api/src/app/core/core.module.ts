@@ -1,3 +1,4 @@
+import { GitService } from './git/git.service';
 import { KeycloakAdmin } from './keycloak/keycloak-admin';
 import { CloudApiFactory } from './cloudapi/cloudapi.factory';
 import { OpenstackApiService } from './cloudapi/openstack.api.service';
@@ -7,7 +8,13 @@ import { ConfigService } from './config/config.service';
 @Module({
   imports: [],
   controllers: [],
-  providers: [OpenstackApiService, CloudApiFactory, KeycloakAdmin, ConfigService],
+  providers: [
+    OpenstackApiService,
+    CloudApiFactory,
+    KeycloakAdmin,
+    ConfigService,
+    GitService
+  ],
   exports: [OpenstackApiService, CloudApiFactory, KeycloakAdmin, ConfigService]
 })
 export class CoreModule {}

@@ -1,7 +1,7 @@
 dinivas:
   production: false
   workspace:
-    root-path: '/Users/chidi/.dinivas'
+    root-path: '/Users/chidi/.dinivas/workspace'
   terraform:
     state:
       username: dinivas
