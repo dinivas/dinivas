@@ -70,9 +70,26 @@ export interface ICloudApiDisk {
   metedata: {};
 }
 
+export interface ICloudApiProjectFloatingIpPool {
+  name: string;
+}
+
+export interface ICloudApiProjectRouter {
+  id: string;
+  name: string;
+  description: string;
+  status: string;
+  tags: string[];
+}
+
 export interface ICloudApi {
+  // Project infos
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo>;
   getProjectQuota(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectQuota>;
+  getProjectFloatingIpPools(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectFloatingIpPool[]>;
+  getProjectRouters(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectRouter[]>;
+
+  //Compute infos
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
   getAllImages(loudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
   getAllDisks(loudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;

@@ -8,4 +8,6 @@ export * from './lib/serverinfo';
 export * from './lib/cloudapi';
 export * from './lib/keycloak';
 
+export * from './lib/terraform/terraform.dto';
+
 export * from './lib/constants'

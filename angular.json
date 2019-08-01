@@ -27,8 +27,8 @@
               "apps/console/src/assets"
             ],
             "styles": [
-              "apps/console/src/theme.scss",
-              "apps/console/src/styles.scss"
+              "apps/console/src/styles.scss",
+              "apps/console/src/theme.scss"
             ],
             "scripts": []
           },

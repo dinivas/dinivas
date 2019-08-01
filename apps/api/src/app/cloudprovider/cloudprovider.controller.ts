@@ -1,7 +1,7 @@
 import { Permissions } from './../auth/permissions.decorator';
 import { CloudproviderService } from './cloudprovider.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { CloudproviderDTO, Pagination } from '@dinivas/dto';
+import { CloudproviderDTO, Pagination, ICloudApiProjectFloatingIpPool, ICloudApiProjectRouter } from '@dinivas/dto';
 import { Roles } from './../auth/roles.decorator';
 import { AuthzGuard } from '../auth/authz.guard';
 import {
@@ -55,6 +55,22 @@ export class CloudproviderController {
     } catch (err) {
       response.status(err.detail.remoteCode).json({error: err.detail.remoteMessage})
     }
+  }
+
+  @Get(':id/floating_ip_pools')
+  @Permissions('projects:view')
+  async projectFloatingIpPools(
+    @Param('id') id: number
+  ): Promise<ICloudApiProjectFloatingIpPool[]> {
+    return this.cloudproviderService.getCloudProviderFloatingIpPools(id);
+  }
+
+  @Get(':id/routers')
+  @Permissions('projects:view')
+  async projectRouters(
+    @Param('id') id: number
+  ): Promise<ICloudApiProjectRouter[]> {
+    return this.cloudproviderService.getCloudProviderRouters(id);
   }
 
   @Post()

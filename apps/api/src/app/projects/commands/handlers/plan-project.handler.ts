@@ -1,6 +1,7 @@
+import { TerraformGateway } from './../../../terraform/terraform.gateway';
 import { Terraform } from './../../../terraform/core/Terraform';
 import { ConfigService } from './../../../core/config/config.service';
-import { Logger } from '@nestjs/common';
+import { Logger, Inject } from '@nestjs/common';
 import { PlanProjectCommand } from './../impl/plan-project.command';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 const fs = require('fs');
@@ -14,7 +15,8 @@ export class PlanProjectHandler implements ICommandHandler<PlanProjectCommand> {
   terraform: Terraform;
   constructor(
     private readonly publisher: EventPublisher,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly terraformGateway: TerraformGateway
   ) {
     this.terraform = new Terraform(configService);
   }
@@ -61,12 +63,13 @@ export class PlanProjectHandler implements ICommandHandler<PlanProjectCommand> {
                 `-var 'bastion_ssh_user=centos'`,
                 `-var 'bastion_image_name=Centos 7'`,
                 `-var 'bastion_compute_flavor_name=m1.small'`,
-                `-var 'public_router_name=router1'`,
+                `-var 'public_router_name=${command.public_router}'`,
                 `-var 'prometheus_image_name=ShepherdCloud Prometheus'`
               ],
               { silent: false }
             );
-            this.logger.debug(`Plan result: ${resources}`);
+            this.logger.debug(`Plan result: ${JSON.stringify(resources)}`);
+            this.terraformGateway.emit('plan-output', resources);
           }
         );
       }

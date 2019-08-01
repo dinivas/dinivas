@@ -1,3 +1,4 @@
+import { TerraformGateway } from './terraform/terraform.gateway';
 import { statusMonitorConfig } from './utils/status-monitor';
 import { CoreModule } from './core/core.module';
 import { StatusMonitorModule } from 'nest-status-monitor';
@@ -57,23 +58,13 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
     {
       provide: APP_GUARD,
       useClass: AuthzGuard
-    }
+    },
+    TerraformGateway
   ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
-    HelmetMiddleware.configure({
-      frameguard: {
-        action: 'allow-from',
-        domain: 'http://localhost:4200'
-      }
-    });
-    // HelmetContentSecurityPolicyMiddleware.configure({
-    //   directives: {
-    //     defaultSrc: ["'self'", 'localhost', 'cdnjs.cloudflare.com'],
-    //     styleSrc: ["'self'",'localhost' ,'cdnjs.cloudflare.com'],
-    //     frameSrc: ["'self'", 'localhost:4200'],
-    //   }});
+    HelmetMiddleware.configure({});
     CsurfMiddleware.configure({ cookie: true });
     consumer
       .apply(HelmetMiddleware)

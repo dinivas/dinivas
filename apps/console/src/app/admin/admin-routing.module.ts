@@ -32,6 +32,12 @@ const routes: Routes = [
           './cloudproviders/cloudproviders.module#CloudprovidersModule',
         canActivate: [MandatorySelectedProjectGuard]
       },
+      {
+        path: 'terraform-state',
+        loadChildren:
+          './terraform-state/terraform-state.module#TerraformStateModule',
+        canActivate: [MandatorySelectedProjectGuard]
+      },
       { path: '', redirectTo: 'dashboard' }
     ]
   }

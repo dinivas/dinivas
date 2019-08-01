@@ -1,4 +1,3 @@
-import { ConfigService } from './../core/config/config.service';
 import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { InjectRepository } from '@nestjs/typeorm';

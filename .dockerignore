@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+e2e
+.git
+dist
+documentation
+coverage

@@ -56,23 +56,23 @@ export class ProjectsComponent extends MatCrudComponent
   }
 
   addProject() {
-    //this.router.navigate(['/projects/new'], { preserveQueryParams: true });
-    const addEntityDialogRef = this.dialog.open(ProjectWizardComponent, {
-      maxWidth: '90vw',
-      width: '80vw',
-      //height: '90vw',
-      minHeight: '600px',
-      disableClose: true
-    });
+    this.router.navigate(['/projects/new'], { preserveQueryParams: true });
+    // const addEntityDialogRef = this.dialog.open(ProjectWizardComponent, {
+    //   maxWidth: '90vw',
+    //   width: '80vw',
+    //   //height: '90vw',
+    //   minHeight: '600px',
+    //   disableClose: true
+    // });
 
-    addEntityDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          this.refreshDatas();
-        }
-      },
-      err => console.log(err)
-    );
+    // addEntityDialogRef.afterClosed().subscribe(
+    //   result => {
+    //     if (result) {
+    //       this.refreshDatas();
+    //     }
+    //   },
+    //   err => console.log(err)
+    // );
   }
 
   deleteSelected(selection: any[]): Observable<any> {

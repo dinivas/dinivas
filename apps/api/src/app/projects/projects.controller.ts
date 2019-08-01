@@ -1,7 +1,13 @@
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { PlanProjectCommand } from './commands/impl/plan-project.command';
 import { Permissions } from './../auth/permissions.decorator';
-import { Pagination, ProjectDTO, ICloudApiProjectQuota } from '@dinivas/dto';
+import {
+  Pagination,
+  ProjectDTO,
+  ICloudApiProjectQuota,
+  ICloudApiProjectFloatingIpPool,
+  ICloudApiProjectRouter
+} from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ProjectsService } from './projects.service';
@@ -54,7 +60,7 @@ export class ProjectsController {
     return this.projectsService.findOne(id);
   }
 
-  @Get('quota/:id')
+  @Get(':id/quota')
   @Permissions('projects:view')
   async projectQuota(@Param('id') id: number): Promise<ICloudApiProjectQuota> {
     return this.projectsService.getProjectQuota(id);
@@ -69,16 +75,19 @@ export class ProjectsController {
   @Post('plan')
   @Permissions('projects:create')
   async planproject(@Body() project: ProjectDTO): Promise<ProjectDTO> {
-    const cloudprovider = await this.cloudproviderService.findOne(project.cloud_provider.id);
+    const cloudprovider = await this.cloudproviderService.findOne(
+      project.cloud_provider.id
+    );
     return this.commandBus.execute(
       new PlanProjectCommand(
         project.name,
         project.code,
         project.description,
+        project.public_router,
+        project.floating_ip_pool,
         project.monitoring,
         project.logging,
         project.logging_stack,
-        'public',
         YAML.parse(cloudprovider.config)
       )
     );

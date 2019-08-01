@@ -23,10 +23,14 @@ export class Project {
   @ManyToOne(type => Cloudprovider)
   @JoinColumn()
   cloud_provider: Cloudprovider;
+  @Column({ nullable: true })
+  floating_ip_pool: string;
+  @Column({ nullable: true })
+  public_router: string;
   @Column()
   monitoring: boolean = false;
   @Column()
   logging: boolean = false;
-  @Column()
+  @Column({ nullable: true })
   logging_stack: string;
 }

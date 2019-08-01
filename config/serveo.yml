@@ -1,5 +1,20 @@
 dinivas:
   production: false
+  workspace:
+    root-path: '/Users/chidi/.dinivas/workspace'
+  terraform:
+    state:
+      username: dinivas
+      password: Pa55w0rd!
+    modules:
+      - name: project_base
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-project-base.git
+      - name: keypair
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-keypair.git
   keycloak:
     config:
       realm: 'dinivas'

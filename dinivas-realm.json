@@ -1,6 +1,7 @@
 {
   "id": "dinivas",
   "realm": "dinivas",
+  "displayName": "Dinivas",
   "notBefore": 0,
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -20,13 +21,13 @@
   "actionTokenGeneratedByUserLifespan": 300,
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": true,
+  "registrationAllowed": false,
   "registrationEmailAsUsername": true,
   "rememberMe": true,
   "verifyEmail": false,
-  "loginWithEmailAllowed": true,
+  "loginWithEmailAllowed": false,
   "duplicateEmailsAllowed": false,
-  "resetPasswordAllowed": true,
+  "resetPasswordAllowed": false,
   "editUsernameAllowed": false,
   "bruteForceProtected": false,
   "permanentLockout": false,
@@ -302,8 +303,48 @@
           "attributes": {}
         },
         {
+          "id": "365fbdb3-1e7f-4168-917a-3ce2ecf878a4",
+          "name": "Terraform State Viewer",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+          "attributes": {}
+        },
+        {
           "id": "e6ab2fa2-4092-4109-85ca-57dd00ac6771",
           "name": "Compute Instances Viewer",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+          "attributes": {}
+        },
+        {
+          "id": "05a06ffc-e370-4c0a-9608-2fc5138db66f",
+          "name": "Projects Editor",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+          "attributes": {}
+        },
+        {
+          "id": "cbeaad6a-cafb-4e5e-981b-1a72c962ef61",
+          "name": "Cloud Providers Viewer",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+          "attributes": {}
+        },
+        {
+          "id": "b7a66e39-cce3-4a9b-95e5-cd5272b43276",
+          "name": "Projects Viewer",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+          "attributes": {}
+        },
+        {
+          "id": "e4d55fc2-0ea7-4d8c-9664-51743c3bd9f5",
+          "name": "Cloud Providers Editor",
           "composite": false,
           "clientRole": true,
           "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
@@ -358,6 +399,22 @@
   },
   "groups": [
     {
+      "id": "a3cc3072-0888-495b-a493-08cb34bd6b7f",
+      "name": "Dinivas Users",
+      "path": "/Dinivas Users",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "dinivas-api": [
+          "Compute Images Viewer",
+          "Compute Instances Viewer",
+          "Cloud Providers Viewer",
+          "Projects Viewer"
+        ]
+      },
+      "subGroups": []
+    },
+    {
       "id": "6151d584-edcc-4091-982e-a24871e35768",
       "name": "admin",
       "path": "/admin",
@@ -366,40 +423,15 @@
         "admin"
       ],
       "clientRoles": {},
-      "subGroups": [
-        {
-          "id": "53e2ac95-7b0a-42c0-9719-c085bea02a7f",
-          "name": "fcg",
-          "path": "/admin/fcg",
-          "attributes": {},
-          "realmRoles": [],
-          "clientRoles": {},
-          "subGroups": []
-        }
-      ]
-    },
-    {
-      "id": "1d37cf5b-6bbc-446c-a07b-f9f51043aafb",
-      "name": "bvcb",
-      "path": "/bvcb",
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {},
-      "subGroups": []
-    },
-    {
-      "id": "1ba8ee12-8068-4370-8aca-6a5a60e40184",
-      "name": "project-3",
-      "path": "/project-3",
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {},
       "subGroups": []
     }
   ],
   "defaultRoles": [
     "uma_authorization",
     "offline_access"
+  ],
+  "defaultGroups": [
+    "/Dinivas Users"
   ],
   "requiredCredentials": [
     "password"
@@ -725,6 +757,9 @@
                 "name": "view"
               },
               {
+                "name": "edit"
+              },
+              {
                 "name": "delete"
               },
               {
@@ -745,6 +780,9 @@
             "scopes": [
               {
                 "name": "view"
+              },
+              {
+                "name": "edit"
               },
               {
                 "name": "delete"
@@ -769,11 +807,52 @@
                 "name": "view"
               },
               {
+                "name": "edit"
+              },
+              {
                 "name": "delete"
               },
               {
                 "name": "create"
               },
+              {
+                "name": "list"
+              }
+            ]
+          },
+          {
+            "name": "cloudproviders",
+            "ownerManagedAccess": false,
+            "displayName": "Cloud providers",
+            "attributes": {},
+            "_id": "a47294f5-d962-46d7-be26-80ab403c3551",
+            "uris": [],
+            "scopes": [
+              {
+                "name": "view"
+              },
+              {
+                "name": "edit"
+              },
+              {
+                "name": "delete"
+              },
+              {
+                "name": "create"
+              },
+              {
+                "name": "list"
+              }
+            ]
+          },
+          {
+            "name": "terraform.state",
+            "ownerManagedAccess": false,
+            "displayName": "Terraform state",
+            "attributes": {},
+            "_id": "a88dbb0d-258f-4fdc-9582-3c861afc70a8",
+            "uris": [],
+            "scopes": [
               {
                 "name": "list"
               }
@@ -803,16 +882,6 @@
             }
           },
           {
-            "id": "6be2d2f0-f5d4-45ba-947e-da3f44edf57e",
-            "name": "Admin group",
-            "type": "group",
-            "logic": "POSITIVE",
-            "decisionStrategy": "UNANIMOUS",
-            "config": {
-              "groups": "[{\"path\":\"/admin\",\"extendChildren\":false}]"
-            }
-          },
-          {
             "id": "6f9fe62b-7e8f-4a4e-854a-68220ba6242a",
             "name": "Compute Images Viewer",
             "type": "role",
@@ -823,16 +892,6 @@
             }
           },
           {
-            "id": "d3aa9354-8a86-493f-b31c-54909c3808ef",
-            "name": "Lcm project group policy",
-            "type": "group",
-            "logic": "POSITIVE",
-            "decisionStrategy": "UNANIMOUS",
-            "config": {
-              "groups": "[{\"path\":\"/project-3\",\"extendChildren\":false}]"
-            }
-          },
-          {
             "id": "0a1de2fb-a4c4-4345-a3b2-2b27c1cc0c43",
             "name": "Compute Instances Viewer",
             "type": "role",
@@ -840,6 +899,56 @@
             "decisionStrategy": "UNANIMOUS",
             "config": {
               "roles": "[{\"id\":\"dinivas-api/Compute Instances Viewer\",\"required\":false}]"
+            }
+          },
+          {
+            "id": "4372fa82-f2eb-4648-a0e1-d2d75b6cbd6a",
+            "name": "Cloud Providers Viewer",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"dinivas-api/Cloud Providers Viewer\",\"required\":false}]"
+            }
+          },
+          {
+            "id": "f40162ac-4c4f-4b1d-84a1-46fb7c25037b",
+            "name": "Projects Viewer",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"dinivas-api/Projects Viewer\",\"required\":true}]"
+            }
+          },
+          {
+            "id": "1eedec91-2a7c-4d60-b52b-3eb50543cc64",
+            "name": "Projects Editor",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"dinivas-api/Projects Editor\",\"required\":true}]"
+            }
+          },
+          {
+            "id": "700ac3f2-649c-42a5-ad41-932cac27c81f",
+            "name": "Cloud Providers Editor",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"dinivas-api/Cloud Providers Editor\",\"required\":true}]"
+            }
+          },
+          {
+            "id": "85ad68c9-82f6-4868-88b1-cfab723740eb",
+            "name": "Terraform State Viewer",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"dinivas-api/Terraform State Viewer\",\"required\":true}]"
             }
           },
           {
@@ -874,7 +983,8 @@
             "decisionStrategy": "UNANIMOUS",
             "config": {
               "resources": "[\"projects\"]",
-              "scopes": "[\"list\"]"
+              "scopes": "[\"list\"]",
+              "applyPolicies": "[\"Projects Viewer\"]"
             }
           },
           {
@@ -888,6 +998,114 @@
               "scopes": "[\"list\"]",
               "applyPolicies": "[\"Compute Instances Viewer\"]"
             }
+          },
+          {
+            "id": "d36dab0d-0140-40d7-b148-32c826134391",
+            "name": "cloudproviders.list",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"cloudproviders\"]",
+              "scopes": "[\"list\"]",
+              "applyPolicies": "[\"Cloud Providers Viewer\"]"
+            }
+          },
+          {
+            "id": "5c319c17-72d7-4e14-866a-21d828e6bdf1",
+            "name": "projects.view",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"projects\"]",
+              "scopes": "[\"view\"]",
+              "applyPolicies": "[\"Projects Viewer\"]"
+            }
+          },
+          {
+            "id": "b1c546d2-16ac-41ee-a740-48e84b1a00c0",
+            "name": "cloudproviders.view",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"cloudproviders\"]",
+              "scopes": "[\"view\"]",
+              "applyPolicies": "[\"Cloud Providers Viewer\"]"
+            }
+          },
+          {
+            "id": "e0545452-48c6-4370-91c5-57986e88e1af",
+            "name": "projects.create",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"projects\"]",
+              "scopes": "[\"create\"]",
+              "applyPolicies": "[\"Projects Editor\"]"
+            }
+          },
+          {
+            "id": "693c52fb-bcc2-4b23-bdef-47640569cf89",
+            "name": "cloudproviders.edit",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"cloudproviders\"]",
+              "scopes": "[\"edit\"]",
+              "applyPolicies": "[\"Cloud Providers Editor\"]"
+            }
+          },
+          {
+            "id": "ec2ea784-c8e8-4868-8eb1-38e1b27453f9",
+            "name": "cloudproviders.create",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"cloudproviders\"]",
+              "scopes": "[\"create\"]",
+              "applyPolicies": "[\"Cloud Providers Editor\"]"
+            }
+          },
+          {
+            "id": "aeb1c4ce-9f43-4f4b-b5ed-ce31058dfce3",
+            "name": "projects.edit",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"projects\"]",
+              "scopes": "[\"edit\"]",
+              "applyPolicies": "[\"Projects Editor\"]"
+            }
+          },
+          {
+            "id": "0b34df65-3d46-4fdd-a882-6c9198eb9f50",
+            "name": "projects.delete",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"projects\"]",
+              "scopes": "[\"delete\"]",
+              "applyPolicies": "[\"Projects Editor\"]"
+            }
+          },
+          {
+            "id": "458d350a-84a2-4408-b2b1-a3d6d850d303",
+            "name": "terraform.state.list",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"terraform.state\"]",
+              "scopes": "[\"list\"]",
+              "applyPolicies": "[\"Terraform State Viewer\"]"
+            }
           }
         ],
         "scopes": [
@@ -900,13 +1118,17 @@
             "name": "view"
           },
           {
-            "id": "b5d53760-96d2-4c1e-99a7-de0c0cf5996a",
-            "name": "delete",
-            "displayName": "Delete resource"
-          },
-          {
             "id": "745c602c-c33e-41d9-bc9c-7866b7211b63",
             "name": "list"
+          },
+          {
+            "id": "4206c5c0-1dc2-447f-ac39-8bfe8f50fb4f",
+            "name": "edit",
+            "displayName": "Edit"
+          },
+          {
+            "id": "b5d53760-96d2-4c1e-99a7-de0c0cf5996a",
+            "name": "delete"
           }
         ]
       }
@@ -959,14 +1181,14 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:4200/*"
+        "*"
       ],
       "webOrigins": [
-        "http://localhost:4200"
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,
-      "consentRequired": false,
+      "consentRequired": true,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
@@ -974,7 +1196,22 @@
       "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "consent.screen.text": "Dinivas Console",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "true",
+        "saml.onetimeuse.condition": "false"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
@@ -1524,7 +1761,19 @@
     "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "smtpServer": {},
+  "smtpServer": {
+    "password": "**********",
+    "replyToDisplayName": "Dinivas Auth",
+    "starttls": "true",
+    "auth": "false",
+    "port": "587",
+    "host": "smtp.gmail.com",
+    "replyTo": "auth@dinivas.io",
+    "from": "auth@dinivas.io",
+    "fromDisplayName": "Dinivas Auth",
+    "ssl": "false",
+    "user": ""
+  },
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1532,6 +1781,31 @@
   "enabledEventTypes": [],
   "adminEventsEnabled": false,
   "adminEventsDetailsEnabled": false,
+  "identityProviders": [
+    {
+      "alias": "google",
+      "internalId": "6bf4f6c7-2c32-487e-870c-887d8098f8c8",
+      "providerId": "google",
+      "enabled": true,
+      "updateProfileFirstLoginMode": "on",
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "hideOnLoginPage": "",
+        "offlineAccess": "",
+        "clientId": "511862902885-a1pq99gtm5r76s31jhimdbe4fgf3sfn2.apps.googleusercontent.com",
+        "disableUserInfo": "",
+        "userIp": "",
+        "clientSecret": "**********",
+        "defaultScope": "https://www.googleapis.com/auth/userinfo.profile",
+        "useJwksUrl": "true"
+      }
+    }
+  ],
   "components": {
     "org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy": [
       {
@@ -1683,6 +1957,53 @@
   "supportedLocales": [],
   "authenticationFlows": [
     {
+      "id": "e4f73d8e-5dba-4663-9ca8-e88ceb465a34",
+      "alias": "Copy of browser",
+      "description": "browser based authentication",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "auth-cookie",
+          "requirement": "ALTERNATIVE",
+          "priority": 10,
+          "userSetupAllowed": false,
+          "autheticatorFlow": false
+        },
+        {
+          "authenticator": "auth-spnego",
+          "requirement": "DISABLED",
+          "priority": 20,
+          "userSetupAllowed": false,
+          "autheticatorFlow": false
+        },
+        {
+          "authenticator": "identity-provider-redirector",
+          "requirement": "ALTERNATIVE",
+          "priority": 25,
+          "userSetupAllowed": false,
+          "autheticatorFlow": false
+        },
+        {
+          "requirement": "DISABLED",
+          "priority": 30,
+          "flowAlias": "Copy of browser forms",
+          "userSetupAllowed": false,
+          "autheticatorFlow": true
+        }
+      ]
+    },
+    {
+      "id": "f05cffef-43b9-4400-8d48-d9d91d1e9794",
+      "alias": "Copy of browser forms",
+      "description": "Username, password, otp and other auth forms.",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": []
+    },
+    {
       "id": "743c5c59-1b90-4260-9155-2b1005f0757f",
       "alias": "Handle Existing Account",
       "description": "Handle what to do if there is existing account with same email/username like authenticated identity provider",
@@ -1760,8 +2081,9 @@
           "autheticatorFlow": false
         },
         {
+          "authenticatorConfig": "google",
           "authenticator": "identity-provider-redirector",
-          "requirement": "ALTERNATIVE",
+          "requirement": "DISABLED",
           "priority": 25,
           "userSetupAllowed": false,
           "autheticatorFlow": false
@@ -1911,7 +2233,7 @@
         },
         {
           "authenticator": "auth-otp-form",
-          "requirement": "OPTIONAL",
+          "requirement": "DISABLED",
           "priority": 20,
           "userSetupAllowed": false,
           "autheticatorFlow": false
@@ -2077,6 +2399,13 @@
       }
     },
     {
+      "id": "bd16e235-d1cf-4d71-a657-b3cb8b411a67",
+      "alias": "google",
+      "config": {
+        "defaultProvider": "google"
+      }
+    },
+    {
       "id": "0ac71d79-c9a2-4e9a-8b93-9a52ba4556db",
       "alias": "review profile config",
       "config": {
@@ -2143,6 +2472,7 @@
     "_browser_header.strictTransportSecurity": "max-age=31536000; includeSubDomains",
     "permanentLockout": "false",
     "quickLoginCheckMilliSeconds": "1000",
+    "displayName": "Dinivas",
     "_browser_header.xRobotsTag": "none",
     "maxFailureWaitSeconds": "900",
     "minimumQuickLoginWaitSeconds": "60",

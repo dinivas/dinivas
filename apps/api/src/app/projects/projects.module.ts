@@ -1,3 +1,4 @@
+import { TerraformModule } from './../terraform/terraform.module';
 import { CloudproviderModule } from './../cloudprovider/cloudprovider.module';
 import { CommandHandlers } from './commands/handlers/index';
 import { CoreModule } from './../core/core.module';
@@ -13,7 +14,8 @@ import { CqrsModule } from '@nestjs/cqrs';
     TypeOrmModule.forFeature([Project]),
     CoreModule,
     CloudproviderModule,
-    CqrsModule
+    CqrsModule,
+    TerraformModule
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService, ...CommandHandlers],

@@ -36,7 +36,7 @@ export class ProjectsService {
 
   getProjectQuota(id: number): Observable<ICloudApiProjectQuota> {
     return this.http.get<ICloudApiProjectQuota>(
-      `${environment.apiUrl}/projects/quota/${id}`
+      `${environment.apiUrl}/projects/${id}/quota`
     );
   }
 

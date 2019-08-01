@@ -1,40 +1,54 @@
 version: '3'
 
 volumes:
-  postgres_data:
-      driver: local
+  postgres_keycloak_data:
+    driver: local
 
 services:
-  postgres:
-      image: postgres
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
-  keycloak:
-      image: jboss/keycloak
-      environment:
-        DB_VENDOR: POSTGRES
-        DB_ADDR: postgres
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_SCHEMA: public
-        DB_PASSWORD: password
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Pa55w0rd
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
-        #JDBC_PARAMS: "ssl=true"
-      ports:
-        - 8083:8080
-      depends_on:
-        - postgres
-  keycloak_gatekeeper:
-    image: quay.io/keycloak/keycloak-gatekeeper
-    environment:
-      PROXY_CONFIG_FILE: /opt/gatekeeper.yml
+  # KEYCLOAK
+  postgres_keycloak:
+    image: postgres_keycloak
     volumes:
-      - ./.docker/gatekeeper.yml:/opt/gatekeeper.yml
+      - postgres_keycloak_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+      KEYCLOAK_IMPORT: /tmp/dinivas-realm.json
     ports:
-      - 3001:3000
+      - 8085:8080
+    volumes:
+      - ./dinivas-realm.json:/tmp/dinivas-realm.json
+    depends_on:
+      - postgres_keycloak
+  # DINIVAS
+  dinivas_api:
+    build:
+      context: .
+      dockerfile: Dockerfile-dinivas-api
+  dinivas_console:
+    build:
+      context: .
+      dockerfile: Dockerfile-dinivas-console
+
+  # keycloak_gatekeeper:
+  #   image: quay.io/keycloak/keycloak-gatekeeper
+  #   environment:
+  #     PROXY_CONFIG_FILE: /opt/gatekeeper.yml
+  #   volumes:
+  #     - ./.docker/gatekeeper.yml:/opt/gatekeeper.yml
+  #   ports:
+  #     - 3001:3000

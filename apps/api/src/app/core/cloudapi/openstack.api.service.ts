@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@nestjs/common';
 import {
   ICloudApi,
@@ -7,7 +8,9 @@ import {
   ICloudApiImage,
   ICloudApiInstanceAdress,
   ICloudApiDisk,
-  ICloudApiProjectQuota
+  ICloudApiProjectQuota,
+  ICloudApiProjectFloatingIpPool,
+  ICloudApiProjectRouter
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
@@ -26,23 +29,68 @@ export class OpenstackApiService implements ICloudApi {
     cloudConfig: ICloudApiConfig
   ): Promise<ICloudApiProjectQuota> {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {
-      project.nova.getQuotaSet(`${cloudConfig.project_id}/detail`,(error, quota_set) => {
+      project.nova.getQuotaSet(
+        `${cloudConfig.project_id}/detail`,
+        (error, quota_set) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              id: quota_set.id,
+              instances: quota_set.instances,
+              cores: quota_set.cores,
+              ram: quota_set.ram,
+              floating_ips: quota_set.floating_ips
+            });
+          }
+        }
+      );
+    });
+  }
+
+  getProjectFloatingIpPools(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectFloatingIpPool[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.listFloatingIpPools((error, floating_ip_pools) => {
         if (error) {
           reject(error);
         } else {
-          resolve({
-            id: quota_set.id,
-            instances: quota_set.instances,
-            cores: quota_set.cores,
-            ram: quota_set.ram,
-            floating_ips: quota_set.floating_ips
-          });
+          resolve(
+            floating_ip_pools.map(floatingIpPool => {
+              return {
+                name: floatingIpPool.name
+              };
+            })
+          );
         }
       });
     });
   }
 
-
+  getProjectRouters(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectRouter[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.neutron.listRouters((error, routers_array) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(
+            routers_array.map(router => {
+              return {
+                id: router.id,
+                name: router.name,
+                description: router.description,
+                status: router.status,
+                tags: router.tags
+              };
+            })
+          );
+        }
+      });
+    });
+  }
 
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]> {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {

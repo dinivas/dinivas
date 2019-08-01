@@ -1,3 +1,4 @@
+import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
 import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { NgModule } from '@angular/core';
@@ -8,7 +9,7 @@ const routes: Routes = [
   { path: '', component: ProjectsComponent },
   {
     path: 'new',
-    component: ProjectEditComponent,
+    component: ProjectWizardComponent,
     canActivate: [MandatorySelectedProjectGuard]
   },
   {

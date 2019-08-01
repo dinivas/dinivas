@@ -10,12 +10,12 @@ import { ServerInfoComponent } from './server-info/server-info.component';
 import { ServerMonitorStatusComponent } from './server-monitor-status/server-monitor-status.component';
 
 @NgModule({
-  declarations: [DashboardComponent, AdminComponent, ServerInfoComponent, ServerMonitorStatusComponent],
-  imports: [
-    CommonModule,
-    CoreModule,
-    CommonUiModule,
-    AdminRoutingModule
-  ]
+  declarations: [
+    DashboardComponent,
+    AdminComponent,
+    ServerInfoComponent,
+    ServerMonitorStatusComponent
+  ],
+  imports: [CommonModule, CoreModule, CommonUiModule, AdminRoutingModule]
 })
-export class AdminModule { }
+export class AdminModule {}

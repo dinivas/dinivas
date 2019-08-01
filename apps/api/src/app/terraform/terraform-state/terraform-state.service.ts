@@ -10,6 +10,10 @@ export class TerraformStateService {
     private readonly stateRepository: Repository<TerraformState>
   ) {}
 
+  async findAllState(): Promise<TerraformState[]> {
+    return this.stateRepository.find();
+  }
+
   async findState(
     projectCode: string,
     moduleName: string

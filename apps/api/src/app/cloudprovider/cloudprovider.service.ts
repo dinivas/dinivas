@@ -4,7 +4,9 @@ import {
   paginate,
   IPaginationOptions,
   Pagination,
-  ICloudApi
+  ICloudApi,
+  ICloudApiProjectRouter,
+  ICloudApiProjectFloatingIpPool
 } from '@dinivas/dto';
 import { Cloudprovider } from './cloudprovider.entity';
 import { Injectable } from '@nestjs/common';
@@ -50,6 +52,32 @@ export class CloudproviderService {
       cloudprovider.cloud
     );
     return cloudApi.getProjectInfo(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
+  async getCloudProviderFloatingIpPools(id: number): Promise<ICloudApiProjectFloatingIpPool[]> {
+    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(id);
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getProjectFloatingIpPools(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
+  async getCloudProviderRouters(id: number): Promise<ICloudApiProjectRouter[]> {
+    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(id);
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getProjectRouters(
       this.cloudApiFactory.getCloudApiConfig(
         cloudprovider.cloud,
         cloudprovider.config
