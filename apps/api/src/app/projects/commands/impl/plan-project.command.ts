@@ -1,5 +1,8 @@
+import { ProjectDTO } from '@dinivas/dto';
+
 export class PlanProjectCommand {
   constructor(
+    public readonly project: ProjectDTO,
     public readonly projectName: string,
     public readonly projectCode: string,
     public readonly projectDescription: string,

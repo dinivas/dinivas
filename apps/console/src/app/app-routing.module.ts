@@ -1,8 +1,7 @@
-import { environment } from './../environments/environment';
+import { SelectProjectDialogComponent } from './core/dialog/select-project-dialog/select-project-dialog.component';
 import { MandatorySelectedProjectGuard } from './core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SelectProjectDialogEntryComponent } from './core/dialog/select-project-dialog/select-project-dialog.component';
 
 const routes: Routes = [
   {
@@ -32,8 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'build',
-    loadChildren: './build/build.module#BuildModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: './build/build.module#BuildModule'
   },
   {
     path: 'storage',
@@ -57,14 +55,15 @@ const routes: Routes = [
   },
   {
     path: 'selectProject',
-    component: SelectProjectDialogEntryComponent
+    component: SelectProjectDialogComponent
   },
   { path: '**', redirectTo: '', pathMatch: 'prefix' }
 ];
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      enableTracing: !environment.production,
+      //enableTracing: !environment.production,
+      enableTracing: false,
       paramsInheritanceStrategy: 'always',
       initialNavigation: 'enabled'
     })

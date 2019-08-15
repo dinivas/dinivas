@@ -4,5 +4,6 @@
     "html": ["html", "php", "erb"],
     "css": [],
     "js": []
-  }
+  },
+  "vsicons.presets.angular": true
 }

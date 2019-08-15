@@ -5,8 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'galaxy',
-    loadChildren: './galaxy/galaxy.module#GalaxyModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: './galaxy/galaxy.module#GalaxyModule'
   },
   {
     path: 'history',

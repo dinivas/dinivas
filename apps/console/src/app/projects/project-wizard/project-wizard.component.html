@@ -6,12 +6,12 @@
 </mat-toolbar>
 
 <mat-vertical-stepper [linear]="isLinear" #stepper>
-  <mat-step [completed]="projectPlanStepFinished" #projectWizardStepper>
+  <mat-step [completed]="projectPlanStepFinished">
     <div class="form-container">
       <div class="spinner-container" *ngIf="projectPlanInProgress">
         <mat-spinner></mat-spinner>
       </div>
-      <form [formGroup]="projectForm" (ngSubmit)="submit(projectForm.value)">
+      <form [formGroup]="projectForm" (ngSubmit)="submitPlanProject(projectForm.value)">
         <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
             resources</span></ng-template>
         <div class="mat-form-container" fxLayout="column">
@@ -42,9 +42,8 @@
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Public router name</mat-label>
-            {{ cloudprovider?.id }}
             <mat-select formControlName="public_router" required>
-              <mat-option *ngFor="let router of availableRouters;trackBy: trackByIdFn" [value]="router.name">
+              <mat-option *ngFor="let router of availableRouters;trackBy" [value]="router.name">
                 {{ router.name }}
               </mat-option>
             </mat-select>
@@ -53,7 +52,7 @@
           <mat-form-field class="" appearance="outline">
             <mat-label>Floating Ip pool</mat-label>
             <mat-select formControlName="floating_ip_pool" required>
-              <mat-option *ngFor="let floatingIpPool of availableFloatingIpPools;trackBy: trackByIdFn"
+              <mat-option *ngFor="let floatingIpPool of availableFloatingIpPools;trackBy"
                 [value]="floatingIpPool.name">
                 {{ floatingIpPool.name }}
               </mat-option>
@@ -107,16 +106,25 @@
     </div>
   </mat-step>
   <mat-step [completed]="projectApplyStepFinished">
-    <form [formGroup]="projectPlanFormGroup">
+    <div class="apply-container">
+      <div class="spinner-container" *ngIf="projectApplyInProgress">
+        <mat-spinner></mat-spinner>
+      </div>
       <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
-          not create any resources</span></ng-template>
-          <p>{{ terraformPlanedResources | json }}</p>
+        not create any resources</span>
+      </ng-template>
+      <div class="tf-plan-resources-container">
+        <div class="tf-plan-resource" *ngFor="let tfResource of terraformPlanEvent?.planResult.resource_changes">
+          <h4>{{ tfResource.name }} - {{ tfResource.type }}</h4>
+          <span>{{ tfResource.change.actions }} </span>
+        </div>
+      </div>
       <div class="actions">
         <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
         <button mat-button matStepperPrevious class="ml-10">Back</button>
-        <button mat-raised-button matStepperNext color="primary" class="ml-10">Apply resources changes</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.value)" class="ml-10">Apply resources changes</button>
       </div>
-    </form>
+    </div>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>

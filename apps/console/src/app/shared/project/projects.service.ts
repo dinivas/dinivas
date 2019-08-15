@@ -1,5 +1,9 @@
 import { Observable } from 'rxjs';
-import { ProjectDTO, ICloudApiProjectQuota } from '@dinivas/dto';
+import {
+  ProjectDTO,
+  ICloudApiProjectQuota,
+  ApplyProjectDTO
+} from '@dinivas/dto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
@@ -21,6 +25,10 @@ export class ProjectsService {
 
   planProject(project: ProjectDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}/projects/plan`, project);
+  }
+
+  applyProjectPlan(applyProjectDTO: ApplyProjectDTO): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/projects/apply-plan`, applyProjectDTO);
   }
 
   updateProject(project: ProjectDTO): Observable<any> {

@@ -23,6 +23,21 @@ Some companies also can't just go to public Cloud due to data governance and man
 
 Technical documentation can be found [here](https://dinivas.github.io/dinivas)
 
+## Quick start (Docker compose)
+
+### Start Api server and console using Docker-compose
+
+```
+docker-compose up -d
+```
+
+### Keycloak admin
+
+- Connect to Keycloak Admin console [http://localhost:8085](http://localhost:8085)
+- Got to `Clients` > `dinivas-api` > `Credentials` and ensure the Secret is well generated and equals to the secret in the configuration
+
+
+
 ## Contributing
 
 See the [contribution guide](./CONTRIBUTING.md).

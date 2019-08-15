@@ -1,10 +1,11 @@
+import { API_PREFFIX } from './app/constants';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { AllExceptionsFilter } from './app/core/all-exceptions.filter';
-import { setupSwagger } from 'apps/api/src/swagger';
 import {
   CONSTANT
 } from '@dinivas/dto';
+import { setupSwagger } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -18,13 +19,12 @@ async function bootstrap() {
   });
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  const globalPrefix = 'api/v1';
   setupSwagger(app);
 
-  app.setGlobalPrefix(globalPrefix);
+  app.setGlobalPrefix(API_PREFFIX);
   const port = process.env.port || 3333;
   await app.listen(port, () => {
-    console.log('Listening at http://localhost:' + port + '/' + globalPrefix);
+    console.log('Listening at http://localhost:' + port + '/' + API_PREFFIX);
   });
 }
 

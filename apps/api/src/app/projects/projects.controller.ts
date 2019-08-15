@@ -6,7 +6,8 @@ import {
   ProjectDTO,
   ICloudApiProjectQuota,
   ICloudApiProjectFloatingIpPool,
-  ICloudApiProjectRouter
+  ICloudApiProjectRouter,
+  ApplyProjectDTO
 } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -26,6 +27,7 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 
 import YAML from 'yaml';
+import { ApplyProjectCommand } from './commands/impl/apply-project.command';
 
 @ApiUseTags('Projects')
 @Controller('projects')
@@ -80,6 +82,7 @@ export class ProjectsController {
     );
     return this.commandBus.execute(
       new PlanProjectCommand(
+        project,
         project.name,
         project.code,
         project.description,
@@ -89,6 +92,17 @@ export class ProjectsController {
         project.logging,
         project.logging_stack,
         YAML.parse(cloudprovider.config)
+      )
+    );
+  }
+
+  @Post('apply-plan')
+  @Permissions('projects:create')
+  async applyProject(@Body() applyProject: ApplyProjectDTO): Promise<ApplyProjectDTO> {
+    return this.commandBus.execute(
+      new ApplyProjectCommand(
+        applyProject.project,
+        applyProject.workingDir
       )
     );
   }

@@ -7,7 +7,9 @@ import {
   ProjectDTO,
   CloudproviderDTO,
   ICloudApiProjectFloatingIpPool,
-  ICloudApiProjectRouter
+  ICloudApiProjectRouter,
+  TerraformPlanEvent,
+  ApplyProjectDTO
 } from '@dinivas/dto';
 import { TerraformWebSocket } from '../../shared/terraform/terraform-websocket.service';
 import { MatVerticalStepper } from '@angular/material';
@@ -29,9 +31,10 @@ export class ProjectWizardComponent implements OnInit {
   projectPlanStepFinished = false;
   projectApplyStepFinished = false;
   projectPlanInProgress = false;
+  projectApplyInProgress = false;
   @ViewChild(MatVerticalStepper, { static: false })
   projectWizardStepper: MatVerticalStepper;
-  terraformPlanedResources: any;
+  terraformPlanEvent: TerraformPlanEvent;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -82,17 +85,17 @@ export class ProjectWizardComponent implements OnInit {
     return this.projectForm.valid;
   }
 
-  submit(project: ProjectDTO) {
+  submitPlanProject(project: ProjectDTO) {
     this.projectPlanInProgress = true;
     project.logging_stack = this.loggingStack;
     if (!this.project) {
       // create
       this.projectService.planProject(project).subscribe(() => {
         this.terraformWebSocket
-          .receivePlanOutput(project.code)
-          .subscribe((data: any) => {
+          .receivePlanEvent(project.code)
+          .subscribe((data: TerraformPlanEvent) => {
             console.log('Receive from Terrform WS', data);
-            this.terraformPlanedResources = data;
+            this.terraformPlanEvent = data;
             this.projectPlanInProgress = false;
             this.projectPlanStepFinished = true;
             setTimeout(() => {
@@ -105,6 +108,24 @@ export class ProjectWizardComponent implements OnInit {
       project.id = this.project.id;
       this.projectService.updateProject(project).subscribe(() => {});
     }
+  }
+
+  submitApplyProjectPlan(project: ProjectDTO) {
+    this.projectApplyInProgress = true;
+    this.projectService.applyProjectPlan(
+      new ApplyProjectDTO(project, this.terraformPlanEvent.workingDir)
+    ).subscribe(()=>{
+      this.terraformWebSocket
+          .receiveApplyEvent(project.code)
+          .subscribe((data: any) => {
+            console.log('Receive from Terrform WS', data);
+            this.projectApplyInProgress = false;
+            this.projectApplyStepFinished = true;
+            setTimeout(() => {
+              this.projectWizardStepper.next();
+            }, 1);
+          });
+    });
   }
 
   compareFn(

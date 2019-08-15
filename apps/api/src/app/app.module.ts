@@ -1,3 +1,4 @@
+import { API_PREFFIX } from './constants';
 import { TerraformGateway } from './terraform/terraform.gateway';
 import { statusMonitorConfig } from './utils/status-monitor';
 import { CoreModule } from './core/core.module';
@@ -23,7 +24,10 @@ import {
   RequestMethod
 } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { HelmetMiddleware, HelmetContentSecurityPolicyMiddleware } from '@nest-middlewares/helmet';
+import {
+  HelmetMiddleware,
+  HelmetContentSecurityPolicyMiddleware
+} from '@nest-middlewares/helmet';
 import { CompressionMiddleware } from '@nest-middlewares/compression';
 import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
 import { CsurfMiddleware } from '@nest-middlewares/csurf';
@@ -35,6 +39,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
 import { IamModule } from './iam/iam.module';
 import { TerraformModule } from './terraform/terraform.module';
+import * as httpProxy from 'http-proxy-middleware';
 
 const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
 
@@ -93,9 +98,22 @@ export class AppModule implements NestModule {
         DisksController,
         InstancesController,
         IamController,
-        InfoController
+        InfoController,
+        { path: 'ansible-galaxy', method: RequestMethod.ALL }
       );
 
+    // Ansible Galaxy proxy after Keycloak SSO
+    consumer
+      .apply(
+        httpProxy([`/${API_PREFFIX}/ansible-galaxy`], {
+          target: 'http://localhost:8089',
+          logLevel: 'debug',
+          changeOrigin: false,
+          prependPath: true,
+          pathRewrite: { '^/api/v1/ansible-galaxy': '' }
+        })
+      )
+      .forRoutes('ansible-galaxy/*');
     // Keycloak Authz middleware
     //consumer
     //  .apply(AuthzMiddleware)

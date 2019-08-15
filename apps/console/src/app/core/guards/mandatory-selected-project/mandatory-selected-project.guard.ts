@@ -26,7 +26,7 @@ export class MandatorySelectedProjectGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (next.queryParams['appInitialisation']) {
+    if (next.queryParams['appInitialisation'] || state.url.startsWith('/admin')) {
       return true;
     }
     this.lastProjectId = next.queryParams['project'] || this.lastProjectId;

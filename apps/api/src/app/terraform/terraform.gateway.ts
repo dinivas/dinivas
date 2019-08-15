@@ -6,7 +6,6 @@ import {
 } from '@nestjs/websockets';
 import { Client, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
-import { timer } from 'rxjs';
 
 @WebSocketGateway({ namespace: 'terraform' })
 export class TerraformGateway implements OnGatewayInit {

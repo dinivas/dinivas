@@ -18,8 +18,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  SelectProjectDialogComponent,
-  SelectProjectDialogEntryComponent
+  SelectProjectDialogComponent
 } from './dialog/select-project-dialog/select-project-dialog.component';
 import { RouterModule, Router } from '@angular/router';
 import { NgMathPipesModule, BytesPipe } from 'angular-pipes';
@@ -50,7 +49,6 @@ import { SafePipe } from './pipes/safe.pipe';
     FilterCriterionComponent,
     ConfirmDialogComponent,
     SelectProjectDialogComponent,
-    SelectProjectDialogEntryComponent,
     SafePipe
   ],
   entryComponents: [

@@ -3,11 +3,13 @@ version: '3'
 volumes:
   postgres_keycloak_data:
     driver: local
+  postgres_dinivas_data:
+    driver: local
 
 services:
   # KEYCLOAK
   postgres_keycloak:
-    image: postgres_keycloak
+    image: postgres
     volumes:
       - postgres_keycloak_data:/var/lib/postgresql/data
     environment:
@@ -18,7 +20,7 @@ services:
     image: jboss/keycloak
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
+      DB_ADDR: postgres_keycloak
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
@@ -34,15 +36,25 @@ services:
       - ./dinivas-realm.json:/tmp/dinivas-realm.json
     depends_on:
       - postgres_keycloak
+  postgres_dinivas:
+    image: postgres
+    volumes:
+      - postgres_dinivas_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: dinivas
+      POSTGRES_USER: dinivas
+      POSTGRES_PASSWORD: Pa55W0rd
+    ports:
+      - 5433:5432
   # DINIVAS
-  dinivas_api:
-    build:
-      context: .
-      dockerfile: Dockerfile-dinivas-api
-  dinivas_console:
-    build:
-      context: .
-      dockerfile: Dockerfile-dinivas-console
+  # dinivas_api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dinivas-api
+  # dinivas_console:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dinivas-console
 
   # keycloak_gatekeeper:
   #   image: quay.io/keycloak/keycloak-gatekeeper

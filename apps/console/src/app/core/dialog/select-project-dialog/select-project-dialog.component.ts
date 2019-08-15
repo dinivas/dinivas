@@ -1,8 +1,7 @@
 import { CloudproviderService } from './../../../shared/cloudprovider/cloudprovider.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectsService } from '../../../shared/project/projects.service';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProjectDTO, CloudproviderDTO } from '@dinivas/dto';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -19,11 +18,9 @@ export class SelectProjectDialogComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
 
   constructor(
-    public dialogRef: MatDialogRef<SelectProjectDialogComponent>,
     private projectService: ProjectsService,
     private cloudproviderService: CloudproviderService,
     private activatedRoute: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
@@ -57,29 +54,10 @@ export class SelectProjectDialogComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
   onCancelClick(project): void {
-    this.dialogRef.close(project);
+    
   }
   close() {
-    this.dialogRef.close();
+    
   }
 }
-@Component({
-  template: ''
-})
-export class SelectProjectDialogEntryComponent implements OnInit {
-  constructor(public dialog: MatDialog) {
-    this.openDialog();
-  }
 
-  ngOnInit() {}
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(SelectProjectDialogComponent, {
-      width: '400px',
-      disableClose: true
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-}

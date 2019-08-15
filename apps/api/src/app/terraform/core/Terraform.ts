@@ -1,3 +1,4 @@
+import { API_PREFFIX } from './../../constants';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from './../../core/config/config.service';
 import {
@@ -17,6 +18,7 @@ import {
   ResourceCounts,
   ChangeTypes
 } from './Types';
+import { TFPlanRepresentation } from '@dinivas/dto';
 const fs = require('fs')
 const path = require('path');
 
@@ -89,13 +91,18 @@ export class Terraform extends Base {
     path: string,
     commandLineArgs: string[],
     options: ExecuteOptions = {}
-  ): Promise<ResourceCounts> {
+  ): Promise<TFPlanRepresentation> {
     const commandToExecute = `plan ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
-    const { stdout } = await this.executeSync(path, commandToExecute, {
+    // First plan and save in file last-plan
+    await this.executeSync(path, commandToExecute, {
       silent: options.silent || false
     });
-    return this.parseResourceChanges(stdout, ChangeTypes.PLAN);
+    const { stdout } = await this.executeSync(path, `show -json last-plan`, {
+      silent: options.silent || false
+    });
+    return JSON.parse(stdout) as TFPlanRepresentation;
+    //return this.parseResourceChanges(stdout, ChangeTypes.PLAN);
   }
 
   public async destroy(
@@ -108,9 +115,12 @@ export class Terraform extends Base {
 
   public async apply(
     path: string,
+    commandLineArgs: string[],
     options: ApplyOptions = {}
   ): Promise<ResourceCounts> {
-    const { stdout } = await this.executeInteractive('apply', path, options);
+    const commandToExecute = `apply ${commandLineArgs.join(' ')}`;
+    this.nestLogger.debug(commandToExecute);
+    const { stdout } = await this.executeInteractive(commandToExecute, path, options);
     return this.parseResourceChanges(stdout, ChangeTypes.ADDED);
   }
 
@@ -173,9 +183,9 @@ export class Terraform extends Base {
     terraform {
       required_version = ">= 0.12.2"
       backend "http" {
-        address        = "http://localhost:${process.env.PORT || 3333}/api/v1/terraform/state?projectCode=${projectCode}&module=${module}"
-        lock_address   = "http://localhost:${process.env.PORT || 3333}/api/v1/terraform/state?projectCode=${projectCode}&module=${module}"
-        unlock_address = "http://localhost:${process.env.PORT || 3333}/api/v1/terraform/state?projectCode=${projectCode}&module=${module}"
+        address        = "http://localhost:${process.env.PORT || 3333}/${API_PREFFIX}/terraform/state?projectCode=${projectCode}&module=${module}"
+        lock_address   = "http://localhost:${process.env.PORT || 3333}/${API_PREFFIX}/terraform/state?projectCode=${projectCode}&module=${module}"
+        unlock_address = "http://localhost:${process.env.PORT || 3333}/${API_PREFFIX}/terraform/state?projectCode=${projectCode}&module=${module}"
         username       = "${this.configService.get('terraform.state.username')}"
         password       = "${this.configService.get('terraform.state.password')}"
       }

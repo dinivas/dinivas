@@ -116,9 +116,9 @@ abstract class Base {
 
   private buildArgs = (baseCommand: string, options: ApplyOptions) => {
     const basicArgs = [baseCommand];
-    if (options.autoApprove) {
-      basicArgs.push(this.autoApproveOptionName);
-    }
+    // if (options.autoApprove) {
+    //   basicArgs.push(this.autoApproveOptionName);
+    // }
     return basicArgs;
   };
 

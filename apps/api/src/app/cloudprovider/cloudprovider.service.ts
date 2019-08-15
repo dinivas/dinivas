@@ -1,4 +1,5 @@
 import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
+import to from 'await-to-js';
 import {
   CloudproviderDTO,
   paginate,
@@ -9,7 +10,7 @@ import {
   ICloudApiProjectFloatingIpPool
 } from '@dinivas/dto';
 import { Cloudprovider } from './cloudprovider.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -47,7 +48,7 @@ export class CloudproviderService {
   }
 
   async checkConnection(id: number) {
-    let cloudprovider = await this.cloudproviderRepository.findOne(id);
+    const cloudprovider = await this.cloudproviderRepository.findOne(id);
     const cloudApi = this.cloudApiFactory.getCloudApiService(
       cloudprovider.cloud
     );
@@ -73,7 +74,10 @@ export class CloudproviderService {
   }
 
   async getCloudProviderRouters(id: number): Promise<ICloudApiProjectRouter[]> {
-    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(id);
+    const [err, cloudprovider] = await to(this.cloudproviderRepository.findOne(id));
+    if (err) {
+      throw new BadRequestException(err);
+    }
     const cloudApi = this.cloudApiFactory.getCloudApiService(
       cloudprovider.cloud
     );
