@@ -14,46 +14,45 @@ export interface TerraformStateDTO {
 }
 
 export interface TFChangeRepresentation {
-    actions: string[];
-    before: TFValuesRepresentation;
-    after: TFValuesRepresentation;
+  actions: string[];
+  before: TFValuesRepresentation;
+  after: TFValuesRepresentation;
 }
 
 export interface TFConfigRepresentation {
-    provider_configs: any;
-    root_module: any;
+  provider_configs: any;
+  root_module: any;
 }
 
 export interface TFStateRepresentation {
-    values: TFValuesRepresentation;
-    terraform_version: string;
+  values: TFValuesRepresentation;
+  terraform_version: string;
 }
 
 export interface TFResource {
-    address: string;
-    mode: string;
-    type: string;
-    name: string;
-    index: number;
-    provider_name: string;
-    schema_version: number;
-    values: any;
-
+  address: string;
+  mode: string;
+  type: string;
+  name: string;
+  index: number;
+  provider_name: string;
+  schema_version: number;
+  values: any;
 }
 export interface TFValueRootModule {
-    resources: TFResource[];
+  resources: TFResource[];
 }
 
 export interface TFValueChildModule {
-    address: string;
-    resources: TFResource[];
-    child_modules: TFValueChildModule[];
+  address: string;
+  resources: TFResource[];
+  child_modules: TFValueChildModule[];
 }
 
 export interface TFValuesRepresentation {
-    outputs: any;
-    root_module: TFValueRootModule;
-    child_modules: TFValueChildModule;
+  outputs: any;
+  root_module: TFValueRootModule;
+  child_modules: TFValueChildModule;
 }
 
 export interface TFResourceChange {
@@ -78,10 +77,19 @@ export interface TFPlanRepresentation {
   output_changes: any;
 }
 
-// Terroform Event
+// Terraform Event
 
-export interface TerraformPlanEvent {
-    project: ProjectDTO;
-    workingDir: string;
-    planResult: TFPlanRepresentation;
+export interface TerraformPlanEvent<T> {
+  source: T;
+  workingDir: string;
+  planResult: TFPlanRepresentation;
+}
+
+export interface TerraformApplyEvent<T> {
+  source: T;
+  stateResult: TFStateRepresentation;
+}
+
+export interface TerraformDestroyEvent<T> {
+  source: T;
 }

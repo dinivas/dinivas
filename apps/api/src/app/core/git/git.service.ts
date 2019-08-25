@@ -47,8 +47,12 @@ export class GitService {
           const simpleGit = simplegit(
             `${this.configService.getTerraformModulesRootPath()}/${module.name}`
           );
-          simpleGit.fetch('origin').then(fetchResult => {
-            simpleGit.reset('hard');
+          simpleGit.pull().then((pullResult: simplegit.PullResult) => {
+            this.logger.debug(
+              `Terraform module ${
+                module.name
+              } has been updated. ${JSON.stringify(pullResult.summary)}`
+            );
           });
         }
       });

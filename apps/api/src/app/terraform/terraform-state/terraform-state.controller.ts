@@ -28,13 +28,13 @@ export class TerraformStateController {
   @Get()
   @UseGuards(AuthGuard('terraform-state-basic'))
   async getState(
-    @Query('projectCode') projectCode: string,
+    @Query('stateId') stateId: string,
     @Query('module') moduleName: string
   ): Promise<any> {
     this.logger.debug(
-      `Receive get state query with params: projectCode=${projectCode}, module=${moduleName}`
+      `Receive get state query with params: stateId=${stateId}, module=${moduleName}`
     );
-    const state = await this.stateService.findState(projectCode, moduleName);
+    const state = await this.stateService.findState(stateId, moduleName);
     return JSON.parse(state.state);
   }
 
@@ -51,11 +51,11 @@ export class TerraformStateController {
   async updateState(
     @Req() request: Request,
     @Res() response: Response,
-    @Query('projectCode') projectCode: string,
+    @Query('stateId') stateId: string,
     @Query('module') moduleName: string
   ): Promise<any> {
     this.logger.debug(
-      `Receive update state query with params: projectCode=${projectCode}, module=${moduleName}`
+      `Receive update state query with params: stateId=${stateId}, module=${moduleName}`
     );
     const lockId = request.query.ID;
     if (lockId) {
@@ -66,7 +66,7 @@ export class TerraformStateController {
 
     this.logger.debug(`checking for existing lock`);
     const existingLock = await this.stateService.getLock(
-      projectCode,
+      stateId,
       moduleName
     );
 
@@ -92,7 +92,7 @@ export class TerraformStateController {
     }
 
     // Update state
-    await this.stateService.updateState(projectCode, moduleName, request.body);
+    await this.stateService.updateState(stateId, moduleName, request.body);
 
     // Send success
     response.status(200).end();
@@ -102,11 +102,11 @@ export class TerraformStateController {
   @UseGuards(AuthGuard('terraform-state-basic'))
   deleteState(
     @Req() request: Request,
-    @Query('projectCode') projectCode: string,
+    @Query('stateId') stateId: string,
     @Query('module') moduleName: string
   ): Promise<any> {
     this.logger.debug(
-      `Receive delete state query with params: projectCode=${projectCode}, module=${moduleName}`
+      `Receive delete state query with params: stateId=${stateId}, module=${moduleName}`
     );
     return null;
   }
@@ -114,7 +114,7 @@ export class TerraformStateController {
   @All() // order is important for this method. We need to handle Http LOCK & UNLOCK but NestJs does not provide it yet
   @UseGuards(AuthGuard('terraform-state-basic'))
   async lockOrUnlockState(
-    @Query('projectCode') projectCode: string,
+    @Query('stateId') stateId: string,
     @Query('module') module: string,
     @Req() request: Request,
     @Res() response: Response
@@ -122,9 +122,9 @@ export class TerraformStateController {
     // Decide if need lock or unlock
     if (request.method === 'LOCK') {
       this.logger.debug(
-        `Receive lock query for project: ${projectCode} and module: ${module}`
+        `Receive lock query for state: ${stateId} and module: ${module}`
       );
-      const existingLock = await this.stateService.getLock(projectCode, module);
+      const existingLock = await this.stateService.getLock(stateId, module);
       if (existingLock) {
         this.logger.debug(`existing lock ${existingLock.ID} found`);
         response
@@ -134,18 +134,18 @@ export class TerraformStateController {
         return;
       }
       this.logger.debug(
-        `no lock found for project: ${projectCode} and module: ${module}`
+        `no lock found for state: ${stateId} and module: ${module}`
       );
       // Lock it
       const newLock = request.body;
       this.logger.debug(
-        `locking project: ${projectCode} and module: ${module} with ${
+        `locking state: ${stateId} and module: ${module} with ${
           newLock.ID
         }`
       );
-      await await this.stateService.lock(projectCode, module, newLock);
+      await await this.stateService.lock(stateId, module, newLock);
       this.logger.debug(
-        `locked project: ${projectCode} and module: ${module} with ${
+        `locked state: ${stateId} and module: ${module} with ${
           newLock.ID
         }`
       );
@@ -153,12 +153,12 @@ export class TerraformStateController {
       response.status(200).end();
     } else if (request.method === 'UNLOCK') {
       this.logger.debug(
-        `Receive unlock query for project: ${projectCode} and module: ${module}`
+        `Receive unlock query for state: ${stateId} and module: ${module}`
       );
-      const existingLock = await this.stateService.getLock(projectCode, module);
+      const existingLock = await this.stateService.getLock(stateId, module);
       if (!existingLock) {
         this.logger.debug(
-          `no existing lock found for project: ${projectCode} and module: ${module}, already unlocked`
+          `no existing lock found for state: ${stateId} and module: ${module}, already unlocked`
         );
         response.status(409).end();
         return;
@@ -179,7 +179,7 @@ export class TerraformStateController {
 
       this.logger.debug(`unlocking`);
       // Unlock it
-      await this.stateService.unlock(projectCode, module);
+      await this.stateService.unlock(stateId, module);
 
       this.logger.debug(`unlocked`);
       // Send success

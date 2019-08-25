@@ -20,13 +20,15 @@ import {
   SearchContentTypeResolver,
   SearchPlatformResolver
 } from './search/search.resolver.service';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
     GalaxyComponent,
     MyContentComponent,
     MyImportComponent,
-    SearchComponent
+    SearchComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,

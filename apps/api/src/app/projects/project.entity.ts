@@ -14,7 +14,7 @@ export class Project {
   id: number;
   @Column()
   name: string;
-  @Column()
+  @Column({ unique: true })
   @ApiModelProperty()
   code: string;
   @Column('text', { nullable: true })
@@ -24,6 +24,8 @@ export class Project {
   @JoinColumn()
   cloud_provider: Cloudprovider;
   @Column({ nullable: true })
+  management_subnet_cidr: string;
+  @Column({ nullable: true })
   floating_ip_pool: string;
   @Column({ nullable: true })
   public_router: string;
@@ -31,6 +33,16 @@ export class Project {
   monitoring: boolean = false;
   @Column()
   logging: boolean = false;
+  @Column()
+  enable_proxy: boolean = true;
+  @Column({ nullable: true })
+  proxy_cloud_flavor: string;
   @Column({ nullable: true })
   logging_stack: string;
+  @Column({ nullable: true })
+  bastion_cloud_image: string;
+  @Column({ nullable: true })
+  bastion_cloud_flavor: string;
+  @Column({ nullable: true })
+  prometheus_cloud_flavor: string;
 }

@@ -30,7 +30,7 @@ export class ImagesComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     this.columnDefs = [
-      new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
+      //new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
       new ColumnDef('name', 'Name', true, true, false, FilterType.TEXT),
       new ColumnDef('dinivasImage', '', false, false, false),
       new ColumnDef('status', 'Status', true, true, false, FilterType.TEXT),

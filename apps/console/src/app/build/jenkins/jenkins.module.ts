@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { JenkinsRoutingModule } from './jenkins-routing.module';
 import { JenkinsComponent } from './jenkins.component';
 import { CommonUiModule } from '@dinivas/common-ui';
+import { JenkinsWizardComponent } from './jenkins-wizard/jenkins-wizard.component';
 
 @NgModule({
-  declarations: [JenkinsComponent],
+  declarations: [JenkinsComponent, JenkinsWizardComponent],
   imports: [
     CommonModule,
     CommonUiModule,

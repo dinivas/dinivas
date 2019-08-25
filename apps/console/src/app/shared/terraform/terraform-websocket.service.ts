@@ -10,11 +10,11 @@ export class TerraformWebSocket extends Socket {
     super({ url: `${environment.wsRootUrl}/terraform`, options: {} });
   }
 
-  receivePlanEvent(projectCode: string) {
-    return this.fromEvent(`planEvent-${projectCode}`);
+  receivePlanEvent(code: string) {
+    return this.fromEvent(`planEvent-${code}`);
   }
 
-  receiveApplyEvent(projectCode: string) {
-    return this.fromEvent(`applyEvent-${projectCode}`);
+  receiveApplyEvent(code: string) {
+    return this.fromEvent(`applyEvent-${code}`);
   }
 }

@@ -63,7 +63,18 @@ export function registerCustomMatIcon(
       'mongodb',
       'kubernetes',
       'openshift',
-      'docker'
+      'docker',
+      'github',
+      'bitbucket',
+      'server2',
+      'key',
+      'router',
+      'network',
+      'subnet',
+      'ip',
+      'checkmark',
+      'cpu',
+      'ram'
     ];
     customSvgIcons.forEach(icon =>
       matIconRegistry.addSvgIcon(

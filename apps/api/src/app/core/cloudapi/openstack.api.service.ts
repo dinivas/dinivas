@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@nestjs/common';
 import {
   ICloudApi,
@@ -10,7 +9,8 @@ import {
   ICloudApiDisk,
   ICloudApiProjectQuota,
   ICloudApiProjectFloatingIpPool,
-  ICloudApiProjectRouter
+  ICloudApiProjectRouter,
+  ICloudApiFlavor
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
@@ -126,6 +126,31 @@ export class OpenstackApiService implements ICloudApi {
     });
   }
 
+  getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.listFlavors((error, flavors_array: any[]) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(
+            flavors_array.map(flavor => {
+              return {
+                id: flavor.id,
+                name: flavor.name,
+                description: flavor.description,
+                vcpus: flavor.vcpus,
+                ram: flavor.ram,
+                disk: flavor.disk,
+                swap: flavor.swap,
+                is_public: flavor['os-flavor-access:is_public']
+              } as ICloudApiFlavor;
+            })
+          );
+        }
+      });
+    });
+  }
+
   getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]> {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {
       project.glance.listImages((error, images_array: any[]) => {
@@ -142,6 +167,7 @@ export class OpenstackApiService implements ICloudApi {
                 size: img.size,
                 status: img.status,
                 min_disk: img.min_disk ? img.min_disk * 1024 * 1024 * 1024 : 0, //min disk on openstack always in GB, but apimust return bytes
+                min_ram: img.min_ram,
                 visibility: img.visibility,
                 date: img.updated_at,
                 tags: img.tags

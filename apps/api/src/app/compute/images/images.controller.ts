@@ -32,17 +32,17 @@ export class ImagesController {
   @Get(':id')
   @Permissions('compute.images:view')
   findOne(@Param('id') id: string) {
-    return `This action returns a #${id} cat`;
+    return `This action returns an instance with id ${id}`;
   }
   @Put(':id')
   @Permissions('compute.images:edit')
   update(@Param('id') id: string, @Body() updateCatDto: any) {
-    return `This action updates a #${id} cat`;
+    return `This action updates an instance with id ${id}`;
   }
 
   @Delete(':id')
   @Permissions('compute.images:delete')
   remove(@Param('id') id: string) {
-    return `This action removes a #${id} cat`;
+    return `This action removes an instance with id ${id}`;
   }
 }

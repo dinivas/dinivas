@@ -4,8 +4,7 @@ import { Terraform } from './../../../terraform/core/Terraform';
 import { ConfigService } from './../../../core/config/config.service';
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { TerraformPlanEvent } from '@dinivas/dto';
-import { ResourceCounts } from '../../../terraform/core/Types';
+import { TFStateRepresentation, TerraformApplyEvent, ProjectDTO } from '@dinivas/dto';
 
 @CommandHandler(ApplyProjectCommand)
 export class ApplyProjectHandler
@@ -21,19 +20,23 @@ export class ApplyProjectHandler
   }
 
   async execute(command: ApplyProjectCommand) {
-    this.logger.debug(
-      `Received ApplyProjectCommand: ${command.project.name} (${
-        command.project.name
-      })`
-    );
+    return new Promise(async (resolve, reject) => {
+      this.logger.debug(
+        `Received ApplyProjectCommand: ${command.project.name} (${
+          command.project.name
+        })`
+      );
 
-    const applyResult: ResourceCounts = await this.terraform.apply(
-      command.workingDir,
-      ['-auto-approve','"last-plan"'],
-      { autoApprove: true, silent: false }
-    );
-    this.terraformGateway.emit(`applyEvent-${command.project.code}`, {
-      project: command.project
-    } as TerraformPlanEvent);
+      const stateResult: TFStateRepresentation = await this.terraform.apply(
+        command.workingDir,
+        ['-auto-approve', '"last-plan"'],
+        { autoApprove: true, silent: false }
+      );
+      resolve();
+      this.terraformGateway.emit(`applyEvent-${command.project.code}`, {
+        source: command.project,
+        stateResult
+      } as TerraformApplyEvent<ProjectDTO>);
+    });
   }
 }

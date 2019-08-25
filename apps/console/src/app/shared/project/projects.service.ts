@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import {
   ProjectDTO,
   ICloudApiProjectQuota,
-  ApplyProjectDTO
+  ApplyModuleDTO
 } from '@dinivas/dto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -27,8 +27,11 @@ export class ProjectsService {
     return this.http.post(`${environment.apiUrl}/projects/plan`, project);
   }
 
-  applyProjectPlan(applyProjectDTO: ApplyProjectDTO): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/projects/apply-plan`, applyProjectDTO);
+  applyProjectPlan(applyProjectDTO: ApplyModuleDTO<ProjectDTO>): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/projects/apply-plan`,
+      applyProjectDTO
+    );
   }
 
   updateProject(project: ProjectDTO): Observable<any> {
@@ -38,13 +41,19 @@ export class ProjectsService {
     );
   }
 
-  getOneProject(id: number): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/projects/${id}`);
+  getOneProject(id: number): Observable<ProjectDTO> {
+    return this.http.get<ProjectDTO>(`${environment.apiUrl}/projects/${id}`);
   }
 
   getProjectQuota(id: number): Observable<ICloudApiProjectQuota> {
     return this.http.get<ICloudApiProjectQuota>(
       `${environment.apiUrl}/projects/${id}/quota`
+    );
+  }
+
+  getProjectTerraformState(id: number): Observable<any> {
+    return this.http.get<any>(
+      `${environment.apiUrl}/projects/${id}/terraform_state`
     );
   }
 

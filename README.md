@@ -37,6 +37,25 @@ docker-compose up -d
 - Got to `Clients` > `dinivas-api` > `Credentials` and ensure the Secret is well generated and equals to the secret in the configuration
 
 
+## Quick start without Docker
+
+### Start Keycloak & Databases
+
+    docker-compose -p dinivas up -d
+
+### Start Server API
+
+    ng serve api
+
+### Start Ansible Galaxy Server
+
+From project Ansible-Galaxy, use Vscode debug launcher
+
+### Start Dinivas console
+
+    ng serve
+
+### 
 
 ## Contributing
 

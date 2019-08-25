@@ -89,6 +89,36 @@ export class CloudproviderService {
     );
   }
 
+  async getCloudProviderFlavors(cloudProviderId: number) {
+    let cloudprovider = await this.cloudproviderRepository.findOne(
+      cloudProviderId
+    );
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getAllFlavors(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
+  async getCloudProviderImages(cloudProviderId: number) {
+    let cloudprovider = await this.cloudproviderRepository.findOne(
+      cloudProviderId
+    );
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getAllImages(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
   static toDTO(cloudprovider: Cloudprovider): CloudproviderDTO {
     if (cloudprovider != null) {
       delete cloudprovider.config;

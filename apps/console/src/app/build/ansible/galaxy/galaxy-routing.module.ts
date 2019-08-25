@@ -1,3 +1,4 @@
+import { SettingsComponent } from './settings/settings.component';
 import { NamespaceListResolver } from './my-content/namespace-list-resolver.service';
 import { GalaxyComponent } from './galaxy.component';
 import { NgModule } from '@angular/core';
@@ -42,6 +43,7 @@ const routes: Routes = [
         }
       },
       { path: 'my-import', component: MyImportComponent },
+      { path: 'settings', component: SettingsComponent },
       { path: '', redirectTo: 'search' }
     ]
   }

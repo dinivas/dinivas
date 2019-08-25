@@ -1,3 +1,6 @@
+import { ComponentType } from '@angular/cdk/portal';
+import { ContextualMenuService } from './core/contextual-menu/contextual-menu.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HttpParams } from '@angular/common/http';
 import { ProjectsService } from './shared/project/projects.service';
 import {
@@ -8,8 +11,13 @@ import {
 } from '@dinivas/dto';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
-import { Component, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import {
+  Component,
+  ViewChild,
+  Injector,
+  ReflectiveInjector
+} from '@angular/core';
+import { MatDialog, MatSidenav } from '@angular/material';
 import {
   Router,
   ActivatedRoute,
@@ -37,6 +45,10 @@ export class AppComponent {
   coresQuota: ICloudApiProjectQuotaDetail;
   instancesQuota: ICloudApiProjectQuotaDetail;
   floatIpQuota: ICloudApiProjectQuotaDetail;
+  @ViewChild('contextualSidenav', { static: true })
+  contextualSidenav: MatSidenav;
+  contextualMenuComponent: ComponentType<any>;
+  contextualMenuInjector: Injector;
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -44,8 +56,19 @@ export class AppComponent {
     private projectService: ProjectsService,
     private router: Router,
     private route: ActivatedRoute,
-    private storage: LocalStorageService
-  ) {}
+    private storage: LocalStorageService,
+    private contextualMenuService: ContextualMenuService,
+    private breakpointObserver: BreakpointObserver,
+  ) {
+    this.contextualMenuInjector = ReflectiveInjector.resolveAndCreate([
+      {
+        provide: 'contextualSidenav',
+        useValue: {
+          value: this.contextualSidenav
+        }
+      }
+    ]);
+  }
 
   async ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -69,9 +92,21 @@ export class AppComponent {
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
     }
-    if (this.sideNavMode === 'side') this.sideNavOpened = true;
 
     this.watchRouteChanged();
+    this.breakpointObserver.observe(Breakpoints.Handset).subscribe(t => {
+      if (t.matches) {
+        this.sideNavMode = 'over';
+      } else {
+        this.sideNavMode = 'side';
+        this.sideNavOpened = true;
+      }
+    });
+    this.contextualMenuService.contextualComponent$.subscribe(component => {
+      console.log('loading component', component);
+      this.contextualMenuComponent = component;
+      this.contextualSidenav.open();
+    });
   }
 
   watchRouteChanged() {
@@ -122,7 +157,10 @@ export class AppComponent {
       (project && project.id != this.currentProject.id)
     ) {
       this.currentProject = project;
-      this.storage.store(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY, this.currentProject.id);
+      this.storage.store(
+        CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY,
+        this.currentProject.id
+      );
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { project: this.currentProject.id },

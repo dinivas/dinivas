@@ -133,3 +133,9 @@ Usage:
   }
 
 }
+
+@mixin border-radius($args...) {
+  -moz-border-radius: $args;
+  -webkit-border-radius: $args;
+  border-radius: $args;
+}

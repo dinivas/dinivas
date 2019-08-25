@@ -30,7 +30,7 @@ export class InstancesComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     this.columnDefs = [
-      new ColumnDef('id', 'Id', false),
+      //new ColumnDef('id', 'Id', false),
       new ColumnDef('name', 'Name', true, true, false, FilterType.TEXT),
       new ColumnDef('status', 'Status', false),
       new ColumnDef('adresses', 'Adresses', false),

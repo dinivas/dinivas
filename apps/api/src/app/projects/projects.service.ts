@@ -63,8 +63,10 @@ export class ProjectsService {
     return project;
   }
 
-  async update(id: number, projectDTO: ProjectDTO) {
-    return await this.projectRepository.save(projectDTO as Project);
+  async update(id: number, projectDTO: ProjectDTO): Promise<ProjectDTO> {
+    return ProjectsService.toDTO(
+      await this.projectRepository.save(projectDTO as Project)
+    );
   }
 
   async delete(id: number) {
@@ -77,9 +79,17 @@ export class ProjectsService {
     projectDTO.name = project.name;
     projectDTO.code = project.code;
     projectDTO.description = project.description;
+    projectDTO.public_router = project.public_router;
+    projectDTO.floating_ip_pool = project.floating_ip_pool;
     projectDTO.monitoring = project.monitoring;
     projectDTO.logging = project.logging;
     projectDTO.logging_stack = project.logging_stack;
+    projectDTO.management_subnet_cidr= project.management_subnet_cidr;
+    projectDTO.enable_proxy = project.enable_proxy;
+    projectDTO.proxy_cloud_flavor = project.proxy_cloud_flavor;
+    projectDTO.bastion_cloud_image = project.bastion_cloud_image;
+    projectDTO.bastion_cloud_flavor = project.bastion_cloud_flavor;
+    projectDTO.prometheus_cloud_flavor = project.prometheus_cloud_flavor;
     projectDTO.cloud_provider = CloudproviderService.toDTO(
       project.cloud_provider
     );

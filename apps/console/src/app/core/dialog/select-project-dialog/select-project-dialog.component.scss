@@ -3,6 +3,16 @@
   padding: 15px;
 }
 .mat-card {
-  margin: 50px;
+  margin: 0 auto;
   max-width: 600px;
+
+  .mat-card-content {
+    p {
+      margin: 20px;
+    }
+  }
+}
+.container{
+  margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
+  transform: translateY(-50%);
 }

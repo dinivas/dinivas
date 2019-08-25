@@ -1,3 +1,5 @@
+import { Jenkins } from './build/jenkins/jenkins.entity';
+import { BuildModule } from './build/build.module';
 import { API_PREFFIX } from './constants';
 import { TerraformGateway } from './terraform/terraform.gateway';
 import { statusMonitorConfig } from './utils/status-monitor';
@@ -47,7 +49,7 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
   imports: [
     TypeOrmModule.forRoot({
       ...ormConfigJson,
-      entities: [Cloudprovider, Project, TerraformState]
+      entities: [Cloudprovider, Project, TerraformState, Jenkins]
     }),
     ComputeModule,
     CloudproviderModule,
@@ -55,6 +57,7 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
     IamModule,
     TerraformModule,
     CoreModule,
+    BuildModule,
     StatusMonitorModule.setUp(statusMonitorConfig)
   ],
   controllers: [InfoController],
@@ -69,7 +72,12 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
-    HelmetMiddleware.configure({});
+    HelmetMiddleware.configure({
+      frameguard: {
+        action: 'allow-from',
+        domain: 'http://localhost:4200'
+      }
+    });
     CsurfMiddleware.configure({ cookie: true });
     consumer
       .apply(HelmetMiddleware)

@@ -1,3 +1,4 @@
+import { MatSidenav } from '@angular/material';
 import { CloudproviderService } from './../../../shared/cloudprovider/cloudprovider.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectsService } from '../../../shared/project/projects.service';
@@ -20,7 +21,7 @@ export class SelectProjectDialogComponent implements OnInit, OnDestroy {
   constructor(
     private projectService: ProjectsService,
     private cloudproviderService: CloudproviderService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {

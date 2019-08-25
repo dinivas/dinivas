@@ -1,3 +1,5 @@
+import { TerraformStateService } from './../terraform/terraform-state/terraform-state.service';
+import { DestroyProjectCommand } from './commands/impl/destroy-project.command';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { PlanProjectCommand } from './commands/impl/plan-project.command';
 import { Permissions } from './../auth/permissions.decorator';
@@ -5,9 +7,7 @@ import {
   Pagination,
   ProjectDTO,
   ICloudApiProjectQuota,
-  ICloudApiProjectFloatingIpPool,
-  ICloudApiProjectRouter,
-  ApplyProjectDTO
+  ApplyModuleDTO
 } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -22,7 +22,8 @@ import {
   Body,
   Post,
   Query,
-  Logger
+  Logger,
+  HttpCode
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
@@ -37,6 +38,7 @@ export class ProjectsController {
   private readonly logger = new Logger(ProjectsController.name);
   constructor(
     private readonly projectsService: ProjectsService,
+    private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
     private readonly commandBus: CommandBus
   ) {}
@@ -68,6 +70,19 @@ export class ProjectsController {
     return this.projectsService.getProjectQuota(id);
   }
 
+  @Get(':id/terraform_state')
+  @Permissions('projects:view')
+  async projectTerraformState(@Param('id') id: number): Promise<any> {
+    const project = await this.projectsService.findOne(id);
+    if (project) {
+      const state = await this.terraformStateService.findState(
+        project.code.toLowerCase(),
+        'project_base'
+      );
+      return JSON.parse(state.state);
+    }
+  }
+
   @Post()
   @Permissions('projects:create')
   create(@Body() project: ProjectDTO): Promise<ProjectDTO> {
@@ -97,26 +112,35 @@ export class ProjectsController {
   }
 
   @Post('apply-plan')
+  @HttpCode(202)
   @Permissions('projects:create')
-  async applyProject(@Body() applyProject: ApplyProjectDTO): Promise<ApplyProjectDTO> {
-    return this.commandBus.execute(
-      new ApplyProjectCommand(
-        applyProject.project,
-        applyProject.workingDir
-      )
+  async applyProject(@Body() applyProject: ApplyModuleDTO<ProjectDTO>) {
+    this.commandBus.execute(
+      new ApplyProjectCommand(applyProject.source, applyProject.workingDir)
     );
   }
 
   @Put(':id')
   @Permissions('projects:edit')
-  async update(@Param('id') id: number, @Body() project: ProjectDTO) {
+  async update(
+    @Param('id') id: number,
+    @Body() project: ProjectDTO
+  ): Promise<ProjectDTO> {
     this.logger.debug(`Updating project ${project.id} ${project.name}`);
-    await this.projectsService.update(id, project);
+    return await this.projectsService.update(id, project);
   }
 
   @Delete(':id')
   @Permissions('projects:delete')
   async remove(@Param('id') id: number) {
-    await this.projectsService.delete(id);
+    const project = await this.projectsService.findOne(id);
+    if (project) {
+      const cloudprovider = await this.cloudproviderService.findOne(
+        project.cloud_provider.id
+      );
+      this.commandBus.execute(
+        new DestroyProjectCommand(project, YAML.parse(cloudprovider.config))
+      );
+    }
   }
 }

@@ -1,29 +1,38 @@
-<mat-card class="container">
-  <mat-card-header>
-    <mat-card-title>{{ projects && projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-nav-list dense *ngIf="projects && projects.length > 0">
-      <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}"
-        (click)="onCancelClick(project)" *ngFor="let project of projects">
-        {{ project.code }} - {{ project.name }}
-      </a>
-    </mat-nav-list>
-  </mat-card-content>
-  <mat-card-actions align="end">
+<div class="container">
+  <mat-card class="">
+    <mat-card-header>
+      <mat-card-title>
+        {{ projects && projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0">
+        You must create at least one project to unlock some features because they are related to a given project.
+      </p>
+      <mat-nav-list dense *ngIf="projects && projects.length > 0">
+        <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}"
+          (click)="onCancelClick(project)" *ngFor="let project of projects">
+          {{ project.code }} - {{ project.name }}
+        </a>
+      </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions align="end">
       <button mat-raised-button color="primary"
-      *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0"
-      [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
-      <!-- No project found  -->
-      Create the first project
-    </button>
-    <button mat-raised-button color="primary" *ngIf="projects && projects?.length === 0 && cloudproviders?.length === 0"
-      [routerLink]="['/admin/cloudproviders/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
-      <!-- No project found  -->
-      Create the first Cloudprovider
-    </button>
-  </mat-card-actions>
-</mat-card>
+        *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0"
+        [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
+        <!-- No project found  -->
+        Create the first project
+      </button>
+      <button mat-raised-button color="primary"
+        *ngIf="projects && projects?.length === 0 && cloudproviders?.length === 0"
+        [routerLink]="['/admin/cloudproviders/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
+        <!-- No project found  -->
+        Create the first Cloudprovider
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
 <!-- <div mat-dialog-actions class="" align="end">
   <button type="button" mat-button (click)="onCancelClick()" >Cancel</button>
 </div> -->

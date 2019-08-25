@@ -6,7 +6,7 @@ export class TerraformState {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  projectCode: string;
+  stateId: string;
   @Column()
   @ApiModelProperty()
   module: string;

@@ -18,12 +18,18 @@ import {
   ResourceCounts,
   ChangeTypes
 } from './Types';
-import { TFPlanRepresentation } from '@dinivas/dto';
-const fs = require('fs')
+import {
+  TFPlanRepresentation,
+  TFStateRepresentation,
+  ProjectDTO,
+  JenkinsDTO
+} from '@dinivas/dto';
+const fs = require('fs');
 const path = require('path');
+const os = require('os');
+const ncp = require('ncp').ncp;
 
 export class Terraform extends Base {
-
   private readonly nestLogger = new Logger(Terraform.name);
   constructor(private configService: ConfigService) {
     super('terraform', '-auto-approve');
@@ -34,7 +40,11 @@ export class Terraform extends Base {
       "Only 'yes' will be accepted to confirm"
     );
   }
-  public async init(path: string, commandLineArgs: string[], options: ExecuteOptions = { silent: true }) {
+  public async init(
+    path: string,
+    commandLineArgs: string[],
+    options: ExecuteOptions = { silent: true }
+  ) {
     const commandToExecute = `init ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
     await this.executeSync(path, commandToExecute, { silent: options.silent });
@@ -99,7 +109,7 @@ export class Terraform extends Base {
       silent: options.silent || false
     });
     const { stdout } = await this.executeSync(path, `show -json last-plan`, {
-      silent: options.silent || false
+      silent: true
     });
     return JSON.parse(stdout) as TFPlanRepresentation;
     //return this.parseResourceChanges(stdout, ChangeTypes.PLAN);
@@ -107,21 +117,34 @@ export class Terraform extends Base {
 
   public async destroy(
     path: string,
+    commandLineArgs: string[],
     options: DestroyOptions = {}
-  ): Promise<ResourceCounts> {
-    const { stdout } = await this.executeInteractive('destroy', path, options);
-    return this.parseResourceChanges(stdout, ChangeTypes.DESTROYED);
+  ) {
+    const commandToExecute = `destroy ${commandLineArgs.join(' ')}`;
+    this.nestLogger.debug(commandToExecute);
+    const { stdout } = await this.executeSync(path, commandToExecute, {
+      silent: options.silent || false
+    });
+    return;
   }
 
   public async apply(
     path: string,
     commandLineArgs: string[],
     options: ApplyOptions = {}
-  ): Promise<ResourceCounts> {
+  ): Promise<TFStateRepresentation> {
     const commandToExecute = `apply ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
-    const { stdout } = await this.executeInteractive(commandToExecute, path, options);
-    return this.parseResourceChanges(stdout, ChangeTypes.ADDED);
+
+    // Terraform apply
+    await this.executeSync(path, commandToExecute, {
+      silent: options.silent || false
+    });
+    // Terraform show state as json
+    const { stdout } = await this.executeSync(path, `show -json`, {
+      silent: true
+    });
+    return JSON.parse(stdout) as TFStateRepresentation;
   }
 
   private parseResourceChanges(
@@ -178,14 +201,21 @@ export class Terraform extends Base {
     );
   }
 
-  addBackendConfigFileToModule(projectCode: string, module: string, destination: string) {
+  addBackendConfigFileToModule(
+    stateId: string,
+    module: string,
+    destination: string
+  ) {
     const backendContent = `
     terraform {
       required_version = ">= 0.12.2"
       backend "http" {
-        address        = "http://localhost:${process.env.PORT || 3333}/${API_PREFFIX}/terraform/state?projectCode=${projectCode}&module=${module}"
-        lock_address   = "http://localhost:${process.env.PORT || 3333}/${API_PREFFIX}/terraform/state?projectCode=${projectCode}&module=${module}"
-        unlock_address = "http://localhost:${process.env.PORT || 3333}/${API_PREFFIX}/terraform/state?projectCode=${projectCode}&module=${module}"
+        address        = "http://localhost:${process.env.PORT ||
+          3333}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
+        lock_address   = "http://localhost:${process.env.PORT ||
+          3333}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
+        unlock_address = "http://localhost:${process.env.PORT ||
+          3333}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
         username       = "${this.configService.get('terraform.state.username')}"
         password       = "${this.configService.get('terraform.state.password')}"
       }
@@ -194,7 +224,7 @@ export class Terraform extends Base {
     try {
       fs.writeFileSync(path.join(destination, 'backend.tf'), backendContent);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
@@ -211,7 +241,100 @@ export class Terraform extends Base {
     try {
       fs.writeFileSync(path.join(destination, 'provider.tf'), providerContent);
     } catch (err) {
-      this.nestLogger.error(err)
+      this.nestLogger.error(err);
     }
+  }
+
+  executeInTerraformModuleDir(
+    projectCode: string,
+    tfModuleName: string,
+    cloudConfig,
+    callback: (workingFolder: string) => void
+  ) {
+    fs.mkdtemp(
+      path.join(
+        os.tmpdir(),
+        `project-${projectCode.toLocaleLowerCase()}-${tfModuleName}-`
+      ),
+      (err: any, tempFolder: string) => {
+        if (err) throw err;
+        ncp(
+          path.join(
+            this.configService.getTerraformModulesRootPath(),
+            tfModuleName
+          ),
+          path.join(tempFolder),
+          async (error: any) => {
+            if (error) {
+              return console.error(error);
+            }
+            this.nestLogger.debug(`Working Terraform folder: ${tempFolder}`);
+            // Add backend config file
+            this.addBackendConfigFileToModule(
+              projectCode,
+              tfModuleName,
+              tempFolder
+            );
+            // Add provider config
+            this.addProviderConfigFileToModule(cloudConfig, tempFolder);
+            // Init module temporary directory
+            await this.init(tempFolder, [], { silent: false });
+            callback(tempFolder);
+          }
+        );
+      }
+    );
+  }
+
+  computeTerraformProjectBaseModuleVars(project: ProjectDTO): string[] {
+    return [
+      `-var 'project_name=${project.code.toLowerCase()}'`,
+      `-var 'project_description=${project.description}'`,
+      project.management_subnet_cidr
+        ? `-var 'mgmt_subnet_cidr=${project.management_subnet_cidr}'`
+        : '',
+      `-var 'public_router_name=${project.public_router}'`,
+      `-var 'bastion_image_name=${project.bastion_cloud_image}'`,
+      `-var 'bastion_compute_flavor_name=${project.bastion_cloud_flavor}'`,
+      `-var 'bastion_ssh_user=centos'`,
+      `-var 'proxy_image_name=Dinivas Base Centos7'`,
+      `-var 'enable_proxy=${project.enable_proxy ? '1' : '0'}'`,
+      `-var 'proxy_compute_flavor_name=${
+        project.proxy_cloud_flavor
+          ? project.proxy_cloud_flavor
+          : 'dinivas.medium'
+      }'`,
+      `-var 'prometheus_image_name=ShepherdCloud Prometheus'`,
+      `-var 'prometheus_compute_flavor_name=${
+        project.prometheus_cloud_flavor
+      }'`,
+      `-var 'enable_prometheus=${project.monitoring ? '1' : '0'}'`,
+      `-var 'enable_logging_graylog=${
+        project.logging && project.logging_stack == 'graylog' ? '1' : '0'
+      }'`,
+      `-var 'enable_logging_kibana=${
+        project.logging && project.logging_stack == 'kibana' ? '1' : '0'
+      }'`
+    ];
+  }
+
+  computeTerraformJenkinsModuleVars(jenkins: JenkinsDTO): string[] {
+    return [
+      `-var 'enable_jenkins_master=1'`,
+      `-var 'jenkins_master_name=${jenkins.code.toLowerCase()}'`,
+      `-var 'jenkins_master_instance_count=1'`,
+      `-var 'jenkins_master_image_name=${jenkins.master_cloud_image}'`,
+      `-var 'jenkins_master_compute_flavor_name=${
+        jenkins.master_cloud_flavor
+      }'`,
+      `-var 'jenkins_master_keypair_name=${jenkins.project.code.toLowerCase()}'`,
+      `-var 'jenkins_master_network=${jenkins.project.code.toLowerCase()}-mgmt'`,
+      `-var 'jenkins_master_subnet=${jenkins.project.code.toLowerCase()}-mgmt-subnet'`,
+      jenkins.use_floating_ip
+        ? `-var 'jenkins_master_floating_ip_pool=${
+            jenkins.project.floating_ip_pool
+          }'`
+        : ''
+    ];
   }
 }

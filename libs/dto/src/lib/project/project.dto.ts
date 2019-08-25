@@ -9,14 +9,20 @@ export class ProjectDTO {
   public_router: string;
   monitoring = false;
   logging = false;
+  management_subnet_cidr: string;
+  enable_proxy = true;
+  proxy_cloud_flavor: string;
   logging_stack: string;
+  bastion_cloud_image: string;
+  bastion_cloud_flavor: string;
+  prometheus_cloud_flavor: string;
 }
 
-export class ApplyProjectDTO {
-  project: ProjectDTO;
+export class ApplyModuleDTO<T> {
+  source: T;
   workingDir: string;
-  constructor(project: ProjectDTO, workingDir: string) {
-    this.project = project;
+  constructor(source: T, workingDir: string) {
+    this.source = source;
     this.workingDir = workingDir;
   }
 }

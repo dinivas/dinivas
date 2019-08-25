@@ -15,24 +15,24 @@ export class TerraformStateService {
   }
 
   async findState(
-    projectCode: string,
+    stateId: string,
     moduleName: string
   ): Promise<TerraformState> {
     const state = await this.stateRepository.findOne({
-      projectCode: projectCode,
+      stateId: stateId,
       module: moduleName
     });
     if (!state) {
       throw new NotFoundException(
-        `No state available for project: ${projectCode} and module: ${moduleName}`
+        `No state available for state: ${stateId} and module: ${moduleName}`
       );
     }
     return state;
   }
 
-  async getLock(projectCode: string, moduleName: string) {
+  async getLock(stateId: string, moduleName: string) {
     const state: TerraformState = await this.stateRepository.findOne({
-      projectCode: projectCode,
+      stateId: stateId,
       module: moduleName
     });
     if (state && state.lockId) {
@@ -48,14 +48,14 @@ export class TerraformStateService {
     return undefined;
   }
 
-  async lock(projectCode: string, moduleName: string, lock: any) {
+  async lock(stateId: string, moduleName: string, lock: any) {
     let state: TerraformState = await this.stateRepository.findOne({
-      projectCode: projectCode,
+      stateId: stateId,
       module: moduleName
     });
     if (!state) {
       state = new TerraformState();
-      state.projectCode = projectCode;
+      state.stateId = stateId;
       state.module = moduleName;
       //state.state = '{}';
     }
@@ -68,14 +68,14 @@ export class TerraformStateService {
     await this.stateRepository.save(state);
   }
 
-  async unlock(projectCode: string, moduleName: string) {
+  async unlock(stateId: string, moduleName: string) {
     let state: TerraformState = await this.stateRepository.findOne({
-      projectCode: projectCode,
+      stateId: stateId,
       module: moduleName
     });
     if (!state) {
       state = new TerraformState();
-      state.projectCode = projectCode;
+      state.stateId = stateId;
       state.module = moduleName;
     }
     state.lockId = null;
@@ -87,14 +87,14 @@ export class TerraformStateService {
     await this.stateRepository.save(state);
   }
 
-  async updateState(projectCode: string, moduleName: string, newState: any) {
+  async updateState(stateId: string, moduleName: string, newState: any) {
     let state: TerraformState = await this.stateRepository.findOne({
-      projectCode: projectCode,
+      stateId: stateId,
       module: moduleName
     });
     if (!state) {
       state = new TerraformState();
-      state.projectCode = projectCode;
+      state.stateId = stateId;
       state.module = moduleName;
     }
     state.state = newState;

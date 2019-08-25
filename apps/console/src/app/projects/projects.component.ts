@@ -23,7 +23,7 @@ export class ProjectsComponent extends MatCrudComponent
   filterPlaceholder = 'Filter';
   dataProvider = this;
   deleteConfirmQuestion: Function = entity =>
-    `Delete project ${entity.name} (${entity.code}) ?`;
+    `Delete project ${entity.name} (${entity.code}) ? This will also destroy all project resources.`;
 
   columnDefs: Array<ColumnDef>;
 

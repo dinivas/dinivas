@@ -18,9 +18,9 @@ export class ApiInterceptor implements HttpInterceptor {
     if (this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)) {
       request = request.clone({
         setHeaders: {
-          'X-Dinivas-Project-Id': this.storage.retrieve(
-            CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY
-          )
+          'X-Dinivas-Project-Id': this.storage
+            .retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)
+            .toString()
         }
       });
     }

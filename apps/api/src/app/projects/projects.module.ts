@@ -1,3 +1,5 @@
+import { TerraformStateService } from './../terraform/terraform-state/terraform-state.service';
+import { TerraformStateModule } from './../terraform/terraform-state/terraform-state.module';
 import { TerraformModule } from './../terraform/terraform.module';
 import { CloudproviderModule } from './../cloudprovider/cloudprovider.module';
 import { CommandHandlers } from './commands/handlers/index';
@@ -15,7 +17,8 @@ import { CqrsModule } from '@nestjs/cqrs';
     CoreModule,
     CloudproviderModule,
     CqrsModule,
-    TerraformModule
+    TerraformModule,
+    TerraformStateModule
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService, ...CommandHandlers],

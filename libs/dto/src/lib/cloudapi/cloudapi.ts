@@ -53,9 +53,23 @@ export interface ICloudApiImage {
   size: number;
   status: string;
   min_disk: number;
+  min_ram: number;
   visibility: string;
   date: string;
   tags: string[];
+}
+
+// Flavors
+
+export interface ICloudApiFlavor {
+  id: string;
+  name: string;
+  description: string;
+  vcpus: number;
+  ram: number;
+  disk: number;
+  swap: number;
+  is_public: boolean;
 }
 
 // Disks
@@ -91,6 +105,7 @@ export interface ICloudApi {
 
   //Compute infos
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
+  getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]>;
   getAllImages(loudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
   getAllDisks(loudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
 }

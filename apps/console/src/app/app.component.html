@@ -6,10 +6,10 @@
     <a mat-button routerLink="/" class="logo">
       <span>Dinivas Console</span>
     </a>
-    <button mat-button [matMenuTriggerFor]="project_selection_menu"
+    <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects?.length > 0"
       [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"
       matTooltipPosition="below">
-      <mat-icon *ngIf="currentProject">folder_special</mat-icon>
+      <mat-icon *ngIf="currentProject">group_work</mat-icon>
       {{ currentProject ? currentProject?.name  : 'Select project' }}
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
@@ -37,7 +37,7 @@
   </div>
 </mat-toolbar>
 <mat-sidenav-container class="global">
-  <mat-sidenav #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
+  <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
     <mat-nav-list>
       <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
         [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
@@ -203,7 +203,9 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-
+  <mat-sidenav class="contextual" #contextualSidenav [mode]="'over'" position="end">
+      <ng-container *ngComponentOutlet="contextualMenuComponent"></ng-container>
+  </mat-sidenav>
   <mat-sidenav-content>
     <div class="main-container">
       <router-outlet></router-outlet>

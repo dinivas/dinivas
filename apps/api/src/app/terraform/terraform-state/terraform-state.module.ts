@@ -14,6 +14,7 @@ import { PassportModule } from '@nestjs/passport';
     PassportModule
   ],
   controllers: [TerraformStateController],
-  providers: [TerraformStateService, BasicAuthStrategy]
+  providers: [TerraformStateService, BasicAuthStrategy],
+  exports: [TerraformStateService]
 })
 export class TerraformStateModule {}

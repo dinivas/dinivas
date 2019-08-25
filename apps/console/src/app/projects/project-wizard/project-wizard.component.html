@@ -3,6 +3,7 @@
     <mat-icon>arrow_back</mat-icon>
   </button>
   <span class="page-title">{{ !project ? 'New project creation wizard' : 'Edit project wizard' }}</span>
+  <span class="ml-15">{{ projectForm?.value.name | uppercase }}</span>
 </mat-toolbar>
 
 <mat-vertical-stepper [linear]="isLinear" #stepper>
@@ -10,15 +11,16 @@
     <div class="form-container">
       <div class="spinner-container" *ngIf="projectPlanInProgress">
         <mat-spinner></mat-spinner>
+        <span>We are planning your project resources, wait a moment...</span>
       </div>
-      <form [formGroup]="projectForm" (ngSubmit)="submitPlanProject(projectForm.value)">
+      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.value)">
         <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
             resources</span></ng-template>
         <div class="mat-form-container" fxLayout="column">
           <mat-form-field class="" appearance="outline">
             <mat-label>Cloud provider configuration</mat-label>
-            <mat-select formControlName="cloud_provider" [compareWith]="compareFn" (selectionChange)="onChanges()"
-              required>
+            <mat-select formControlName="cloud_provider" [compareWith]="compareFn"
+              (selectionChange)="onCloudProviderChanges()" required>
               <mat-option>None</mat-option>
               <mat-option *ngFor="let cp of cloudproviders" [value]="cp">
                 {{ cp.name }} ({{ cp.cloud }})
@@ -34,7 +36,8 @@
           <mat-form-field class="" appearance="outline">
             <mat-label>Project code</mat-label>
             <input type="text" matInput formControlName="code" required>
-            <mat-hint>The project code will be used to suffix most components</mat-hint>
+            <mat-hint>The project code will be used to suffix most components. You can't change it after project
+              creation.</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Description</mat-label>
@@ -50,21 +53,64 @@
             <mat-hint>The name of the router to use as an external gateway</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
+            <mat-label>Subnet cidr</mat-label>
+            <input type="text" matInput formControlName="management_subnet_cidr" required>
+            <mat-hint>The main subnet cidr.</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
             <mat-label>Floating Ip pool</mat-label>
             <mat-select formControlName="floating_ip_pool" required>
-              <mat-option *ngFor="let floatingIpPool of availableFloatingIpPools;trackBy"
-                [value]="floatingIpPool.name">
+              <mat-option *ngFor="let floatingIpPool of availableFloatingIpPools;trackBy" [value]="floatingIpPool.name">
                 {{ floatingIpPool.name }}
               </mat-option>
             </mat-select>
             <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
           </mat-form-field>
+          <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"
+            formControlName="bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
+          </dinivas-cloud-image-radios>
+          <ng-template #loading_bastion_image>
+            <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Bastion
+                instance</strong></p>
+          </ng-template>
+          <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_bastion_flavor"
+            formControlName="bastion_cloud_flavor" label="Select bastion flavor to use" [cloudFlavors]="cloudFlavors">
+          </dinivas-cloud-flavor-radios>
+          <ng-template #loading_bastion_flavor>
+            <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
+                instance</strong></p>
+          </ng-template>
+          <button type="button" mat-button (click)="addSSHKey()">New SSH key</button>
+          <div class="slide-toggle-container">
+            <mat-slide-toggle formControlName="enable_proxy" color="accent">
+              {{ projectForm?.value.enable_proxy ? 'Disable proxy instance' : 'Enable proxy instance'}}
+            </mat-slide-toggle>
+            <mat-hint>A proxy will expose services to external network</mat-hint>
+          </div>
+          <ng-container *ngIf="projectForm?.value.enable_proxy">
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_proxy_flavor"
+              formControlName="proxy_cloud_flavor" label="Select proxy flavor to use" [cloudFlavors]="cloudFlavors">
+            </dinivas-cloud-flavor-radios>
+            <ng-template #loading_proxy_flavor>
+              <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Proxy
+                  instance</strong></p>
+            </ng-template>
+          </ng-container>
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="monitoring" color="accent">
               {{ projectForm?.value.monitoring ? 'Disable project monitoring' : 'Enable project monitoring'}}
             </mat-slide-toggle>
             <mat-hint>Prometheus will be installed at project level</mat-hint>
           </div>
+          <dinivas-cloud-flavor-radios
+            *ngIf="(projectForm?.value.monitoring && cloudFlavors?.length > 0); else loading_prometheus_flavor"
+            formControlName="prometheus_cloud_flavor" label="Select prometheus flavor to use"
+            [cloudFlavors]="cloudFlavors"></dinivas-cloud-flavor-radios>
+          <ng-template #loading_prometheus_flavor>
+            <p class="no-data-checkbox" *ngIf="projectForm?.value.monitoring">Select a cloudprovider to display
+              <strong>flavors</strong> for
+              <strong>Prometheus instance</strong></p>
+          </ng-template>
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="logging" color="accent">
               {{ projectForm?.value.logging ? 'Disable project logging' : 'Enable project logging'}}
@@ -72,10 +118,9 @@
             <mat-hint>When enabled, you'll have to select the Logging stack to install</mat-hint>
           </div>
           <div class="logging-stack" *ngIf="projectForm?.value.logging">
-            <h5>Select logging stack bellow</h5>
+            <h4>Select logging stack bellow</h4>
             <div class="stack-container">
               <mat-card (click)="loggingStack = 'graylog'" [class.selected]="loggingStack === 'graylog'">
-                <mat-icon>check</mat-icon>
                 <mat-card-header>
                   <mat-card-title>Graylog</mat-card-title>
                 </mat-card-header>
@@ -83,9 +128,10 @@
                   <div class="graylog"></div>
                   <p>This will install Graylog stack</p>
                 </mat-card-content>
+                <div class="checkmark-overlay"></div>
+                <mat-icon class="checkmark">check</mat-icon>
               </mat-card>
               <mat-card class="" (click)="loggingStack = 'kibana'" [class.selected]="loggingStack === 'kibana'">
-                <mat-icon>check</mat-icon>
                 <mat-card-header>
                   <mat-card-title>Kibana</mat-card-title>
                 </mat-card-header>
@@ -93,45 +139,67 @@
                   <div class="kibana"></div>
                   <p>This will install Kibana stack</p>
                 </mat-card-content>
+                <div class="checkmark-overlay"></div>
+                <mat-icon class="checkmark">check</mat-icon>
               </mat-card>
             </div>
           </div>
+
         </div>
         <div class="actions">
           <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
-          <button mat-button matStepperNext color="primary" class="ml-10" [disabled]="!isFormValid()">Plan project
+          <button type="button" mat-button matStepperNext class="ml-10" *ngIf="project?.id && isFormValid()"
+            (click)="showProjectOutput()">Show project
+            infra infos</button>
+          <button type="submit" mat-button matStepperNext color="primary" class="ml-10"
+            [disabled]="!isFormValid() || (isFormValid() && !projectForm.dirty)">Plan
+            project
             resources</button>
         </div>
       </form>
     </div>
   </mat-step>
-  <mat-step [completed]="projectApplyStepFinished">
+  <mat-step [completed]="projectApplyStepFinished" [editable]="!showingDirectOutput">
     <div class="apply-container">
       <div class="spinner-container" *ngIf="projectApplyInProgress">
         <mat-spinner></mat-spinner>
+        <span>We are creating your project resources, wait a moment...</span>
       </div>
       <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
-        not create any resources</span>
+          not create any resources</span>
       </ng-template>
       <div class="tf-plan-resources-container">
-        <div class="tf-plan-resource" *ngFor="let tfResource of terraformPlanEvent?.planResult.resource_changes">
-          <h4>{{ tfResource.name }} - {{ tfResource.type }}</h4>
-          <span>{{ tfResource.change.actions }} </span>
-        </div>
+        <dinivas-terraform-representation [planRepresentation]="terraformPlanEvent?.planResult">
+        </dinivas-terraform-representation>
       </div>
       <div class="actions">
         <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
         <button mat-button matStepperPrevious class="ml-10">Back</button>
-        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.value)" class="ml-10">Apply resources changes</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.value)"
+          class="ml-10">{{ !project?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
       </div>
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    You are now done.
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <ng-template matStepLabel>View project infrastructure informations
+      </ng-template>
+      <mat-list *ngIf="projectApplyStepFinished" dense>
+        <mat-list-item *ngFor="let output of terraformStateOutputs | keyvalue">
+          <mat-icon *ngIf="output.value.sensitive && !shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility</mat-icon>
+          <mat-icon *ngIf="output.value.sensitive && shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility_off
+          </mat-icon>
+          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+          <h3 matLine> {{ output.key }}:<strong class="ml-10"
+              *ngIf="!output.value.sensitive || (output.value.sensitive && shouldShowSensitiveData[output.key])">{{output.value.value}}</strong>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" [routerLink]="['/projects']">Done !</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>

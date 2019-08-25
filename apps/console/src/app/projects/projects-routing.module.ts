@@ -1,3 +1,5 @@
+import { CloudImagesResolver } from './../shared/cloudprovider/cloud-images.resolver';
+import { CloudFlavorsResolver } from './../shared/cloudprovider/cloud-flavors.resolver';
 import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
 import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
@@ -14,8 +16,12 @@ const routes: Routes = [
   },
   {
     path: 'edit/:projectId',
-    component: ProjectEditComponent,
-    canActivate: [MandatorySelectedProjectGuard]
+    component: ProjectWizardComponent,
+    canActivate: [MandatorySelectedProjectGuard],
+    resolve: {
+      cloudFlavors: CloudFlavorsResolver,
+      cloudImages: CloudImagesResolver
+    }
   }
 ];
 

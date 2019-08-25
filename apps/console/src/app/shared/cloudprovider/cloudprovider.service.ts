@@ -1,7 +1,13 @@
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CloudproviderDTO, ICloudApiProjectFloatingIpPool, ICloudApiProjectRouter } from '@dinivas/dto';
+import {
+  CloudproviderDTO,
+  ICloudApiProjectFloatingIpPool,
+  ICloudApiProjectRouter,
+  ICloudApiFlavor,
+  ICloudApiImage
+} from '@dinivas/dto';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -23,9 +29,23 @@ export class CloudproviderService {
     );
   }
 
-  getCloudProviderFloatingIps(id: number): Observable<ICloudApiProjectFloatingIpPool[]> {
+  getCloudProviderFloatingIps(
+    id: number
+  ): Observable<ICloudApiProjectFloatingIpPool[]> {
     return this.http.get<ICloudApiProjectFloatingIpPool[]>(
       `${environment.apiUrl}/cloudproviders/${id}/floating_ip_pools`
+    );
+  }
+
+  getCloudProviderFlavors(id: number): Observable<ICloudApiFlavor[]> {
+    return this.http.get<ICloudApiFlavor[]>(
+      `${environment.apiUrl}/cloudproviders/${id}/flavors`
+    );
+  }
+
+  getCloudProviderImages(id: number): Observable<ICloudApiImage[]> {
+    return this.http.get<ICloudApiImage[]>(
+      `${environment.apiUrl}/cloudproviders/${id}/images`
     );
   }
 

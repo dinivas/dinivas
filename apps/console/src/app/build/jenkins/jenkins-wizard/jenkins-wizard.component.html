@@ -1,0 +1,108 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <button mat-icon-button color="primary" [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="page-title">{{ !jenkins ? 'New jenkins creation wizard' : 'Edit jenkins wizard' }}</span>
+  <span class="ml-15">{{ jenkinsForm?.value.name | uppercase }}</span>
+</mat-toolbar>
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [completed]="jenkinsPlanStepFinished">
+    <div class="form-container">
+      <div class="spinner-container" *ngIf="jenkinsPlanInProgress">
+        <mat-spinner></mat-spinner>
+        <span>We are planning your Jenkins resources, wait a moment...</span>
+      </div>
+      <form [formGroup]="jenkinsForm" *ngIf="jenkinsForm" (ngSubmit)="submitPlanJenkins(jenkinsForm.value)">
+        <ng-template matStepLabel>Jenkins informations - <span class="text-warn">This step will not create any
+            resources</span></ng-template>
+        <div class="mat-form-container" fxLayout="column">
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Jenkins code</mat-label>
+            <input type="text" matInput formControlName="code" required>
+            <mat-hint>The Jenkins code will be used to suffix most components. You can't change it after Jenkins
+              creation.</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="3"></textarea>
+          </mat-form-field>
+          <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_master_image"
+            formControlName="master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="cloudImages">
+          </dinivas-cloud-image-radios>
+          <ng-template #loading_master_image>
+            <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Master
+                instance</strong></p>
+          </ng-template>
+          <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"
+            formControlName="master_cloud_flavor" label="Select Jenkins master flavor to use"
+            [cloudFlavors]="cloudFlavors">
+          </dinivas-cloud-flavor-radios>
+          <ng-template #loading_master_flavor>
+            <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master
+                instance</strong></p>
+          </ng-template>
+          <div class="slide-toggle-container">
+            <mat-slide-toggle formControlName="use_floating_ip" color="accent">
+              {{ jenkinsForm?.value.use_floating_ip ? 'Do not use floating IP' : 'Use floating IP'}}
+            </mat-slide-toggle>
+            <mat-hint>A proxy will expose services to external network</mat-hint>
+          </div>
+        </div>
+        <div class="actions">
+          <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge"
+            type="button">Cancel</button>
+          <button type="button" mat-button matStepperNext class="ml-10" *ngIf="jenkins?.id && isFormValid()"
+            (click)="showJenkinsOutput()">Show jenkins
+            infra infos</button>
+          <button type="submit" mat-button matStepperNext color="primary" class="ml-10"
+            [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan
+            Jenkins
+            resources</button>
+        </div>
+      </form>
+    </div>
+  </mat-step>
+  <mat-step [completed]="jenkinsApplyStepFinished" [editable]="!showingDirectOutput">
+    <div class="apply-container">
+      <div class="spinner-container" *ngIf="jenkinsApplyInProgress">
+        <mat-spinner></mat-spinner>
+        <span>We are creating your Jenkins resources, wait a moment...</span>
+      </div>
+      <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
+          not create any resources</span>
+      </ng-template>
+      <div class="tf-plan-resources-container">
+        <dinivas-terraform-representation [planRepresentation]="terraformPlanEvent?.planResult">
+        </dinivas-terraform-representation>
+      </div>
+      <div class="actions">
+        <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge" type="button">Cancel</button>
+        <button mat-button matStepperPrevious class="ml-10">Back</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyJenkinsPlan(jenkinsForm.value)"
+          class="ml-10">{{ !jenkins?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <div>
+      <ng-template matStepLabel>View Jenkins infrastructure informations
+      </ng-template>
+      <mat-list *ngIf="jenkinsApplyStepFinished" dense>
+        <mat-list-item *ngFor="let output of terraformStateOutputs | keyvalue">
+          <mat-icon *ngIf="output.value.sensitive && !shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility</mat-icon>
+          <mat-icon *ngIf="output.value.sensitive && shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility_off
+          </mat-icon>
+          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+          <h3 matLine> {{ output.key }}:<strong class="ml-10"
+              *ngIf="!output.value.sensitive || (output.value.sensitive && shouldShowSensitiveData[output.key])">{{output.value.value}}</strong>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" [routerLink]="['/build', 'jenkins']">Done !</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>

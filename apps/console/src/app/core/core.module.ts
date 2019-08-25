@@ -17,13 +17,13 @@ import { NgxWebstorageModule, LocalStorageService } from 'ngx-webstorage';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import {
-  SelectProjectDialogComponent
-} from './dialog/select-project-dialog/select-project-dialog.component';
+import { SelectProjectDialogComponent } from './dialog/select-project-dialog/select-project-dialog.component';
 import { RouterModule, Router } from '@angular/router';
 import { NgMathPipesModule, BytesPipe } from 'angular-pipes';
 import locale from '@angular/common/locales/fr';
 import { SafePipe } from './pipes/safe.pipe';
+import { CloudImageRadiosComponent } from './components/cloud-image-radios/cloud-image-radios.component';
+import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/cloud-flavor-radios.component';
 
 @NgModule({
   imports: [
@@ -38,7 +38,9 @@ import { SafePipe } from './pipes/safe.pipe';
     FilterCriterionComponent,
     SelectedFilterPipe,
     BytesPipe,
-    SafePipe
+    SafePipe,
+    CloudImageRadiosComponent,
+    CloudFlavorRadiosComponent
   ],
   declarations: [
     SnackAlertSuccessComponent,
@@ -49,7 +51,9 @@ import { SafePipe } from './pipes/safe.pipe';
     FilterCriterionComponent,
     ConfirmDialogComponent,
     SelectProjectDialogComponent,
-    SafePipe
+    SafePipe,
+    CloudImageRadiosComponent,
+    CloudFlavorRadiosComponent
   ],
   entryComponents: [
     SnackAlertSuccessComponent,

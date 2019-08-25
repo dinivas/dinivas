@@ -1,3 +1,8 @@
 import { ApplyProjectHandler } from './apply-project.handler';
 import { PlanProjectHandler } from './plan-project.handler';
-export const CommandHandlers = [PlanProjectHandler, ApplyProjectHandler];
+import { DestroyProjectHandler } from './destroy-project.handler';
+export const CommandHandlers = [
+  PlanProjectHandler,
+  ApplyProjectHandler,
+  DestroyProjectHandler
+];

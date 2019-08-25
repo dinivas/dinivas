@@ -1,8 +1,14 @@
 import { Permissions } from './../auth/permissions.decorator';
 import { CloudproviderService } from './cloudprovider.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { CloudproviderDTO, Pagination, ICloudApiProjectFloatingIpPool, ICloudApiProjectRouter } from '@dinivas/dto';
-import { Roles } from './../auth/roles.decorator';
+import {
+  CloudproviderDTO,
+  Pagination,
+  ICloudApiProjectFloatingIpPool,
+  ICloudApiProjectRouter,
+  ICloudApiFlavor,
+  ICloudApiImage
+} from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import {
   Controller,
@@ -48,13 +54,32 @@ export class CloudproviderController {
 
   @Get(':id/check_connection')
   @Permissions('cloudproviders:view')
-  async checkConnection(@Param('id') id: number, @Res() response: Response): Promise<any> {
+  async checkConnection(
+    @Param('id') id: number,
+    @Res() response: Response
+  ): Promise<any> {
     try {
-      const connectionInfo = await this.cloudproviderService.checkConnection(id);
+      const connectionInfo = await this.cloudproviderService.checkConnection(
+        id
+      );
       response.status(200).json(connectionInfo);
     } catch (err) {
-      response.status(err.detail.remoteCode).json({error: err.detail.remoteMessage})
+      response
+        .status(err.detail.remoteCode)
+        .json({ error: err.detail.remoteMessage });
     }
+  }
+
+  @Get(':id/flavors')
+  @Permissions('projects:view')
+  async allFlavors(@Param('id') id: number): Promise<ICloudApiFlavor[]> {
+    return this.cloudproviderService.getCloudProviderFlavors(id);
+  }
+
+  @Get(':id/images')
+  @Permissions('projects:view')
+  async allImages(@Param('id') id: number): Promise<ICloudApiImage[]> {
+    return this.cloudproviderService.getCloudProviderImages(id);
   }
 
   @Get(':id/floating_ip_pools')
