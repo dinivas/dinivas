@@ -1,10 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { IConfig } from 'config';
+
 import { ITerraformModuleInfo } from '@dinivas/dto';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../config/';
 }
 export const config: IConfig = require('config');
+const path = require('path');
 
 @Injectable()
 export class ConfigService {
@@ -19,8 +21,8 @@ export class ConfigService {
     );
     this.checkRequiredPath();
   }
-  get(path: string) {
-    return config.get(`${this.configRootPrefix}.${path}`);
+  get(_path: string) {
+    return config.get(`${this.configRootPrefix}.${_path}`);
   }
 
   getKeycloakConfig() {
@@ -32,11 +34,11 @@ export class ConfigService {
   }
 
   private checkRequiredPath() {
-    var fs = require('fs');
+    const fs = require('fs');
     [this.getWorkspaceRootPath(), this.getTerraformModulesRootPath()].forEach(
-      path => {
-        if (!fs.existsSync(path)) {
-          fs.mkdirSync(path);
+      _path => {
+        if (!fs.existsSync(_path)) {
+          fs.mkdirSync(_path);
         }
       }
     );
@@ -47,6 +49,6 @@ export class ConfigService {
   }
 
   getTerraformModulesRootPath() {
-    return `${this.getWorkspaceRootPath()}/terraform_modules`;
+    return `${path.join(this.getWorkspaceRootPath(), 'terraform_modules')}`;
   }
 }
