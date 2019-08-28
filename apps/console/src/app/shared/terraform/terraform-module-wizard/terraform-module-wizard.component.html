@@ -1,0 +1,65 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <button mat-icon-button color="primary" [routerLink]="backButtonRouterLink" queryParamsHandling="merge">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span
+    class="page-title">{{ !moduleEntity ? 'New '+ moduleEntityName +' creation wizard' : 'Edit ' + moduleEntityName + ' wizard' }}</span>
+  <span class="ml-15">{{ projectForm?.value.name | uppercase }}</span>
+</mat-toolbar>
+
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [completed]="planStepFinished">
+    <ng-template matStepLabel>{{ moduleEntityName }} informations - <span class="text-warn">This step will not create any
+        resources</span></ng-template>
+    <div class="form-container">
+      <div class="spinner-container" *ngIf="planInProgress">
+        <mat-spinner></mat-spinner>
+        <span>We are planning your {{ moduleEntityName }} resources, wait a moment...</span>
+      </div>
+      <ng-template dinivasTerraformModuleWizardVars (planApplied)="onPlanApplied($event)" (applyApplied)="onApplyApplied($event)"></ng-template>
+    </div>
+  </mat-step>
+  <mat-step [completed]="applyStepFinished" [editable]="!showingDirectOutput">
+    <div class="apply-container">
+      <div class="spinner-container" *ngIf="applyInProgress">
+        <mat-spinner></mat-spinner>
+        <span>We are creating your {{ moduleEntityName }} resources, wait a moment...</span>
+      </div>
+      <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
+          not create any resources</span>
+      </ng-template>
+      <div class="tf-plan-resources-container">
+        <dinivas-terraform-representation [planRepresentation]="terraformPlanEvent?.planResult">
+        </dinivas-terraform-representation>
+      </div>
+      <div class="actions">
+        <button mat-button [routerLink]="backButtonRouterLink" queryParamsHandling="merge" type="button">Cancel</button>
+        <button mat-button matStepperPrevious class="ml-10">Back</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyPlan(moduleEntity)"
+          class="ml-10">{{ !moduleEntity?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <div>
+      <ng-template matStepLabel>View {{ moduleEntityName }} infrastructure informations
+      </ng-template>
+      <mat-list *ngIf="applyStepFinished" dense>
+        <mat-list-item *ngFor="let output of terraformStateOutputs | keyvalue">
+          <mat-icon *ngIf="output.value.sensitive && !shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility</mat-icon>
+          <mat-icon *ngIf="output.value.sensitive && shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility_off
+          </mat-icon>
+          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+          <h3 matLine> {{ output.key }}:<strong class="ml-10"
+              *ngIf="!output.value.sensitive || (output.value.sensitive && shouldShowSensitiveData[output.key])">{{output.value.value}}</strong>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" [routerLink]="backButtonRouterLink">Done !</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
