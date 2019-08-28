@@ -22,6 +22,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./terraform-module-wizard.component.scss']
 })
 export class TerraformModuleWizardComponent<T> implements OnInit {
+  varsProvider: TerraformModuleWizardVarsProvider<T>;
+
   backButtonRouterLink: string[];
   moduleEntity: T; // ProjectDTO/JenkinsDTO
   moduleEntityName: string; // Ex: project/jenkins
@@ -76,15 +78,6 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
     });
   }
 
-  submitApplyPlan: (moduleEntity: T) => void;
-  moduleServicePlan: (moduleEntity: T) => Observable<any>;
-  moduleServiceApplyPlan: (
-    moduleEntity: T,
-    terraformPlanEvent: TerraformPlanEvent<T>
-  ) => Observable<any>;
-  moduleServiceTerraformState: (moduleEntity: T) => Observable<any>;
-  terraformWebsocketEventId: (moduleEntity: T) => string;
-
   onPlanApplied($event) {
     console.log($event);
   }
@@ -94,10 +87,12 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   }
 
   planProject(moduleEntity: T) {
-    this.moduleServicePlan(moduleEntity).subscribe(
+    this.varsProvider.moduleServicePlan(moduleEntity).subscribe(
       () => {
         this.terraformWebSocket
-          .receivePlanEvent(this.terraformWebsocketEventId(moduleEntity))
+          .receivePlanEvent(
+            this.varsProvider.terraformWebsocketEventId(moduleEntity)
+          )
           .subscribe((data: TerraformPlanEvent<T>) => {
             console.log('Receive TerraformPlanEvent from Terrform WS', data);
             this.terraformPlanEvent = data;
@@ -116,46 +111,58 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   }
 
   applyPlan(moduleEntity: T) {
-    this.moduleServiceApplyPlan(
-      moduleEntity,
-      this.terraformPlanEvent
-    ).subscribe(
-      () => {
-        this.terraformWebSocket
-          .receiveApplyEvent(this.terraformWebsocketEventId(moduleEntity))
-          .subscribe((data: TerraformApplyEvent<T>) => {
-            console.log('Receive TerraformApplyEvent from Terrform WS', data);
-            this.terraformApplyEvent = data;
-            this.terraformStateOutputs = this.terraformApplyEvent.stateResult.values.outputs;
-            for (const [key, value] of Object.entries(
-              this.terraformApplyEvent.stateResult.values.outputs
-            )) {
-              this.shouldShowSensitiveData[key] = this.terraformApplyEvent
-                .stateResult.values.outputs[key].sensitive
-                ? false
-                : true;
-            }
+    this.varsProvider
+      .moduleServiceApplyPlan(moduleEntity, this.terraformPlanEvent)
+      .subscribe(
+        () => {
+          this.terraformWebSocket
+            .receiveApplyEvent(
+              this.varsProvider.terraformWebsocketEventId(moduleEntity)
+            )
+            .subscribe((data: TerraformApplyEvent<T>) => {
+              console.log('Receive TerraformApplyEvent from Terrform WS', data);
+              this.terraformApplyEvent = data;
+              this.terraformStateOutputs = this.terraformApplyEvent.stateResult.values.outputs;
+              for (const [key, value] of Object.entries(
+                this.terraformApplyEvent.stateResult.values.outputs
+              )) {
+                this.shouldShowSensitiveData[key] = this.terraformApplyEvent
+                  .stateResult.values.outputs[key].sensitive
+                  ? false
+                  : true;
+              }
 
-            this.applyInProgress = false;
-            this.applyStepFinished = true;
-            setTimeout(() => {
-              this.wizardStepper.next();
-            }, 1);
-          });
-      },
-      error => {
-        this.applyInProgress = false;
-        this.applyStepFinished = false;
-      }
-    );
+              this.applyInProgress = false;
+              this.applyStepFinished = true;
+              setTimeout(() => {
+                this.wizardStepper.next();
+              }, 1);
+            });
+        },
+        error => {
+          this.applyInProgress = false;
+          this.applyStepFinished = false;
+        }
+      );
   }
   showProjectOutput() {
     this.planStepFinished = true;
     this.applyStepFinished = true;
     this.showingDirectOutput = true;
-    this.moduleServiceTerraformState(this.moduleEntity).subscribe(
-      state => (this.terraformStateOutputs = state.outputs)
-    );
+    this.varsProvider
+      .moduleServiceTerraformState(this.moduleEntity)
+      .subscribe(state => (this.terraformStateOutputs = state.outputs));
     setTimeout(() => (this.wizardStepper.selectedIndex = 2), 1);
   }
+}
+
+export interface TerraformModuleWizardVarsProvider<T> {
+  submitApplyPlan: (moduleEntity: T) => void;
+  moduleServicePlan: (moduleEntity: T) => Observable<any>;
+  moduleServiceApplyPlan: (
+    moduleEntity: T,
+    terraformPlanEvent: TerraformPlanEvent<T>
+  ) => Observable<any>;
+  moduleServiceTerraformState: (moduleEntity: T) => Observable<any>;
+  terraformWebsocketEventId: (moduleEntity: T) => string;
 }
