@@ -32,7 +32,7 @@ const ncp = require('ncp').ncp;
 export class Terraform extends Base {
   private readonly nestLogger = new Logger(Terraform.name);
   constructor(private configService: ConfigService) {
-    super('terraform', '-auto-approve');
+    super( configService.getTerraformExecutable(), '-auto-approve');
     this.addTriggerWordForInteractiveMode(
       "Only 'yes' will be accepted to approve"
     );

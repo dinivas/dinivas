@@ -44,6 +44,10 @@ export class ConfigService {
     );
   }
 
+  getTerraformExecutable(): string {
+    return this.get('terraform.executable') || 'terraform' as string;
+  }
+
   getTerraformModules() {
     return this.get('terraform.modules') as ITerraformModuleInfo[];
   }
