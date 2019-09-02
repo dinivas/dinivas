@@ -21,6 +21,6 @@ export class JenkinsResolver implements Resolve<JenkinsDTO[]> {
     state: RouterStateSnapshot
   ): Observable<JenkinsDTO[]> {
     const projectId = <string>route.queryParams['project'];
-    return this.jenkinsService.getJenkins(new HttpParams());
+    return this.jenkinsService.get(new HttpParams());
   }
 }

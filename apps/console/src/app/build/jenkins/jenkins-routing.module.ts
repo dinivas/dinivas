@@ -1,3 +1,4 @@
+import { TerraformModuleWizardComponent } from './../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { CloudImagesResolver } from './../../shared/cloudprovider/cloud-images.resolver';
 import { CloudFlavorsResolver } from './../../shared/cloudprovider/cloud-flavors.resolver';
 import { MandatorySelectedProjectGuard } from './../../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
@@ -6,6 +7,8 @@ import { JenkinsResolver } from './../../shared/jenkins/jenkins.resolver';
 import { JenkinsComponent } from './jenkins.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { JenkinsDTO } from '@dinivas/dto';
+import { TerraformModuleWizard } from '../../shared/terraform/terraform-module-wizard/terraform-module-wizard';
 
 const routes: Routes = [
   {
@@ -17,8 +20,21 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    component: JenkinsWizardComponent,
+    component: TerraformModuleWizardComponent,
     canActivate: [MandatorySelectedProjectGuard],
+    data: {
+      moduleWizard: new TerraformModuleWizard<JenkinsDTO>(
+        JenkinsWizardComponent,
+        ['/build', 'jenkins'],
+        undefined,
+        'Jenkins',
+        'Jenkins',
+        true,
+        true,
+        false,
+        false
+      )
+    },
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
       cloudImages: CloudImagesResolver

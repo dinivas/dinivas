@@ -1,0 +1,63 @@
+.mat-stepper-vertical {
+  background-color: #fafafa;
+}
+
+.form-container {
+  margin: 20px 10px;
+  mat-form-field.mat-form-field {
+    font-size: 14px;
+    max-width: 600px;
+  }
+  .no-data-checkbox {
+    font-size: 14px;
+    padding: 15px 10px;
+    margin: 20px 0px;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+}
+
+.apply-container {
+  min-height: 300px;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(80px);
+    background-color: #fff;
+    padding: 5px 15px;
+  }
+}
+.tf-plan-resources-container {
+  margin: 20px 10px;
+}
+dinivas-cloud-image-radios {
+  // width: 200%;
+  margin: 10px 0px;
+}
+
+dinivas-cloud-flavor-radios {
+  // width: 200%;
+  margin: 10px 0px;
+}
+dinivas-architecture-type-radios {
+  max-width: 600px;
+}

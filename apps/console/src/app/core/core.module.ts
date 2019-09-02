@@ -24,6 +24,7 @@ import locale from '@angular/common/locales/fr';
 import { SafePipe } from './pipes/safe.pipe';
 import { CloudImageRadiosComponent } from './components/cloud-image-radios/cloud-image-radios.component';
 import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/cloud-flavor-radios.component';
+import { ArchitectureTypeRadiosComponent } from './components/architecture-type-radios/architecture-type-radios.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/clo
     BytesPipe,
     SafePipe,
     CloudImageRadiosComponent,
-    CloudFlavorRadiosComponent
+    CloudFlavorRadiosComponent,
+    ArchitectureTypeRadiosComponent
   ],
   declarations: [
     SnackAlertSuccessComponent,
@@ -53,7 +55,8 @@ import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/clo
     SelectProjectDialogComponent,
     SafePipe,
     CloudImageRadiosComponent,
-    CloudFlavorRadiosComponent
+    CloudFlavorRadiosComponent,
+    ArchitectureTypeRadiosComponent
   ],
   entryComponents: [
     SnackAlertSuccessComponent,

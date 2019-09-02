@@ -2,7 +2,6 @@
   <mat-icon matListIcon svgIcon="ansible"></mat-icon>
   <span class="page-title">Ansible Galaxy</span>
   <span class="fill-remaining-space"></span>
-  <button mat-button color="primary" (click)="importRole()">Import role</button>
 </mat-toolbar>
 <nav mat-tab-nav-bar>
   <a mat-tab-link routerLinkActive #rlaSearch="routerLinkActive" [active]="rlaSearch.isActive"
@@ -11,8 +10,10 @@
     routerLink="my-content">My content</a>
   <a mat-tab-link routerLinkActive #rlaMyImport="routerLinkActive" [active]="rlaMyImport.isActive"
     routerLink="my-import">My import</a>
-  <a mat-tab-link routerLinkActive #rlaSettings="routerLinkActive" [active]="rlaSettings.isActive"
-    routerLink="settings">My settings</a>
+  <!-- <a mat-tab-link routerLinkActive #rlaSettings="routerLinkActive" [active]="rlaSettings.isActive"
+    routerLink="my-settings">My settings</a> -->
+  <a mat-tab-link routerLinkActive #rlaProviderSettings="routerLinkActive" [active]="rlaProviderSettings.isActive"
+    routerLink="providers">Repo provider settings</a>
 </nav>
 <div class="">
   <router-outlet></router-outlet>

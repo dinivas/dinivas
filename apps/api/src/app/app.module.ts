@@ -1,3 +1,4 @@
+import { ConfigService } from './core/config/config.service';
 import { Jenkins } from './build/jenkins/jenkins.entity';
 import { BuildModule } from './build/build.module';
 import { API_PREFFIX } from './constants';
@@ -42,6 +43,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { IamModule } from './iam/iam.module';
 import { TerraformModule } from './terraform/terraform.module';
 import * as httpProxy from 'http-proxy-middleware';
+import { json } from 'body-parser';
 
 const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
 
@@ -71,7 +73,28 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
   ]
 })
 export class AppModule implements NestModule {
+  constructor(private configService: ConfigService) {}
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
+    // Ansible Galaxy proxy, must be before body-parser
+    consumer
+      .apply(
+        httpProxy([`/${API_PREFFIX}/ansible-galaxy`], {
+          target: `${this.configService.get('ansible_galaxy.url')}`,
+          logLevel: 'debug',
+          changeOrigin: false,
+          prependPath: true,
+          pathRewrite: { '^/api/v1/ansible-galaxy': '' }
+        })
+      )
+      .forRoutes('ansible-galaxy/*');
+    // Add manually body-parser because we disabled it in main.ts
+    const jsonParseMiddleware = json();
+    consumer
+      .apply((req: any, res: any, next: any) => {
+        jsonParseMiddleware(req, res, next);
+      })
+      .forRoutes('/*');
+
     HelmetMiddleware.configure({
       frameguard: {
         action: 'allow-from',
@@ -110,18 +133,6 @@ export class AppModule implements NestModule {
         { path: 'ansible-galaxy', method: RequestMethod.ALL }
       );
 
-    // Ansible Galaxy proxy after Keycloak SSO
-    consumer
-      .apply(
-        httpProxy([`/${API_PREFFIX}/ansible-galaxy`], {
-          target: 'http://localhost:8089',
-          logLevel: 'debug',
-          changeOrigin: false,
-          prependPath: true,
-          pathRewrite: { '^/api/v1/ansible-galaxy': '' }
-        })
-      )
-      .forRoutes('ansible-galaxy/*');
     // Keycloak Authz middleware
     //consumer
     //  .apply(AuthzMiddleware)

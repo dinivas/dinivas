@@ -25,6 +25,11 @@ export class ConfigService {
     return config.get(`${this.configRootPrefix}.${_path}`);
   }
 
+  getOrElse(_path: string, defaultValue: any) {
+    const computedPath = `${this.configRootPrefix}.${_path}`;
+    return config.has(computedPath) ? config.get(computedPath) : defaultValue;
+  }
+
   getKeycloakConfig() {
     return this.get('keycloak.config');
   }
@@ -45,7 +50,7 @@ export class ConfigService {
   }
 
   getTerraformExecutable(): string {
-    return this.get('terraform.executable') || 'terraform' as string;
+    return this.getOrElse('terraform.executable','terraform') as string;
   }
 
   getTerraformModules() {

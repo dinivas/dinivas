@@ -53,7 +53,7 @@ export class JenkinsComponent extends MatCrudComponent
       .set('page', httpParams.get('page'))
       .set('limit', httpParams.get('limit'))
       .set('sort', httpParams.get('sort'));
-    return this.jenkinsService.getJenkins(newHttpParams);
+    return this.jenkinsService.get(newHttpParams);
   }
   addJenkins() {
     this.router.navigate(['/jenkins/new'], { preserveQueryParams: true });
@@ -63,7 +63,7 @@ export class JenkinsComponent extends MatCrudComponent
     return Observable.create((observer: Observer<any>) => {});
   }
   delete(jenkinsDTO: JenkinsDTO): Observable<any> {
-    return this.jenkinsService.deleteJenkins(jenkinsDTO.id);
+    return this.jenkinsService.delete(jenkinsDTO.id);
   }
 
   entityCanEdit = (jenkinsDTO: JenkinsDTO) => true;

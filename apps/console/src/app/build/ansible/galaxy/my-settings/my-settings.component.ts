@@ -1,16 +1,14 @@
-import { environment } from './../../../../../environments/environment';
+import { KeycloakIdpService } from '../../../../auth/keycloak-idp.service';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
-import { KeycloakIdpService } from 'apps/console/src/app/auth/keycloak-idp.service';
+
 
 @Component({
-  selector: 'dinivas-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  selector: 'dinivas-my-settings',
+  templateUrl: './my-settings.component.html',
+  styleUrls: ['./my-settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class MySettingsComponent implements OnInit {
   keycloakToken: string;
 
   providers: any[] = [

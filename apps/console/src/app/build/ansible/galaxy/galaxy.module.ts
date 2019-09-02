@@ -1,3 +1,5 @@
+import { RepoContentDetailResolver } from './repo-content-detail/repo-content-detail.resolver.service';
+import { ProviderListResolver } from './providers/provider-resolver.service';
 import { NamespaceListResolver } from './my-content/namespace-list-resolver.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { CoreModule } from './../../../core/core.module';
@@ -7,7 +9,11 @@ import { CommonModule } from '@angular/common';
 import { GalaxyRoutingModule } from './galaxy-routing.module';
 import { GalaxyComponent } from './galaxy.component';
 import { CommonUiModule } from '@dinivas/common-ui';
-import { MyContentComponent } from './my-content/my-content.component';
+import {
+  MyContentComponent,
+  SelectNamespaceDialogComponent,
+  SelectRepoDialogComponent
+} from './my-content/my-content.component';
 import { MyImportComponent } from './my-import/my-import.component';
 import { SearchComponent } from './search/search.component';
 
@@ -20,7 +26,9 @@ import {
   SearchContentTypeResolver,
   SearchPlatformResolver
 } from './search/search.resolver.service';
-import { SettingsComponent } from './settings/settings.component';
+import { MySettingsComponent } from './my-settings/my-settings.component';
+import { ProvidersComponent } from './providers/providers.component';
+import { RepoContentDetailComponent } from './repo-content-detail/repo-content-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +36,11 @@ import { SettingsComponent } from './settings/settings.component';
     MyContentComponent,
     MyImportComponent,
     SearchComponent,
-    SettingsComponent
+    MySettingsComponent,
+    ProvidersComponent,
+    SelectNamespaceDialogComponent,
+    SelectRepoDialogComponent,
+    RepoContentDetailComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +57,10 @@ import { SettingsComponent } from './settings/settings.component';
     PopularTagsResolver,
     PopularPlatformsResolver,
     PopularCloudPlatformsResolver,
-    NamespaceListResolver
-  ]
+    NamespaceListResolver,
+    ProviderListResolver,
+    RepoContentDetailResolver
+  ],
+  entryComponents: [SelectNamespaceDialogComponent, SelectRepoDialogComponent]
 })
 export class GalaxyModule {}

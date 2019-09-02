@@ -24,6 +24,8 @@ dinivas:
         type: git
         provider: openstack
         url: https://github.com/dinivas/terraform-openstack-flavor.git
+  ansible_galaxy:
+    url: http://localhost:8089
   keycloak:
     config:
       realm: 'dinivas'

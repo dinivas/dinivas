@@ -1,9 +1,13 @@
+<div class="spinner-container" *ngIf="loadingPage">
+    <mat-spinner></mat-spinner>
+    <span>Loading please wait a moment...</span>
+  </div>
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <div class="left">
     <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav(true)">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <a mat-button routerLink="/" class="logo">
+    <a mat-button routerLink="/" class="logo" fxHide fxShow.gt-xs>
       <span>Dinivas Console</span>
     </a>
     <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects?.length > 0"

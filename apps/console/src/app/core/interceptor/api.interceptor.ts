@@ -15,14 +15,17 @@ export class ApiInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)) {
-      request = request.clone({
-        setHeaders: {
-          'X-Dinivas-Project-Id': this.storage
-            .retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)
-            .toString()
-        }
-      });
+    // ProjectId header only for call to Dinivas Backend
+    if (request.url.indexOf('/auth/realms/') === -1) {
+      if (this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)) {
+        request = request.clone({
+          setHeaders: {
+            'X-Dinivas-Project-Id': this.storage
+              .retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)
+              .toString()
+          }
+        });
+      }
     }
     return next.handle(request);
   }

@@ -13,15 +13,15 @@
 }
 
 .mr-5 {
-  margin-right: 5px;
+  margin-right: 5px !important;
 }
 
 .ml-5 {
-  margin-left: 5px;
+  margin-left: 5px !important;
 }
 
 .mr-10 {
-  margin-right: 10px;
+  margin-right: 10px !important;
 }
 
 .ml-10 {
@@ -40,6 +40,10 @@
   margin-top: 10px !important;
 }
 
+.mt-15 {
+  margin-top: 15px !important;
+}
+
 .mb-5 {
   margin-bottom: 5px !important;
 }
@@ -54,4 +58,8 @@
 
 .pb-0 {
   padding-bottom: 0px;
+}
+
+.p-20 {
+  padding: 20px !important;
 }

@@ -28,8 +28,8 @@ export class TerraformStateComponent extends MatCrudComponent
     this.columnDefs = [
       new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
       new ColumnDef(
-        'projectCode',
-        'Project Code',
+        'stateId',
+        'State Id',
         true,
         true,
         false,

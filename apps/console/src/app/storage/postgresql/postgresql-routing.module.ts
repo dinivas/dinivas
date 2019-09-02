@@ -1,3 +1,5 @@
+import { CloudImagesResolver } from './../../shared/cloudprovider/cloud-images.resolver';
+import { CloudFlavorsResolver } from './../../shared/cloudprovider/cloud-flavors.resolver';
 import { PostgresqlWizardVarsComponent } from './postgresql-wizard-vars/postgresql-wizard-vars.component';
 import { PostgresqlComponent } from './postgresql.component';
 import { MandatorySelectedProjectGuard } from './../../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
@@ -5,6 +7,7 @@ import { TerraformModuleWizardComponent } from './../../shared/terraform/terrafo
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PostgresqlDTO } from '@dinivas/dto';
+import { TerraformModuleWizard } from '../../shared/terraform/terraform-module-wizard/terraform-module-wizard';
 
 const routes: Routes = [
   {
@@ -16,11 +19,21 @@ const routes: Routes = [
     component: TerraformModuleWizardComponent,
     canActivate: [MandatorySelectedProjectGuard],
     data: {
-      component: PostgresqlWizardVarsComponent,
-      backButtonRouterLink: ['/storage', 'postgresql'],
-      moduleEntity: undefined,
-      moduleEntityName: 'Postgresql',
-      moduleLabel: 'Postgresql'
+      moduleWizard: new TerraformModuleWizard<PostgresqlDTO>(
+        PostgresqlWizardVarsComponent,
+        ['/storage', 'postgresql'],
+        undefined,
+        'Postgresql',
+        'Postgresql',
+        true,
+        true,
+        true,
+        true
+      )
+    },
+    resolve: {
+      cloudFlavors: CloudFlavorsResolver,
+      cloudImages: CloudImagesResolver
     }
   },
   {

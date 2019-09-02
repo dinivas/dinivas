@@ -1,3 +1,59 @@
-<p>
-  my-content works!
-</p>
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <div class="container">
+    <span></span>
+    <button mat-button color="primary" (click)="addNamespace()">Add Namespace</button>
+  </div>
+</mat-toolbar>
+<div class="container">
+  <ng-container *ngFor="let namespace of namespaces">
+    <h4 class="namespace-name-title">{{ namespace.name | uppercase }}</h4>
+    <mat-accordion *ngIf="namespace?.summary_fields?.provider_namespaces?.length > 0">
+      <mat-expansion-panel *ngFor="let pns of namespace.summary_fields.provider_namespaces">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon [svgIcon]="pns.provider_name" class="mr-10"></mat-icon>
+            <span>{{ pns.name | uppercase }}</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span>{{ pns.html_url || ' ' }}</span>
+            <img [src]="pns.avatar_url" alt="" class="avatar">
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <button mat-button color="primary" (click)="addRepoSources(pns)">Import repo from {{ pns.name }}</button>
+        <mat-divider></mat-divider>
+        <mat-list dense>
+          <mat-list-item *ngFor="let repository of repositoryByNamespaceAndPns[namespace.name][pns.name] | async">
+            <div class="repo-info">
+              <a mat-button [routerLink]="['/build', 'ansible', 'galaxy', namespace.name, repository.name]"
+                queryParamsHandling="merge">{{ repository.name }}</a>
+              <span class="status">{{ repository.summary_fields.latest_import.state }}</span>
+              <span class="import-infos">
+                {{ (repository.summary_fields.latest_import.created || repository.summary_fields.latest_import.modified) | date:'medium'}}
+              </span>
+              <div class="actions">
+                <button mat-icon-button>
+                  <mat-icon>refresh</mat-icon>
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item class="" (click)="profileManagement()">
+                    Profile
+                  </button>
+                  <button mat-menu-item class="" (click)="logout()">
+                    Logout
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+  <mat-card class="mt-15 p-20 text-center" *ngIf="namespaces.length === 0">
+    No namespace found for you :( !!!
+  </mat-card>
+
+</div>

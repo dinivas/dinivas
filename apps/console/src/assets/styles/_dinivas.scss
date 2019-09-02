@@ -64,6 +64,16 @@ mat-toolbar {
 }
 
 .form-container {
+  mat-form-field.mat-form-field {
+    font-size: 14px;
+    max-width: 600px;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    max-width: 600px;
+  }
   .slide-toggle-container {
     width: 100%;
     display: inline-block;
@@ -74,7 +84,7 @@ mat-toolbar {
       font-size: 70%;
       padding: 0 1em;
       display: block;
-    padding: 10px 1em;
+      padding: 10px 1em;
     }
   }
 }

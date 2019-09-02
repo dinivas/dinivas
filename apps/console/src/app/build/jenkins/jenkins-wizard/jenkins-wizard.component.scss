@@ -6,9 +6,9 @@
 
 .form-container {
   margin: 20px 10px;
-  max-width: 600px;
   mat-form-field.mat-form-field {
     font-size: 14px;
+    max-width: 600px;
   }
   .no-data-checkbox {
     font-size: 14px;
@@ -26,6 +26,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+  max-width: 600px;
 }
 
 .spinner-container {

@@ -1,3 +1,4 @@
+import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { TerraformWebSocket } from './../../../shared/terraform/terraform-websocket.service';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -11,15 +12,17 @@ import {
   TerraformApplyEvent,
   ApplyModuleDTO
 } from '@dinivas/dto';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { MatVerticalStepper } from '@angular/material';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'dinivas-jenkins-wizard',
   templateUrl: './jenkins-wizard.component.html',
   styleUrls: ['./jenkins-wizard.component.scss']
 })
-export class JenkinsWizardComponent implements OnInit {
+export class JenkinsWizardComponent
+  implements OnInit, TerraformModuleWizardVarsProvider<JenkinsDTO> {
   jenkins: JenkinsDTO;
   jenkinsForm: FormGroup;
   jenkinsPlanStepFinished = false;
@@ -35,6 +38,12 @@ export class JenkinsWizardComponent implements OnInit {
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
+
+  architectureType: string;
+  planApplied: EventEmitter<any>;
+
+  applyApplied: EventEmitter<any>;
+  onArchitectureTypeChanged: EventEmitter<any>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,6 +77,9 @@ export class JenkinsWizardComponent implements OnInit {
         this.initJenkinsForm();
       }
     });
+    this.onArchitectureTypeChanged.subscribe(
+      (architectureType: string) => (this.architectureType = architectureType)
+    );
   }
   initJenkinsForm() {
     this.jenkinsForm = this.formBuilder.group({
@@ -92,6 +104,12 @@ export class JenkinsWizardComponent implements OnInit {
     return this.jenkinsForm && this.jenkinsForm.valid;
   }
 
+  moduleServicePlan(moduleEntity: JenkinsDTO): Observable<any> {
+    return this.jenkinsService.plan(moduleEntity);
+  }
+
+  submitApplyPlan: (moduleEntity: JenkinsDTO) => void;
+
   submitPlanJenkins(jenkins: JenkinsDTO) {
     this.jenkinsPlanInProgress = true;
     this.jenkinsPlanStepFinished = false;
@@ -100,33 +118,18 @@ export class JenkinsWizardComponent implements OnInit {
       jenkins.code = this.jenkins.code;
     }
     if (!this.jenkins) {
-      this.planJenkins(jenkins);
+      this.planApplied.emit(jenkins);
     } else {
       jenkins.id = this.jenkins.id;
-      this.planJenkins(jenkins);
+      this.planApplied.emit(jenkins);
     }
   }
 
-  planJenkins(jenkins: JenkinsDTO) {
-    this.jenkinsService.planJenkins(jenkins).subscribe(
-      () => {
-        this.terraformWebSocket
-          .receivePlanEvent(jenkins.code)
-          .subscribe((data: TerraformPlanEvent<JenkinsDTO>) => {
-            console.log('Receive TerraformPlanEvent from Terrform WS', data);
-            this.terraformPlanEvent = data;
-            this.jenkinsPlanInProgress = false;
-            this.jenkinsPlanStepFinished = true;
-            setTimeout(() => {
-              this.jenkinsWizardStepper.next();
-            }, 1);
-          });
-      },
-      error => {
-        this.jenkinsPlanInProgress = false;
-        this.jenkinsPlanStepFinished = false;
-      }
-    );
+  moduleServiceApplyPlan(
+    moduleEntity: JenkinsDTO,
+    terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>
+  ): Observable<any> {
+    return this.jenkinsService.applyPlan(moduleEntity);
   }
 
   submitApplyJenkinsPlan(jenkins: JenkinsDTO) {
@@ -134,64 +137,26 @@ export class JenkinsWizardComponent implements OnInit {
     if (!this.jenkins) {
       // create
       this.jenkinsService
-        .createJenkins(jenkins)
+        .create(jenkins)
         .subscribe((savedJenkins: JenkinsDTO) => {
-          this.applyJenkins(savedJenkins);
+          this.applyApplied.emit(savedJenkins);
         });
     } else {
       // update
       jenkins.id = this.jenkins.id;
       this.jenkinsService
-        .updateJenkins(jenkins)
+        .update(jenkins)
         .subscribe((savedJenkins: JenkinsDTO) => {
-          this.applyJenkins(savedJenkins);
+          this.applyApplied.emit(savedJenkins);
         });
     }
   }
 
-  applyJenkins(jenkins: JenkinsDTO) {
-    this.jenkinsService
-      .applyJenkinsPlan(
-        new ApplyModuleDTO<JenkinsDTO>(jenkins, this.terraformPlanEvent.workingDir)
-      )
-      .subscribe(
-        () => {
-          this.terraformWebSocket
-            .receiveApplyEvent(jenkins.code)
-            .subscribe((data: TerraformApplyEvent<JenkinsDTO>) => {
-              console.log('Receive TerraformApplyEvent from Terrform WS', data);
-              this.terraformApplyEvent = data;
-              this.terraformStateOutputs = this.terraformApplyEvent.stateResult.values.outputs;
-              for (const [key, value] of Object.entries(
-                this.terraformApplyEvent.stateResult.values.outputs
-              )) {
-                this.shouldShowSensitiveData[key] = this.terraformApplyEvent
-                  .stateResult.values.outputs[key].sensitive
-                  ? false
-                  : true;
-              }
-
-              this.jenkinsApplyInProgress = false;
-              this.jenkinsApplyStepFinished = true;
-              setTimeout(() => {
-                this.jenkinsWizardStepper.next();
-              }, 1);
-            });
-        },
-        error => {
-          this.jenkinsApplyInProgress = false;
-          this.jenkinsApplyStepFinished = false;
-        }
-      );
+  terraformWebsocketEventId(moduleEntity: JenkinsDTO): string {
+    return moduleEntity.code;
   }
 
-  showJenkinsOutput() {
-    this.jenkinsPlanStepFinished = true;
-    this.jenkinsApplyStepFinished = true;
-    this.showingDirectOutput = true;
-    this.jenkinsService
-      .getJenkinsTerraformState(this.jenkins.id)
-      .subscribe(state => (this.terraformStateOutputs = state.outputs));
-    setTimeout(() => (this.jenkinsWizardStepper.selectedIndex = 2), 1);
+  moduleServiceTerraformState(moduleEntity: JenkinsDTO): Observable<any> {
+    return this.jenkinsService.getTerraformState(moduleEntity.id);
   }
 }

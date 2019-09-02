@@ -24,7 +24,8 @@ import {
   Event,
   NavigationStart,
   NavigationEnd,
-  NavigationError
+  NavigationError,
+  NavigationCancel
 } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 
@@ -49,6 +50,7 @@ export class AppComponent {
   contextualSidenav: MatSidenav;
   contextualMenuComponent: ComponentType<any>;
   contextualMenuInjector: Injector;
+  loadingPage = false;
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -58,7 +60,7 @@ export class AppComponent {
     private route: ActivatedRoute,
     private storage: LocalStorageService,
     private contextualMenuService: ContextualMenuService,
-    private breakpointObserver: BreakpointObserver,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.contextualMenuInjector = ReflectiveInjector.resolveAndCreate([
       {
@@ -111,19 +113,24 @@ export class AppComponent {
 
   watchRouteChanged() {
     this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        // Show loading indicator
-      }
+      switch (true) {
+        case event instanceof NavigationStart: {
+          this.loadingPage = true;
+          break;
+        }
 
-      if (event instanceof NavigationEnd) {
-        // Hide loading indicator
-      }
-
-      if (event instanceof NavigationError) {
-        // Hide loading indicator
-
-        // Present error to user
-        console.log(event.error);
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel: {
+          this.loadingPage = false;
+          break;
+        }
+        case event instanceof NavigationError: {
+          this.loadingPage = false;
+          break;
+        }
+        default: {
+          break;
+        }
       }
     });
   }

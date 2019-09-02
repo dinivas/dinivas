@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { TerraformModuleWizardVarsDirective } from './terraform-module-wizard-vars.directive';
 import { ActivatedRoute } from '@angular/router';
 import { TerraformWebSocket } from '../terraform-websocket.service';
@@ -5,7 +6,8 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ComponentFactoryResolver
+  ComponentFactoryResolver,
+  ElementRef
 } from '@angular/core';
 import { MatVerticalStepper } from '@angular/material';
 import {
@@ -15,6 +17,7 @@ import {
   ICloudApiFlavor
 } from '@dinivas/dto';
 import { Observable } from 'rxjs';
+import { TerraformModuleWizard } from './terraform-module-wizard';
 
 @Component({
   selector: 'dinivas-terraform-module-wizard',
@@ -22,12 +25,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./terraform-module-wizard.component.scss']
 })
 export class TerraformModuleWizardComponent<T> implements OnInit {
-  varsProvider: TerraformModuleWizardVarsProvider<T>;
+  // Variables that contains all input datas
+  moduleWizard: TerraformModuleWizard<T>;
 
-  backButtonRouterLink: string[];
-  moduleEntity: T; // ProjectDTO/JenkinsDTO
-  moduleEntityName: string; // Ex: project/jenkins
-  moduleLabel: string; // name or id in embeded form. The child component should emit this
+  varsProvider: TerraformModuleWizardVarsProvider<T>;
 
   planStepFinished = false;
   applyStepFinished = false;
@@ -42,8 +43,11 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
+  architectureTypes: { code: string; label: string }[] = [];
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
+  architectureType: string;
+  architectureTypeForm: FormGroup;
 
   @ViewChild(TerraformModuleWizardVarsDirective, { static: true })
   terraformModuleWizardVarsDirective: TerraformModuleWizardVarsDirective;
@@ -51,13 +55,15 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private readonly terraformWebSocket: TerraformWebSocket,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(data => {
+      this.moduleWizard = data.moduleWizard;
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-        data.component
+        this.moduleWizard.component
       );
 
       const viewContainerRef = this.terraformModuleWizardVarsDirective
@@ -71,22 +77,64 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
       (<any>(
         componentRef.instance
       )).applyApplied = this.terraformModuleWizardVarsDirective.applyApplied;
-      this.backButtonRouterLink = data.backButtonRouterLink;
-      this.moduleEntity = data.moduleEntity;
-      this.moduleEntityName = data.moduleEntityName;
-      this.moduleLabel = data.moduleLabel;
+      (<any>(
+        componentRef.instance
+      )).onArchitectureTypeChanged = this.terraformModuleWizardVarsDirective.onArchitectureTypeChanged;
+
+      this.varsProvider = <any>componentRef.instance;
+      this.initArchitectureTypeSelection();
     });
   }
-
+  initArchitectureTypeSelection() {
+    if (this.shouldSelectArchitecture()) {
+      if (this.moduleWizard.supportSingleTier) {
+        this.architectureTypes.push({
+          code: 'singletier',
+          label: 'Single-Tier'
+        });
+      }
+      if (this.moduleWizard.supportMultiTier) {
+        this.architectureTypes.push({ code: 'multitier', label: 'Multi-Tier' });
+      }
+      if (this.moduleWizard.supportDocker) {
+        this.architectureTypes.push({
+          code: 'docker',
+          label: 'Docker Container'
+        });
+      }
+      if (this.moduleWizard.supportKubernetes) {
+        this.architectureTypes.push({
+          code: 'kubernetes',
+          label: 'Kubernetes'
+        });
+      }
+      this.architectureTypeForm = this.formBuilder.group({
+        architecture_type: [
+          this.architectureType ? this.architectureType : null,
+          Validators.required
+        ]
+      });
+      this.architectureTypeForm
+        .get('architecture_type')
+        .valueChanges.subscribe((architectureType: string) => {
+          this.terraformModuleWizardVarsDirective.onArchitectureTypeChanged.emit(
+            architectureType
+          );
+        });
+    }
+  }
+  onSelectArchitectureType($event, architectureTypeForm: NgForm) {}
   onPlanApplied($event) {
-    console.log($event);
+    this.planInProgress = true;
+    this.planStepFinished = false;
+    this.planModule($event);
   }
 
   onApplyApplied($event) {
     console.log($event);
   }
 
-  planProject(moduleEntity: T) {
+  planModule(moduleEntity: T) {
     this.varsProvider.moduleServicePlan(moduleEntity).subscribe(
       () => {
         this.terraformWebSocket
@@ -150,9 +198,17 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
     this.applyStepFinished = true;
     this.showingDirectOutput = true;
     this.varsProvider
-      .moduleServiceTerraformState(this.moduleEntity)
+      .moduleServiceTerraformState(this.moduleWizard.moduleEntity)
       .subscribe(state => (this.terraformStateOutputs = state.outputs));
     setTimeout(() => (this.wizardStepper.selectedIndex = 2), 1);
+  }
+
+  shouldSelectArchitecture(): boolean {
+    return (
+      this.moduleWizard.supportMultiTier ||
+      this.moduleWizard.supportDocker ||
+      this.moduleWizard.supportKubernetes
+    );
   }
 }
 

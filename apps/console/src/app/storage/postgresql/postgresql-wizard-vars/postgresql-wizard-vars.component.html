@@ -1,3 +1,22 @@
-<button mat-button (click)="onPlan()">Plan</button>
-
-<button mat-button (click)="onApply()">Apply</button>
+<form [formGroup]="postgresqlForm" *ngIf="postgresqlForm" (ngSubmit)="submitPlanPostgresql(postgresqlForm.value)">
+  <div class="mat-form-container" fxLayout="column">
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Postgresql code</mat-label>
+      <input type="text" matInput formControlName="code" required>
+      <mat-hint>The Postgresql code will be used to suffix most components. You can't change it after Postgresql
+        creation.</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="actions">
+    <button mat-button [routerLink]="['/storage', 'postgresql']" queryParamsHandling="merge"
+      type="button">Cancel</button>
+    <button *ngIf="architectureType" mat-button matStepperPrevious class="ml-10">Back</button>
+    <button type="button" mat-button matStepperNext class="ml-10" *ngIf="postgresql?.id && isFormValid()"
+      (click)="showPostgresqlOutput()">Show postgresql
+      infra infos</button>
+    <button type="submit" mat-button matStepperNext color="primary" class="ml-10"
+      [disabled]="!isFormValid() || (isFormValid() && !postgresqlForm.dirty)">Plan
+      Postgresql
+      resources</button>
+  </div>
+</form>

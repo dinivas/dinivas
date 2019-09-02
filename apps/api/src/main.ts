@@ -2,13 +2,13 @@ import { API_PREFFIX } from './app/constants';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { AllExceptionsFilter } from './app/core/all-exceptions.filter';
-import {
-  CONSTANT
-} from '@dinivas/dto';
+import { CONSTANT } from '@dinivas/dto';
 import { setupSwagger } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
+    // we disable default bodyparser because http-proxy-middleware not compatible with this
+    bodyParser: false,
     cors: {
       exposedHeaders: [
         CONSTANT.HTTP_HEADER_AUTH_ERROR,

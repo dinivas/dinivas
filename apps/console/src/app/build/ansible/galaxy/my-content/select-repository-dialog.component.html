@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{ providerNamespace.name | uppercase }} - Repository selection</h1>
+<div mat-dialog-content>
+    <mat-selection-list #repositorySourcesSelectionList dense>
+        <mat-list-option *ngFor="let repositorySource of repositorySources" [value]="repositorySource">
+            {{ providerNamespace.name + '/'+ repositorySource.name }}
+        </mat-list-option>
+    </mat-selection-list>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onSelect(repositorySourcesSelectionList.selectedOptions.selected)"
+        cdkFocusInitial [disabled]="repositorySourcesSelectionList.selectedOptions.selected.length === 0">Ok</button>
+</div>

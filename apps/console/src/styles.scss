@@ -27,7 +27,7 @@ body {
 
 .confirm-dialog-panel {
   .mat-dialog-container {
-    background: rgba(84,0,232, 0.88);
+    background: rgba(84, 0, 232, 0.88);
     color: #fff;
     .mat-dialog-title {
       color: hsl(0, 0%, 71%);
@@ -37,5 +37,31 @@ body {
         font-weight: 600;
       }
     }
+  }
+}
+.form-container {
+  mat-form-field.mat-form-field {
+    font-size: 14px;
+  }
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(80px);
+    background-color: #fff;
+    padding: 5px 15px;
   }
 }

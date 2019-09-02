@@ -1,0 +1,44 @@
+.mat-toolbar.header-toolbar {
+  margin-top: 10px;
+  border-bottom: none;
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+  img.avatar {
+    width: 24px;
+    height: 24px;
+  }
+}
+.namespace-name-title {
+  margin: 5px 0px 10px;
+}
+
+.repo-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  a {
+  }
+  .status {
+  }
+  .import-infos {
+  }
+  .actions {
+  }
+}
+
+.mat-list {
+  margin-top: 10px;
+}
+
+.mat-list-item {
+  font-size: 13px !important;
+}
+.mat-divider {
+  margin: 5px 0px;
+}
