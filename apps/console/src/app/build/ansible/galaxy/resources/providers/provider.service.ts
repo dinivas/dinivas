@@ -16,7 +16,7 @@ export class ProviderService {
 
     constructor(
         private http: HttpClient,
-        private alertService: AlertService,
+        private alertService: AlertService
     ) {}
 
     queryActive(): Observable<Provider[]> {

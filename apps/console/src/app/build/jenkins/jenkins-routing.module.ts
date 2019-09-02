@@ -10,6 +10,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { JenkinsDTO } from '@dinivas/dto';
 import { TerraformModuleWizard } from '../../shared/terraform/terraform-module-wizard/terraform-module-wizard';
 
+const moduleWizardData = new TerraformModuleWizard<JenkinsDTO>(
+  JenkinsWizardComponent,
+  ['/build', 'jenkins'],
+  undefined,
+  'Jenkins',
+  'Jenkins',
+  true,
+  true,
+  false,
+  false
+);
+
 const routes: Routes = [
   {
     path: '',
@@ -23,17 +35,7 @@ const routes: Routes = [
     component: TerraformModuleWizardComponent,
     canActivate: [MandatorySelectedProjectGuard],
     data: {
-      moduleWizard: new TerraformModuleWizard<JenkinsDTO>(
-        JenkinsWizardComponent,
-        ['/build', 'jenkins'],
-        undefined,
-        'Jenkins',
-        'Jenkins',
-        true,
-        true,
-        false,
-        false
-      )
+      moduleWizard: moduleWizardData
     },
     resolve: {
       cloudFlavors: CloudFlavorsResolver,

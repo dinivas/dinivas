@@ -12,7 +12,7 @@ import { of } from 'rxjs';
 export class RepoContentDetailResolver implements Resolve<RepoOrCollectionResponse> {
     constructor(
         private repoOrCollectionService: RepoOrCollectionService,
-        private router: Router,
+        private router: Router
     ) {}
 
     resolve(route: ActivatedRouteSnapshot) {

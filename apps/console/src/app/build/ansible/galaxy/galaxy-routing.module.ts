@@ -9,7 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { MyContentComponent } from './my-content/my-content.component';
 import { MyImportComponent } from './my-import/my-import.component';
-import {RepoContentDetailResolver} from './repo-content-detail/repo-content-detail.resolver.service';
+import { RepoContentDetailResolver } from './repo-content-detail/repo-content-detail.resolver.service';
 
 import {
   PopularCloudPlatformsResolver,
@@ -58,9 +58,9 @@ const routes: Routes = [
         path: ':namespace/:name',
         component: RepoContentDetailComponent,
         resolve: {
-            contentType: RepoContentDetailResolver,
-        },
-    },
+          contentType: RepoContentDetailResolver
+        }
+      },
       { path: '', redirectTo: 'search' }
     ]
   }

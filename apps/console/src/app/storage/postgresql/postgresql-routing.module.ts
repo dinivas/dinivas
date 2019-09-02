@@ -9,6 +9,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { PostgresqlDTO } from '@dinivas/dto';
 import { TerraformModuleWizard } from '../../shared/terraform/terraform-module-wizard/terraform-module-wizard';
 
+const moduleWizardData = new TerraformModuleWizard<PostgresqlDTO>(
+  PostgresqlWizardVarsComponent,
+  ['/storage', 'postgresql'],
+  undefined,
+  'Postgresql',
+  'Postgresql',
+  true,
+  true,
+  true,
+  true
+);
+
 const routes: Routes = [
   {
     path: '',
@@ -19,17 +31,7 @@ const routes: Routes = [
     component: TerraformModuleWizardComponent,
     canActivate: [MandatorySelectedProjectGuard],
     data: {
-      moduleWizard: new TerraformModuleWizard<PostgresqlDTO>(
-        PostgresqlWizardVarsComponent,
-        ['/storage', 'postgresql'],
-        undefined,
-        'Postgresql',
-        'Postgresql',
-        true,
-        true,
-        true,
-        true
-      )
+      moduleWizard: moduleWizardData
     },
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
