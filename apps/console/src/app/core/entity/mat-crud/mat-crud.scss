@@ -94,6 +94,7 @@
       &.row-action {
         max-width: 100px;
         justify-content: flex-end;
+        text-align: right;
         @media (max-width: 600px) {
           max-width: inherit;
         }

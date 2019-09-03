@@ -5,6 +5,8 @@ volumes:
     driver: local
   postgres_dinivas_data:
     driver: local
+  postgres_galaxy_data:
+    driver: local
 
 services:
   # KEYCLOAK
@@ -46,6 +48,17 @@ services:
       POSTGRES_PASSWORD: Pa55W0rd
     ports:
       - 5433:5432
+  # Galaxy
+  postgres_galaxy:
+    image: postgres
+    volumes:
+      - postgres_galaxy_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: galaxy
+      POSTGRES_USER: galaxy
+      POSTGRES_PASSWORD: galaxy
+    ports:
+      - 5434:5432
   galaxy_influxdb:
     image: influxdb:latest
     ports:
@@ -57,8 +70,8 @@ services:
       - INFLUXDB_ADMIN_PASSWORD=admin
       - INFLUXDB_WRITE_USER=galaxy
       - INFLUXDB_WRITE_USER_PASSWORD=galaxy
-  galaxy_rabbitmq:
-    image: rabbitmq:latest
+  rabbitmq:
+    image: rabbitmq:3-management
     ports:
       - '5672:5672'
       - '15672:15672'

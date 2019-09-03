@@ -1,0 +1,30 @@
+.readme {
+  font-size: 16px;
+  line-height: 24px;
+  min-height: 600px;
+  color: #363636;
+  padding: 20px 40px;
+  background-color: rgba(0, 0, 0, 0.018);
+  margin-top: 20px;
+}
+.details-content {
+  padding: 20px 40px;
+  margin-top: 20px;
+  .platforms,
+  .versions,
+  .messages {
+    padding: 10px;
+    width: 100‰;
+    margin: 10px 15px;
+  }
+  .small-cards {
+    margin-top: 30px;
+    .small-card {
+      flex: 1;
+      .mat-list-item {
+        justify-content: space-between;
+        font-size: 14px;
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { RepositoryImportService } from './../resources/repository-imports/repository-import.service';
 import { RepoCollectionListService } from './../resources/combined/combined.service';
 import { ProviderNamespace } from './../resources/provider-namespaces/provider-namespace';
 import { RepositoryService } from './../resources/repositories/repository.service';
@@ -32,11 +33,16 @@ export class MyContentComponent implements OnInit {
   providerSources: ProviderSource[];
   repositorySources: RepositorySource[] = [];
   repositoryByNamespaceAndPns: {} = {};
+  me: IMe;
+
+  displayedColumns = ['name', 'status', 'score', 'date', 'row-actions'];
 
   constructor(
     private route: ActivatedRoute,
     private providerSourceService: ProviderSourceService,
     private namespaceService: NamespaceService,
+    private repositoryService: RepositoryService,
+    private repositoryImportService: RepositoryImportService,
     private userService: UserService,
     private repoCollectionListService: RepoCollectionListService,
     public dialog: MatDialog
@@ -62,9 +68,44 @@ export class MyContentComponent implements OnInit {
         });
       }
     });
+    this.userService.me().subscribe(me => (this.me = me));
     this.providerSourceService.query().subscribe(providerSources => {
       this.providerSources = providerSources;
     });
+  }
+
+  refreshContent() {
+    this.namespaceService
+      .pagedQuery({
+        owners__username: this.me.username
+      })
+      .subscribe(
+        pagedResponse =>
+          (this.namespaces =
+            this.prepForList(pagedResponse.results as Namespace[]) || [])
+      );
+  }
+
+  deleteRepository(repository: Repository) {
+    this.repositoryService
+      .destroy(repository)
+      .subscribe(res => this.refreshContent());
+  }
+
+  deprecateRepository(repository: Repository, isDeprecated: boolean) {
+    repository.deprecated = isDeprecated;
+    this.repositoryService
+      .save(repository)
+      .subscribe(res => this.refreshContent());
+  }
+
+  importRepository(repository: Repository) {
+    // Start an import
+    this.repositoryImportService
+      .save({ repository_id: repository.id })
+      .subscribe(response => {
+        this.refreshContent();
+      });
   }
 
   repositoryByNamespaceAndPNS(
@@ -141,14 +182,7 @@ export class MyContentComponent implements OnInit {
               });
               namespaceToAdd.provider_namespaces = pns;
               this.namespaceService.save(namespaceToAdd).subscribe(res => {
-                this.namespaceService
-                  .pagedQuery({
-                    owners__username: me.username
-                  })
-                  .pipe(map((response: PagedResponse) => response.results))
-                  .subscribe((namespaces: Namespace[]) => {
-                    this.namespaces = namespaces;
-                  });
+                this.refreshContent();
               });
             });
           }
