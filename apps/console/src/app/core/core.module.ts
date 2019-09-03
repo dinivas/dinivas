@@ -25,6 +25,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { CloudImageRadiosComponent } from './components/cloud-image-radios/cloud-image-radios.component';
 import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/cloud-flavor-radios.component';
 import { ArchitectureTypeRadiosComponent } from './components/architecture-type-radios/architecture-type-radios.component';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { ArchitectureTypeRadiosComponent } from './components/architecture-type-
     SafePipe,
     CloudImageRadiosComponent,
     CloudFlavorRadiosComponent,
-    ArchitectureTypeRadiosComponent
+    ArchitectureTypeRadiosComponent,
+    TimeAgoPipe
   ],
   entryComponents: [
     SnackAlertSuccessComponent,
