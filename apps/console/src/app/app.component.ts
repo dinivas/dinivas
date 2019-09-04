@@ -1,3 +1,4 @@
+import { ConfirmDialogService } from './core/dialog/confirm-dialog/confirm-dialog.service';
 import { ComponentType } from '@angular/cdk/portal';
 import { ContextualMenuService } from './core/contextual-menu/contextual-menu.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -59,6 +60,7 @@ export class AppComponent {
     private router: Router,
     private route: ActivatedRoute,
     private storage: LocalStorageService,
+    public confirmDialog: ConfirmDialogService,
     private contextualMenuService: ContextualMenuService,
     private breakpointObserver: BreakpointObserver
   ) {
@@ -147,15 +149,10 @@ export class AppComponent {
     this.keycloakService.getKeycloakInstance().accountManagement();
   }
   logout() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '350px',
-      data: 'Do you want to logout from the console?'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.keycloakService.logout();
-      }
-    });
+    this.confirmDialog.doOnConfirm(
+      'Do you want lo logout from the console?',
+      () => this.keycloakService.logout()
+    );
   }
 
   switchCurrentProject(project: ProjectDTO) {
