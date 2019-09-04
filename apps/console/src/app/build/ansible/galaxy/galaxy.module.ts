@@ -1,3 +1,4 @@
+import { ProviderSourceListResolver } from './my-content/provider-source-resolver.service';
 import { RepoContentDetailResolver } from './repo-content-detail/repo-content-detail.resolver.service';
 import { ProviderListResolver } from './providers/provider-resolver.service';
 import { NamespaceListResolver } from './my-content/namespace-list-resolver.service';
@@ -59,7 +60,8 @@ import { RepoContentDetailComponent } from './repo-content-detail/repo-content-d
     PopularCloudPlatformsResolver,
     NamespaceListResolver,
     ProviderListResolver,
-    RepoContentDetailResolver
+    RepoContentDetailResolver,
+    ProviderSourceListResolver
   ],
   entryComponents: [SelectNamespaceDialogComponent, SelectRepoDialogComponent]
 })

@@ -1,3 +1,7 @@
+.mat-card.global {
+  box-shadow: none;
+  background: transparent;
+}
 .readme {
   font-size: 16px;
   line-height: 24px;
@@ -19,12 +23,57 @@
   }
   .small-cards {
     margin-top: 30px;
+    .mat-card {
+      flex: 1;
+      .mat-card-content {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      .list-content {
+        display: flex;
+        font-size: 110%;
+        justify-content: space-between;
+        width: 100%;
+        span {
+          padding: 10px 5px;
+          flex: 2;
+        }
+        & > span:first-child {
+          background-color: #5400e8;
+          color: #fff;
+          font-weight: 500;
+          flex: 1;
+        }
+        & > span:last-child {
+          text-align: right;
+          font-weight: 500;
+        }
+      }
+    }
     .small-card {
       flex: 1;
       .mat-list-item {
         justify-content: space-between;
         font-size: 14px;
       }
+    }
+  }
+}
+
+.history {
+  padding: 20px 40px;
+  .mat-accordion .mat-list {
+    background-color: #363636;
+    padding: 10px;
+    border: 1px solid #363636;
+    border-radius: 2px;
+    line-height: 18px;
+    margin-bottom: 50px;
+    max-height: 400px;
+    overflow-y: auto;
+    .mat-list-item {
+      color: #fff;
+      height: 30px;
     }
   }
 }

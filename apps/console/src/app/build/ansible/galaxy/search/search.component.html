@@ -1,3 +1,43 @@
-<p>
-  search works!
-</p>
+<div class="container">
+  <!-- Search bar -->
+  <mat-toolbar>
+    Search bar
+  </mat-toolbar>
+  <!-- list header -->
+
+  <!-- List content -->
+  <div class="content-container">
+    <div class="content" *ngFor="let content of contentItems">
+      <div class="avatar">
+        <img [src]="content.summary_fields.namespace.avatar_url" alt="">
+        <span>{{ content.summary_fields.provider_namespace.name}}</span>
+      </div>
+      <div class="detail">
+        <div class="left">
+          <a
+            [routerLink]="['/build', 'ansible', 'galaxy', content.summary_fields.namespace.name, content.name]">{{ content.summary_fields.repository.original_name }}</a>
+          <span class="description">{{ content.description }}</span>
+          <mat-chip-list aria-label="tags" selectable="false">
+            <mat-chip *ngFor="let tag of content.summary_fields.tags" color="primary" selected disabled>
+              {{ tag }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="right">
+          <div class="build-status">
+
+          </div>
+          <div class="repo-detail">
+            <span class="">Score: <strong>{{ content.summary_fields.repository.quality_score }}</strong> / 5</span>
+            <span class="">Last Imported <strong>{{ content.imported  }}</strong></span>
+          </div>
+          <div class="extra-detail"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- List paginator -->
+  <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>

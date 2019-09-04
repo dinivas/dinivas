@@ -1,3 +1,4 @@
+import { ProviderSourceListResolver } from './my-content/provider-source-resolver.service';
 import { RepoContentDetailComponent } from './repo-content-detail/repo-content-detail.component';
 import { ProviderListResolver } from './providers/provider-resolver.service';
 import { ProvidersComponent } from './providers/providers.component';
@@ -42,7 +43,8 @@ const routes: Routes = [
         path: 'my-content',
         component: MyContentComponent,
         resolve: {
-          namespaces: NamespaceListResolver
+          namespaces: NamespaceListResolver,
+          providerSources: ProviderSourceListResolver
         }
       },
       { path: 'my-import', component: MyImportComponent },

@@ -43,7 +43,8 @@ import { TimeAgoPipe } from './pipes/time-ago.pipe';
     SafePipe,
     CloudImageRadiosComponent,
     CloudFlavorRadiosComponent,
-    ArchitectureTypeRadiosComponent
+    ArchitectureTypeRadiosComponent,
+    TimeAgoPipe
   ],
   declarations: [
     SnackAlertSuccessComponent,

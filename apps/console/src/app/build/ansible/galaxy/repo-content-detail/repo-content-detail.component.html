@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="global">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+namespace.avatar_url+')'"
         [style.background-size]="'cover'"></div>
@@ -8,7 +8,7 @@
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group mat-align-tabs="center">
-        <mat-tab label="Details" *ngIf="repoContent">
+        <mat-tab label="Details" *ngIf="repoContent" isActive="true">
           <div class="details-content">
             <div class="" fxLayout="row">
               <p> {{ repoContent.description }}</p>
@@ -21,44 +21,82 @@
               </mat-chip-list>
             </div>
             <div class="small-cards" fxLayout="row" fxLayoutGap="30px">
-              <div class="small-card" >
-                <h5>Platforms</h5>
-                <div class="platforms mat-elevation-z2">
-                  <mat-list dense>
+              <mat-card class="mat-elevation-z1" *ngIf="repoContent.summary_fields.platforms.length > 0">
+                <mat-card-header>
+                  <mat-card-title>Platforms</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list dense *ngIf="repoContent.summary_fields.platforms.length > 0">
                     <mat-list-item *ngFor="let platform of repoContent.summary_fields.platforms">
-                      <span class="name">{{ platform.name }}</span>
-                      <span class="release">{{ platform.release }}</span>
+                      <div class="list-content" fxLayout="row" fxLayoutAlign="space-between">
+                        <span class="name">{{ platform.name }}</span>
+                        <span class="release">{{ platform.release }}</span>
+                      </div>
                     </mat-list-item>
                   </mat-list>
-                </div>
-              </div>
-              <div class="small-card">
-                <h5>Version</h5>
-                <div class="versions mat-elevation-z2">
-                  <mat-list dense>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-elevation-z1" *ngIf="repoContent.summary_fields.versions.length > 0">
+                <mat-card-header>
+                  <mat-card-title>Versions</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list dense *ngIf="repoContent.summary_fields.versions.length > 0">
                     <mat-list-item *ngFor="let version of repoContent.summary_fields.versions">
-                      <span class="version">{{ version.version }}</span>
-                      <span class="commit-date">{{ version.commit_date | date: 'medium' }}</span>
+                      <div class="list-content" fxLayout="row" fxLayoutAlign="space-between">
+                        <span class="version">{{ version.version }}</span>
+                        <span class="commit-date">{{ version.commit_date | date: 'medium' }}</span>
+                      </div>
+
                     </mat-list-item>
                   </mat-list>
-                </div>
-              </div>
-              <div class="small-card">
-                <h5>Last tasks messages </h5>
-                <div class="messages mat-elevation-z2">
-                  <mat-list dense>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-elevation-z1" *ngIf="repoContent.summary_fields.task_messages.length > 0">
+                <mat-card-header>
+                  <mat-card-title>Last tasks messages</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list dense *ngIf="repoContent.summary_fields.task_messages.length > 0">
                     <mat-list-item *ngFor="let task_message of repoContent.summary_fields.task_messages">
-                      <span class="message-type">{{ task_message.message_type }}</span>
-                      <span class="message-text">{{ task_message.message_text  }}</span>
+                      <div class="list-content" fxLayout="row" fxLayoutAlign="space-between">
+                        <span class="message-type">{{ task_message.message_type }}</span>
+                        <span class="message-text">{{ task_message.message_text  }}</span>
+                      </div>
                     </mat-list-item>
                   </mat-list>
-                </div>
-              </div>
+                </mat-card-content>
+              </mat-card>
             </div>
           </div>
         </mat-tab>
         <mat-tab label="Readme" *ngIf="hasReadme">
           <div class="readme" [innerHtml]="repoContent.readme_html"></div>
+        </mat-tab>
+        <mat-tab label="Import history">
+          <div class="history" *ngIf="repositoryImports">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let repositoryImport of repositoryImports | async">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span class="mr-10">{{ repositoryImport.state }}</span>
+                    on <strong
+                      class="ml-5">{{ repositoryImport.summary_fields.repository.import_branch | uppercase}}</strong>
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                    <span>{{ repositoryImport.finished | timeAgo }}</span>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list dense>
+                  <mat-list-item *ngFor="let taskMessage of repositoryImport.summary_fields.task_messages">
+                    <span class="mr-10">{{ taskMessage.message_type }}</span>
+                    <span>{{ taskMessage.message_text }}</span>
+                  </mat-list-item>
+                </mat-list>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

@@ -1,3 +1,4 @@
+import { RepositoryService } from './../resources/repositories/repository.service';
 import { PluginTypes } from './../enums/plugin-types.enum';
 import { PagedResponse } from './../resources/paged-response';
 import { RepoFormats } from './../search/search.component';
@@ -9,8 +10,12 @@ import { ContentFormat } from './../resources/combined/combined';
 import { Content } from './../resources/content/content';
 import { Content as CombinedContent } from './../resources/combined/combined';
 import { Namespace } from './../resources/namespaces/namespace';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { RepositoryImport } from '../resources/repository-imports/repository-import';
+import { map, tap } from 'rxjs/operators';
+import { MatTabGroup } from '@angular/material';
 
 class ContentTypeCounts {
   apb: number;
@@ -39,6 +44,10 @@ export class RepoContentDetailComponent implements OnInit {
   metadata: object;
   pageLoading = true;
   selectedContent: Content;
+  repositoryImports: Observable<RepositoryImport[]>;
+
+  @ViewChild(MatTabGroup, { static: true })
+  historyTabGroup: MatTabGroup;
 
   contentCounts: ContentTypeCounts = {
     apb: 0,
@@ -50,7 +59,8 @@ export class RepoContentDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private repositoryService: RepositoryService
   ) {}
 
   ngOnInit() {
@@ -62,6 +72,17 @@ export class RepoContentDetailComponent implements OnInit {
       this.content = data.contentType['data']['content'];
       this.namespace = data.contentType['data']['namespace'];
       this.fetchContentDetail(this.content[0].id);
+      // Load repo imports
+      this.repositoryImports = this.repositoryService
+        .getImports(this.repository.id, {})
+        .pipe(
+          map(t => t.results as RepositoryImport[]),
+          tap(t =>
+            setTimeout(() => {
+              this.historyTabGroup.selectedIndex = 0;
+            }, 2)
+          )
+        );
     });
   }
 

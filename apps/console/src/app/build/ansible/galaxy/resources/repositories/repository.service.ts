@@ -75,6 +75,17 @@ export class RepositoryService {
             );
     }
 
+    getImports(id: number, params?: any): Observable<PagedResponse> {
+        return this.http
+            .get<PagedResponse>(`${this.url}/${id.toString()}/imports/`, {
+                params: params,
+            })
+            .pipe(
+                tap(_ => this.log('Fetched repository versions')),
+                catchError(this.handleError('Get', {} as PagedResponse)),
+            );
+    }
+
     save(repository: Repository): Observable<Repository> {
         let httpResult: Observable<Object>;
         if (repository.id) {

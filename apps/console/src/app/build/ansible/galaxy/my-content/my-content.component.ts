@@ -19,7 +19,13 @@ import { ProviderSource } from './../resources/provider-namespaces/provider-sour
 import { Component, OnInit, Inject } from '@angular/core';
 import { PagedResponse } from '../resources/paged-response';
 import { User } from '../resources/users/user';
-import { cloneDeep, groupBy } from 'lodash';
+import {
+  cloneDeep,
+  groupBy,
+  filter as _filter,
+  countBy,
+  differenceBy
+} from 'lodash';
 import { map, filter, flatMap, toArray } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 
@@ -51,15 +57,16 @@ export class MyContentComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       const results = data['namespaces'] as PagedResponse;
+      this.providerSources = data['providerSources'] as ProviderSource[];
       this.namespaces = this.prepForList(results.results as Namespace[]) || [];
       if (results.count === 1) {
         this.namespaces[0]['expanded'] = true;
       }
       if (this.namespaces.length > 0) {
         this.namespaces.forEach(namespace => {
+          this.repositoryByNamespaceAndPns[namespace.name] = {};
           namespace.summary_fields.provider_namespaces.forEach(
             (pns: ProviderNamespace) => {
-              this.repositoryByNamespaceAndPns[namespace.name] = {};
               this.repositoryByNamespaceAndPns[namespace.name][
                 pns.name
               ] = this.repositoryByNamespaceAndPNS(namespace.name, pns.name);
@@ -69,9 +76,6 @@ export class MyContentComponent implements OnInit {
       }
     });
     this.userService.me().subscribe(me => (this.me = me));
-    this.providerSourceService.query().subscribe(providerSources => {
-      this.providerSources = providerSources;
-    });
   }
 
   refreshContent() {
@@ -150,22 +154,30 @@ export class MyContentComponent implements OnInit {
           if (res) {
             console.log(res);
             this.userService.me().subscribe((me: IMe) => {
-              const namespaceToAdd: Namespace = new Namespace();
-              const providerSourceToAdd = res.referenceProviderSource;
-              namespaceToAdd.name = `${providerSourceToAdd.provider_name.toLowerCase()}_${
-                providerSourceToAdd.name
-              }`;
-              namespaceToAdd.description = providerSourceToAdd.description;
-              namespaceToAdd.company = providerSourceToAdd.company;
-              namespaceToAdd.location = providerSourceToAdd.location;
-              namespaceToAdd.avatar_url = providerSourceToAdd.avatar_url;
-              namespaceToAdd.html_url = providerSourceToAdd.html_url;
-              namespaceToAdd.active = true;
-              namespaceToAdd.is_vendor = false;
-              const currentOwner: User = new User();
-              currentOwner.id = me.id;
-              namespaceToAdd.owners = [currentOwner];
-              const pns: ProviderNamespace[] = [];
+              let namespaceToAdd: Namespace;
+              let pns: ProviderNamespace[] = [];
+              if (this.namespaces.length > 0) {
+                namespaceToAdd = this.namespaces[0];
+                pns = pns.concat(
+                  namespaceToAdd.summary_fields.provider_namespaces
+                );
+              } else {
+                namespaceToAdd = new Namespace();
+                const providerSourceToAdd = res.referenceProviderSource;
+                namespaceToAdd.name = `${providerSourceToAdd.provider_name.toLowerCase()}_${
+                  providerSourceToAdd.name
+                }`;
+                namespaceToAdd.description = providerSourceToAdd.description;
+                namespaceToAdd.company = providerSourceToAdd.company;
+                namespaceToAdd.location = providerSourceToAdd.location;
+                namespaceToAdd.avatar_url = providerSourceToAdd.avatar_url;
+                namespaceToAdd.html_url = providerSourceToAdd.html_url;
+                namespaceToAdd.active = true;
+                namespaceToAdd.is_vendor = false;
+                const currentOwner: User = new User();
+                currentOwner.id = me.id;
+                namespaceToAdd.owners = [currentOwner];
+              }
               res.selectedPns.forEach((item: ProviderSource) => {
                 const pn: ProviderNamespace = new ProviderNamespace();
                 pn.description = item.description;
@@ -218,7 +230,7 @@ export class MyContentComponent implements OnInit {
 })
 export class SelectNamespaceDialogComponent implements OnInit {
   providerSources: ProviderSource[] = [];
-  selectedProviderSource: ProviderSource;
+  selectedProviderSource: any;
   providerSourcesGroup: any;
   constructor(
     public dialogRef: MatDialogRef<SelectNamespaceDialogComponent>,
@@ -227,9 +239,34 @@ export class SelectNamespaceDialogComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.providerSources = this.data.providerSources;
-    this.providerSourcesGroup = groupBy(
-      this.data.providerSources,
-      'provider_name'
+    // group by provider and if existing at least one namespace for a provider remove it
+    this.providerSourcesGroup = _filter(
+      groupBy(this.data.providerSources, 'provider_name'),
+      group => {
+        if (
+          this.data.namespaces.length == 1 &&
+          countBy(
+            Object.keys(group),
+            key => this.data.namespaces[0].name.indexOf(key) > -1
+          )
+        ) {
+          this.selectedProviderSource = _filter(
+            group,
+            g => this.data.namespaces[0].name.indexOf(g.name) > -1
+          )[0];
+          this.providerSources = _filter(this.providerSources, ps => {
+            return (
+              countBy(
+                this.data.namespaces[0].summary_fields.provider_namespaces,
+                n => n.name === ps.name
+              ).true != 1
+            );
+          });
+          return false;
+        } else {
+          return true;
+        }
+      }
     );
   }
   onSelect(
