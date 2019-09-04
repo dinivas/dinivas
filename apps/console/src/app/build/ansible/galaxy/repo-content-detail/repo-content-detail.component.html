@@ -90,8 +90,11 @@
                 </mat-expansion-panel-header>
                 <mat-list dense>
                   <mat-list-item *ngFor="let taskMessage of repositoryImport.summary_fields.task_messages">
-                    <span class="mr-10">{{ taskMessage.message_type }}</span>
-                    <span>{{ taskMessage.message_text }}</span>
+                    <span [class.success]="taskMessage.message_type ==='SUCCESS'"
+                      [class.warning]="taskMessage.message_type ==='WARNING'"
+                      class="mr-10 message-type">{{ taskMessage.message_type }}</span>
+                    <span [class.success]="taskMessage.message_type ==='SUCCESS'"
+                      [class.warning]="taskMessage.message_type ==='WARNING'">{{ taskMessage.message_text }}</span>
                   </mat-list-item>
                 </mat-list>
               </mat-expansion-panel>

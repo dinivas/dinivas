@@ -12,6 +12,18 @@
   }
 }
 
+.container-fluid {
+  @include center-block;
+  @include for-tablet-landscape-up {
+    width: 90%;
+    padding: 15px 10px;
+  }
+  @include for-big-desktop-up {
+    width: 85%;
+    padding: 20px 10px;
+  }
+}
+
 .mr-5 {
   margin-right: 5px !important;
 }

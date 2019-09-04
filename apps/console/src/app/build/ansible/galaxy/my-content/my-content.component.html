@@ -6,12 +6,14 @@
 </mat-toolbar>
 <div class="container">
   <ng-container *ngFor="let namespace of namespaces">
-    <h4 class="namespace-name-title">{{ namespace.name }}</h4>
+    <div class="namespace-header">
+      <mat-icon [svgIcon]="'github'" class="mr-10"></mat-icon>
+      <h4 class="namespace-name-title">{{ namespace.name }}</h4>
+    </div>
     <mat-accordion *ngIf="namespace?.summary_fields?.provider_namespaces?.length > 0">
       <mat-expansion-panel *ngFor="let pns of namespace.summary_fields.provider_namespaces">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon [svgIcon]="pns.provider_name" class="mr-10"></mat-icon>
             <span>{{ pns.name | uppercase }}</span>
           </mat-panel-title>
           <mat-panel-description>

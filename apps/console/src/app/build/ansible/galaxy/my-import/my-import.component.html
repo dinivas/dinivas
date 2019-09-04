@@ -1,3 +1,36 @@
-<p>
-  my-import works!
-</p>
+<div class="component-container container-fluid">
+  <mat-toolbar>
+    <mat-form-field>
+      <mat-select [(ngModel)]="selectedNamespace">
+        <mat-option *ngFor="let namespace of namespaces" [value]="namespace">
+          {{ namespace.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-toolbar>
+  <div class="row">
+    <div class="left">
+      <mat-list dense *ngIf="selectedNamespace">
+        <mat-list-item *ngFor="let repositoryImport of repositoryImports | async"
+          (click)="selectRepository(repositoryImport)" [class.selected]="repositoryImport.id === currentRepoImport?.id">
+          <div class="list-content" fxLayout="column">
+            <span class="version">{{ repositoryImport.name }}</span>
+            <span class="commit-date">{{ repositoryImport.state }} {{ repositoryImport.finished_at | timeAgo}}</span>
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+    <div class="right">
+      <mat-list dense *ngIf="currentRepoImport">
+        <mat-list-item *ngFor="let taskMessage of currentRepoImport.summary_fields.task_messages">
+          <span [class.success]="taskMessage.message_type ==='SUCCESS'"
+            [class.warning]="taskMessage.message_type ==='WARNING'"
+            class="mr-10 message-type">{{ taskMessage.message_type }}</span>
+          <span [class.success]="taskMessage.message_type ==='SUCCESS'"
+            [class.warning]="taskMessage.message_type ==='WARNING'">{{ taskMessage.message_text }}</span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>

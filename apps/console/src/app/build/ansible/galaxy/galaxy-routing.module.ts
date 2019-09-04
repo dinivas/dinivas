@@ -47,7 +47,11 @@ const routes: Routes = [
           providerSources: ProviderSourceListResolver
         }
       },
-      { path: 'my-import', component: MyImportComponent },
+      {
+        path: 'my-import',
+        component: MyImportComponent,
+        resolve: { namespaces: NamespaceListResolver }
+      },
       { path: 'my-settings', component: MySettingsComponent },
       {
         path: 'providers',

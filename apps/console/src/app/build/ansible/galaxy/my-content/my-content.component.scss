@@ -16,12 +16,19 @@
     height: 24px;
   }
 }
-.namespace-name-title {
-  margin: 10px -15px 10px;
-  color: #afafaf;
-  text-transform: uppercase;
+.namespace-header {
+  position: relative;
+  .mat-icon {
+    position: absolute;
+    left: -45px;
+    top: -3px;
+  }
+  .namespace-name-title {
+    margin: 10px -15px 10px;
+    color: #afafaf;
+    text-transform: uppercase;
+  }
 }
-
 .repo-info {
   display: flex;
   justify-content: space-between;

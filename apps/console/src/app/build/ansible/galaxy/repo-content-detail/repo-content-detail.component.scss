@@ -1,3 +1,5 @@
+@import '../../../../../assets/styles/variables';
+
 .mat-card.global {
   box-shadow: none;
   background: transparent;
@@ -74,6 +76,22 @@
     .mat-list-item {
       color: #fff;
       height: 30px;
+      span {
+        &.message-type {
+          font-weight: 500;
+          width: 100px;
+        }
+        &.success,
+        &.warning {
+          font-size: 14px;
+        }
+        &.success {
+          color: $dinivas-green;
+        }
+        &.warning {
+          color: $dinivas-orange;
+        }
+      }
     }
   }
 }
