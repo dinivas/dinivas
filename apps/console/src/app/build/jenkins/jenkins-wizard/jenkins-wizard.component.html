@@ -32,6 +32,46 @@
       </mat-slide-toggle>
       <mat-hint>A proxy will expose services to external network</mat-hint>
     </div>
+    <div class="slide-toggle-container">
+      <mat-slide-toggle formControlName="manage_slave" color="accent">
+      Should manage slave?
+      </mat-slide-toggle>
+      <mat-hint>Dinivas will manage Jenkins slave for you</mat-hint>
+    </div>
+    <mat-divider></mat-divider>
+    <h4>Slave group</h4>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Slave group name</mat-label>
+      <input type="text" matInput formControlName="code" required>
+      <mat-hint>This is just an identification for this slave group</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+                 [removable]="removable" (removed)="remove(fruit)">
+          {{fruit.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="Slave group labels"
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+    </mat-form-field>
+    <div class="slider-container">
+      <mat-slider
+        class="example-margin"
+        [max]="10"
+        [min]="1"
+        [step]="1"
+        [thumbLabel]="truel"
+        [tickInterval]="1"
+        [(ngModel)]="value"
+        formControlName="use_floating_ip"
+        [vertical]="false">
+    </mat-slider>
+    </div>
   </div>
   <div class="actions">
     <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge" type="button">Cancel</button>

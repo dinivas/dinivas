@@ -96,7 +96,13 @@ export class JenkinsWizardComponent
       use_floating_ip: [
         this.jenkins ? this.jenkins.use_floating_ip : false,
         null
-      ]
+      ],
+      manage_slave: [
+        this.jenkins ? this.jenkins.use_floating_ip : false,
+        null
+      ],
+      
+
     });
   }
 

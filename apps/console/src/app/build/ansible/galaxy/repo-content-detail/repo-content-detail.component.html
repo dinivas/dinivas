@@ -84,8 +84,7 @@
                       class="ml-5">{{ repositoryImport.summary_fields.repository.import_branch | uppercase}}</strong>
                   </mat-panel-title>
                   <mat-panel-description>
-
-                    <span>{{ repositoryImport.finished | timeAgo }}</span>
+                    <span *ngIf="repositoryImport.finished">{{ repositoryImport.finished | timeAgo }}</span>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list dense>

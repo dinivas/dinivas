@@ -28,7 +28,7 @@
             [dataSource]="repositoryByNamespaceAndPns[namespace.name][pns.name]" class="full-width-table">
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef>Name</th>
-              <td mat-cell *matCellDef="let row"> <a mat-button
+              <td mat-cell *matCellDef="let row"> <a mat-button color="primary"
                   [routerLink]="['/build', 'ansible', 'galaxy', namespace.name, row.name]"
                   queryParamsHandling="merge">{{ row.name }}</a> </td>
             </ng-container>

@@ -12,6 +12,22 @@ import {
 
 @Injectable()
 export class JenkinsService {
+
+  static toDTO = (jenkins: Jenkins): JenkinsDTO => {
+    const jenkinsDTO = new JenkinsDTO();
+    jenkinsDTO.id = jenkins.id;
+    jenkinsDTO.code = jenkins.code;
+    jenkinsDTO.description = jenkins.description;
+    jenkinsDTO.use_floating_ip = jenkins.use_floating_ip;
+    jenkinsDTO.master_cloud_image = jenkins.master_cloud_image;
+    jenkinsDTO.master_cloud_flavor = jenkins.master_cloud_flavor;
+    jenkinsDTO.project = new ProjectDTO();
+    jenkinsDTO.project.code = jenkins.project.code;
+    jenkinsDTO.project.floating_ip_pool = jenkins.project.floating_ip_pool;
+    jenkinsDTO.project.name = jenkins.project.name;
+    return jenkinsDTO;
+  };
+  
   constructor(
     @InjectRepository(Jenkins)
     private readonly jenkinsRepository: Repository<Jenkins>
@@ -55,18 +71,5 @@ export class JenkinsService {
     await this.jenkinsRepository.delete(id);
   }
 
-  static toDTO = (jenkins: Jenkins): JenkinsDTO => {
-    const jenkinsDTO = new JenkinsDTO();
-    jenkinsDTO.id = jenkins.id;
-    jenkinsDTO.code = jenkins.code;
-    jenkinsDTO.description = jenkins.description;
-    jenkinsDTO.use_floating_ip = jenkins.use_floating_ip;
-    jenkinsDTO.master_cloud_image = jenkins.master_cloud_image;
-    jenkinsDTO.master_cloud_flavor = jenkins.master_cloud_flavor;
-    jenkinsDTO.project = new ProjectDTO();
-    jenkinsDTO.project.code = jenkins.project.code;
-    jenkinsDTO.project.floating_ip_pool = jenkins.project.floating_ip_pool;
-    jenkinsDTO.project.name = jenkins.project.name;
-    return jenkinsDTO;
-  };
+  
 }

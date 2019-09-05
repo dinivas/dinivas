@@ -31,8 +31,8 @@ h4 {
   display: flex;
   flex-direction: column;
   vertical-align: top;
-  padding: 10px !important;
-  margin: 0px 10px 5px 0px;
+  padding: 10px 5px !important;
+  margin: 0px 8px 5px 0px;
   background-color: #fff;
   cursor: pointer;
   transition: border-color 0.2s ease-in;
@@ -68,7 +68,7 @@ h4 {
   .cpu,
   .ram,
   .disk {
-    margin: 5px;
+    margin: 0px 5px;
     padding: 5px;
     display: flex;
     flex-direction: row;
@@ -84,7 +84,7 @@ h4 {
   .cpu {
     justify-content: center;
     font-weight: 600;
-    font-size: 32px;
+    font-size: 24px;
     color: #5400e8;
     small {
       margin-left: 10px;
