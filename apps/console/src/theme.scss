@@ -1,45 +1,7 @@
 @import '~@angular/material/theming';
+@import './assets/styles/variables';
 
 @include mat-core();
-
-$dinivas-custom-palette: (
-  50: #eceff1,
-  100: #cfd8dc,
-  200: #b0bec5,
-  300: #90a4ae,
-  400: #78909c,
-  500: #5400e8,
-  600: #546e7a,
-  700: #455a64,
-  800: #37474f,
-  900: #263238,
-  A100: #cfd8dc,
-  A200: #b0bec5,
-  A400: #78909c,
-  A700: #455a64,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $light-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text
-  )
-);
-
-$dinivas-custom-primary: mat-palette($dinivas-custom-palette);
-$dinivas-custom-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$dinivas-custom-warn: mat-palette($mat-red);
 
 // Background palette for light themes.
 $dinivas-custom-theme-background: (
@@ -80,10 +42,10 @@ $dinivas-custom-theme-foreground: (
 
 // Create the theme object (a Sass map containing all of the palettes).
 //$dinivas-custom-theme: mat-light-theme($dinivas-custom-primary, $dinivas-custom-accent, $dinivas-custom-warn);
-$dinivas-custom-theme: (
-  primary: $dinivas-custom-primary,
-  accent: $dinivas-custom-accent,
-  warn: $dinivas-custom-warn,
+$dinivas-light-theme: (
+  primary: $dinivas-light-primary,
+  accent: $dinivas-light-accent,
+  warn: $dinivas-light-warn,
   is-dark: false,
   foreground: $dinivas-custom-theme-foreground,
   background: $dinivas-custom-theme-background
@@ -93,4 +55,4 @@ $dinivas-custom-theme: (
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 
-@include angular-material-theme($dinivas-custom-theme);
+@include angular-material-theme($dinivas-light-theme);

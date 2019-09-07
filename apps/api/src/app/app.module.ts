@@ -1,5 +1,5 @@
 import { ConfigService } from './core/config/config.service';
-import { Jenkins } from './build/jenkins/jenkins.entity';
+import { Jenkins, JenkinsSlaveGroup } from './build/jenkins/jenkins.entity';
 import { BuildModule } from './build/build.module';
 import { API_PREFFIX } from './constants';
 import { TerraformGateway } from './terraform/terraform.gateway';
@@ -51,7 +51,13 @@ const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json'
   imports: [
     TypeOrmModule.forRoot({
       ...ormConfigJson,
-      entities: [Cloudprovider, Project, TerraformState, Jenkins]
+      entities: [
+        Cloudprovider,
+        Project,
+        TerraformState,
+        Jenkins,
+        JenkinsSlaveGroup
+      ]
     }),
     ComputeModule,
     CloudproviderModule,

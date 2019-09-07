@@ -81,13 +81,13 @@
                 instance</strong></p>
           </ng-template>
           <h5>Bastion SSH Key</h5>
-          <mat-divider></mat-divider>
           <button type="button" mat-button (click)="addSSHKey()">New SSH key</button>
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="enable_proxy" color="accent">
-              {{ projectForm?.value.enable_proxy ? 'Disable proxy instance' : 'Enable proxy instance'}}
+              Enable proxy instance?
             </mat-slide-toggle>
-            <mat-hint>A proxy will expose services to external network</mat-hint>
+            <mat-hint>A proxy will expose services to external network. This will preserve your public (or floating) Ips
+            </mat-hint>
           </div>
           <ng-container *ngIf="projectForm?.value.enable_proxy">
             <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_proxy_flavor"
@@ -100,7 +100,7 @@
           </ng-container>
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="monitoring" color="accent">
-              {{ projectForm?.value.monitoring ? 'Disable project monitoring' : 'Enable project monitoring'}}
+              Enable project monitoring?
             </mat-slide-toggle>
             <mat-hint>Prometheus will be installed at project level</mat-hint>
           </div>
@@ -115,7 +115,7 @@
           </ng-template>
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="logging" color="accent">
-              {{ projectForm?.value.logging ? 'Disable project logging' : 'Enable project logging'}}
+              Enable project logging?
             </mat-slide-toggle>
             <mat-hint>When enabled, you'll have to select the Logging stack to install</mat-hint>
           </div>

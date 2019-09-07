@@ -2,6 +2,7 @@
 
 .mat-stepper-vertical {
   background-color: #fafafa;
+  max-width: 1400px;
 }
 
 .form-container {
@@ -26,7 +27,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-  max-width: 600px;
+  max-width: 90%;
 }
 
 .logging-stack {
@@ -128,8 +129,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 2;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,6 +140,8 @@
     transform: translateY(80px);
     background-color: #fff;
     padding: 5px 15px;
+    color: #555;
+    z-index: 3;
   }
 }
 

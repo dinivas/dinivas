@@ -1,3 +1,4 @@
+import { CurrentProjectResolver } from './../shared/project/current-project.resolver';
 import { CloudImagesResolver } from './../shared/cloudprovider/cloud-images.resolver';
 import { CloudFlavorsResolver } from './../shared/cloudprovider/cloud-flavors.resolver';
 import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
     canActivate: [MandatorySelectedProjectGuard],
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
-      cloudImages: CloudImagesResolver
+      cloudImages: CloudImagesResolver,
+      currentProject: CurrentProjectResolver
     }
   }
 ];

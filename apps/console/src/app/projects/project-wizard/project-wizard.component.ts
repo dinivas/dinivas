@@ -78,17 +78,12 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      const projectId = params['projectId'];
-      if (projectId) {
-        this.projectService.getOneProject(projectId).subscribe(project => {
-          this.project = project;
-          this.initProjectForm();
-        });
-      } else {
+    this.activatedRoute.data
+      .pipe(map((data: { currentProject: ProjectDTO }) => data.currentProject))
+      .subscribe((project: ProjectDTO) => {
+        this.project = project;
         this.initProjectForm();
-      }
-    });
+      });
     this.projectPlanFormGroup = this.formBuilder.group({});
     this.cloudproviderService
       .getCloudproviders(new HttpParams())
@@ -125,7 +120,7 @@ export class ProjectWizardComponent implements OnInit {
         this.project ? this.project.bastion_cloud_flavor : null,
         Validators.required
       ],
-      enable_proxy: [this.project ? this.project.enable_proxy : true, null],
+      enable_proxy: [this.project ? this.project.enable_proxy : false, null],
       proxy_cloud_flavor: [
         this.project ? this.project.proxy_cloud_flavor : null,
         null
@@ -215,7 +210,10 @@ export class ProjectWizardComponent implements OnInit {
   applyProject(project: ProjectDTO) {
     this.projectService
       .applyProjectPlan(
-        new ApplyModuleDTO<ProjectDTO>(project, this.terraformPlanEvent.workingDir)
+        new ApplyModuleDTO<ProjectDTO>(
+          project,
+          this.terraformPlanEvent.workingDir
+        )
       )
       .subscribe(
         () => {

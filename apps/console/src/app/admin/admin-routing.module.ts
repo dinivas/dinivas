@@ -38,7 +38,7 @@ const routes: Routes = [
           './terraform-state/terraform-state.module#TerraformStateModule',
         canActivate: [MandatorySelectedProjectGuard]
       },
-      { path: '', redirectTo: 'dashboard' }
+      { path: '', redirectTo: 'server-monitor-status' }
     ]
   }
 ];

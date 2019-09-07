@@ -6,7 +6,14 @@ import {
   forwardRef
 } from '@angular/core';
 import { ICloudApiFlavor } from '@dinivas/dto';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  Validator,
+  ValidationErrors,
+  AbstractControl,
+  NG_VALIDATORS
+} from '@angular/forms';
 
 @Component({
   selector: 'dinivas-cloud-flavor-radios',
@@ -18,11 +25,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CloudFlavorRadiosComponent),
       multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: CloudFlavorRadiosComponent,
+      multi: true
     }
   ]
 })
 export class CloudFlavorRadiosComponent
-  implements OnInit, ControlValueAccessor {
+  implements OnInit, ControlValueAccessor, Validator {
   @Input()
   label: string;
   @Input()
@@ -33,6 +45,7 @@ export class CloudFlavorRadiosComponent
 
   private onTouch: Function;
   private onModelChange: Function;
+  private onValidatorChange: Function;
 
   constructor() {}
 
@@ -55,5 +68,11 @@ export class CloudFlavorRadiosComponent
   }
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+  validate(control: AbstractControl): ValidationErrors {
+    return this.cloudFlavor ? null : { required: true };
+  }
+  registerOnValidatorChange?(fn: () => void): void {
+    this.onValidatorChange = fn;
   }
 }

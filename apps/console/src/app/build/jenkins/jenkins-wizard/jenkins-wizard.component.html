@@ -5,6 +5,7 @@
     <mat-form-field class="" appearance="outline">
       <mat-label>Jenkins code</mat-label>
       <input type="text" matInput formControlName="code" required>
+      <span *ngIf="!jenkins?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
       <mat-hint>The Jenkins code will be used to suffix most components. You can't change it after Jenkins
         creation.</mat-hint>
     </mat-form-field>
@@ -12,74 +13,132 @@
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" rows="3"></textarea>
     </mat-form-field>
-    <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_master_image"
-      formControlName="master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="cloudImages">
-    </dinivas-cloud-image-radios>
-    <ng-template #loading_master_image>
-      <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Master
-          instance</strong></p>
-    </ng-template>
-    <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"
-      formControlName="master_cloud_flavor" label="Select Jenkins master flavor to use" [cloudFlavors]="cloudFlavors">
-    </dinivas-cloud-flavor-radios>
-    <ng-template #loading_master_flavor>
-      <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master
-          instance</strong></p>
-    </ng-template>
+    <!-- Jenkins Master configuration -->
+    <h4>Jenkins master</h4>
     <div class="slide-toggle-container">
-      <mat-slide-toggle formControlName="use_floating_ip" color="accent">
-        {{ jenkinsForm?.value.use_floating_ip ? 'Do not use floating IP' : 'Use floating IP'}}
+      <mat-slide-toggle formControlName="use_existing_master" color="accent">
+        Use an external existing master and not create a new one?
       </mat-slide-toggle>
-      <mat-hint>A proxy will expose services to external network</mat-hint>
+      <mat-hint>The existing master won't be managed by Dinivas</mat-hint>
     </div>
+    <ng-container *ngIf="!jenkinsForm?.value.use_existing_master">
+      <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_master_image"
+        formControlName="master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="cloudImages">
+      </dinivas-cloud-image-radios>
+      <ng-template #loading_master_image>
+        <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Master
+            instance</strong></p>
+      </ng-template>
+      <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"
+        formControlName="master_cloud_flavor" label="Select Jenkins master flavor to use" [cloudFlavors]="cloudFlavors">
+      </dinivas-cloud-flavor-radios>
+      <ng-template #loading_master_flavor>
+        <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master
+            instance</strong></p>
+      </ng-template>
+      <div class="slide-toggle-container">
+        <mat-slide-toggle formControlName="use_floating_ip" color="accent">
+          {{ jenkinsForm?.value.use_floating_ip ? 'Do not use floating IP' : 'Use floating IP'}}
+        </mat-slide-toggle>
+        <mat-hint>A proxy will expose services to external network</mat-hint>
+      </div>
+    </ng-container>
+    <!-- Existing Jenkins master -->
+    <ng-container *ngIf="jenkinsForm?.value.use_existing_master">
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins master url</mat-label>
+        <input type="text" matInput formControlName="existing_master_url"
+          [required]="jenkinsForm?.value.use_existing_master">
+        <mat-hint>The Url of the existing Jenkins master</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins master username</mat-label>
+        <input type="text" matInput formControlName="existing_master_username"
+          [required]="jenkinsForm?.value.use_existing_master">
+        <mat-hint>The Jenkins username to use for remote access (API)</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins master password</mat-label>
+        <input type="password" matInput formControlName="existing_master_password"
+          [required]="jenkinsForm?.value.use_existing_master">
+        <mat-hint>The Jenkins password to use for remote access (API)</mat-hint>
+      </mat-form-field>
+    </ng-container>
     <div class="slide-toggle-container">
       <mat-slide-toggle formControlName="manage_slave" color="accent">
-      Should manage slave?
+        Want to create slaves?
       </mat-slide-toggle>
       <mat-hint>Dinivas will manage Jenkins slave for you</mat-hint>
     </div>
-    <mat-divider></mat-divider>
-    <h4>Slave group</h4>
-    <mat-form-field class="" appearance="outline">
-      <mat-label>Slave group name</mat-label>
-      <input type="text" matInput formControlName="code" required>
-      <mat-hint>This is just an identification for this slave group</mat-hint>
-    </mat-form-field>
-    <mat-form-field class="example-chip-list">
-      <mat-chip-list #chipList aria-label="Fruit selection">
-        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
-                 [removable]="removable" (removed)="remove(fruit)">
-          {{fruit.name}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input placeholder="Slave group labels"
-               [matChipInputFor]="chipList"
-               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               [matChipInputAddOnBlur]="addOnBlur"
-               (matChipInputTokenEnd)="add($event)">
-      </mat-chip-list>
-    </mat-form-field>
-    <div class="slider-container">
-      <mat-slider
-        class="example-margin"
-        [max]="10"
-        [min]="1"
-        [step]="1"
-        [thumbLabel]="truel"
-        [tickInterval]="1"
-        [(ngModel)]="value"
-        formControlName="use_floating_ip"
-        [vertical]="false">
-    </mat-slider>
-    </div>
+
+    <!-- Jenkins slave configuration -->
+    <ng-container *ngIf="jenkinsForm?.value.manage_slave">
+      <h4>Slave groups <small
+          *ngIf="jenkinsForm.get('slave_groups').controls.length > 0">({{ jenkinsForm.get('slave_groups').controls.length }}
+          groups)</small></h4>
+      <div class="jenkins-slave-groups-container">
+        <div formArrayName="slave_groups" class="jenkins-slave-group-container mat-elevation-z2"
+          *ngFor="let slaveGroup of jenkinsForm.get('slave_groups').controls; let slaveGroupIndex = index;">
+          <span class="slave-group-number">#{{ slaveGroupIndex + 1 }}</span>
+          <div [formGroupName]="slaveGroupIndex" class="" fxLayout="column">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Slave group name</mat-label>
+              <input type="text" matInput formControlName="code" required>
+              <span *ngIf="jenkinsForm?.value.code" matPrefix>{{ project.code.toLowerCase() }}-{{ jenkinsForm?.value.code.toLowerCase() }}-</span>
+              <mat-hint>This is just an identification for this slave group</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-chip-list #chipList aria-label="Slave labels" formControlName="labels">
+                <mat-chip *ngFor="let label of jenkinsForm?.value.slave_groups[slaveGroupIndex].labels"
+                  [selectable]="selectable" [removable]="true" color="accent" selected
+                  (removed)="removeSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], label)">
+                  {{label}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Slave group labels" [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                  (matChipInputTokenEnd)="addSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], $event)">
+              </mat-chip-list>
+              <mat-hint>Those label could be used to select target slave</mat-hint>
+            </mat-form-field>
+            <div class="slider-container">
+              <span>Select the number of slave instance</span>
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="instance_count" [max]="10" [min]="1"
+                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+              </mat-slider>
+              {{ jenkinsForm?.value.slave_groups[slaveGroupIndex]['instance_count'] | json}}
+            </div>
+            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0" formControlName="slave_cloud_image"
+              label="Select Slave group image to use" [cloudImages]="cloudImages">
+            </dinivas-cloud-image-radios>
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="slave_cloud_flavor"
+              label="Select Slave group flavor to use" [cloudFlavors]="cloudFlavors">
+            </dinivas-cloud-flavor-radios>
+            <div fxLayout="row" fxLayoutAlign="end">
+              <button type="button" mat-button color="warn" (click)="removeSlaveGroup(slaveGroupIndex)">
+                <mat-icon>delete</mat-icon>Delete this
+                slave group
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="add-jenkins-slave" mat-raised-button (click)="addJenkinsSlave()">
+        <mat-icon>add</mat-icon>
+        Add new Jenkins
+        slave
+        group
+      </button>
+    </ng-container>
   </div>
   <div class="actions">
     <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge" type="button">Cancel</button>
     <button type="button" mat-button matStepperNext class="ml-10" *ngIf="jenkins?.id && isFormValid()"
       (click)="showJenkinsOutput()">Show jenkins
       infra infos</button>
-    <button type="submit" mat-button matStepperNext color="primary" class="ml-10"
-      [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan
+    <button type="submit" mat-raised-button matStepperNext color="primary" class="ml-10"
+      [disabled]="!isFormValid()">Plan
       Jenkins
       resources</button>
   </div>

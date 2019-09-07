@@ -6,7 +6,14 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { ICloudApiImage } from '@dinivas/dto';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  Validator,
+  AbstractControl,
+  ValidationErrors,
+  NG_VALIDATORS
+} from '@angular/forms';
 
 @Component({
   selector: 'dinivas-cloud-image-radios',
@@ -18,10 +25,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CloudImageRadiosComponent),
       multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: CloudImageRadiosComponent,
+      multi: true
     }
   ]
 })
-export class CloudImageRadiosComponent implements OnInit, ControlValueAccessor {
+export class CloudImageRadiosComponent
+  implements OnInit, ControlValueAccessor, Validator {
   @Input()
   label: string;
   @Input()
@@ -32,6 +45,7 @@ export class CloudImageRadiosComponent implements OnInit, ControlValueAccessor {
 
   private onTouch: Function;
   private onModelChange: Function;
+  private onValidatorChange: Function;
 
   constructor() {}
 
@@ -54,5 +68,11 @@ export class CloudImageRadiosComponent implements OnInit, ControlValueAccessor {
   }
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+  validate(control: AbstractControl): ValidationErrors {
+    return this.imageName ? null : { required: true };
+  }
+  registerOnValidatorChange?(fn: () => void): void {
+    this.onValidatorChange = fn;
   }
 }

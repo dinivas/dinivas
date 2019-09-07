@@ -127,7 +127,7 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   onPlanApplied($event) {
     this.planInProgress = true;
     this.planStepFinished = false;
-    this.planModule($event);
+    setTimeout(() => this.planModule($event), 1);
   }
 
   onApplyApplied($event) {

@@ -1,7 +1,7 @@
 <div class="spinner-container" *ngIf="loadingPage">
-    <mat-spinner></mat-spinner>
-    <span>Loading please wait a moment...</span>
-  </div>
+  <mat-spinner></mat-spinner>
+  <span>Loading please wait a moment...</span>
+</div>
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <div class="left">
     <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav(true)">
@@ -167,8 +167,8 @@
       </a>
       <!-- Ansible -->
       <h3 mat-subheader>Ansible</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/build/ansible/galaxy']" (click)="toggleSideNav()">
+      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/build/ansible/galaxy']"
+        (click)="toggleSideNav()">
         <mat-icon matListIcon svgIcon="ansible"></mat-icon>
         <h4 mat-line>Galaxy</h4>
       </a>
@@ -208,7 +208,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav class="contextual" #contextualSidenav [mode]="'over'" position="end">
-      <ng-container *ngComponentOutlet="contextualMenuComponent"></ng-container>
+    <ng-container *ngComponentOutlet="contextualMenuComponent"></ng-container>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="main-container">

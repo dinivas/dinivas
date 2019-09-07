@@ -9,6 +9,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { JenkinsDTO } from '@dinivas/dto';
 import { TerraformModuleWizard } from '../../shared/terraform/terraform-module-wizard/terraform-module-wizard';
+import {CurrentProjectResolver} from '../../shared/project/current-project.resolver';
+import {CurrentJenkinsResolver} from '../../shared/jenkins/jenkins.resolver';
 
 const moduleWizardData = new TerraformModuleWizard<JenkinsDTO>(
   JenkinsWizardComponent,
@@ -39,7 +41,8 @@ const routes: Routes = [
     },
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
-      cloudImages: CloudImagesResolver
+      cloudImages: CloudImagesResolver,
+      currentProject: CurrentProjectResolver
     }
   },
   {
@@ -48,7 +51,8 @@ const routes: Routes = [
     canActivate: [MandatorySelectedProjectGuard],
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
-      cloudImages: CloudImagesResolver
+      cloudImages: CloudImagesResolver,
+      currentJenkins: CurrentJenkinsResolver
     }
   }
 ];

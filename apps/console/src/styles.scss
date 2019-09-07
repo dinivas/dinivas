@@ -65,3 +65,7 @@ body {
     padding: 10px 15px;
   }
 }
+
+.mat-form-field-appearance-outline .mat-form-field-prefix {
+  top: inherit !important;
+}

@@ -26,7 +26,10 @@ export class MandatorySelectedProjectGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (next.queryParams['appInitialisation'] || state.url.startsWith('/admin')) {
+    if (
+      next.queryParams['appInitialisation'] ||
+      state.url.startsWith('/admin')
+    ) {
       return true;
     }
     this.lastProjectId = next.queryParams['project'] || this.lastProjectId;
@@ -39,8 +42,16 @@ export class MandatorySelectedProjectGuard implements CanActivate {
       return false;
     }
     if (!next.queryParams['redirected']) {
-      this.storage.store(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY, this.lastProjectId);
-      this.router.navigate([state.url], {
+      this.storage.store(
+        CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY,
+        this.lastProjectId
+      );
+      const route: string[] = (state.url.indexOf('?') > -1
+        ? state.url.substring(0, state.url.indexOf('?'))
+        : state.url
+      ).split('/');
+      route.shift();
+      this.router.navigate(['/'].concat(route), {
         queryParams: {
           project: this.lastProjectId,
           redirected: true

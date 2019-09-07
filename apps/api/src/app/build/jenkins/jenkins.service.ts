@@ -45,13 +45,13 @@ export class JenkinsService {
   }
 
   async findOne(id: number): Promise<Jenkins> {
-    const project: Jenkins = await this.jenkinsRepository.findOne(id, {
+    const jenkins: Jenkins = await this.jenkinsRepository.findOne(id, {
       relations: ['project']
     });
-    if (!project) {
+    if (!jenkins) {
       throw new NotFoundException(`Jenkins with id: ${id} not found`);
     }
-    return JenkinsService.toDTO(project);
+    return JenkinsService.toDTO(jenkins);
   }
 
   async create(jenkinsDTO: JenkinsDTO): Promise<JenkinsDTO> {

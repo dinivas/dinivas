@@ -1,4 +1,5 @@
 @import '../../../../assets/styles/mixins';
+@import '../../../../assets/styles/variables';
 
 .mat-stepper-vertical {
   background-color: #fafafa;
@@ -26,7 +27,6 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-  max-width: 600px;
 }
 
 .spinner-container {
@@ -52,12 +52,48 @@
 .tf-plan-resources-container {
   margin: 20px 10px;
 }
+
 dinivas-cloud-image-radios {
   // width: 200%;
   margin: 10px 0px;
+  flex: 1;
 }
 
 dinivas-cloud-flavor-radios {
   // width: 200%;
   margin: 10px 0px;
+  flex: 1;
+}
+
+.jenkins-slave-groups-container {
+  .jenkins-slave-group-container {
+    position: relative;
+    padding: 25px;
+    span.slave-group-number {
+      right: 20px;
+      top: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      position: absolute;
+      color: $accent;
+    }
+    //border-bottom: 1px solid #cdcdcd;
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+    .slider-container {
+      margin: 10px 5px;
+      span {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+.add-jenkins-slave {
+  margin: 15px auto 0px;
+}
+p.no-slave {
+  padding: 25px;
+  text-align: center;
 }
