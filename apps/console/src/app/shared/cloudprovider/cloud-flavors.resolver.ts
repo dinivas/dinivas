@@ -15,7 +15,6 @@ import { LocalStorageService } from 'ngx-webstorage';
 export class CloudFlavorsResolver implements Resolve<ICloudApiFlavor[]> {
   constructor(
     private readonly projectService: ProjectsService,
-    private readonly cloudproviderService: CloudproviderService,
     private storage: LocalStorageService
   ) {}
   async resolve(
@@ -25,11 +24,8 @@ export class CloudFlavorsResolver implements Resolve<ICloudApiFlavor[]> {
     const projectId =
       <string>route.paramMap.get('projectId') ||
       this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
-    const project = await this.projectService
-      .getOneProject(Number.parseInt(projectId))
-      .toPromise();
-    return this.cloudproviderService
-      .getCloudProviderFlavors(project.cloud_provider.id)
+    return this.projectService
+      .getProjectFlavors(projectId)
       .pipe(
         flatMap(t => t),
         filter(flavor => flavor.name.indexOf('dinivas') > -1),

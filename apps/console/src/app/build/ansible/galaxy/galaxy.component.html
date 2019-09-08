@@ -1,9 +1,9 @@
-<mat-toolbar class="mat-toolbar header-toolbar">
+<mat-toolbar class="mat-toolbar header-toolbar galaxy-nav">
   <mat-icon matListIcon svgIcon="ansible"></mat-icon>
   <span class="page-title">Ansible Galaxy</span>
   <span class="fill-remaining-space"></span>
 </mat-toolbar>
-<nav mat-tab-nav-bar>
+<nav mat-tab-nav-bar class="galaxy-nav">
   <a mat-tab-link routerLinkActive #rlaSearch="routerLinkActive" [active]="rlaSearch.isActive"
     routerLink="search">Search</a>
   <a mat-tab-link routerLinkActive #rlaMyContent="routerLinkActive" [active]="rlaMyContent.isActive"

@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import 'assets/styles/material-theme.scss';
 
 @import 'assets/styles/variables';
 @import 'assets/styles/mixins';
@@ -25,46 +25,13 @@ body {
   box-sizing: border-box;
 }
 
-.confirm-dialog-panel {
-  .mat-dialog-container {
-    background: rgba(84, 0, 232, 0.88);
-    color: #fff;
-    .mat-dialog-title {
-      color: hsl(0, 0%, 71%);
-    }
-    button {
-      &.confirm-button {
-        font-weight: 600;
-      }
-    }
-  }
-}
 .form-container {
   mat-form-field.mat-form-field {
     font-size: 14px;
   }
 }
 
-.spinner-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  span {
-    position: absolute;
-    top: 50%;
-    transform: translateY(80px);
-    background-color: #fff;
-    padding: 10px 15px;
-  }
-}
+
 
 .mat-form-field-appearance-outline .mat-form-field-prefix {
   top: inherit !important;

@@ -1,95 +1,116 @@
 @import '../../../../../assets/styles/variables';
 
-.mat-card.global {
-  box-shadow: none;
-  background: transparent;
-}
-.readme {
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 600px;
-  color: #363636;
-  padding: 20px 40px;
-  background-color: rgba(0, 0, 0, 0.018);
-  margin-top: 20px;
-}
-.details-content {
-  padding: 20px 40px;
-  margin-top: 20px;
-  .platforms,
-  .versions,
-  .messages {
-    padding: 10px;
-    width: 100‰;
-    margin: 10px 15px;
-  }
-  .small-cards {
-    margin-top: 30px;
-    .mat-card {
-      flex: 1;
-      .mat-card-content {
+@import '~@angular/material/theming';
+
+@mixin ansible-repo-detail-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .ansible-repo-detail {
+    .mat-card.global {
+      box-shadow: none;
+      background: transparent;
+      mat-card-header {
+        a.external-url {
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+    }
+    .readme {
+      font-size: 16px;
+      line-height: 24px;
+      min-height: 600px;
+      color: mat-color($foreground, secondary-text);
+      padding: 20px 40px;
+      background-color: $background-color;
+      margin-top: 20px;
+    }
+    .details-content {
+      padding: 20px 40px;
+      margin-top: 20px;
+      .platforms,
+      .versions,
+      .messages {
+        padding: 10px;
+        width: 100‰;
+        margin: 10px 15px;
+      }
+      .small-cards {
+        margin-top: 30px;
+        .mat-card {
+          flex: 1;
+          .mat-card-content {
+            max-height: 400px;
+            overflow-y: auto;
+          }
+          .list-content {
+            display: flex;
+            font-size: 110%;
+            justify-content: space-between;
+            width: 100%;
+            span {
+              padding: 10px 5px;
+              flex: 2;
+            }
+            & > span:first-child {
+              background-color: $accent-color;
+              color: $background-color;
+              font-weight: 500;
+              flex: 1;
+            }
+            & > span:last-child {
+              text-align: right;
+              font-weight: 500;
+            }
+          }
+        }
+        .small-card {
+          flex: 1;
+          .mat-list-item {
+            justify-content: space-between;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    .history {
+      padding: 20px 40px;
+      .mat-accordion .mat-list {
+        background-color: #363636;
+        padding: 10px;
+        border: 1px solid #363636;
+        border-radius: 2px;
+        line-height: 18px;
+        margin-bottom: 50px;
         max-height: 400px;
         overflow-y: auto;
-      }
-      .list-content {
-        display: flex;
-        font-size: 110%;
-        justify-content: space-between;
-        width: 100%;
-        span {
-          padding: 10px 5px;
-          flex: 2;
-        }
-        & > span:first-child {
-          background-color: #5400e8;
+        .mat-list-item {
           color: #fff;
-          font-weight: 500;
-          flex: 1;
-        }
-        & > span:last-child {
-          text-align: right;
-          font-weight: 500;
-        }
-      }
-    }
-    .small-card {
-      flex: 1;
-      .mat-list-item {
-        justify-content: space-between;
-        font-size: 14px;
-      }
-    }
-  }
-}
-
-.history {
-  padding: 20px 40px;
-  .mat-accordion .mat-list {
-    background-color: #363636;
-    padding: 10px;
-    border: 1px solid #363636;
-    border-radius: 2px;
-    line-height: 18px;
-    margin-bottom: 50px;
-    max-height: 400px;
-    overflow-y: auto;
-    .mat-list-item {
-      color: #fff;
-      height: 30px;
-      span {
-        &.message-type {
-          font-weight: 500;
-          width: 100px;
-        }
-        &.success,
-        &.warning {
-          font-size: 14px;
-        }
-        &.success {
-          color: $dinivas-green;
-        }
-        &.warning {
-          color: $dinivas-orange;
+          height: 30px;
+          span {
+            &.message-type {
+              font-weight: 500;
+              width: 100px;
+            }
+            &.success,
+            &.warning {
+              font-size: 14px;
+            }
+            &.success {
+              color: $dinivas-green;
+            }
+            &.warning {
+              color: $dinivas-orange;
+            }
+          }
         }
       }
     }

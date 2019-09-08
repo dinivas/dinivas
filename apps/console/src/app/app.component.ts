@@ -1,24 +1,23 @@
+import { SideMenu } from './side-menu';
+import { Observable } from 'rxjs/';
 import { ConfirmDialogService } from './core/dialog/confirm-dialog/confirm-dialog.service';
 import { ComponentType } from '@angular/cdk/portal';
 import { ContextualMenuService } from './core/contextual-menu/contextual-menu.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HttpParams } from '@angular/common/http';
 import { ProjectsService } from './shared/project/projects.service';
-import {
-  IServerInfo,
-  ProjectDTO,
-  ICloudApiProjectQuotaDetail,
-  CONSTANT
-} from '@dinivas/dto';
-import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
+import { IServerInfo, ProjectDTO, CONSTANT } from '@dinivas/dto';
 import { KeycloakService } from 'keycloak-angular';
 import {
   Component,
   ViewChild,
   Injector,
-  ReflectiveInjector
+  ReflectiveInjector,
+  Renderer2,
+  OnInit,
+  AfterViewInit
 } from '@angular/core';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog, MatSidenav, MatListItem } from '@angular/material';
 import {
   Router,
   ActivatedRoute,
@@ -29,29 +28,43 @@ import {
   NavigationCancel
 } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
+import { ThemeService } from './core/services/theme.service';
+import { countBy, findIndex } from 'lodash';
+
+class SideNavMenuGroup {
+  group: string;
+  menus: SideNavMenu[];
+}
+class SideNavMenu {
+  name: string;
+  label: string;
+  routerLink: string[];
+  svgIcon: string;
+  icon: string;
+  isPinned: boolean;
+}
 
 @Component({
   selector: 'dinivas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit {
   sideNavMode = 'side';
   sideNavOpened: boolean;
+  routerLinkActiveOptionsExact: any = { exact: true };
   userDetails: Keycloak.KeycloakProfile;
   currentProject: ProjectDTO;
   serverInfo: IServerInfo;
-  routerLinkActiveOptionsExact: any = { exact: true };
   projects: ProjectDTO[];
-  ramQuota: ICloudApiProjectQuotaDetail;
-  coresQuota: ICloudApiProjectQuotaDetail;
-  instancesQuota: ICloudApiProjectQuotaDetail;
-  floatIpQuota: ICloudApiProjectQuotaDetail;
   @ViewChild('contextualSidenav', { static: true })
   contextualSidenav: MatSidenav;
   contextualMenuComponent: ComponentType<any>;
   contextualMenuInjector: Injector;
   loadingPage = false;
+  isDarkTheme: Observable<boolean>;
+  availableMenuGroups: SideNavMenuGroup[] = SideMenu;
+  pinnedMenus: SideNavMenu[] = [];
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -62,7 +75,9 @@ export class AppComponent {
     private storage: LocalStorageService,
     public confirmDialog: ConfirmDialogService,
     private contextualMenuService: ContextualMenuService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private themeService: ThemeService,
+    private renderer: Renderer2
   ) {
     this.contextualMenuInjector = ReflectiveInjector.resolveAndCreate([
       {
@@ -75,6 +90,29 @@ export class AppComponent {
   }
 
   async ngOnInit() {
+    // set stored pinned menus
+    const storedExistingPinnedMenu: string[] =
+      this.storage.retrieve('pinned-menu-names') || [];
+    this.availableMenuGroups.forEach(menuGroup => {
+      menuGroup.menus.forEach(m => {
+        storedExistingPinnedMenu.forEach(name => {
+          if (m.name === name) {
+            m.isPinned = true;
+            this.pinnedMenus.push(m);
+          }
+        });
+      });
+    });
+
+    this.isDarkTheme = this.themeService.isDarkTheme;
+    this.isDarkTheme.subscribe(isDark => {
+      if (isDark) {
+        this.renderer.addClass(document.body, 'dark-theme');
+      } else {
+        this.renderer.removeClass(document.body, 'dark-theme');
+      }
+    });
+
     this.route.queryParams.subscribe(params => {
       this.projectService
         .getProjects(new HttpParams())
@@ -84,12 +122,7 @@ export class AppComponent {
             .filter(p => p.id == params['project'])
             .forEach(p => {
               this.currentProject = p;
-              this.projectService.getProjectQuota(p.id).subscribe(quota => {
-                this.ramQuota = quota.ram;
-                this.coresQuota = quota.cores;
-                this.instancesQuota = quota.instances;
-                this.floatIpQuota = quota.floating_ips;
-              });
+              this.projectService.setCurrentSelectedProject(p);
             });
         });
     });
@@ -111,6 +144,20 @@ export class AppComponent {
       this.contextualMenuComponent = component;
       this.contextualSidenav.open();
     });
+  }
+
+  ngAfterViewInit() {
+    if (this.storage.retrieve(CONSTANT.BROWSER_STORAGE_THEME_IS_DARK)) {
+      setTimeout(() => {
+        this.themeService.setDarkTheme(
+          this.storage.retrieve(CONSTANT.BROWSER_STORAGE_THEME_IS_DARK)
+        );
+      }, 1);
+    }
+  }
+  toggleDarkTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+    this.storage.store(CONSTANT.BROWSER_STORAGE_THEME_IS_DARK, checked);
   }
 
   watchRouteChanged() {
@@ -145,6 +192,40 @@ export class AppComponent {
     }
   }
 
+  togglePin(sideNavMenu: SideNavMenu) {
+    if (
+      countBy(this.pinnedMenus, (t: SideNavMenu) => t.name === sideNavMenu.name)
+        .true
+    ) {
+      // already pinned
+      // remove from pinned menus
+      sideNavMenu.isPinned = false;
+      this.pinnedMenus.splice(
+        findIndex(
+          this.pinnedMenus,
+          (m: SideNavMenu) => m.name === sideNavMenu.name
+        ),
+        1
+      );
+      const storedExistingPinnedMenu: string[] =
+        this.storage.retrieve('pinned-menu-names') || [];
+      storedExistingPinnedMenu.splice(
+        findIndex(
+          this.pinnedMenus,
+          (name: string) => name === sideNavMenu.name
+        ),
+        1
+      );
+      this.storage.store('pinned-menu-names', storedExistingPinnedMenu);
+    } else {
+      sideNavMenu.isPinned = true;
+      this.pinnedMenus.push(sideNavMenu);
+      const storedExistingPinnedMenu: string[] =
+        this.storage.retrieve('pinned-menu-names') || [];
+      storedExistingPinnedMenu.push(sideNavMenu.name);
+      this.storage.store('pinned-menu-names', storedExistingPinnedMenu);
+    }
+  }
   profileManagement() {
     this.keycloakService.getKeycloakInstance().accountManagement();
   }
@@ -165,6 +246,7 @@ export class AppComponent {
         CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY,
         this.currentProject.id
       );
+      this.projectService.setCurrentSelectedProject(project);
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { project: this.currentProject.id },

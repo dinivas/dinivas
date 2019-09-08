@@ -1,9 +1,17 @@
-.fill-remaining-space {
-    flex: 5 1 auto;
-}
-.mat-toolbar {
+
+.mat-toolbar.galaxy-nav {
+    .fill-remaining-space {
+        flex: 5 1 auto;
+    }
     .mat-button{
         margin-right: 20px;
         flex: 1;
     }
+}
+
+nav.mat-tab-nav-bar.galaxy-nav{
+    // position: sticky;
+    // top: 50px;
+    // background-color: inherit;
+    // z-index: 3;
 }

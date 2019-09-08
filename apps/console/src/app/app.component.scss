@@ -1,147 +1,136 @@
 @import '../assets/styles/mixins';
-$toolbar-height: 48px;
+@import '~@angular/material/theming';
 
-mat-toolbar {
-  position: -webkit-sticky;
-  position: fixed;
-  top: 0;
-  z-index: 100;
-  height: $toolbar-height;
+@mixin app-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  $toolbar-height: 48px;
 
-  .left {
-    a.logo {
-      font-size: 18px;
-    }
-  }
+  .app-container {
+    height: 100%;
+    & > mat-toolbar {
+      position: -webkit-sticky;
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      height: $toolbar-height;
 
-  .right {
-    span.username {
-      font-size: 16px;
-    }
-  }
-}
+      .left {
+        a.logo {
+          font-size: 18px;
+        }
+      }
 
-mat-sidenav-container.global {
-  padding-top: $toolbar-height;
-  height: 100%;
-  z-index: 99;
-
-  .mat-sidenav.menu {
-    padding: $toolbar-height 0px 0px;
-    @media screen and (min-width: 961px) {
-      margin-bottom: $toolbar-height;
-    }
-    border-bottom: 1px solid rgb(211, 211, 211);
-
-    .mat-nav-list {
-      .mat-list-item.active {
-        color: #5400e8;
-        background-color: rgba(#5400e8, 0.05);
-        .mat-list-item-content {
+      .right {
+        span.username {
+          font-size: 16px;
         }
       }
     }
-    .mat-list-base .mat-list-item .mat-list-text > * {
-      font-weight: 400;
-      font-size: 15px;
-    }
-    .mat-list-base .mat-list-item .mat-list-icon {
-      width: 18px;
-      height: 18px;
-      font-size: 18px;
-    }
-    a.mat-list-item {
-      height: 40px;
-    }
+    & > mat-sidenav-container.global {
+      padding-top: $toolbar-height;
+      height: 100%;
+      z-index: 99;
 
-    .mat-drawer-inner-container {
-      overflow: hidden;
+      .mat-sidenav.menu {
+        padding: $toolbar-height 0px 0px;
+        @media screen and (min-width: 961px) {
+          margin-bottom: $toolbar-height;
+        }
+        border-bottom: 1px solid mat-color($foreground, divider);
 
-      .available-items-nav-list {
-        overflow: auto;
+        .mat-nav-list {
+          .mat-list-item {
+            button.mat-icon-button {
+              opacity: 0;
+              @include transition(opacity 0.3s ease);
+            }
+            &:hover,
+            &.pinned {
+              button.mat-icon-button {
+                opacity: 1;
+              }
+            }
+            &.pinned {
+              button.mat-icon-button {
+                color: $accent-color;
+              }
+            }
+          }
+          &.available-items-nav-list {
+            .mat-list-item {
+              &.active {
+                color: #fff;
+                background-color: rgba($primary-color, 0.7);
+                &.pinned {
+                  button.mat-icon-button {
+                    color: #fff;
+                  }
+                }
+              }
+            }
+          }
+          &.pinned-menu-list {
+            padding-bottom: 10px;
+            border-bottom: 2px solid mat-color($foreground, divider);
+            .mat-list-item {
+              &.active {
+                color: $primary-color;
+              }
+            }
+          }
+        }
+        .mat-list-base .mat-list-item .mat-list-text > * {
+          font-weight: 400;
+          font-size: 15px;
+        }
+        .mat-list-base .mat-list-item .mat-list-icon {
+          width: 18px;
+          height: 18px;
+          font-size: 18px;
+        }
+        a.mat-list-item {
+          height: 40px;
+        }
+
+        .mat-drawer-inner-container {
+          overflow-y: auto;
+
+          .available-items-nav-list {
+            // overflow: auto;
+            // height: 100%;
+          }
+        }
+      }
+      .mat-sidenav.contextual {
+        padding: $toolbar-height 0px 0px;
+      }
+      .mat-sidenav-content {
+        // background: #fff;
+      }
+
+      .main-container {
+        margin: 5px 5px 52px;
+        overflow-x: hidden;
         height: 100%;
+        overflow-y: auto;
       }
-    }
-  }
-  .mat-sidenav.contextual {
-    padding: $toolbar-height 0px 0px;
-  }
-  .mat-sidenav-content {
-    // background: #fff;
-  }
 
-  .main-container {
-    margin: 5px 5px 52px;
-    overflow-x: hidden;
-  }
-
-  footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 48px;
-    border-top: 1px solid #d3d3d3;
-    background-color: #fafafa;
-    z-index: 3;
-
-    .container {
-      display: flex;
-      padding: 10px 20px;
-
-      .resources-container {
-        display: flex;
-        justify-content: space-between;
-        flex: 3;
-        .provider {
-          width: 200px;
-          height: 25px;
-          flex: 1;
-          &.openstack {
-            opacity: 0.3;
-            background: url('../assets/icons/openstack-horizontal.svg')
-              no-repeat center;
-          }
-        }
-        .quota {
-          flex: 1;
-          margin: 0px 15px;
-          span.type {
-            margin-right: 5px;
-            text-transform: uppercase;
-            font-size: 10px;
-            font-weight: 500;
-          }
-          span.in-use {
-            font-size: 16px;
-            font-weight: 600;
-            margin-right: 3px;
-            color: #00695c;
-          }
-          span.limit {
-            font-size: 14px;
-            font-weight: 500;
-            margin-left: 2px;
-          }
-          small {
-            font-size: 75%;
-          }
+      eco-fab-speed-dial {
+        position: fixed;
+        bottom: 29px;
+        right: 80px;
+        z-index: 10;
+        @include transition(all 0.3s ease);
+        &.sidenavopen {
         }
       }
-      .copyright {
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 3em;
-      }
-    }
-  }
-
-  eco-fab-speed-dial {
-    position: fixed;
-    bottom: 29px;
-    right: 80px;
-    z-index: 10;
-    @include transition(all 0.3s ease);
-    &.sidenavopen {
     }
   }
 }

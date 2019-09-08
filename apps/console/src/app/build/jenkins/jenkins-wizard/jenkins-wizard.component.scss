@@ -1,99 +1,89 @@
 @import '../../../../assets/styles/mixins';
 @import '../../../../assets/styles/variables';
 
-.mat-stepper-vertical {
-  background-color: #fafafa;
-}
+@import '~@angular/material/theming';
 
-.form-container {
-  margin: 20px 10px;
-  mat-form-field.mat-form-field {
-    font-size: 14px;
-    max-width: 600px;
-  }
-  .no-data-checkbox {
-    font-size: 14px;
-    padding: 15px 10px;
-    margin: 20px 0px;
-    background-color: #f0f0f0;
-    text-align: center;
-  }
-}
-.apply-container {
-  min-height: 300px;
-}
+@mixin jenkins-wizard-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  $toolbar-height: 48px;
 
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.spinner-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  span {
-    position: absolute;
-    top: 50%;
-    transform: translateY(80px);
-    background-color: #fff;
-    padding: 5px 15px;
-  }
-}
-
-.tf-plan-resources-container {
-  margin: 20px 10px;
-}
-
-dinivas-cloud-image-radios {
-  // width: 200%;
-  margin: 10px 0px;
-  flex: 1;
-}
-
-dinivas-cloud-flavor-radios {
-  // width: 200%;
-  margin: 10px 0px;
-  flex: 1;
-}
-
-.jenkins-slave-groups-container {
-  .jenkins-slave-group-container {
-    position: relative;
-    padding: 25px;
-    span.slave-group-number {
-      right: 20px;
-      top: 20px;
-      font-size: 24px;
-      font-weight: 600;
-      position: absolute;
-      color: $accent;
+  .form-container.jenkins-wizard-form {
+    margin: 20px 10px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
     }
-    //border-bottom: 1px solid #cdcdcd;
-    &:not(:last-child) {
-      margin-bottom: 20px;
+    .no-data-checkbox {
+      font-size: 14px;
+      padding: 15px 10px;
+      margin: 20px 0px;
+      background-color: #f0f0f0;
+      text-align: center;
     }
-    .slider-container {
-      margin: 10px 5px;
-      span {
-        font-size: 14px;
-        margin-right: 10px;
+  }
+  .apply-container {
+    min-height: 300px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  .tf-plan-resources-container {
+    margin: 20px 10px;
+  }
+
+  dinivas-cloud-image-radios {
+    // width: 200%;
+    margin: 10px 0px;
+    flex: 1;
+  }
+
+  dinivas-cloud-flavor-radios {
+    // width: 200%;
+    margin: 10px 0px;
+    flex: 1;
+  }
+
+  .jenkins-slave-groups-container {
+    .jenkins-slave-group-container {
+      position: relative;
+      padding: 25px;
+      span.slave-group-number {
+        right: 20px;
+        top: 20px;
+        font-size: 24px;
+        font-weight: 600;
+        position: absolute;
+        color: $accent-color;
+      }
+      //border-bottom: 1px solid #cdcdcd;
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+      .slider-container {
+        margin: 10px 5px;
+        span {
+          font-size: 14px;
+          margin-right: 10px;
+        }
       }
     }
   }
-}
-.add-jenkins-slave {
-  margin: 15px auto 0px;
-}
-p.no-slave {
-  padding: 25px;
-  text-align: center;
+  .add-jenkins-slave {
+    margin: 15px auto 0px !important;
+  }
+  p.no-slave {
+    padding: 25px;
+    text-align: center;
+  }
 }

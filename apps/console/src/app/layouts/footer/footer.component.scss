@@ -1,0 +1,72 @@
+@import '~@angular/material/theming';
+
+@mixin app-footer-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  $toolbar-height: 48px;
+
+  footer.app-footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 48px;
+    border-top: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
+    background-color: mat-color($background, background);
+    z-index: 3;
+
+    .container {
+      display: flex;
+      padding: 10px 20px;
+
+      .resources-container {
+        display: flex;
+        justify-content: space-between;
+        flex: 3;
+        .provider {
+          width: 200px;
+          height: 25px;
+          flex: 1;
+          &.openstack {
+            opacity: 0.3;
+            background: url('./~/../assets/icons/openstack-horizontal.svg')
+              no-repeat center;
+          }
+        }
+        .quota {
+          flex: 1;
+          margin: 0px 15px;
+          span.type {
+            margin-right: 5px;
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: 500;
+          }
+          span.in-use {
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 3px;
+            color: $primary-color;
+          }
+          span.limit {
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 2px;
+          }
+          small {
+            font-size: 75%;
+          }
+        }
+      }
+      .copyright {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 3em;
+      }
+    }
+  }
+}

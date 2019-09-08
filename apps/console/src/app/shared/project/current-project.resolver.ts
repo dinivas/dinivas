@@ -6,8 +6,7 @@ import {
   RouterStateSnapshot,
   Resolve
 } from '@angular/router';
-import { ICloudApiFlavor, CONSTANT, ProjectDTO } from '@dinivas/dto';
-import { filter, flatMap, map, toArray } from 'rxjs/operators';
+import { CONSTANT, ProjectDTO } from '@dinivas/dto';
 import { LocalStorageService } from 'ngx-webstorage';
 
 @Injectable({ providedIn: 'root' })

@@ -7,7 +7,9 @@ import {
   Pagination,
   ProjectDTO,
   ICloudApiProjectQuota,
-  ApplyModuleDTO
+  ApplyModuleDTO,
+  ICloudApiImage,
+  ICloudApiFlavor
 } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -62,6 +64,24 @@ export class ProjectsController {
   @Permissions('projects:view')
   async findOne(@Param('id') id: number): Promise<ProjectDTO> {
     return this.projectsService.findOne(id);
+  }
+
+  @Get(':id/flavors')
+  @Permissions('projects:view')
+  async allFlavors(@Param('id') id: number): Promise<ICloudApiFlavor[]> {
+    const project = await this.projectsService.findOne(id);
+    return this.cloudproviderService.getCloudProviderFlavors(
+      project.cloud_provider.id
+    );
+  }
+
+  @Get(':id/images')
+  @Permissions('projects:view')
+  async allImages(@Param('id') id: number): Promise<ICloudApiImage[]> {
+    const project = await this.projectsService.findOne(id);
+    return this.cloudproviderService.getCloudProviderImages(
+      project.cloud_provider.id
+    );
   }
 
   @Get(':id/quota')

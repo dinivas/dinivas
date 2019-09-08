@@ -9,6 +9,8 @@ export class JenkinsDTO {
   project: ProjectDTO;
   use_floating_ip: boolean;
   existing_master_url: string;
+  master_admin_username: string;
+  master_admin_password: string;
   existing_master_username: string;
   existing_master_password: string;
   manage_slave: boolean;

@@ -1,272 +1,117 @@
-<div class="spinner-container" *ngIf="loadingPage">
-  <mat-spinner></mat-spinner>
-  <span>Loading please wait a moment...</span>
-</div>
-<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-  <div class="left">
-    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav(true)">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-    <a mat-button routerLink="/" class="logo" fxHide fxShow.gt-xs>
-      <span>Dinivas Console</span>
-    </a>
-    <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects?.length > 0"
-      [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"
-      matTooltipPosition="below">
-      <mat-icon *ngIf="currentProject">group_work</mat-icon>
-      {{ currentProject ? currentProject?.name  : 'Select project' }}
-      <mat-icon>arrow_drop_down</mat-icon>
-    </button>
-    <mat-menu #project_selection_menu="matMenu" class="project-selection">
-      <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"
-        [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">
-        <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>
-        {{ project?.name }}
-      </button>
-    </mat-menu>
+<div class="app-container">
+  <div class="spinner-container" *ngIf="loadingPage">
+    <mat-spinner></mat-spinner>
+    <span>Loading please wait a moment...</span>
   </div>
-  <div class="right">
-    <span class="username" *ngIf="userDetails" [matTooltip]="userDetails.email">{{ userDetails.firstName }}</span>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item class="" (click)="profileManagement()">
-        Profile
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="left">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav(true)">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <button mat-menu-item class="" (click)="logout()">
-        Logout
+      <a mat-button routerLink="/" class="logo" fxHide fxShow.gt-xs>
+        <span>Dinivas Console</span>
+      </a>
+      <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects?.length > 0"
+        [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"
+        matTooltipPosition="below">
+        <mat-icon *ngIf="currentProject">group_work</mat-icon>
+        {{ currentProject ? currentProject?.name  : 'Select project' }}
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
-    </mat-menu>
-  </div>
-</mat-toolbar>
-<mat-sidenav-container class="global">
-  <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
-    <mat-nav-list>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
-        [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
-        <mat-icon matListIcon>home</mat-icon>
-        <h4 mat-line>Home</h4>
-      </a>
-      <h3 mat-subheader>Admin</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/admin']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>settings</mat-icon>
-        <h4 mat-line>Admin settings</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/projects']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>work</mat-icon>
-        <h4 mat-line>Projects</h4>
-      </a>
-    </mat-nav-list>
-    <mat-nav-list class="available-items-nav-list">
-      <h3 mat-subheader>Compute</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/compute/instances']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="server"></mat-icon>
-        <h4 mat-line>Instances</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/compute/disks']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="hard_drive"></mat-icon>
-        <h4 mat-line>Disks</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/compute/images']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="disc"></mat-icon>
-        <h4 mat-line>Images</h4>
-      </a>
-      <!-- Cluster -->
-      <h3 mat-subheader>Cluster</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/cluster/kubernetes']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="kubernetes"></mat-icon>
-        <h4 mat-line>Kubernetes</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/cluster/openshift']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="openshift"></mat-icon>
-        <h4 mat-line>Openshift</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/cluster/dockerswarm']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="docker"></mat-icon>
-        <h4 mat-line>Docker Swarm</h4>
-      </a>
-      <!-- Network -->
-      <h3 mat-subheader>Networking</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>folder</mat-icon>
-        <h4 mat-line>Private network</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="radius"></mat-icon>
-        <h4 mat-line>Managed Radius</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>router</mat-icon>
-        <h4 mat-line>Service discovery</h4>
-      </a>
-      <!-- Messaging -->
-      <h3 mat-subheader>Messaging</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/messaging','rabbitmq']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="rabbitmq"></mat-icon>
-        <h4 mat-line>Managed RabbitMQ</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/messaging','kafka']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="kafka"></mat-icon>
-        <h4 mat-line>Managed Kafka</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/messaging','mqtt']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="mosquitto"></mat-icon>
-        <h4 mat-line>IOT / Managed MQTT</h4>
-      </a>
-      <!-- Storage -->
-      <h3 mat-subheader>Storage</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/postgresql']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="postgresql"></mat-icon>
-        <h4 mat-line>Managed PostgreSQL</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/mongodb']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="mongodb"></mat-icon>
-        <h4 mat-line>Managed MongoDB</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/redis']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="redis"></mat-icon>
-        <h4 mat-line>Managed Redis</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/elasticsearch']"
-        (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="elasticsearch"></mat-icon>
-        <h4 mat-line>Managed Elasticsearch</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/storage/minio']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="minio"></mat-icon>
-        <h4 mat-line>Cloud storage</h4>
-      </a>
-      <!-- Build & Deploy -->
-      <h3 mat-subheader>Build & Deploy</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/build/jenkins']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="jenkins"></mat-icon>
-        <h4 mat-line>Managed Jenkins</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/build/gitlab']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="gitlab"></mat-icon>
-        <h4 mat-line>Managed Gitlab</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/build/droneci']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="drone"></mat-icon>
-        <h4 mat-line>Managed DroneCI</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>folder</mat-icon>
-        <h4 mat-line>Managed Nexus repository</h4>
-      </a>
-      <!-- Ansible -->
-      <h3 mat-subheader>Ansible</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/build/ansible/galaxy']"
-        (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="ansible"></mat-icon>
-        <h4 mat-line>Galaxy</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['/build/ansible/history']" (click)="toggleSideNav()">
-        <mat-icon matListIcon svgIcon="ara"></mat-icon>
-        <h4 mat-line>History</h4>
-      </a>
-      <!-- Monitoring -->
-      <h3 mat-subheader>Monitoring</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>folder</mat-icon>
-        <h4 mat-line>Dashboard</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>notes</mat-icon>
-        <h4 mat-line>Logging</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>folder</mat-icon>
-        <h4 mat-line>Tracing</h4>
-      </a>
-      <!-- Security -->
-      <h3 mat-subheader>Security</h3>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/iam-admin']" (click)="toggleSideNav()">
-        <mat-icon matListIcon>security</mat-icon>
-        <h4 mat-line>IAM</h4>
-      </a>
-      <a mat-list-item [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptionsExact"
-        [routerLink]="['']">
-        <mat-icon matListIcon>folder</mat-icon>
-        <h4 mat-line>Managed Vault</h4>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav class="contextual" #contextualSidenav [mode]="'over'" position="end">
-    <ng-container *ngComponentOutlet="contextualMenuComponent"></ng-container>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="main-container">
-      <router-outlet></router-outlet>
+      <mat-menu #project_selection_menu="matMenu" class="project-selection">
+        <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"
+          [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">
+          <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>
+          {{ project?.name }}
+        </button>
+      </mat-menu>
     </div>
-    <footer>
-      <div class="container">
-        <div class="resources-container">
-          <div class="provider openstack" *ngIf="ramQuota"></div>
-          <div class="quota ram" *ngIf="ramQuota">
-            <span class="type">Ram:</span>
-            <span class="in-use">{{ ramQuota.in_use * 1024 * 1024 | bytes}}</span>
-            <span>/</span>
-            <span class="limit">{{ ramQuota.limit *  1024 * 1024 | bytes}}</span>
-            <small class="ml-5">used</small>
-          </div>
-          <div class="quota cores" *ngIf="coresQuota">
-            <span class="type">Cores:</span>
-            <span class="in-use">{{ coresQuota.in_use }}</span>
-            <span>/</span>
-            <span class="limit">{{ coresQuota.limit }}</span>
-            <small class="ml-5">used</small>
-          </div>
-          <div class="quota instances" *ngIf="instancesQuota">
-            <span class="type">Instances:</span>
-            <span class="in-use">{{ instancesQuota.in_use }}</span>
-            <span>/</span>
-            <span class="limit">{{ instancesQuota.limit }}</span>
-            <small class="ml-5">used</small>
-          </div>
-          <div class="quota ips" *ngIf="floatIpQuota">
-            <span class="type">Ips:</span>
-            <span class="in-use">{{ floatIpQuota.in_use }}</span>
-            <span>/</span>
-            <span class="limit">{{ floatIpQuota.limit }}</span>
-            <small class="ml-5">used</small>
-          </div>
-        </div>
-        <span class="copyright">Dinivas@2018</span>
+    <div class="right">
+      <mat-slide-toggle class="mr-15" matTooltip="Switch console theme color" [checked]="isDarkTheme | async"
+        (change)="toggleDarkTheme($event.checked)">
+      </mat-slide-toggle>
+      <span class="username" *ngIf="userDetails" [matTooltip]="userDetails.email">{{ userDetails.firstName }}</span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item class="" (click)="profileManagement()">
+          Profile
+        </button>
+        <button mat-menu-item class="" (click)="logout()">
+          Logout
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container class="global">
+    <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
+      <mat-nav-list class="pinned-menu-list">
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
+          [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
+          <mat-icon matListIcon>home</mat-icon>
+          <h4 mat-line>Home</h4>
+        </a>
+        <h3 mat-subheader>Admin</h3>
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/admin']" (click)="toggleSideNav()">
+          <mat-icon matListIcon>settings</mat-icon>
+          <h4 mat-line>Admin settings</h4>
+        </a>
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/projects']" (click)="toggleSideNav()">
+          <mat-icon matListIcon>work</mat-icon>
+          <h4 mat-line>Projects</h4>
+        </a>
+        <ng-container *ngFor="let pinnedMenu of pinnedMenus">
+          <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="pinnedMenu.isPinned"
+            [routerLink]="pinnedMenu.routerLink" (click)="toggleSideNav()">
+            <mat-icon matListIcon [svgIcon]="pinnedMenu.svgIcon">{{ pinnedMenu.icon }}</mat-icon>
+            <h4 mat-line>{{ pinnedMenu.label }}</h4>
+          </a>
+        </ng-container>
+
+      </mat-nav-list>
+      <mat-nav-list class="available-items-nav-list">
+        <ng-container *ngFor="let menuGroup of availableMenuGroups">
+          <h3 mat-subheader>{{ menuGroup.group }}</h3>
+          <ng-container *ngFor="let menu of menuGroup.menus">
+            <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="menu.isPinned"
+              [routerLink]="menu.routerLink" (click)="toggleSideNav()" >
+              <mat-icon matListIcon [svgIcon]="menu.svgIcon">{{ menu.icon }}</mat-icon>
+              <h4 mat-line>{{ menu.label }}</h4>
+              <button mat-icon-button (click)="togglePin(menu);$event.preventDefault();$event.stopPropagation();">
+                <mat-icon [matTooltip]="menu.isPinned ? 'Unpin': 'Pin'" svgIcon="pin"></mat-icon>
+              </button>
+            </a>
+          </ng-container>
+        </ng-container>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav class="contextual" #contextualSidenav [mode]="'over'" position="end">
+      <ng-container *ngComponentOutlet="contextualMenuComponent"></ng-container>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main-container">
+        <router-outlet></router-outlet>
       </div>
-    </footer>
-    <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
-      <eco-fab-speed-dial-trigger [spin]="true" class="">
-        <button mat-fab (click)="doAction('trigger')">
-          <mat-icon class="spin180">add</mat-icon>
-        </button>
-      </eco-fab-speed-dial-trigger>
-      <eco-fab-speed-dial-actions>
-        <button mat-mini-fab (click)="doAction('action1')">
-          <mat-icon matTooltip="New instance" matTooltipPosition="right">computer</mat-icon>
-        </button>
-        <button mat-mini-fab (click)="doAction('action2')">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-mini-fab (click)="doAction('action3')">
-          <mat-icon>search</mat-icon>
-        </button>
-      </eco-fab-speed-dial-actions>
-    </eco-fab-speed-dial>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      <dinivas-footer></dinivas-footer>
+      <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
+        <eco-fab-speed-dial-trigger [spin]="true" class="">
+          <button mat-fab (click)="doAction('trigger')">
+            <mat-icon class="spin180">add</mat-icon>
+          </button>
+        </eco-fab-speed-dial-trigger>
+        <eco-fab-speed-dial-actions>
+          <button mat-mini-fab (click)="doAction('action1')">
+            <mat-icon matTooltip="New instance" matTooltipPosition="right">computer</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="doAction('action2')">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="doAction('action3')">
+            <mat-icon>search</mat-icon>
+          </button>
+        </eco-fab-speed-dial-actions>
+      </eco-fab-speed-dial>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

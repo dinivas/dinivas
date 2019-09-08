@@ -1,72 +1,85 @@
 @import '../../../../../assets/styles/variables';
-.component-container {
-  .row {
-    display: flex;
-    margin: 15px 10px;
-    .left {
-      flex: 1;
-      padding: 10px;
-      .mat-list {
-        max-height: 80vh;
-        overflow-y: auto;
-        .mat-list-item {
-          height: inherit;
-          padding: 10px 0px;
-          border-radius: 5px;
-          border: 1px solid transparent;
-          transition: all ease 0.4s;
-          background-color: rgba(255, 255, 255, 0.8);
-          cursor: pointer;
-          &:hover,
-          &.selected {
-            border-color: #5400e8;
-          }
-          &:not(:last-child) {
-            margin-bottom: 10px;
-          }
-        }
-        .list-content {
-          display: flex;
-          flex-direction: column;
-          span {
-            margin: 5px 0px;
-            font-size: 14px;
-          }
-        }
-      }
-      .mat-paginator {
-        margin-top: 15px;
-      }
-    }
-    .right {
-      flex: 3;
-      padding: 10px;
-      .mat-list {
-        background-color: #363636;
+@import '~@angular/material/theming';
+
+@mixin ansible-my-import-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .component-container.ansible-my-import {
+    .row {
+      display: flex;
+      margin: 15px 10px;
+      .left {
+        flex: 1;
         padding: 10px;
-        border: 1px solid #363636;
-        border-radius: 2px;
-        line-height: 18px;
-        margin-bottom: 50px;
-        max-height: 400px;
-        overflow-y: auto;
-        .mat-list-item {
-          color: #fff;
-          height: 30px;
-          span {
-            &.message-type {
-              font-weight: 500;
-              width: 100px;
+        .mat-list {
+          max-height: 80vh;
+          overflow-y: auto;
+          padding-right: 10px;
+          .mat-list-item {
+            height: inherit;
+            padding: 10px 0px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            transition: all ease 0.4s;
+            background-color: $background-color;
+            cursor: pointer;
+            &:hover,
+            &.selected {
+              border-color: mat-color($accent);
             }
-            &.success,
-            &.warning {
+            &:not(:last-child) {
+              margin-bottom: 10px;
+            }
+          }
+          .list-content {
+            display: flex;
+            flex-direction: column;
+            span {
+              margin: 5px 0px;
               font-size: 14px;
             }
-            &.success {
-              color: $dinivas-green;
-            }
-            &.warning {
-              color: $dinivas-orange;
+          }
+        }
+        .mat-paginator {
+          margin-top: 15px;
+        }
+      }
+      .right {
+        flex: 3;
+        padding: 10px;
+        .mat-list {
+          background-color: #363636;
+          padding: 10px;
+          border: 1px solid #363636;
+          border-radius: 2px;
+          line-height: 18px;
+          margin-bottom: 50px;
+          max-height: 400px;
+          overflow-y: auto;
+          .mat-list-item {
+            color: #fff;
+            height: 30px;
+            span {
+              &.message-type {
+                font-weight: 500;
+                width: 100px;
+              }
+              &.success,
+              &.warning {
+                font-size: 14px;
+              }
+              &.success {
+                color: $dinivas-green;
+              }
+              &.warning {
+                color: $dinivas-orange;
+              }
             }
           }
         }

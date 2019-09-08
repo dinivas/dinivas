@@ -14,7 +14,6 @@ import { LocalStorageService } from 'ngx-webstorage';
 export class CloudImagesResolver implements Resolve<ICloudApiImage[]> {
   constructor(
     private readonly projectService: ProjectsService,
-    private readonly cloudproviderService: CloudproviderService,
     private storage: LocalStorageService
   ) {}
   async resolve(
@@ -24,11 +23,8 @@ export class CloudImagesResolver implements Resolve<ICloudApiImage[]> {
     const projectId =
       <string>route.paramMap.get('projectId') ||
       this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
-    const project = await this.projectService
-      .getOneProject(Number.parseInt(projectId))
-      .toPromise();
-    return this.cloudproviderService
-      .getCloudProviderImages(project.cloud_provider.id)
+    return this.projectService
+      .getProjectImages(projectId)
       .pipe(
         flatMap(t => t),
         // filter(img => img.tags.indexOf('dinivas') > -1),

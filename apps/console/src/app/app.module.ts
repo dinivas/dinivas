@@ -5,7 +5,7 @@ import { CommonUiModule } from '@dinivas/common-ui';
 import { ApiInfoService } from './api-info.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { EcoFabSpeedDialModule } from "@ecodev/fab-speed-dial";
+import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,9 +13,10 @@ import { ConfirmationDialogComponent } from './components/shared/confirmation-di
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
+import { FooterComponent } from './layouts/footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, ConfirmationDialogComponent],
+  declarations: [AppComponent, ConfirmationDialogComponent, FooterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -24,12 +25,12 @@ import { CoreModule } from './core/core.module';
     AuthModule,
     CoreModule,
     EcoFabSpeedDialModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
-  entryComponents: [
-    ConfirmationDialogComponent
-  ],
+  entryComponents: [ConfirmationDialogComponent],
   providers: [ApiInfoService, CloudproviderService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

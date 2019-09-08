@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container ansible-search">
   <!-- Search bar -->
   <mat-toolbar>
     Search bar
@@ -18,7 +18,7 @@
             [routerLink]="['/build', 'ansible', 'galaxy', content.summary_fields.namespace.name, content.name]">{{ content.summary_fields.repository.original_name }}</a>
           <span class="description">{{ content.description }}</span>
           <mat-chip-list aria-label="tags" selectable="false">
-            <mat-chip *ngFor="let tag of content.summary_fields.tags" color="primary" selected disabled>
+            <mat-chip *ngFor="let tag of content.summary_fields.tags" color="primary" disabled>
               {{ tag }}
             </mat-chip>
           </mat-chip-list>

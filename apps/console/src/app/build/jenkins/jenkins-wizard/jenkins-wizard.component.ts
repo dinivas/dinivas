@@ -1,3 +1,4 @@
+import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { TerraformWebSocket } from './../../../shared/terraform/terraform-websocket.service';
@@ -61,6 +62,7 @@ export class JenkinsWizardComponent
   constructor(
     private formBuilder: FormBuilder,
     private jenkinsService: JenkinsService,
+    private confirmService: ConfirmDialogService,
     private activatedRoute: ActivatedRoute
   ) {
     activatedRoute.data
@@ -82,11 +84,11 @@ export class JenkinsWizardComponent
 
   ngOnInit() {
     this.activatedRoute.data
-    .pipe(map((data: { currentJenkins: JenkinsDTO }) => data.currentJenkins))
-    .subscribe((jenkins: JenkinsDTO) => {
-      this.jenkins = jenkins;
-      this.initJenkinsForm();
-    });
+      .pipe(map((data: { currentJenkins: JenkinsDTO }) => data.currentJenkins))
+      .subscribe((jenkins: JenkinsDTO) => {
+        this.jenkins = jenkins;
+        this.initJenkinsForm();
+      });
 
     this.onArchitectureTypeChanged.subscribe(
       (architectureType: string) => (this.architectureType = architectureType)
@@ -95,6 +97,14 @@ export class JenkinsWizardComponent
   initJenkinsForm() {
     this.jenkinsForm = this.formBuilder.group({
       code: [this.jenkins ? this.jenkins.code : null, Validators.required],
+      master_admin_username: [
+        this.jenkins ? this.jenkins.master_admin_username : 'admin',
+        Validators.required
+      ],
+      master_admin_password: [
+        this.jenkins ? this.jenkins.master_admin_password : 'password',
+        Validators.required
+      ],
       description: [this.jenkins ? this.jenkins.description : null, null],
       use_existing_master: [
         this.jenkins ? this.jenkins.use_existing_master : false,
@@ -182,6 +192,12 @@ export class JenkinsWizardComponent
     const masterCloudFlavor: AbstractControl = this.jenkinsForm.get(
       'master_cloud_flavor'
     );
+    const masterAdminUsername: AbstractControl = this.jenkinsForm.get(
+      'master_admin_username'
+    );
+    const masterAdminPassword: AbstractControl = this.jenkinsForm.get(
+      'master_admin_password'
+    );
     const existingMasterUrl: AbstractControl = this.jenkinsForm.get(
       'existing_master_url'
     );
@@ -197,6 +213,8 @@ export class JenkinsWizardComponent
         if (useExistingMaster) {
           masterCloudImage.setValidators([Validators.nullValidator]);
           masterCloudFlavor.setValidators([Validators.nullValidator]);
+          masterAdminUsername.setValidators([Validators.nullValidator]);
+          masterAdminPassword.setValidators([Validators.nullValidator]);
 
           existingMasterUrl.setValidators([Validators.required]);
           existingMasterUsername.setValidators([Validators.required]);
@@ -204,6 +222,8 @@ export class JenkinsWizardComponent
         } else {
           masterCloudImage.setValidators([Validators.required]);
           masterCloudFlavor.setValidators([Validators.required]);
+          masterAdminUsername.setValidators([Validators.required]);
+          masterAdminPassword.setValidators([Validators.required]);
 
           existingMasterUrl.setValidators([Validators.nullValidator]);
           existingMasterUsername.setValidators([Validators.nullValidator]);
@@ -243,8 +263,13 @@ export class JenkinsWizardComponent
       });
   }
   removeSlaveGroup(index: number) {
-    const slaveGroups = this.jenkinsForm.get('slave_groups') as FormArray;
-    slaveGroups.removeAt(index);
+    this.confirmService.doOnConfirm(
+      `Do you want to delete Slave group with index ${index}?`,
+      () => {
+        const slaveGroups = this.jenkinsForm.get('slave_groups') as FormArray;
+        slaveGroups.removeAt(index);
+      }
+    );
   }
 
   addJenkinsSlave(jenkinsSlaveGroup: JenkinsSlaveGroupDTO) {

@@ -1,13 +1,20 @@
 @import 'variables';
 @import '~@angular/material/theming';
-@include mat-core();
 
 .text-yellow {
   color: $yellow-color;
 }
 
-@mixin dinivas-custom-theme($theme) {
+@mixin typography-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
+  .text-primary {
+    color: mat-color($primary);
+  }
+  .text-accent {
+    color: mat-color($accent);
+  }
   .text-warn {
     color: mat-color($warn);
   }

@@ -1,11 +1,10 @@
 @import '~@angular/material/theming';
 
-$dinivas-green: #00E676;
-$dinivas-orange: #FF9100;
+$dinivas-green: #00e676;
+$dinivas-orange: #ff9100;
 $dinivas-red: #ff1744;
 
 $yellow-color: $dinivas-orange;
-
 
 $dinivas-light-palette: (
   50: #eceff1,
@@ -41,10 +40,10 @@ $dinivas-light-palette: (
 );
 
 $dinivas-light-primary: mat-palette($dinivas-light-palette);
-$dinivas-light-accent: mat-palette($mat-pink, A200, A100, A400);
+$dinivas-light-accent: mat-palette($mat-purple, A400, A200, A700);
 
 // The warn palette is optional (defaults to red).
-$dinivas-light-warn: mat-palette($mat-red);
+$dinivas-light-warn: mat-palette($mat-red, A400, A200, A700);
 
 $primary: mat-color($dinivas-light-primary);
 $accent: mat-color($dinivas-light-accent);

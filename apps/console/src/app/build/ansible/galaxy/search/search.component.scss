@@ -1,69 +1,88 @@
-.content-container {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 30px;
-  margin: 10px 0px;
-  background-color: #fff;
-  .content {
-    display: flex;
-    width: 100%;
-    margin: 5px 0px;
-    &:not(:last-child) {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+@import '~@angular/material/theming';
+
+@mixin ansible-search-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .ansible-search {
+    & > mat-toolbar {
+      height: 56px;
     }
-    .avatar {
-      padding: 15px 10px 5px;
+    .content-container {
       display: flex;
       flex-direction: column;
-      border-right: 1px solid rgba(0, 0, 0, 0.1);
-      width: 150px;
-      img {
-        width: 64px;
-        margin: 0px auto;
-      }
-      span {
-        max-width: 110px;
-        margin: 20px auto;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-    .detail {
-      display: flex;
-      justify-content: space-between;
-      margin-left: 10px;
-      width: 100%;
-      .left {
+      padding: 10px 30px;
+      margin: 10px 0px;
+      background-color: $background-color;
+      .content {
         display: flex;
-        flex: 1;
-        flex-direction: column;
-        a {
-          text-decoration: none;
-          font-size: 16px;
-          font-weight: 500;
-          margin: 5px 10px;
+        width: 100%;
+        margin: 5px 0px;
+        &:not(:last-child) {
+          border-bottom: 1px solid mat-color($foreground, divider);
         }
-        span.description {
-          color: rgba(0, 0, 0, 0.5);
-          font-size: 13px;
-          margin: 10px 10px 5px;
-        }
-        .mat-chip-list {
-          margin: 5px 20px;
-        }
-      }
-      .right {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
-        .repo-detail {
+        .avatar {
+          padding: 5px 10px 5px;
           display: flex;
           flex-direction: column;
-          text-align: right;
-          font-size: 13px;
+          border-right: 1px solid mat-color($foreground, divider);
+          width: 150px;
+          img {
+            width: 64px;
+            margin: 0px auto;
+          }
           span {
-            margin: 10px 0px;
+            max-width: 110px;
+            margin: 5px auto;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+        .detail {
+          display: flex;
+          justify-content: space-between;
+          margin-left: 10px;
+          width: 100%;
+          .left {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            a {
+              text-decoration: none;
+              font-size: 16px;
+              font-weight: 500;
+              margin: 5px 10px;
+              color: $accent-color;
+            }
+            span.description {
+              color: mat-color($foreground, secondary-text);
+              font-size: 13px;
+              margin: 10px 10px 5px;
+            }
+            .mat-chip-list {
+              margin: 5px 20px;
+            }
+          }
+          .right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            .repo-detail {
+              display: flex;
+              flex-direction: column;
+              text-align: right;
+              font-size: 13px;
+              span {
+                margin: 10px 0px;
+              }
+            }
           }
         }
       }

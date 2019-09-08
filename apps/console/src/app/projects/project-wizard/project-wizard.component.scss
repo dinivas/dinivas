@@ -1,159 +1,148 @@
 @import '../../../assets/styles/mixins';
+@import '~@angular/material/theming';
 
-.mat-stepper-vertical {
-  background-color: #fafafa;
-  max-width: 1400px;
-}
+@mixin project-wizard-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
 
-.form-container {
-  margin: 20px 10px;
-  mat-form-field.mat-form-field {
-    font-size: 14px;
-    max-width: 600px;
+  .mat-stepper-vertical {
+    background-color: $background-color;
+    max-width: 1400px;
   }
-  .no-data-checkbox {
-    font-size: 14px;
-    padding: 15px 10px;
-    margin: 20px 0px;
-    background-color: #f0f0f0;
-    text-align: center;
-  }
-}
-.apply-container {
-  min-height: 300px;
-}
 
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  max-width: 90%;
-}
-
-.logging-stack {
-  margin-bottom: 15px;
-  h4 {
-    font-weight: 400;
-    font-size: 14px;
+  .form-container {
+    margin: 20px 10px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
+    }
+    .no-data-checkbox {
+      font-size: 14px;
+      padding: 15px 10px;
+      margin: 20px 0px;
+      background-color: $background-color;
+      text-align: center;
+    }
   }
-  .stack-container {
+  .apply-container {
+    min-height: 300px;
+  }
+
+  .actions {
     display: flex;
-    justify-content: space-between;
-    .mat-card {
-      flex: 1;
-      margin: 10px 15px;
-      height: 100px;
-      padding: 10px 20px;
-      cursor: pointer;
-      @include transition(all 0.3 ease);
-      .mat-card-header {
-        justify-content: center;
-        .mat-card-title {
-          font-size: 14px;
-          font-weight: 500;
+    justify-content: flex-end;
+    margin-top: 20px;
+    max-width: 90%;
+  }
+
+  .logging-stack {
+    margin-bottom: 15px;
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
+    .stack-container {
+      display: flex;
+      justify-content: space-between;
+      .mat-card {
+        flex: 1;
+        margin: 10px 15px;
+        height: 100px;
+        padding: 10px 20px;
+        cursor: pointer;
+        @include transition(all 0.3 ease);
+        .mat-card-header {
+          justify-content: center;
+          .mat-card-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 0px;
+          }
+        }
+        .mat-card-content {
+          padding: 5px 5px 5px 60px;
+          position: relative;
           margin-bottom: 0px;
         }
-      }
-      .mat-card-content {
-        padding: 5px 5px 5px 60px;
-        position: relative;
-        margin-bottom: 0px;
-      }
-      .mat-icon {
-        position: absolute;
-        right: 15px;
-        top: 5px;
-        color: green;
-        font-size: 30px;
-        opacity: 0;
-        @include transition(opacity 0.5 ease);
-      }
-      .checkmark-overlay {
-        display: inline-block;
-        border-top: 40px solid #5400e8;
-        border-left: 40px solid #fff;
-        width: 40px;
-        height: 40px;
-        opacity: 0;
-        position: absolute;
-        top: -1px !important;
-        right: -1px;
-        transition: all 0.2s ease-in;
-      }
-      .checkmark {
-        display: block;
-        position: absolute;
-        top: -1px !important;
-        right: 5px;
-        width: 20px;
-        height: 20px;
-        color: #fff;
-        opacity: 0;
-        transition: all 0.2s ease-in;
-      }
-      &.selected,
-      &:hover {
-        @include box-shadow(3);
-      }
-      &.selected {
-        .checkmark,
-        .checkmark-overlay {
-          opacity: 1;
-        }
         .mat-icon {
-          opacity: 1;
+          position: absolute;
+          right: 15px;
+          top: 5px;
+          color: green;
+          font-size: 30px;
+          opacity: 0;
+          @include transition(opacity 0.5 ease);
         }
-      }
-      .graylog,
-      .kibana {
-        width: 48px;
-        height: 48px;
-        position: absolute;
-        left: 5px;
-      }
-      .graylog {
-        background: url('../../../assets/icons/graylog.svg') center no-repeat;
-        background-size: contain;
-      }
-      .kibana {
-        background: url('../../../assets/icons/kibana.svg') center no-repeat;
-        background-size: contain;
+        .checkmark-overlay {
+          display: inline-block;
+          border-top: 40px solid $primary-color;
+          border-left: 40px solid $background-color;
+          width: 40px;
+          height: 40px;
+          opacity: 0;
+          position: absolute;
+          top: -1px !important;
+          right: -1px;
+          transition: all 0.2s ease-in;
+        }
+        .checkmark {
+          display: block;
+          position: absolute;
+          top: -1px !important;
+          right: 5px;
+          width: 20px;
+          height: 20px;
+          color: $background-color;
+          opacity: 0;
+          transition: all 0.2s ease-in;
+        }
+        &.selected,
+        &:hover {
+          @include box-shadow(3);
+        }
+        &.selected {
+          .checkmark,
+          .checkmark-overlay {
+            opacity: 1;
+          }
+          .mat-icon {
+            opacity: 1;
+          }
+        }
+        .graylog,
+        .kibana {
+          width: 48px;
+          height: 48px;
+          position: absolute;
+          left: 5px;
+        }
+        .graylog {
+          background: url('./~/../assets/icons/graylog.svg') center no-repeat;
+          background-size: contain;
+        }
+        .kibana {
+          background: url('./~/../assets/icons/kibana.svg') center no-repeat;
+          background-size: contain;
+        }
       }
     }
   }
-}
 
-.spinner-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  span {
-    position: absolute;
-    top: 50%;
-    transform: translateY(80px);
-    background-color: #fff;
-    padding: 5px 15px;
-    color: #555;
-    z-index: 3;
+  .tf-plan-resources-container {
+    margin: 20px 10px;
   }
-}
+  dinivas-cloud-image-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
 
-.tf-plan-resources-container {
-  margin: 20px 10px;
-}
-dinivas-cloud-image-radios {
-  // width: 200%;
-  margin: 10px 0px;
-}
-
-dinivas-cloud-flavor-radios {
-  // width: 200%;
-  margin: 10px 0px;
+  dinivas-cloud-flavor-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
 }

@@ -1,0 +1,105 @@
+@import '../../app/core/components/architecture-type-radios/architecture-type-radios.component.scss';
+@import '../../app/core/components/cloud-flavor-radios/cloud-flavor-radios.component.scss';
+@import '../../app/core/components/cloud-image-radios/cloud-image-radios.component.scss';
+@import '../../app/shared/terraform/terraform-module-wizard/terraform-module-wizard.component.scss';
+@import '../../app/projects/project-wizard/project-wizard.component.scss';
+@import '../../app/layouts/footer/footer.component.scss';
+@import '../../app/core/entity/filter-bar/filter-bar.component.scss';
+@import '../../app/core/entity/mat-crud/mat-crud.scss';
+@import '../../app/build/ansible/galaxy/search/search.component.scss';
+@import '../../app/build/ansible/galaxy/my-import/my-import.component.scss';
+@import '../../app/build/ansible/galaxy/my-content/my-content.component.scss';
+@import '../../app/build/jenkins/jenkins-wizard/jenkins-wizard.component.scss';
+@import '../../app/build/ansible/galaxy/repo-content-detail/repo-content-detail.component.scss';
+@import '../../app/app.component.scss';
+
+// Confirm dialog
+@mixin confirm-dialog-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  .confirm-dialog-panel {
+    .mat-dialog-container {
+      //background: rgba($primary-color, 0.1);
+      //color: #fff;
+      .mat-dialog-title {
+        color: hsl(0, 0%, 71%);
+      }
+      button {
+        &.confirm-button {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// Page loading spinner
+@mixin page-loading-spinner-theme($theme) {
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  .spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    span {
+      position: absolute;
+      top: 50%;
+      transform: translateY(80px);
+      background-color: $background-color;
+      padding: 10px 15px;
+      color: $foreground-color;
+    }
+  }
+}
+
+// Form field outline
+@mixin custom-mat-form-field-outline-theme($theme) {
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  .mat-form-field-appearance-outline {
+    &.mat-focused {
+      .mat-form-field-outline-thick {
+        color: $accent-color;
+      }
+    }
+  }
+}
+
+@mixin custom-mat-form-field-theme($theme) {
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: $accent-color;
+  }
+}
+
+@mixin components-theme($theme) {
+  @include architecture-type-radios-theme($theme);
+  @include cloud-flavor-radios-theme($theme);
+  @include cloud-image-radios-theme($theme);
+  @include terraform-module-wizard-theme($theme);
+  @include project-wizard-theme($theme);
+  @include app-footer-theme($theme);
+  @include entity-filter-bar-theme($theme);
+  @include entity-table-theme($theme);
+  @include ansible-search-theme($theme);
+  @include ansible-my-import-theme($theme);
+  @include ansible-my-content-theme($theme);
+  @include ansible-repo-detail-theme($theme);
+  @include confirm-dialog-theme($theme);
+  @include jenkins-wizard-theme($theme);
+  @include page-loading-spinner-theme($theme);
+  @include custom-mat-form-field-outline-theme($theme);
+  @include custom-mat-form-field-theme($theme);
+  @include app-component-theme($theme);
+}

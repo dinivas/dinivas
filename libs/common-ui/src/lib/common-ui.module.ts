@@ -74,7 +74,8 @@ export function registerCustomMatIcon(
       'ip',
       'checkmark',
       'cpu',
-      'ram'
+      'ram',
+      'pin'
     ];
     customSvgIcons.forEach(icon =>
       matIconRegistry.addSvgIcon(

@@ -1,4 +1,5 @@
-<form [formGroup]="jenkinsForm" *ngIf="jenkinsForm" (ngSubmit)="submitPlanJenkins(jenkinsForm.value)">
+<form [formGroup]="jenkinsForm" *ngIf="jenkinsForm" (ngSubmit)="submitPlanJenkins(jenkinsForm.value)"
+  class="jenkins-wizard-form">
   <ng-template matStepLabel>Jenkins informations - <span class="text-warn">This step will not create any
       resources</span></ng-template>
   <div class="mat-form-container" fxLayout="column">
@@ -8,6 +9,16 @@
       <span *ngIf="!jenkins?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
       <mat-hint>The Jenkins code will be used to suffix most components. You can't change it after Jenkins
         creation.</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Jenkins admin username</mat-label>
+      <input type="text" matInput formControlName="master_admin_username">
+      <mat-hint>The Jenkins admin username. Default value is <strong>admin</strong></mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Jenkins admin password</mat-label>
+      <input type="password" matInput formControlName="master_admin_password">
+      <mat-hint>The Jenkins admin password. Default value is <strong>password</strong></mat-hint>
     </mat-form-field>
     <mat-form-field class="" appearance="outline">
       <mat-label>Description</mat-label>
@@ -84,7 +95,8 @@
             <mat-form-field class="" appearance="outline">
               <mat-label>Slave group name</mat-label>
               <input type="text" matInput formControlName="code" required>
-              <span *ngIf="jenkinsForm?.value.code" matPrefix>{{ project.code.toLowerCase() }}-{{ jenkinsForm?.value.code.toLowerCase() }}-</span>
+              <span *ngIf="jenkinsForm?.value.code"
+                matPrefix>{{ project.code.toLowerCase() }}-{{ jenkinsForm?.value.code.toLowerCase() }}-</span>
               <mat-hint>This is just an identification for this slave group</mat-hint>
             </mat-form-field>
             <mat-form-field class="" appearance="outline">
@@ -124,7 +136,7 @@
         </div>
       </div>
 
-      <button type="button" class="add-jenkins-slave" mat-raised-button (click)="addJenkinsSlave()">
+      <button type="button" class="add-jenkins-slave" mat-button color="accent" (click)="addJenkinsSlave()">
         <mat-icon>add</mat-icon>
         Add new Jenkins
         slave
@@ -134,6 +146,7 @@
   </div>
   <div class="actions">
     <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge" type="button">Cancel</button>
+    <button type="button" mat-button matStepperPrevious>Back</button>
     <button type="button" mat-button matStepperNext class="ml-10" *ngIf="jenkins?.id && isFormValid()"
       (click)="showJenkinsOutput()">Show jenkins
       infra infos</button>
