@@ -1,29 +1,33 @@
-<p class="header" *ngIf="planRepresentation &&getDisplayableResourceChanges().length > 0">Following resources changes will be made to
-  your infrastructure</p>
-<div class="plan-resources-container" [class.no-resources]="planRepresentation &&getDisplayableResourceChanges().length === 0">
-  <p class="no-resources-changed" *ngIf="planRepresentation &&getDisplayableResourceChanges().length === 0">
-    No resources have changed
-  </p>
-  <ng-container *ngFor="let resource of planRepresentation?.resource_changes">
-    <div class="plan-resource" *ngIf="shouldDisplayResource(resource)">
-      <div class="header">
-        <div class="name">{{ resource.change.after?.name || resource.change.before?.name || resource.name }}</div>
-        <div class="type">{{ resource.type }}</div>
-      </div>
-      <hr>
-      <div class="icon">
-        <mat-icon matListIcon [svgIcon]="resourcesIconMap[resource.type]"></mat-icon>
-      </div>
-      <div class="change-actions">
-        <div class="action" *ngFor="let action of resource.change.actions" [class.create]="action === 'create'"
-          [class.delete]="action === 'delete'" [class.update]="action === 'update'" [class.no-op]="action === 'no-op'">
-          <mat-icon *ngIf="action === 'create'" matTooltip="This resource will be created">add</mat-icon>
-          <mat-icon *ngIf="action === 'delete'" matTooltip="This resource will be deleted">remove</mat-icon>
-          <mat-icon *ngIf="action === 'update'" matTooltip="This resource will be updated">edit</mat-icon>
-          <mat-icon *ngIf="action === 'no-op'" matTooltip="This resource will be unchanged">check_circle</mat-icon>
+<div class="terraform-resources-representation">
+  <p class="header" *ngIf="planRepresentation &&getDisplayableResourceChanges().length > 0">Following resources changes
+    will be made to
+    your infrastructure</p>
+  <div class="plan-resources-container"
+    [class.no-resources]="planRepresentation &&getDisplayableResourceChanges().length === 0">
+    <p class="no-resources-changed" *ngIf="planRepresentation &&getDisplayableResourceChanges().length === 0">
+      No resources have changed
+    </p>
+    <ng-container *ngFor="let resource of planRepresentation?.resource_changes">
+      <div class="plan-resource" *ngIf="shouldDisplayResource(resource)">
+        <div class="header">
+          <div class="name">{{ resource.change.after?.name || resource.change.before?.name || resource.name }}</div>
+          <div class="type">{{ resource.type }}</div>
+        </div>
+        <hr>
+        <div class="icon">
+          <mat-icon matListIcon [svgIcon]="resourcesIconMap[resource.type]"></mat-icon>
+        </div>
+        <div class="change-actions">
+          <div class="action" *ngFor="let action of resource.change.actions" [class.create]="action === 'create'"
+            [class.delete]="action === 'delete'" [class.update]="action === 'update'"
+            [class.no-op]="action === 'no-op'">
+            <mat-icon *ngIf="action === 'create'" matTooltip="This resource will be created">add</mat-icon>
+            <mat-icon *ngIf="action === 'delete'" matTooltip="This resource will be deleted">remove</mat-icon>
+            <mat-icon *ngIf="action === 'update'" matTooltip="This resource will be updated">edit</mat-icon>
+            <mat-icon *ngIf="action === 'no-op'" matTooltip="This resource will be unchanged">check_circle</mat-icon>
+          </div>
         </div>
       </div>
-
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>

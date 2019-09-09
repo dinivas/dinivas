@@ -14,7 +14,15 @@ export class TerraformWebSocket extends Socket {
     return this.fromEvent(`planEvent-${code}`);
   }
 
+  receivePlanErrorEvent(code: string) {
+    return this.fromEvent(`planEvent-${code}-error`);
+  }
+
   receiveApplyEvent(code: string) {
     return this.fromEvent(`applyEvent-${code}`);
+  }
+
+  receiveApplyErrorEvent(code: string) {
+    return this.fromEvent(`applyEvent-${code}-error`);
   }
 }

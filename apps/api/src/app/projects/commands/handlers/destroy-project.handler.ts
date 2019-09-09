@@ -32,25 +32,33 @@ export class DestroyProjectHandler
         command.project.code,
         'project_base',
         command.cloudConfig,
+        null,
         async workingDir => {
-          await this.terraform.destroy(
-            workingDir,
-            [
-              '-auto-approve',
-              ...this.terraform.computeTerraformProjectBaseModuleVars(
-                command.project
-              )
-            ],
-            {
-              autoApprove: true,
-              silent: false
-            }
-          );
-          await this.projectsService.delete(command.project.id);
-          this.terraformGateway.emit(`destroyEvent-${command.project.code}`, {
-            source: command.project
-          } as TerraformDestroyEvent<ProjectDTO>);
-          resolve();
+          try {
+            await this.terraform.destroy(
+              workingDir,
+              [
+                '-auto-approve',
+                ...this.terraform.computeTerraformProjectBaseModuleVars(
+                  command.project
+                )
+              ],
+              {
+                autoApprove: true,
+                silent: false
+              }
+            );
+            await this.projectsService.delete(command.project.id);
+            this.terraformGateway.emit(`destroyEvent-${command.project.code}`, {
+              source: command.project
+            } as TerraformDestroyEvent<ProjectDTO>);
+            resolve();
+          } catch (error) {
+            this.terraformGateway.emit(
+              `destroyEvent-${command.project.code}-error`,
+              error.message
+            );
+          }
         }
       );
     });

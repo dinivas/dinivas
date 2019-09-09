@@ -22,7 +22,7 @@ const routes: Routes = [
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
       cloudImages: CloudImagesResolver,
-      currentProject: CurrentProjectResolver
+      currentProjectInfo: CurrentProjectResolver
     }
   }
 ];

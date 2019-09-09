@@ -44,6 +44,7 @@
     "@angular/material": "^8.0.1",
     "@angular/platform-browser": "^8.0.0",
     "@angular/platform-browser-dynamic": "^8.0.0",
+    "@angular/pwa": "^0.803.3",
     "@angular/router": "^8.0.0",
     "@angular/service-worker": "^8.0.0",
     "@ecodev/fab-speed-dial": "^3.1.0",

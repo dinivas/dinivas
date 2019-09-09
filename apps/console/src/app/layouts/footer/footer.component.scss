@@ -19,7 +19,7 @@
     background-color: mat-color($background, background);
     z-index: 3;
 
-    .container {
+    .container, .container-fluid {
       display: flex;
       padding: 10px 20px;
 

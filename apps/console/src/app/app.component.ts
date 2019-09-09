@@ -155,9 +155,13 @@ export class AppComponent implements OnInit, AfterViewInit {
       }, 1);
     }
   }
-  toggleDarkTheme(checked: boolean) {
-    this.themeService.setDarkTheme(checked);
-    this.storage.store(CONSTANT.BROWSER_STORAGE_THEME_IS_DARK, checked);
+  toggleDarkTheme() {
+    const newDarkThemeValue = !this.themeService.lastValue;
+    this.themeService.setDarkTheme(newDarkThemeValue);
+    this.storage.store(
+      CONSTANT.BROWSER_STORAGE_THEME_IS_DARK,
+      newDarkThemeValue
+    );
   }
 
   watchRouteChanged() {

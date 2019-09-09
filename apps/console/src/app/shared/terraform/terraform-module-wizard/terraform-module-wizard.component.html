@@ -55,7 +55,7 @@
         <button mat-button [routerLink]="moduleWizard.backButtonRouterLink" queryParamsHandling="merge"
           type="button">Cancel</button>
         <button mat-button matStepperPrevious class="ml-10">Back</button>
-        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyPlan(moduleWizard.moduleEntity)"
+        <button mat-raised-button color="primary" (click)="submitApplyPlan(moduleWizard.moduleEntity)"
           class="ml-10">{{ !moduleWizard.moduleEntity?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
       </div>
     </div>

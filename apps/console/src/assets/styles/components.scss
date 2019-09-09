@@ -11,6 +11,7 @@
 @import '../../app/build/ansible/galaxy/my-content/my-content.component.scss';
 @import '../../app/build/jenkins/jenkins-wizard/jenkins-wizard.component.scss';
 @import '../../app/build/ansible/galaxy/repo-content-detail/repo-content-detail.component.scss';
+@import '../../app/shared/terraform/terraform-representation/terraform-representation.component.scss';
 @import '../../app/app.component.scss';
 
 // Confirm dialog
@@ -81,6 +82,13 @@
   .mat-form-field.mat-focused .mat-form-field-label {
     color: $accent-color;
   }
+  .mat-form-field-appearance-outline {
+    &.mat-form-field-disabled {
+      * {
+        cursor: not-allowed;
+      }
+    }
+  }
 }
 
 @mixin components-theme($theme) {
@@ -101,5 +109,6 @@
   @include page-loading-spinner-theme($theme);
   @include custom-mat-form-field-outline-theme($theme);
   @include custom-mat-form-field-theme($theme);
+  @include terraform-resources-representation-theme($theme);
   @include app-component-theme($theme);
 }

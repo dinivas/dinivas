@@ -1,5 +1,5 @@
 import { ProjectsService } from './projects.service';
-import { Observable } from 'rxjs/';
+import { Observable, forkJoin } from 'rxjs/';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -8,9 +8,11 @@ import {
 } from '@angular/router';
 import { CONSTANT, ProjectDTO } from '@dinivas/dto';
 import { LocalStorageService } from 'ngx-webstorage';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class CurrentProjectResolver implements Resolve<ProjectDTO> {
+export class CurrentProjectResolver
+  implements Resolve<{ project: ProjectDTO; projectState: any }> {
   constructor(
     private readonly projectService: ProjectsService,
     private storage: LocalStorageService
@@ -18,10 +20,18 @@ export class CurrentProjectResolver implements Resolve<ProjectDTO> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<ProjectDTO> {
-    const projectId =
+  ): Observable<{ project: ProjectDTO; projectState: any }> {
+    const projectIdString =
       <string>route.paramMap.get('projectId') ||
       this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
-    return this.projectService.getOneProject(Number.parseInt(projectId));
+    const projectId = Number.parseInt(projectIdString);
+    return forkJoin([
+      this.projectService.getOneProject(projectId),
+      this.projectService.getProjectTerraformState(projectId)
+    ]).pipe(
+      map(result => {
+        return { project: result[0], projectState: result[1] };
+      })
+    );
   }
 }

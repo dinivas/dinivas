@@ -1,7 +1,6 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
-import { TerraformWebSocket } from './../../../shared/terraform/terraform-websocket.service';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { JenkinsService } from './../../../shared/jenkins/jenkins.service';
@@ -18,28 +17,23 @@ import {
   ICloudApiFlavor,
   TerraformPlanEvent,
   TerraformApplyEvent,
-  ApplyModuleDTO,
   JenkinsSlaveGroupDTO,
-  ProjectDTO
+  ProjectDTO,
+  ApplyModuleDTO
 } from '@dinivas/dto';
 import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { MatVerticalStepper, MatChipInputEvent } from '@angular/material';
-import { Observable } from 'rxjs';
+import { Observable, Subject, forkJoin } from 'rxjs';
 import { findIndex } from 'lodash';
 
 @Component({
   selector: 'dinivas-jenkins-wizard',
-  templateUrl: './jenkins-wizard.component.html',
-  styleUrls: ['./jenkins-wizard.component.scss']
+  templateUrl: './jenkins-wizard.component.html'
 })
 export class JenkinsWizardComponent
   implements OnInit, TerraformModuleWizardVarsProvider<JenkinsDTO> {
   jenkins: JenkinsDTO;
   jenkinsForm: FormGroup;
-  jenkinsPlanStepFinished = false;
-  jenkinsApplyStepFinished = false;
-  jenkinsPlanInProgress = false;
-  jenkinsApplyInProgress = false;
   @ViewChild(MatVerticalStepper, { static: false })
   jenkinsWizardStepper: MatVerticalStepper;
   cloudImages: ICloudApiImage[];
@@ -56,6 +50,11 @@ export class JenkinsWizardComponent
   applyApplied: EventEmitter<any>;
   onArchitectureTypeChanged: EventEmitter<any>;
   project: ProjectDTO;
+  projectTfState: any;
+  projectNetwork: string;
+  projectNetworkSubnet: string;
+  projectKeypair: string;
+  projectTfStateSubject = new Subject<any>();
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -78,8 +77,27 @@ export class JenkinsWizardComponent
         (cloudImages: ICloudApiImage[]) => (this.cloudImages = cloudImages)
       );
     activatedRoute.data
-      .pipe(map((data: { currentProject: ProjectDTO }) => data.currentProject))
-      .subscribe((project: ProjectDTO) => (this.project = project));
+      .pipe(
+        map(
+          (data: {
+            currentProjectInfo: { project: ProjectDTO; projectState: any };
+          }) => data.currentProjectInfo
+        )
+      )
+      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
+        this.project = projectInfo.project;
+        this.projectTfState = projectInfo.projectState;
+        this.projectNetwork = this.projectTfState.outputs[
+          'mgmt_network_name'
+        ].value;
+        this.projectNetworkSubnet = this.projectTfState.outputs[
+          'mgmt_subnet_names'
+        ].value[0];
+        this.projectKeypair = this.projectTfState.outputs[
+          'project_keypair_name'
+        ].value;
+        this.projectTfStateSubject.next();
+      });
   }
 
   ngOnInit() {
@@ -87,6 +105,8 @@ export class JenkinsWizardComponent
       .pipe(map((data: { currentJenkins: JenkinsDTO }) => data.currentJenkins))
       .subscribe((jenkins: JenkinsDTO) => {
         this.jenkins = jenkins;
+        // Wait for project state to be resolved before init form
+        //this.projectTfStateSubject.subscribe(()=>this.initJenkinsForm());
         this.initJenkinsForm();
       });
 
@@ -109,6 +129,18 @@ export class JenkinsWizardComponent
       use_existing_master: [
         this.jenkins ? this.jenkins.use_existing_master : false,
         null
+      ],
+      network_name: [
+        this.jenkins ? this.jenkins.network_name : this.projectNetwork,
+        Validators.required
+      ],
+      network_subnet_name: [
+        this.jenkins ? this.jenkins.network_name : this.projectNetworkSubnet,
+        Validators.required
+      ],
+      keypair_name: [
+        this.jenkins ? this.jenkins.keypair_name : this.projectKeypair,
+        Validators.required
       ],
       master_cloud_image: [
         this.jenkins ? this.jenkins.master_cloud_image : null,
@@ -156,6 +188,9 @@ export class JenkinsWizardComponent
     if (this.jenkins && this.jenkins.code) {
       this.jenkinsForm.get('code').disable();
     }
+    this.jenkinsForm.get('network_name').disable();
+    this.jenkinsForm.get('network_subnet_name').disable();
+    this.jenkinsForm.get('keypair_name').disable();
     this.setExistingMasterValidators();
     this.setManageSlaveValidators();
   }
@@ -211,10 +246,12 @@ export class JenkinsWizardComponent
       .get('use_existing_master')
       .valueChanges.subscribe((useExistingMaster: boolean) => {
         if (useExistingMaster) {
-          masterCloudImage.setValidators([Validators.nullValidator]);
-          masterCloudFlavor.setValidators([Validators.nullValidator]);
-          masterAdminUsername.setValidators([Validators.nullValidator]);
-          masterAdminPassword.setValidators([Validators.nullValidator]);
+          this.resetFormControlValidatorsAndErrors(
+            masterCloudImage,
+            masterCloudFlavor,
+            masterAdminUsername,
+            masterAdminPassword
+          );
 
           existingMasterUrl.setValidators([Validators.required]);
           existingMasterUsername.setValidators([Validators.required]);
@@ -225,11 +262,20 @@ export class JenkinsWizardComponent
           masterAdminUsername.setValidators([Validators.required]);
           masterAdminPassword.setValidators([Validators.required]);
 
-          existingMasterUrl.setValidators([Validators.nullValidator]);
-          existingMasterUsername.setValidators([Validators.nullValidator]);
-          existingMasterPassword.setValidators([Validators.nullValidator]);
+          this.resetFormControlValidatorsAndErrors(
+            existingMasterUrl,
+            existingMasterUsername,
+            existingMasterPassword
+          );
         }
       });
+  }
+
+  resetFormControlValidatorsAndErrors(...formControls: AbstractControl[]) {
+    formControls.forEach(fC => {
+      if (fC.errors && fC.errors['required']) fC.setErrors(null);
+      fC.setValidators([Validators.nullValidator]);
+    });
   }
 
   handleSlaveValidators = (formGroup: FormGroup, manageSlave: boolean) => {
@@ -315,48 +361,47 @@ export class JenkinsWizardComponent
     return this.jenkinsService.plan(moduleEntity);
   }
 
-  submitApplyPlan: (moduleEntity: JenkinsDTO) => void;
+  prepareJenkinsDTOBeforeSendToServer(jenkins: JenkinsDTO) {
+    // add project code preffix to jenkins code and all slave code
+    jenkins.code = `${this.project.code.toLowerCase()}-${jenkins.code.toLowerCase()}`;
+    if (jenkins.manage_slave) {
+      jenkins.slave_groups.forEach(
+        slave => (slave.code = `${jenkins.code}-${slave.code.toLowerCase()}`)
+      );
+    } else {
+      jenkins.slave_groups = [];
+    }
+    if (this.jenkins) {
+      jenkins.id = this.jenkins.id;
+    }
+  }
+
+  submitApplyPlan(jenkins: JenkinsDTO) {
+    this.applyApplied.emit(jenkins);
+  }
 
   submitPlanJenkins(jenkins: JenkinsDTO) {
-    this.jenkinsPlanInProgress = true;
-    this.jenkinsPlanStepFinished = false;
-    if (!jenkins['code'] && this.jenkins) {
-      // Set code because formbuilder has exclude it
-      jenkins.code = this.jenkins.code;
-    }
-    if (!this.jenkins) {
-      this.planApplied.emit(jenkins);
-    } else {
-      jenkins.id = this.jenkins.id;
-      this.planApplied.emit(jenkins);
-    }
+    this.prepareJenkinsDTOBeforeSendToServer(jenkins);
+    this.planApplied.emit(jenkins);
   }
 
   moduleServiceApplyPlan(
     moduleEntity: JenkinsDTO,
     terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>
   ): Observable<any> {
-    return this.jenkinsService.applyPlan(moduleEntity);
-  }
-
-  submitApplyJenkinsPlan(jenkins: JenkinsDTO) {
-    this.jenkinsApplyInProgress = true;
-    if (!this.jenkins) {
-      // create
-      this.jenkinsService
-        .create(jenkins)
-        .subscribe((savedJenkins: JenkinsDTO) => {
-          this.applyApplied.emit(savedJenkins);
-        });
-    } else {
-      // update
-      jenkins.id = this.jenkins.id;
-      this.jenkinsService
-        .update(jenkins)
-        .subscribe((savedJenkins: JenkinsDTO) => {
-          this.applyApplied.emit(savedJenkins);
-        });
+    if (this.jenkins) {
+      moduleEntity.id = this.jenkins.id;
     }
+    const saveOrUpdateJenkins = this.jenkins
+      ? this.jenkinsService.update(moduleEntity)
+      : this.jenkinsService.create(moduleEntity);
+
+    return forkJoin(
+      saveOrUpdateJenkins,
+      this.jenkinsService.applyPlan(
+        new ApplyModuleDTO(moduleEntity, terraformPlanEvent.workingDir)
+      )
+    );
   }
 
   terraformWebsocketEventId(moduleEntity: JenkinsDTO): string {

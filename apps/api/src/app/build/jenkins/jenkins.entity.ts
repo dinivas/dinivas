@@ -27,6 +27,12 @@ export class Jenkins {
   master_cloud_flavor: string;
   @Column()
   use_floating_ip: boolean = false;
+  @Column({ nullable: true })
+  master_admin_url: string;
+  @Column({ nullable: true })
+  master_admin_username: string;
+  @Column({ nullable: true })
+  master_admin_password: string;
   @Column()
   use_existing_master: boolean;
   @Column({ nullable: true })
@@ -35,6 +41,12 @@ export class Jenkins {
   existing_master_username: string;
   @Column({ nullable: true })
   existing_master_password: string;
+  @Column({ nullable: false })
+  keypair_name: string;
+  @Column({ nullable: false })
+  network_name: string;
+  @Column({ nullable: false })
+  network_subnet_name: string;
   @Column()
   manage_slave: boolean;
   @OneToMany(

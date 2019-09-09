@@ -30,28 +30,33 @@ export class DestroyJenkinsHandler
         command.jenkins.code,
         'jenkins',
         command.cloudConfig,
+        null,
         async workingDir => {
-          await this.terraform.destroy(
-            workingDir,
-            [
-              '-auto-approve',
-              ...this.terraform.computeTerraformJenkinsModuleVars(
-                command.jenkins
-              )
-            ],
-            {
-              autoApprove: true,
-              silent: false
-            }
-          );
-          await this.jenkinsService.delete(command.jenkins.id);
-          this.terraformGateway.emit(
-            `destroyEvent-${command.jenkins.code}`,
-            {
+          try {
+            await this.terraform.destroy(
+              workingDir,
+              [
+                '-auto-approve',
+                ...this.terraform.computeTerraformJenkinsModuleVars(
+                  command.jenkins
+                )
+              ],
+              {
+                autoApprove: true,
+                silent: false
+              }
+            );
+            await this.jenkinsService.delete(command.jenkins.id);
+            this.terraformGateway.emit(`destroyEvent-${command.jenkins.code}`, {
               source: command.jenkins
-            } as TerraformDestroyEvent<JenkinsDTO>
-          );
-          resolve();
+            } as TerraformDestroyEvent<JenkinsDTO>);
+            resolve();
+          } catch (error) {
+            this.terraformGateway.emit(
+              `destroyEvent-${command.jenkins.code}-error`,
+              error.message
+            );
+          }
         }
       );
     });

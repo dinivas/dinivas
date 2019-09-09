@@ -42,8 +42,8 @@
         flex: 1 1 auto;
       }
       &.selected-row {
-        background-color: darken($background-color, 15%);
-        @include transition(all .5s ease);
+        background-color: darken($background-color, 10%);
+        @include transition(all .3s ease);
       }
     }
   }

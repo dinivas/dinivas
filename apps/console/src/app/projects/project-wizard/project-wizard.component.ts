@@ -79,9 +79,15 @@ export class ProjectWizardComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { currentProject: ProjectDTO }) => data.currentProject))
-      .subscribe((project: ProjectDTO) => {
-        this.project = project;
+      .pipe(
+        map(
+          (data: {
+            currentProjectInfo: { project: ProjectDTO; projectState: any };
+          }) => data.currentProjectInfo
+        )
+      )
+      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
+        this.project = projectInfo.project;
         this.initProjectForm();
       });
     this.projectPlanFormGroup = this.formBuilder.group({});

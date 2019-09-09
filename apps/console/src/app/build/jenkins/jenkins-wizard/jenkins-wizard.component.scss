@@ -14,11 +14,11 @@
   $foreground-color: mat-color($foreground, text);
   $toolbar-height: 48px;
 
-  .form-container.jenkins-wizard-form {
+  .jenkins-wizard-form {
     margin: 20px 10px;
     mat-form-field.mat-form-field {
       font-size: 14px;
-      max-width: 600px;
+      max-width: 800px;
     }
     .no-data-checkbox {
       font-size: 14px;

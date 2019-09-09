@@ -27,9 +27,13 @@
       </mat-menu>
     </div>
     <div class="right">
-      <mat-slide-toggle class="mr-15" matTooltip="Switch console theme color" [checked]="isDarkTheme | async"
+      <button mat-icon-button class="mr-15" color="accent" (click)="toggleDarkTheme()"
+        [matTooltip]="(isDarkTheme | async) ? 'Switch console to ligth theme' : 'Switch console to dark theme'" aria-label="Switch console theme color">
+        <mat-icon>{{ (isDarkTheme | async) ? 'wb_sunny' : 'brightness_3' }}</mat-icon>
+      </button>
+      <!-- <mat-slide-toggle class="mr-15" matTooltip="Switch console theme color" [checked]="isDarkTheme | async"
         (change)="toggleDarkTheme($event.checked)">
-      </mat-slide-toggle>
+      </mat-slide-toggle> -->
       <span class="username" *ngIf="userDetails" [matTooltip]="userDetails.email">{{ userDetails.firstName }}</span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
@@ -75,7 +79,7 @@
           <h3 mat-subheader>{{ menuGroup.group }}</h3>
           <ng-container *ngFor="let menu of menuGroup.menus">
             <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="menu.isPinned"
-              [routerLink]="menu.routerLink" (click)="toggleSideNav()" >
+              [routerLink]="menu.routerLink" (click)="toggleSideNav()">
               <mat-icon matListIcon [svgIcon]="menu.svgIcon">{{ menu.icon }}</mat-icon>
               <h4 mat-line>{{ menu.label }}</h4>
               <button mat-icon-button (click)="togglePin(menu);$event.preventDefault();$event.stopPropagation();">

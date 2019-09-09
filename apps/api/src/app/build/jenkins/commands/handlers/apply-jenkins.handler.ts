@@ -4,7 +4,11 @@ import { Terraform } from './../../../../terraform/core/Terraform';
 import { ApplyJenkinsCommand } from './../impl/apply-jenkins.command';
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { TFStateRepresentation, TerraformApplyEvent, JenkinsDTO } from '@dinivas/dto';
+import {
+  TFStateRepresentation,
+  TerraformApplyEvent,
+  JenkinsDTO
+} from '@dinivas/dto';
 
 @CommandHandler(ApplyJenkinsCommand)
 export class ApplyJenkinsHandler
@@ -24,17 +28,23 @@ export class ApplyJenkinsHandler
       this.logger.debug(
         `Received ApplyJenkinsCommand: ${command.jenkins.code}`
       );
-
-      const stateResult: TFStateRepresentation = await this.terraform.apply(
-        command.workingDir,
-        ['-auto-approve', '"last-plan"'],
-        { autoApprove: true, silent: false }
-      );
-      resolve();
-      this.terraformGateway.emit(`applyEvent-${command.jenkins.code}`, {
-        source: command.jenkins,
-        stateResult
-      } as TerraformApplyEvent<JenkinsDTO>);
+      try {
+        const stateResult: TFStateRepresentation = await this.terraform.apply(
+          command.workingDir,
+          ['-auto-approve', '"last-plan"'],
+          { autoApprove: true, silent: false }
+        );
+        resolve();
+        this.terraformGateway.emit(`applyEvent-${command.jenkins.code}`, {
+          source: command.jenkins,
+          stateResult
+        } as TerraformApplyEvent<JenkinsDTO>);
+      } catch (error) {
+        this.terraformGateway.emit(
+          `applyEvent-${command.jenkins.code}-error`,
+          error.message
+        );
+      }
     });
   }
 }

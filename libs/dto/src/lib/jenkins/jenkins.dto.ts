@@ -8,12 +8,16 @@ export class JenkinsDTO {
   master_cloud_flavor: string;
   project: ProjectDTO;
   use_floating_ip: boolean;
-  existing_master_url: string;
+  master_admin_url: string;
   master_admin_username: string;
   master_admin_password: string;
+  existing_master_url: string;
   existing_master_username: string;
   existing_master_password: string;
+  keypair_name: string;
   manage_slave: boolean;
+  network_name: string;
+  network_subnet_name: string;
   slave_groups: JenkinsSlaveGroupDTO[];
 }
 

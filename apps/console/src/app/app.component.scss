@@ -13,6 +13,12 @@
   $toolbar-height: 48px;
 
   .app-container {
+
+    *{
+      //@include transition(color 0.3s ease);
+      //@include transition(background-color 0.3s ease);
+    }
+
     height: 100%;
     & > mat-toolbar {
       position: -webkit-sticky;

@@ -34,7 +34,7 @@
       display: flex;
       flex-wrap: nowrap;
       overflow-x: auto;
-      padding-bottom: 25px;
+      padding: 0px 10px 15px;
       .type {
         border: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
         border-radius: 0;
@@ -42,39 +42,22 @@
         display: flex;
         flex-direction: column;
         vertical-align: top;
-        padding: 24px 24px !important;
+        padding: 10px 15px 5px !important;
         margin: 0px 10px 5px 0px;
         background-color: $background-color;
         cursor: pointer;
         transition: border-color 0.2s ease-in;
-        // min-width: 250px;
-        // max-width: 350px;
-        // min-height: 98px;
-        // mat-icon.main-icon {
-        //   position: absolute;
-        //   left: 24px;
-        //   top: 20px;
-        //   margin-top: 0px;
-        //   width: 48px;
-        //   height: 48px;
-        //   color: rgba(#5400e8, 0.65);
-        //   transition: color 0.5s ease-in;
-        // }
         .name {
           font-weight: 500;
-          font-size: 13px;
+          font-size: 15px;
           z-index: 2;
+          color: $accent-color;
         }
-        .size {
-          font-weight: 600;
-          font-size: 14px;
-          padding: 5px;
-          color: $primary-color;
-          small {
-            font-size: 10px;
-            margin-left: 15px;
-            color: $foreground-color;
-          }
+        p.description {
+          margin: 10px auto 5px;
+          font-size: 13px;
+          color: mat-color($foreground, secondary-text);
+          line-height: 1.7;
         }
         .checkmark-overlay {
           display: inline-block;
@@ -87,7 +70,7 @@
           top: -1px !important;
           right: -1px;
           z-index: 1;
-          transition: all 0.2s ease-in;
+          //transition: all 0.2s ease-in;
         }
         .checkmark {
           display: block;

@@ -22,7 +22,8 @@ import {
   TFPlanRepresentation,
   TFStateRepresentation,
   ProjectDTO,
-  JenkinsDTO
+  JenkinsDTO,
+  JenkinsSlaveGroupDTO
 } from '@dinivas/dto';
 const fs = require('fs');
 const path = require('path');
@@ -32,7 +33,7 @@ const ncp = require('ncp').ncp;
 export class Terraform extends Base {
   private readonly nestLogger = new Logger(Terraform.name);
   constructor(private configService: ConfigService) {
-    super( configService.getTerraformExecutable(), '-auto-approve');
+    super(configService.getTerraformExecutable(), '-auto-approve');
     this.addTriggerWordForInteractiveMode(
       "Only 'yes' will be accepted to approve"
     );
@@ -47,7 +48,13 @@ export class Terraform extends Base {
   ) {
     const commandToExecute = `init ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
-    await this.executeSync(path, commandToExecute, { silent: options.silent });
+    try {
+      await this.executeSync(path, commandToExecute, {
+        silent: options.silent
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 
   public async output(
@@ -105,13 +112,17 @@ export class Terraform extends Base {
     const commandToExecute = `plan ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
     // First plan and save in file last-plan
-    await this.executeSync(path, commandToExecute, {
-      silent: options.silent || false
-    });
-    const { stdout } = await this.executeSync(path, `show -json last-plan`, {
-      silent: true
-    });
-    return JSON.parse(stdout) as TFPlanRepresentation;
+    try {
+      await this.executeSync(path, commandToExecute, {
+        silent: options.silent || false
+      });
+      const { stdout } = await this.executeSync(path, `show -json last-plan`, {
+        silent: true
+      });
+      return JSON.parse(stdout) as TFPlanRepresentation;
+    } catch (err) {
+      throw err;
+    }
     //return this.parseResourceChanges(stdout, ChangeTypes.PLAN);
   }
 
@@ -249,7 +260,9 @@ export class Terraform extends Base {
     projectCode: string,
     tfModuleName: string,
     cloudConfig,
-    callback: (workingFolder: string) => void
+    preInitCallback?: (workingFolder: string) => void,
+    postInitCallback?: (workingFolder: string) => void,
+    onInitErrorCallback?: (error) => void
   ) {
     fs.mkdtemp(
       path.join(
@@ -277,9 +290,14 @@ export class Terraform extends Base {
             );
             // Add provider config
             this.addProviderConfigFileToModule(cloudConfig, tempFolder);
+            if (preInitCallback) preInitCallback(tempFolder);
             // Init module temporary directory
-            await this.init(tempFolder, [], { silent: false });
-            callback(tempFolder);
+            try {
+              await this.init(tempFolder, [], { silent: false });
+              if (postInitCallback) postInitCallback(tempFolder);
+            } catch (error) {
+              if (onInitErrorCallback) onInitErrorCallback(error);
+            }
           }
         );
       }
@@ -318,8 +336,50 @@ export class Terraform extends Base {
     ];
   }
 
+  addJenkinsSlaveFilesToModule(jenkinsDTO: JenkinsDTO, destination: string) {
+    jenkinsDTO.slave_groups.forEach((slaveGroup: JenkinsSlaveGroupDTO) => {
+      let slaveGroupFileContent = `
+      module "jenkins-slave-${slaveGroup.code}" {
+        source = "./slaves"
+
+        jenkins_master_url = "${
+          jenkinsDTO.use_existing_master
+            ? jenkinsDTO.existing_master_url
+            : jenkinsDTO.master_admin_url
+        }"
+        jenkins_master_username = "${
+          jenkinsDTO.use_existing_master
+            ? jenkinsDTO.existing_master_username
+            : jenkinsDTO.master_admin_username
+        }"
+        jenkins_master_password = "${
+          jenkinsDTO.use_existing_master
+            ? jenkinsDTO.existing_master_password
+            : jenkinsDTO.master_admin_password
+        }"
+        jenkins_slave_group_name = "${slaveGroup.code}"
+        jenkins_slave_group_labels = "${slaveGroup.labels.join(',')}"
+        jenkins_slave_group_instance_count = ${slaveGroup.instance_count}
+        jenkins_slave_keypair = "${jenkinsDTO.project.code.toLowerCase()}"
+        jenkins_slave_network = "${jenkinsDTO.project.code.toLowerCase()}-mgmt"
+        jenkins_slave_group_cloud_image = "${slaveGroup.slave_cloud_image}"
+        jenkins_slave_group_cloud_flavor   = "${slaveGroup.slave_cloud_flavor}"
+      }
+
+      `;
+      try {
+        fs.writeFileSync(
+          path.join(destination, `slave_${slaveGroup.code}.tf`),
+          slaveGroupFileContent
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }
+
   computeTerraformJenkinsModuleVars(jenkins: JenkinsDTO): string[] {
-    return [
+    const jenkins_master_vars = [
       `-var 'enable_jenkins_master=1'`,
       `-var 'jenkins_master_name=${jenkins.code.toLowerCase()}'`,
       `-var 'jenkins_master_instance_count=1'`,
@@ -327,14 +387,15 @@ export class Terraform extends Base {
       `-var 'jenkins_master_compute_flavor_name=${
         jenkins.master_cloud_flavor
       }'`,
-      `-var 'jenkins_master_keypair_name=${jenkins.project.code.toLowerCase()}'`,
-      `-var 'jenkins_master_network=${jenkins.project.code.toLowerCase()}-mgmt'`,
-      `-var 'jenkins_master_subnet=${jenkins.project.code.toLowerCase()}-mgmt-subnet'`,
+      `-var 'jenkins_master_keypair_name=${jenkins.keypair_name}'`,
+      `-var 'jenkins_master_network=${jenkins.network_name}'`,
+      `-var 'jenkins_master_subnet=${jenkins.network_subnet_name}'`,
       jenkins.use_floating_ip
         ? `-var 'jenkins_master_floating_ip_pool=${
             jenkins.project.floating_ip_pool
           }'`
         : ''
     ];
+    return jenkins_master_vars;
   }
 }

@@ -27,7 +27,7 @@ export class ArchitectureTypeRadiosComponent
   @Input()
   label: string;
   @Input()
-  architectureTypes: { code: string; label: string }[];
+  architectureTypes: { code: string; label: string, description: string }[];
   @Output()
   onSelect: EventEmitter<any> = new EventEmitter();
 

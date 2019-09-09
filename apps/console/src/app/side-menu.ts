@@ -216,7 +216,7 @@ export const SideMenu = [
         name: 'ansible-history',
         label: 'History',
         routerLink: ['/build', 'ansible', 'history'],
-        svgIcon: 'gitlab',
+        svgIcon: 'ara',
         icon: null,
         isPinned: false
       }

@@ -4,7 +4,11 @@ import { Terraform } from './../../../terraform/core/Terraform';
 import { ConfigService } from './../../../core/config/config.service';
 import { Logger } from '@nestjs/common';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { TFStateRepresentation, TerraformApplyEvent, ProjectDTO } from '@dinivas/dto';
+import {
+  TFStateRepresentation,
+  TerraformApplyEvent,
+  ProjectDTO
+} from '@dinivas/dto';
 
 @CommandHandler(ApplyProjectCommand)
 export class ApplyProjectHandler
@@ -26,17 +30,23 @@ export class ApplyProjectHandler
           command.project.name
         })`
       );
-
-      const stateResult: TFStateRepresentation = await this.terraform.apply(
-        command.workingDir,
-        ['-auto-approve', '"last-plan"'],
-        { autoApprove: true, silent: false }
-      );
-      resolve();
-      this.terraformGateway.emit(`applyEvent-${command.project.code}`, {
-        source: command.project,
-        stateResult
-      } as TerraformApplyEvent<ProjectDTO>);
+      try {
+        const stateResult: TFStateRepresentation = await this.terraform.apply(
+          command.workingDir,
+          ['-auto-approve', '"last-plan"'],
+          { autoApprove: true, silent: false }
+        );
+        resolve();
+        this.terraformGateway.emit(`applyEvent-${command.project.code}`, {
+          source: command.project,
+          stateResult
+        } as TerraformApplyEvent<ProjectDTO>);
+      } catch (error) {
+        this.terraformGateway.emit(
+          `applyEvent-${command.project.code}-error`,
+          error.message
+        );
+      }
     });
   }
 }

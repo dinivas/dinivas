@@ -5,7 +5,11 @@ import { PlanJenkinsCommand } from './../impl/plan-jenkins.command';
 import { Logger } from '@nestjs/common';
 
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { TerraformPlanEvent, TFPlanRepresentation, JenkinsDTO } from '@dinivas/dto';
+import {
+  TerraformPlanEvent,
+  TFPlanRepresentation,
+  JenkinsDTO
+} from '@dinivas/dto';
 const fs = require('fs');
 const ncp = require('ncp').ncp;
 const path = require('path');
@@ -24,30 +28,47 @@ export class PlanJenkinsHandler implements ICommandHandler<PlanJenkinsCommand> {
   }
 
   async execute(command: PlanJenkinsCommand) {
-    this.logger.debug(
-      `Received PlanJenkinsCommand: ${command.jenkins.code}`
-    );
-    this.terraform.executeInTerraformModuleDir(
-      command.jenkins.code,
-      'jenkins',
-      command.cloudConfig,
-      async workingDir => {
-        const planResult: TFPlanRepresentation = await this.terraform.plan(
-          workingDir,
-          [
-            ...this.terraform.computeTerraformJenkinsModuleVars(
-              command.jenkins
-            ),
-            '-out=last-plan'
-          ],
-          { silent: false }
-        );
-        this.terraformGateway.emit(`planEvent-${command.jenkins.code}`, {
-          source: command.jenkins,
-          workingDir,
-          planResult
-        } as TerraformPlanEvent<JenkinsDTO>);
-      }
-    );
+    this.logger.debug(`Received PlanJenkinsCommand: ${command.jenkins.code}`);
+    try {
+      this.terraform.executeInTerraformModuleDir(
+        command.jenkins.code,
+        'jenkins',
+        command.cloudConfig,
+        workingDir =>
+          this.terraform.addJenkinsSlaveFilesToModule(
+            command.jenkins,
+            workingDir
+          ),
+        async workingDir => {
+          try {
+            const planResult: TFPlanRepresentation = await this.terraform.plan(
+              workingDir,
+              [
+                ...this.terraform.computeTerraformJenkinsModuleVars(
+                  command.jenkins
+                ),
+                '-out=last-plan'
+              ],
+              { silent: false }
+            );
+            this.terraformGateway.emit(`planEvent-${command.jenkins.code}`, {
+              source: command.jenkins,
+              workingDir,
+              planResult
+            } as TerraformPlanEvent<JenkinsDTO>);
+          } catch (error) {
+            this.terraformGateway.emit(
+              `planEvent-${command.jenkins.code}-error`,
+              error.message
+            );
+          }
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
