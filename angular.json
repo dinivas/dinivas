@@ -28,6 +28,7 @@
               "apps/console/src/manifest.json"
             ],
             "styles": [
+              "node_modules/material-icons/iconfont/material-icons.css",
               "apps/console/src/styles.scss"
             ],
             "scripts": []
