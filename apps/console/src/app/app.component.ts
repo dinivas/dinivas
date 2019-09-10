@@ -17,7 +17,7 @@ import {
   OnInit,
   AfterViewInit
 } from '@angular/core';
-import { MatDialog, MatSidenav, MatListItem } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 import {
   Router,
   ActivatedRoute,
@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         .subscribe((data: any) => {
           this.projects = data.items;
           this.projects
-            .filter(p => p.id == params['project'])
+            .filter(p => p.id === params['project'])
             .forEach(p => {
               this.currentProject = p;
               this.projectService.setCurrentSelectedProject(p);
@@ -131,12 +131,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     this.watchRouteChanged();
-    this.breakpointObserver.observe(Breakpoints.Handset).subscribe(t => {
+    this.breakpointObserver.observe(Breakpoints.Large).subscribe(t => {
       if (t.matches) {
         this.sideNavMode = 'over';
       } else {
         this.sideNavMode = 'side';
-        this.sideNavOpened = true;
+        this.sideNavOpened =
+          this.storage.retrieve('side-nav-opened') === true ? true : false;
       }
     });
     this.contextualMenuService.contextualComponent$.subscribe(component => {
@@ -189,11 +190,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   toggleSideNav(force: boolean) {
-    if (this.sideNavMode != 'side' || force) {
+    if (this.sideNavMode !== 'side' || force) {
       this.sideNavOpened = !this.sideNavOpened;
     } else {
       this.sideNavOpened = true;
     }
+    this.storage.store('side-nav-opened', this.sideNavOpened);
   }
 
   togglePin(sideNavMenu: SideNavMenu) {
@@ -243,7 +245,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   switchCurrentProject(project: ProjectDTO) {
     if (
       (!this.currentProject && project) ||
-      (project && project.id != this.currentProject.id)
+      (project && project.id !== this.currentProject.id)
     ) {
       this.currentProject = project;
       this.storage.store(

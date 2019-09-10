@@ -57,6 +57,8 @@
           font-size: 13px;
           .name {
             text-align: center;
+            font-weight: 500;
+            color: mat-color($accent);
           }
           .type {
             font-size: 80%;

@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import { CONSTANT, ProjectDTO } from '@dinivas/dto';
 import { LocalStorageService } from 'ngx-webstorage';
-import { map } from 'rxjs/operators';
+import { map, defaultIfEmpty } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectResolver

@@ -1,6 +1,6 @@
+import { AlertService } from './../../core/alert/alert.service';
 import { SelectProjectDialogComponent } from './../../core/dialog/select-project-dialog/select-project-dialog.component';
 import { ContextualMenuService } from './../../core/contextual-menu/contextual-menu.service';
-import { Observable } from 'rxjs/';
 import { ActivatedRoute } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { CloudproviderService } from './../../shared/cloudprovider/cloudprovider.service';
@@ -61,7 +61,8 @@ export class ProjectWizardComponent implements OnInit {
     private readonly cloudproviderService: CloudproviderService,
     private readonly terraformWebSocket: TerraformWebSocket,
     private activatedRoute: ActivatedRoute,
-    private contextualMenuService: ContextualMenuService
+    private contextualMenuService: ContextualMenuService,
+    private alertService: AlertService
   ) {
     activatedRoute.data
       .pipe(
@@ -87,7 +88,7 @@ export class ProjectWizardComponent implements OnInit {
         )
       )
       .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo.project;
+        this.project = projectInfo && projectInfo.project;
         this.initProjectForm();
       });
     this.projectPlanFormGroup = this.formBuilder.group({});
@@ -174,16 +175,24 @@ export class ProjectWizardComponent implements OnInit {
   planProject(project: ProjectDTO) {
     this.projectService.planProject(project).subscribe(
       () => {
-        this.terraformWebSocket
+        const projectPlanEventSubscription = this.terraformWebSocket
           .receivePlanEvent(project.code)
           .subscribe((data: TerraformPlanEvent<ProjectDTO>) => {
             console.log('Receive TerraformPlanEvent from Terrform WS', data);
+            projectPlanEventSubscription.unsubscribe();
             this.terraformPlanEvent = data;
             this.projectPlanInProgress = false;
             this.projectPlanStepFinished = true;
             setTimeout(() => {
               this.projectWizardStepper.next();
             }, 1);
+          });
+        this.terraformWebSocket
+          .receivePlanErrorEvent(project.code)
+          .subscribe((error: string) => {
+            this.alertService.error(error);
+            this.projectPlanInProgress = false;
+            this.projectPlanStepFinished = false;
           });
       },
       error => {
@@ -223,10 +232,11 @@ export class ProjectWizardComponent implements OnInit {
       )
       .subscribe(
         () => {
-          this.terraformWebSocket
+          const projectApplyEventSubscription = this.terraformWebSocket
             .receiveApplyEvent(project.code)
             .subscribe((data: TerraformApplyEvent<ProjectDTO>) => {
               console.log('Receive TerraformApplyEvent from Terrform WS', data);
+              projectApplyEventSubscription.unsubscribe();
               this.terraformApplyEvent = data;
               this.terraformStateOutputs = this.terraformApplyEvent.stateResult.values.outputs;
               for (const [key, value] of Object.entries(
@@ -243,6 +253,14 @@ export class ProjectWizardComponent implements OnInit {
               setTimeout(() => {
                 this.projectWizardStepper.next();
               }, 1);
+            });
+          const receiveApplyErrorSubcription = this.terraformWebSocket
+            .receiveApplyErrorEvent(project.code)
+            .subscribe((error: string) => {
+              receiveApplyErrorSubcription.unsubscribe();
+              this.alertService.error(error);
+              this.projectApplyInProgress = false;
+              this.projectPlanStepFinished = false;
             });
         },
         error => {

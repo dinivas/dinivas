@@ -87,12 +87,14 @@ export class JenkinsWizardComponent
       .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
         this.project = projectInfo.project;
         this.projectTfState = projectInfo.projectState;
-        this.projectNetwork = this.projectTfState.outputs[
-          'mgmt_network_name'
-        ].value;
+        this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
+          ? this.projectTfState.outputs['mgmt_network_name'].value
+          : undefined;
         this.projectNetworkSubnet = this.projectTfState.outputs[
           'mgmt_subnet_names'
-        ].value[0];
+        ]
+          ? this.projectTfState.outputs['mgmt_subnet_names'].value[0]
+          : undefined;
         this.projectKeypair = this.projectTfState.outputs[
           'project_keypair_name'
         ].value;

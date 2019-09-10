@@ -46,7 +46,7 @@
 
       .mat-sidenav.menu {
         padding: $toolbar-height 0px 0px;
-        @media screen and (min-width: 961px) {
+        @media screen and (min-width: 1281px) {
           margin-bottom: $toolbar-height;
         }
         border-bottom: 1px solid mat-color($foreground, divider);
