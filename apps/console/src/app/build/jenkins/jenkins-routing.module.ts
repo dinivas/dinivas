@@ -47,12 +47,16 @@ const routes: Routes = [
   },
   {
     path: 'edit/:jenkinsId',
-    component: JenkinsWizardComponent,
+    component: TerraformModuleWizardComponent,
     canActivate: [MandatorySelectedProjectGuard],
+    data: {
+      moduleWizard: moduleWizardData
+    },
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
       cloudImages: CloudImagesResolver,
-      currentJenkins: CurrentJenkinsResolver
+      moduleEntity: CurrentJenkinsResolver,
+      currentProjectInfo: CurrentProjectResolver
     }
   }
 ];

@@ -33,6 +33,8 @@ export class Jenkins {
   master_admin_username: string;
   @Column({ nullable: true })
   master_admin_password: string;
+  @Column({ nullable: true })
+  architecture_type: string;
   @Column()
   use_existing_master: boolean;
   @Column({ nullable: true })

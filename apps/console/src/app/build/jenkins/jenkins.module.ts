@@ -16,6 +16,7 @@ import { JenkinsWizardComponent } from './jenkins-wizard/jenkins-wizard.componen
     SharedModule,
     CoreModule,
     JenkinsRoutingModule
-  ]
+  ],
+  entryComponents: [JenkinsWizardComponent]
 })
 export class JenkinsModule { }

@@ -68,6 +68,7 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe(data => {
       this.moduleWizard = data.moduleWizard;
+      this.moduleWizard.moduleEntity = data.moduleEntity;
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         this.moduleWizard.component
       );
@@ -135,6 +136,11 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
             architectureType
           );
         });
+      if (this.moduleWizard.moduleEntity && this.moduleWizard.moduleEntity['architecture_type']) {
+        this.architectureTypeForm
+          .get('architecture_type')
+          .patchValue(this.moduleWizard.moduleEntity['architecture_type']);
+      }
     }
   }
   onSelectArchitectureType($event, architectureTypeForm: NgForm) {}

@@ -56,7 +56,7 @@ export class JenkinsComponent extends MatCrudComponent
     return this.jenkinsService.get(newHttpParams);
   }
   addJenkins() {
-    this.router.navigate(['/jenkins/new'], { preserveQueryParams: true });
+    this.router.navigate(['/build/jenkins/new'], { preserveQueryParams: true });
   }
 
   deleteSelected(selection: any[]): Observable<any> {

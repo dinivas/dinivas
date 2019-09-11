@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         .subscribe((data: any) => {
           this.projects = data.items;
           this.projects
-            .filter(p => p.id === params['project'])
+            .filter(p => p.id == params['project'])
             .forEach(p => {
               this.currentProject = p;
               this.projectService.setCurrentSelectedProject(p);

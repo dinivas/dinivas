@@ -94,7 +94,7 @@ export class JenkinsWizardComponent
           'mgmt_subnet_names'
         ]
           ? this.projectTfState.outputs['mgmt_subnet_names'].value[0]
-          : undefined;
+          : this.jenkins.network_subnet_name;
         this.projectKeypair = this.projectTfState.outputs[
           'project_keypair_name'
         ].value;
@@ -104,7 +104,7 @@ export class JenkinsWizardComponent
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { currentJenkins: JenkinsDTO }) => data.currentJenkins))
+      .pipe(map((data: { moduleEntity: JenkinsDTO }) => data.moduleEntity))
       .subscribe((jenkins: JenkinsDTO) => {
         this.jenkins = jenkins;
         // Wait for project state to be resolved before init form
@@ -137,7 +137,7 @@ export class JenkinsWizardComponent
         Validators.required
       ],
       network_subnet_name: [
-        this.jenkins ? this.jenkins.network_name : this.projectNetworkSubnet,
+        this.jenkins ? this.jenkins.network_subnet_name : this.projectNetworkSubnet,
         Validators.required
       ],
       keypair_name: [

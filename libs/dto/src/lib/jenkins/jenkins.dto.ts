@@ -3,6 +3,7 @@ export class JenkinsDTO {
   id: number;
   code: string;
   description: string;
+  architecture_type: string;
   use_existing_master: boolean;
   master_cloud_image: string;
   master_cloud_flavor: string;
