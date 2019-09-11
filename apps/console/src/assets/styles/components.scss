@@ -63,6 +63,32 @@
   }
 }
 
+@mixin app-global-toolbar-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $warn: map-get($theme, warn);
+  $warn-color: mat-color($warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .mat-toolbar.app-toolbar {
+    background: mat-color($background, app-bar);
+    &.mat-primary {
+      color: $primary-color;
+    }
+
+    &.mat-accent {
+      color: $accent-color;
+    }
+
+    &.mat-warn {
+      color: $warn-color;
+    }
+  }
+}
+
 // Form field outline
 @mixin custom-mat-form-field-outline-theme($theme) {
   $accent: map-get($theme, accent);
