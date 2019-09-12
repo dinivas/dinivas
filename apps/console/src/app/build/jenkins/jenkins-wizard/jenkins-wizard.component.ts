@@ -137,7 +137,9 @@ export class JenkinsWizardComponent
         Validators.required
       ],
       network_subnet_name: [
-        this.jenkins ? this.jenkins.network_subnet_name : this.projectNetworkSubnet,
+        this.jenkins
+          ? this.jenkins.network_subnet_name
+          : this.projectNetworkSubnet,
         Validators.required
       ],
       keypair_name: [
@@ -195,6 +197,23 @@ export class JenkinsWizardComponent
     this.jenkinsForm.get('keypair_name').disable();
     this.setExistingMasterValidators();
     this.setManageSlaveValidators();
+    this.jenkinsForm
+      .get('slave_groups')
+      .valueChanges.subscribe((slaveGroup: JenkinsSlaveGroupDTO[]) => {
+        if (slaveGroup && slaveGroup.length === 0) {
+          this.jenkinsForm.get('manage_slave').patchValue(false);
+        }
+      });
+    this.jenkinsForm
+      .get('manage_slave')
+      .valueChanges.subscribe((manageSlaveGroups: boolean) => {
+        if (
+          manageSlaveGroups &&
+          this.jenkinsForm.get('slave_groups').value.length === 0
+        ) {
+          this.addJenkinsSlave(null);
+        }
+      });
   }
 
   createSlaveFormGroup(

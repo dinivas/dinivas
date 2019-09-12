@@ -76,7 +76,7 @@
       </ng-template>
       <div class="slide-toggle-container">
         <mat-slide-toggle formControlName="use_floating_ip" color="accent">
-          {{ jenkinsForm?.value.use_floating_ip ? 'Do not use floating IP' : 'Use floating IP'}}
+          Use floating IP?
         </mat-slide-toggle>
         <mat-hint>A proxy will expose services to external network</mat-hint>
       </div>
@@ -104,7 +104,7 @@
     </ng-container>
     <div class="slide-toggle-container">
       <mat-slide-toggle formControlName="manage_slave" color="accent">
-        Want to create slaves?
+        Manage slaves for this Jenkins?
       </mat-slide-toggle>
       <mat-hint>Dinivas will manage Jenkins slave for you</mat-hint>
     </div>
