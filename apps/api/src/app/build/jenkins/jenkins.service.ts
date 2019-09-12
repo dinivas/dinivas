@@ -52,13 +52,13 @@ export class JenkinsService {
       this.jenkinsRepository,
       paginationOption,
       JenkinsService.toDTO,
-      { relations: ['project'] }
+      { relations: ['project', 'slave_groups'] }
     );
   }
 
   async findOne(id: number): Promise<Jenkins> {
     const jenkins: Jenkins = await this.jenkinsRepository.findOne(id, {
-      relations: ['project']
+      relations: ['project','slave_groups']
     });
     if (!jenkins) {
       throw new NotFoundException(`Jenkins with id: ${id} not found`);

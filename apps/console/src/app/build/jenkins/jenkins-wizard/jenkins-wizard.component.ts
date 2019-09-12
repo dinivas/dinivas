@@ -384,17 +384,23 @@ export class JenkinsWizardComponent
 
   prepareJenkinsDTOBeforeSendToServer(jenkins: JenkinsDTO) {
     // add project code preffix to jenkins code and all slave code
-    jenkins.code = `${this.project.code.toLowerCase()}-${jenkins.code.toLowerCase()}`;
+    if ( !this.jenkins) { // add prefix only for new Jenkins
+      jenkins.code = `${this.project.code.toLowerCase()}-${jenkins.code.toLowerCase()}`;
+    }
+
     if (jenkins.manage_slave) {
-      jenkins.slave_groups.forEach(
-        slave => (slave.code = `${jenkins.code}-${slave.code.toLowerCase()}`)
-      );
+      jenkins.slave_groups.forEach(slave => {
+        if (!slave.id) { // add prefix only for new Jenkins
+          slave.code = `${jenkins.code}-${slave.code.toLowerCase()}`;
+        }
+      });
     } else {
       jenkins.slave_groups = [];
     }
     if (this.jenkins) {
       jenkins.id = this.jenkins.id;
     }
+    jenkins.architecture_type = this.architectureType;
   }
 
   submitApplyPlan(jenkins: JenkinsDTO) {

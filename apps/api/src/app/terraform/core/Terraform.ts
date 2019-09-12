@@ -345,7 +345,7 @@ export class Terraform extends Base {
         jenkins_master_url = "${
           jenkinsDTO.use_existing_master
             ? jenkinsDTO.existing_master_url
-            : jenkinsDTO.master_admin_url
+            :   'module.jenkins_master_instance.openstack_compute_instance_v2.this[0].network.fixed_ip_v4'
         }"
         jenkins_master_username = "${
           jenkinsDTO.use_existing_master

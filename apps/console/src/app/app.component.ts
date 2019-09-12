@@ -131,7 +131,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     this.watchRouteChanged();
-    this.breakpointObserver.observe(Breakpoints.Large).subscribe(t => {
+    this.breakpointObserver.observe([Breakpoints.Tablet]).subscribe(t => {
       if (t.matches) {
         this.sideNavMode = 'over';
       } else {
