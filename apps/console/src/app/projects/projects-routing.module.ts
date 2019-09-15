@@ -3,10 +3,10 @@ import { CloudImagesResolver } from './../shared/cloudprovider/cloud-images.reso
 import { CloudFlavorsResolver } from './../shared/cloudprovider/cloud-flavors.resolver';
 import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
 import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
-import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProjectsComponent } from './projects.component';
+import { AvailabilityZonesResolver } from './../shared/cloudprovider/availability-zones.resolver';
 
 const routes: Routes = [
   { path: '', component: ProjectsComponent },
@@ -22,7 +22,8 @@ const routes: Routes = [
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
       cloudImages: CloudImagesResolver,
-      currentProjectInfo: CurrentProjectResolver
+      currentProjectInfo: CurrentProjectResolver,
+      availabilityZones: AvailabilityZonesResolver
     }
   }
 ];

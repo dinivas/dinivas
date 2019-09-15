@@ -21,7 +21,8 @@ import {
   TerraformApplyEvent,
   ICloudApiImage,
   ICloudApiFlavor,
-  ApplyModuleDTO
+  ApplyModuleDTO,
+  ICloudApiAvailabilityZone
 } from '@dinivas/dto';
 import { TerraformWebSocket } from '../../shared/terraform/terraform-websocket.service';
 import { MatVerticalStepper } from '@angular/material';
@@ -54,6 +55,7 @@ export class ProjectWizardComponent implements OnInit {
   showingDirectOutput = false;
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
+  availabilityZones: ICloudApiAvailabilityZone[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,6 +77,17 @@ export class ProjectWizardComponent implements OnInit {
       .pipe(map((data: { cloudImages: ICloudApiImage[] }) => data.cloudImages))
       .subscribe(
         (cloudImages: ICloudApiImage[]) => (this.cloudImages = cloudImages)
+      );
+    activatedRoute.data
+      .pipe(
+        map(
+          (data: { availabilityZones: ICloudApiAvailabilityZone[] }) =>
+            data.availabilityZones
+        )
+      )
+      .subscribe(
+        (availabilityZones: ICloudApiAvailabilityZone[]) =>
+          (this.availabilityZones = availabilityZones)
       );
   }
 
@@ -108,6 +121,10 @@ export class ProjectWizardComponent implements OnInit {
         Validators.required
       ],
       description: [this.project ? this.project.description : null, null],
+      availability_zone: [
+        this.project ? this.project.availability_zone : null,
+        Validators.required
+      ],
       public_router: [this.project ? this.project.public_router : null, null],
       management_subnet_cidr: [
         this.project ? this.project.management_subnet_cidr : '10.10.11.0/24',
@@ -145,6 +162,7 @@ export class ProjectWizardComponent implements OnInit {
       { onlySelf: true }
     );
     if (!this.project || (this.project && !this.project.cloud_provider)) {
+      this.projectForm.get('availability_zone').disable();
       this.projectForm.get('floating_ip_pool').disable();
       this.projectForm.get('public_router').disable();
     }
@@ -332,10 +350,29 @@ export class ProjectWizardComponent implements OnInit {
       .get('cloud_provider')
       .valueChanges.subscribe((cloudprovider: CloudproviderDTO) => {
         if (cloudprovider) {
+          this.projectForm.get('availability_zone').reset();
           this.projectForm.get('floating_ip_pool').reset();
           this.projectForm.get('public_router').reset();
+          this.projectForm.get('availability_zone').enable();
           this.projectForm.get('floating_ip_pool').enable();
           this.projectForm.get('public_router').enable();
+          // Retrieve availability zones from cloud provider
+          this.cloudproviderService
+            .getCloudProviderAvailabilityZones(cloudprovider.id)
+            .subscribe(availabilityZones => {
+              this.availabilityZones = availabilityZones;
+              if (this.project && this.project.availability_zone) {
+                this.projectForm.controls['availability_zone'].patchValue(
+                  this.project.availability_zone
+                );
+              } else if (this.availabilityZones.length === 1) {
+                this.projectForm.controls['availability_zone'].patchValue(
+                  this.availabilityZones[0].zoneName
+                );
+              }
+            });
+
+          // Retrieve floating ips from cloud provider
           this.cloudproviderService
             .getCloudProviderFloatingIps(cloudprovider.id)
             .subscribe(floatingIps => {
@@ -350,6 +387,7 @@ export class ProjectWizardComponent implements OnInit {
                 );
               }
             });
+          // Retrieve routers from cloud provider
           this.cloudproviderService
             .getCloudProviderRouters(cloudprovider.id)
             .subscribe(routers => {
@@ -419,6 +457,7 @@ export class ProjectWizardComponent implements OnInit {
               .patchValue(this.project.bastion_cloud_image);
           }
         } else {
+          this.projectForm.get('availability_zone').reset();
           this.projectForm.get('floating_ip_pool').reset();
           this.projectForm.get('public_router').reset();
           this.projectForm.get('floating_ip_pool').disable();

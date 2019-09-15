@@ -308,6 +308,7 @@ export class Terraform extends Base {
     return [
       `-var 'project_name=${project.code.toLowerCase()}'`,
       `-var 'project_description=${project.description}'`,
+      `-var 'project_availability_zone=${project.availability_zone}'`,
       project.management_subnet_cidr
         ? `-var 'mgmt_subnet_cidr=${project.management_subnet_cidr}'`
         : '',
@@ -337,15 +338,16 @@ export class Terraform extends Base {
   }
 
   addJenkinsSlaveFilesToModule(jenkinsDTO: JenkinsDTO, destination: string) {
-    jenkinsDTO.slave_groups.forEach((slaveGroup: JenkinsSlaveGroupDTO) => {
-      let slaveGroupFileContent = `
+    jenkinsDTO.slave_groups.forEach(
+      (slaveGroup: JenkinsSlaveGroupDTO, index: number) => {
+        let slaveGroupFileContent = `
       module "jenkins-slave-${slaveGroup.code}" {
         source = "./slaves"
 
         jenkins_master_url = "${
           jenkinsDTO.use_existing_master
             ? jenkinsDTO.existing_master_url
-            : jenkinsDTO.master_admin_url
+            : '${length(module.jenkins_master_instance.network_fixed_ip_v4) > 0 ? module.jenkins_master_instance.network_fixed_ip_v4[0]: ""}'
         }"
         jenkins_master_username = "${
           jenkinsDTO.use_existing_master
@@ -361,21 +363,26 @@ export class Terraform extends Base {
         jenkins_slave_group_labels = "${slaveGroup.labels.join(',')}"
         jenkins_slave_group_instance_count = ${slaveGroup.instance_count}
         jenkins_slave_keypair = "${jenkinsDTO.project.code.toLowerCase()}"
+        jenkins_slave_security_groups_to_associate = ["${jenkinsDTO.project.code.toLowerCase()}-common"]
         jenkins_slave_network = "${jenkinsDTO.project.code.toLowerCase()}-mgmt"
         jenkins_slave_group_cloud_image = "${slaveGroup.slave_cloud_image}"
         jenkins_slave_group_cloud_flavor   = "${slaveGroup.slave_cloud_flavor}"
+        jenkins_slave_availability_zone   = "${
+          jenkinsDTO.project.availability_zone
+        }"
       }
 
       `;
-      try {
-        fs.writeFileSync(
-          path.join(destination, `slave_${slaveGroup.code}.tf`),
-          slaveGroupFileContent
-        );
-      } catch (err) {
-        console.error(err);
+        try {
+          fs.writeFileSync(
+            path.join(destination, `slave_${slaveGroup.code}.tf`),
+            slaveGroupFileContent
+          );
+        } catch (err) {
+          console.error(err);
+        }
       }
-    });
+    );
   }
 
   computeTerraformJenkinsModuleVars(jenkins: JenkinsDTO): string[] {
@@ -383,11 +390,15 @@ export class Terraform extends Base {
       `-var 'enable_jenkins_master=1'`,
       `-var 'jenkins_master_name=${jenkins.code.toLowerCase()}'`,
       `-var 'jenkins_master_instance_count=1'`,
+      `-var 'jenkins_master_availability_zone=${
+        jenkins.project.availability_zone
+      }'`,
       `-var 'jenkins_master_image_name=${jenkins.master_cloud_image}'`,
       `-var 'jenkins_master_compute_flavor_name=${
         jenkins.master_cloud_flavor
       }'`,
       `-var 'jenkins_master_keypair_name=${jenkins.keypair_name}'`,
+      `-var 'jenkins_master_security_groups_to_associate=["${jenkins.project.code.toLowerCase()}-common"]'`,
       `-var 'jenkins_master_network=${jenkins.network_name}'`,
       `-var 'jenkins_master_subnet=${jenkins.network_subnet_name}'`,
       jenkins.use_floating_ip

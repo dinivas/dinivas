@@ -53,7 +53,10 @@ export class Jenkins {
   manage_slave: boolean;
   @OneToMany(
     type => JenkinsSlaveGroup,
-    jenkinsSlaveGroup => jenkinsSlaveGroup.jenkins
+    jenkinsSlaveGroup => jenkinsSlaveGroup.jenkins,
+    {
+      cascade: true
+    }
   )
   slave_groups: JenkinsSlaveGroup[];
 }
@@ -73,6 +76,8 @@ export class JenkinsSlaveGroup {
   slave_cloud_image: string;
   @Column({ nullable: true })
   slave_cloud_flavor: string;
-  @ManyToOne(type => Jenkins, jenkins => jenkins.slave_groups)
+  @ManyToOne(type => Jenkins, jenkins => jenkins.slave_groups, {
+    onDelete: 'CASCADE'
+  })
   jenkins: Jenkins;
 }

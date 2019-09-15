@@ -2,7 +2,7 @@ import { ProjectDTO } from '../project/project.dto';
 
 export interface TerraformStateDTO {
   id: number;
-  projectCode: string;
+  stateId: string;
   module: string;
   state: string;
   lockId: string;

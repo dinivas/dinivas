@@ -7,7 +7,8 @@ import {
   Pagination,
   ICloudApi,
   ICloudApiProjectRouter,
-  ICloudApiProjectFloatingIpPool
+  ICloudApiProjectFloatingIpPool,
+  ICloudApiAvailabilityZone
 } from '@dinivas/dto';
 import { Cloudprovider } from './cloudprovider.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
@@ -60,8 +61,29 @@ export class CloudproviderService {
     );
   }
 
-  async getCloudProviderFloatingIpPools(id: number): Promise<ICloudApiProjectFloatingIpPool[]> {
-    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(id);
+  async getCloudProviderAvailabilityZones(
+    id: number
+  ): Promise<ICloudApiAvailabilityZone[]> {
+    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(
+      id
+    );
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getAllAvailabilityZones(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
+  async getCloudProviderFloatingIpPools(
+    id: number
+  ): Promise<ICloudApiProjectFloatingIpPool[]> {
+    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(
+      id
+    );
     const cloudApi = this.cloudApiFactory.getCloudApiService(
       cloudprovider.cloud
     );
@@ -74,7 +96,9 @@ export class CloudproviderService {
   }
 
   async getCloudProviderRouters(id: number): Promise<ICloudApiProjectRouter[]> {
-    const [err, cloudprovider] = await to(this.cloudproviderRepository.findOne(id));
+    const [err, cloudprovider] = await to(
+      this.cloudproviderRepository.findOne(id)
+    );
     if (err) {
       throw new BadRequestException(err);
     }

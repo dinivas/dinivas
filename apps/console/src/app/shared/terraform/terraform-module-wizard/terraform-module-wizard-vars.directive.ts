@@ -13,7 +13,8 @@ export class TerraformModuleWizardVarsDirective {
   onArchitectureTypeChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output()
   planApplied: EventEmitter<any> = new EventEmitter<any>();
-
+  @Output()
+  showOutputApplied: EventEmitter<any> = new EventEmitter<any>();
   @Output()
   applyApplied: EventEmitter<any> = new EventEmitter<any>();
 

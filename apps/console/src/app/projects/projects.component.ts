@@ -23,7 +23,9 @@ export class ProjectsComponent extends MatCrudComponent
   filterPlaceholder = 'Filter';
   dataProvider = this;
   deleteConfirmQuestion: Function = entity =>
-    `Delete project ${entity.name} (${entity.code}) ? This will also destroy all project resources.`;
+    `Delete project ${entity.name} (${
+      entity.code
+    }) ? This will also destroy all project resources.`;
 
   columnDefs: Array<ColumnDef>;
 
@@ -39,6 +41,7 @@ export class ProjectsComponent extends MatCrudComponent
       new ColumnDef('name', 'Name', true, true, false, FilterType.TEXT),
       new ColumnDef('code', 'Code', true, true, false, FilterType.TEXT),
       new ColumnDef('description', 'Description', false),
+      new ColumnDef('availability_zone', 'Availability zone', false),
       new ColumnDef('cloud_provider', 'Cloud config', false),
       new ColumnDef('monitoring', 'Monitoring', false),
       new ColumnDef('logging', 'Logging', false)
@@ -84,6 +87,5 @@ export class ProjectsComponent extends MatCrudComponent
 
   entityCanEdit = (projectDTO: ProjectDTO) => true;
 
-  entityEdit(projectDTO: ProjectDTO) {
-  }
+  entityEdit(projectDTO: ProjectDTO) {}
 }

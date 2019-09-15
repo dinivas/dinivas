@@ -48,13 +48,14 @@
     }
     .stack-container {
       display: flex;
-      justify-content: space-between;
+      //justify-content: space-between;
       .mat-card {
         flex: 1;
         margin: 10px 15px;
         height: 100px;
         padding: 10px 20px;
         cursor: pointer;
+        max-width: 300px;
         @include transition(all 0.3 ease);
         .mat-card-header {
           justify-content: center;

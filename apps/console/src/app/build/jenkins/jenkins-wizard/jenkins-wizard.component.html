@@ -18,7 +18,7 @@
     <mat-form-field class="" appearance="outline">
       <mat-label>Jenkins admin password</mat-label>
       <input type="password" matInput formControlName="master_admin_password">
-      <mat-hint>The Jenkins admin password. Default value is <strong>password</strong></mat-hint>
+      <mat-hint>The Jenkins admin password. Default value is <strong>admin</strong></mat-hint>
     </mat-form-field>
     <mat-form-field class="" appearance="outline">
       <mat-label>Description</mat-label>
@@ -175,9 +175,9 @@
     <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge" type="button">Cancel</button>
     <button type="button" mat-button matStepperPrevious>Back</button>
     <button type="button" mat-button class="ml-10" *ngIf="jenkins?.id && isFormValid()"
-      (click)="showJenkinsOutput()">Show jenkins
+      (click)="showJenkinsOutput(jenkinsForm.getRawValue())">Show jenkins
       infra infos</button>
-    <button type="submit" mat-raised-button color="primary" class="ml-10" [disabled]="!isFormValid()">Plan
+    <button type="submit" mat-raised-button color="primary" class="ml-10" [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan
       Jenkins
       resources</button>
   </div>

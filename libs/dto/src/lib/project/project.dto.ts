@@ -5,6 +5,7 @@ export class ProjectDTO {
   code: string;
   description: string;
   cloud_provider: CloudproviderDTO;
+  availability_zone: string;
   floating_ip_pool: string;
   public_router: string;
   monitoring = false;

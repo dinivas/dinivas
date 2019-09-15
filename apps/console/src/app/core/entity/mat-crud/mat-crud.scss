@@ -1,6 +1,5 @@
 @import '~@angular/material/theming';
 @import '../../../../assets/styles/mixins';
-@import '~@angular/material/theming';
 
 @mixin entity-table-theme($theme) {
   $primary: map-get($theme, primary);
@@ -111,10 +110,11 @@
         }
         &.edit-action {
           a {
+            color: mat-color($foreground, disabled);
             &.edit {
               &:hover {
                 mat-icon {
-                  color: black;
+                  color: mat-color($foreground, text);
                 }
               }
             }

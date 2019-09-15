@@ -56,6 +56,11 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
           <td mat-cell *matCellDef="let row">{{row.description}}</td>
         </ng-container>
+        <!-- Availability zone Column -->
+        <ng-container matColumnDef="availability_zone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Availability zone</th>
+          <td mat-cell *matCellDef="let row">{{row.availability_zone}}</td>
+        </ng-container>
         <!-- Cloud config Column -->
         <ng-container matColumnDef="cloud_provider">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Cloud config</th>

@@ -14,7 +14,6 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProjectsService {
-
   static toDTO = (project: Project): ProjectDTO => {
     const projectDTO: ProjectDTO = new ProjectDTO();
     projectDTO.id = project.id;
@@ -22,11 +21,12 @@ export class ProjectsService {
     projectDTO.code = project.code;
     projectDTO.description = project.description;
     projectDTO.public_router = project.public_router;
+    projectDTO.availability_zone = project.availability_zone;
     projectDTO.floating_ip_pool = project.floating_ip_pool;
     projectDTO.monitoring = project.monitoring;
     projectDTO.logging = project.logging;
     projectDTO.logging_stack = project.logging_stack;
-    projectDTO.management_subnet_cidr= project.management_subnet_cidr;
+    projectDTO.management_subnet_cidr = project.management_subnet_cidr;
     projectDTO.enable_proxy = project.enable_proxy;
     projectDTO.proxy_cloud_flavor = project.proxy_cloud_flavor;
     projectDTO.bastion_cloud_image = project.bastion_cloud_image;
@@ -37,7 +37,7 @@ export class ProjectsService {
     );
     return projectDTO;
   };
-  
+
   constructor(
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
@@ -96,5 +96,4 @@ export class ProjectsService {
   async delete(id: number) {
     await this.projectRepository.delete(id);
   }
-
 }
