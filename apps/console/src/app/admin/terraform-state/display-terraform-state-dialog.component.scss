@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin terraform-state-dialog-theme($theme) {
+  $background: map-get($theme, background);
+
+  .tf-state-container {
+    padding: 10px 20px;
+    background-color: mat-color($background, background);
+  }
+}
