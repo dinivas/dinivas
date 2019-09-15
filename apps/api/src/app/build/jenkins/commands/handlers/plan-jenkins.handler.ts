@@ -64,7 +64,10 @@ export class PlanJenkinsHandler implements ICommandHandler<PlanJenkinsCommand> {
           }
         },
         error => {
-          console.error(error);
+          this.terraformGateway.emit(
+            `planEvent-${command.jenkins.code}-error`,
+            error.message
+          );
         }
       );
     } catch (error) {

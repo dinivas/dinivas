@@ -36,6 +36,7 @@
           img {
             width: 64px;
             margin: 0px auto;
+            opacity: 0.85;
           }
           span {
             max-width: 110px;
@@ -43,6 +44,7 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            color: mat-color($foreground, secondary-text);
           }
         }
         .detail {

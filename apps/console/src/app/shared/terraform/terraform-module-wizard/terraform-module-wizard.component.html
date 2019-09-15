@@ -10,7 +10,7 @@
   <span class="page-title">{{
     !moduleWizard.moduleEntity
       ? 'New ' + moduleWizard.moduleEntityName + ' creation wizard'
-      : 'Edit ' + moduleWizard.moduleEntityName + ' wizard'
+      : 'Edit ' + moduleWizard.moduleEntityName + ' ' + moduleWizard.moduleEntity.code +' wizard'
   }}</span>
   <span class="ml-15">{{ projectForm?.value.name | uppercase }}</span>
 </mat-toolbar>
@@ -75,6 +75,7 @@
         dinivasTerraformModuleWizardVars
         (planApplied)="onPlanApplied($event)"
         (applyApplied)="onApplyApplied($event)"
+        (showOutputApplied)="onShowOutputApplied($event)"
       ></ng-template>
     </div>
   </mat-step>

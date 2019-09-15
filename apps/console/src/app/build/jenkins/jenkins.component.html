@@ -58,9 +58,19 @@
         <ng-container matColumnDef="code">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-button color="primary" [routerLink]="['/build','jenkins', 'edit', row.id]" queryParamsHandling="merge">
-              {{row.code}}
+            <button mat-button color="primary" [routerLink]="['/build','jenkins', 'edit', row.id]"
+              queryParamsHandling="merge">
+              {{row.code }}
             </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="managed_master">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Is Master managed?</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [matTooltip]="row.use_existing_master ? 'This Jenkins master is not managed by Dinivas': 'This Jenkins master is managed by Dinivas'"
+              [disabled]="true" [checked]="!row.use_existing_master">
+            </mat-checkbox>
           </td>
         </ng-container>
 
@@ -69,13 +79,18 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
           <td mat-cell *matCellDef="let row">{{row.description}}</td>
         </ng-container>
+        <!-- Worker Column -->
+        <ng-container matColumnDef="slave_groups">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Slaves</th>
+          <td mat-cell *matCellDef="let row">{{row.slave_groups.length}} managed slave(s)</td>
+        </ng-container>
         <!-- Actions -->
         <ng-container matColumnDef="row-actions">
           <th mat-header-cell *matHeaderCellDef class="action-cell ">
           </th>
           <td mat-cell *matCellDef="let entity" class="row-action edit-action">
             <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
-              [routerLink]="['/build','jenkins', 'edit', entity.id]"     queryParamsHandling="merge">
+              [routerLink]="['/build','jenkins', 'edit', entity.id]" queryParamsHandling="merge">
               <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
             </a>
             <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"

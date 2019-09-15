@@ -9,7 +9,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <a mat-button routerLink="/" class="logo" fxHide fxShow.gt-xs>
-        <span>Dinivas Console</span>
+        <span>Dinivas CE</span>
       </a>
       <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects?.length > 0"
         [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"

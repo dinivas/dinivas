@@ -18,7 +18,9 @@ import {
   Body,
   Delete,
   Req,
-  HttpCode
+  HttpCode,
+  Put,
+  Logger
 } from '@nestjs/common';
 import {
   Pagination,
@@ -34,6 +36,9 @@ import YAML from 'yaml';
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
 export class JenkinsController {
+
+  private readonly logger = new Logger(JenkinsController.name);
+
   constructor(
     private jenkinsService: JenkinsService,
     private readonly terraformStateService: TerraformStateService,
@@ -73,6 +78,19 @@ export class JenkinsController {
     return this.jenkinsService.create(jenkins);
   }
 
+  @Put(':id')
+  @Permissions('jenkins:edit')
+  async update(
+    @Param('id') id: number,
+    @Req() request: Request,
+    @Body() jenkins: JenkinsDTO
+  ): Promise<JenkinsDTO> {
+    this.logger.debug(`Updating jenkins ${jenkins.id} ${jenkins.code}`);
+    const project = request['project'] as ProjectDTO;
+    jenkins.project = project;
+    return await this.jenkinsService.update(id, jenkins);
+  }
+
   @Post('plan')
   @Permissions('jenkins:create')
   async planproject(
@@ -108,7 +126,7 @@ export class JenkinsController {
     const jenkins = await this.jenkinsService.findOne(id);
     if (jenkins) {
       const state = await this.terraformStateService.findState(
-        `${jenkins.code.toLowerCase()}-${jenkins.code}`,
+        `${jenkins.code.toLowerCase()}`,
         'jenkins'
       );
       return JSON.parse(state.state);

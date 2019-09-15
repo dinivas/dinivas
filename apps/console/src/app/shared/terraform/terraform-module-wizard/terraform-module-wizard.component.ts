@@ -83,6 +83,9 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
       )).planApplied = this.terraformModuleWizardVarsDirective.planApplied;
       (<any>(
         componentRef.instance
+      )).showOutputApplied = this.terraformModuleWizardVarsDirective.showOutputApplied;
+      (<any>(
+        componentRef.instance
       )).applyApplied = this.terraformModuleWizardVarsDirective.applyApplied;
       (<any>(
         componentRef.instance
@@ -136,7 +139,10 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
             architectureType
           );
         });
-      if (this.moduleWizard.moduleEntity && this.moduleWizard.moduleEntity['architecture_type']) {
+      if (
+        this.moduleWizard.moduleEntity &&
+        this.moduleWizard.moduleEntity['architecture_type']
+      ) {
         this.architectureTypeForm
           .get('architecture_type')
           .patchValue(this.moduleWizard.moduleEntity['architecture_type']);
@@ -232,14 +238,19 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
         }
       );
   }
-  showProjectOutput() {
+  onShowOutputApplied() {
     this.planStepFinished = true;
     this.applyStepFinished = true;
     this.showingDirectOutput = true;
     this.varsProvider
       .moduleServiceTerraformState(this.moduleWizard.moduleEntity)
       .subscribe(state => (this.terraformStateOutputs = state.outputs));
-    setTimeout(() => (this.wizardStepper.selectedIndex = 2), 1);
+    setTimeout(
+      () =>
+        (this.wizardStepper.selectedIndex =
+          2 + (this.shouldSelectArchitecture() ? 1 : 0)),
+      1
+    );
   }
 
   shouldSelectArchitecture(): boolean {

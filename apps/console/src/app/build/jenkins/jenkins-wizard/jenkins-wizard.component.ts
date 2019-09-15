@@ -46,6 +46,7 @@ export class JenkinsWizardComponent
 
   architectureType: string;
   planApplied: EventEmitter<any>;
+  showOutputApplied: EventEmitter<any>;
 
   applyApplied: EventEmitter<any>;
   onArchitectureTypeChanged: EventEmitter<any>;
@@ -124,7 +125,7 @@ export class JenkinsWizardComponent
         Validators.required
       ],
       master_admin_password: [
-        this.jenkins ? this.jenkins.master_admin_password : 'password',
+        this.jenkins ? this.jenkins.master_admin_password : 'admin',
         Validators.required
       ],
       description: [this.jenkins ? this.jenkins.description : null, null],
@@ -202,6 +203,9 @@ export class JenkinsWizardComponent
       .valueChanges.subscribe((slaveGroup: JenkinsSlaveGroupDTO[]) => {
         if (slaveGroup && slaveGroup.length === 0) {
           this.jenkinsForm.get('manage_slave').patchValue(false);
+          if (!this.jenkinsForm.dirty) {
+            this.jenkinsForm.markAsDirty();
+          }
         }
       });
     this.jenkinsForm
@@ -221,6 +225,7 @@ export class JenkinsWizardComponent
     manageSlave: boolean
   ) {
     const formGroup = this.formBuilder.group({
+      id: [jenkinsSlaveGroup.id ? jenkinsSlaveGroup.id : null],
       code: [jenkinsSlaveGroup.code ? jenkinsSlaveGroup.code : ''],
       labels: [jenkinsSlaveGroup.labels ? jenkinsSlaveGroup.labels : []],
       instance_count: [
@@ -235,9 +240,9 @@ export class JenkinsWizardComponent
           : null
       ]
     });
-    setTimeout(() => {
-      this.handleSlaveValidators(formGroup, manageSlave);
-    }, 2);
+
+    this.handleSlaveValidators(formGroup, manageSlave);
+
     return formGroup;
   }
 
@@ -341,12 +346,14 @@ export class JenkinsWizardComponent
 
   addJenkinsSlave(jenkinsSlaveGroup: JenkinsSlaveGroupDTO) {
     const slaveGroups = this.jenkinsForm.get('slave_groups') as FormArray;
-    slaveGroups.push(
-      this.createSlaveFormGroup(
-        jenkinsSlaveGroup ? jenkinsSlaveGroup : new JenkinsSlaveGroupDTO(),
-        this.jenkinsForm.get('manage_slave').value
-      )
-    );
+    setTimeout(() => {
+      slaveGroups.push(
+        this.createSlaveFormGroup(
+          jenkinsSlaveGroup ? jenkinsSlaveGroup : new JenkinsSlaveGroupDTO(),
+          this.jenkinsForm.get('manage_slave').value
+        )
+      );
+    }, 1);
   }
 
   addSlaveGroupLabel(
@@ -384,13 +391,15 @@ export class JenkinsWizardComponent
 
   prepareJenkinsDTOBeforeSendToServer(jenkins: JenkinsDTO) {
     // add project code preffix to jenkins code and all slave code
-    if ( !this.jenkins) { // add prefix only for new Jenkins
+    if (!this.jenkins) {
+      // add prefix only for new Jenkins
       jenkins.code = `${this.project.code.toLowerCase()}-${jenkins.code.toLowerCase()}`;
     }
 
     if (jenkins.manage_slave) {
       jenkins.slave_groups.forEach(slave => {
-        if (!slave.id) { // add prefix only for new Jenkins
+        if (!slave.id) {
+          // add prefix only for new Jenkins
           slave.code = `${jenkins.code}-${slave.code.toLowerCase()}`;
         }
       });
@@ -410,6 +419,9 @@ export class JenkinsWizardComponent
   submitPlanJenkins(jenkins: JenkinsDTO) {
     this.prepareJenkinsDTOBeforeSendToServer(jenkins);
     this.planApplied.emit(jenkins);
+  }
+  showJenkinsOutput(jenkins: JenkinsDTO) {
+    this.showOutputApplied.emit(jenkins);
   }
 
   moduleServiceApplyPlan(
