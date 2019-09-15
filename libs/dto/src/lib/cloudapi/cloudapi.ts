@@ -96,16 +96,31 @@ export interface ICloudApiProjectRouter {
   tags: string[];
 }
 
+// AvailabilityZone
+
+export interface ICloudApiAvailabilityZone {
+  hosts: string;
+  zoneName: string;
+  zoneState: {
+    available: boolean;
+  };
+}
+
 export interface ICloudApi {
   // Project infos
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo>;
   getProjectQuota(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectQuota>;
-  getProjectFloatingIpPools(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectFloatingIpPool[]>;
-  getProjectRouters(cloudConfig: ICloudApiConfig): Promise<ICloudApiProjectRouter[]>;
+  getProjectFloatingIpPools(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectFloatingIpPool[]>;
+  getProjectRouters(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectRouter[]>;
 
   //Compute infos
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
   getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]>;
-  getAllImages(loudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
-  getAllDisks(loudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
+  getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
+  getAllDisks(cloudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
+  getAllAvailabilityZones(cloudConfig: ICloudApiConfig): Promise<ICloudApiAvailabilityZone[]>;
 }

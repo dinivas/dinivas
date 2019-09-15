@@ -10,12 +10,27 @@ import {
   ICloudApiProjectQuota,
   ICloudApiProjectFloatingIpPool,
   ICloudApiProjectRouter,
-  ICloudApiFlavor
+  ICloudApiFlavor,
+  ICloudApiAvailabilityZone
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
 @Injectable()
 export class OpenstackApiService implements ICloudApi {
+  getAllAvailabilityZones(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiAvailabilityZone[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.listAvailabilityZones((error, availabilityZones) => {
+        if (error) {
+          reject(error);
+        } else {
+          console.log(availabilityZones);
+          resolve(availabilityZones as ICloudApiAvailabilityZone[]);
+        }
+      });
+    });
+  }
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo> {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {
       resolve({

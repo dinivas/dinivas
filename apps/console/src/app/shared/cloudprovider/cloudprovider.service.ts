@@ -6,7 +6,8 @@ import {
   ICloudApiProjectFloatingIpPool,
   ICloudApiProjectRouter,
   ICloudApiFlavor,
-  ICloudApiImage
+  ICloudApiImage,
+  ICloudApiAvailabilityZone
 } from '@dinivas/dto';
 import { Injectable } from '@angular/core';
 
@@ -40,6 +41,14 @@ export class CloudproviderService {
   getCloudProviderFlavors(id: number): Observable<ICloudApiFlavor[]> {
     return this.http.get<ICloudApiFlavor[]>(
       `${environment.apiUrl}/cloudproviders/${id}/flavors`
+    );
+  }
+
+  getCloudProviderAvailabilityZones(
+    id: number
+  ): Observable<ICloudApiAvailabilityZone[]> {
+    return this.http.get<ICloudApiAvailabilityZone[]>(
+      `${environment.apiUrl}/cloudproviders/${id}/availability_zones`
     );
   }
 

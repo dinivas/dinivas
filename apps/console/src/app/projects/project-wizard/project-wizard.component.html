@@ -44,6 +44,16 @@
             <textarea matInput formControlName="description" rows="3"></textarea>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
+            <mat-label>Availability zone</mat-label>
+            <input type="text" placeholder="Select availability zone" aria-label="Availability zone" matInput
+              formControlName="availability_zone" [matAutocomplete]="auto_availability_zone" required>
+            <mat-autocomplete #auto_availability_zone="matAutocomplete">
+              <mat-option *ngFor="let az of availabilityZones" [value]="az.zoneName">
+                {{ az.zoneName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
             <mat-label>Public router name</mat-label>
             <mat-select formControlName="public_router" required>
               <mat-option *ngFor="let router of availableRouters;trackBy" [value]="router.name">
@@ -80,8 +90,8 @@
             <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
                 instance</strong></p>
           </ng-template>
-          <h5>Bastion SSH Key</h5>
-          <button type="button" mat-button (click)="addSSHKey()">New SSH key</button>
+          <!-- <h5>Bastion SSH Key</h5>
+          <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="enable_proxy" color="accent">
               Enable proxy instance?

@@ -29,6 +29,8 @@ export class Project {
   floating_ip_pool: string;
   @Column({ nullable: true })
   public_router: string;
+  @Column({ nullable: true })
+  availability_zone: string;
   @Column()
   monitoring: boolean = false;
   @Column()
