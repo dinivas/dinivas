@@ -21,7 +21,13 @@ import {
   ProjectDTO,
   ApplyModuleDTO
 } from '@dinivas/dto';
-import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  EventEmitter,
+  Input
+} from '@angular/core';
 import { MatVerticalStepper, MatChipInputEvent } from '@angular/material';
 import { Observable, Subject, forkJoin } from 'rxjs';
 import { findIndex } from 'lodash';
@@ -34,8 +40,7 @@ export class JenkinsWizardComponent
   implements OnInit, TerraformModuleWizardVarsProvider<JenkinsDTO> {
   jenkins: JenkinsDTO;
   jenkinsForm: FormGroup;
-  @ViewChild(MatVerticalStepper, { static: false })
-  jenkinsWizardStepper: MatVerticalStepper;
+  moduleWizardStepper: Observable<MatVerticalStepper>;
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
   terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>;
@@ -116,6 +121,11 @@ export class JenkinsWizardComponent
     this.onArchitectureTypeChanged.subscribe(
       (architectureType: string) => (this.architectureType = architectureType)
     );
+    this.moduleWizardStepper.subscribe(stepper => {
+      if (this.jenkins && this.jenkins.architecture_type) {
+        setTimeout(() => (stepper.selectedIndex = 1), 1);
+      }
+    });
   }
   initJenkinsForm() {
     this.jenkinsForm = this.formBuilder.group({

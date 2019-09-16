@@ -8,7 +8,8 @@ import {
   OnInit,
   ViewChild,
   ComponentFactoryResolver,
-  ElementRef
+  ElementRef,
+  ComponentRef
 } from '@angular/core';
 import { MatVerticalStepper } from '@angular/material';
 import {
@@ -17,7 +18,7 @@ import {
   ICloudApiImage,
   ICloudApiFlavor
 } from '@dinivas/dto';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { TerraformModuleWizard } from './terraform-module-wizard';
 
 @Component({
@@ -35,8 +36,14 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   applyStepFinished = false;
   planInProgress = false;
   applyInProgress = false;
-  @ViewChild(MatVerticalStepper, { static: false })
   wizardStepper: MatVerticalStepper;
+  _wizardStepper = new Subject<MatVerticalStepper>();
+  @ViewChild(MatVerticalStepper, { static: false })
+  set _wizardStepperRef(stepper: MatVerticalStepper) {
+    this.wizardStepper = stepper;
+    this._wizardStepper.next(stepper);
+  }
+
   isLinear = true;
 
   terraformPlanEvent: TerraformPlanEvent<T>;
@@ -56,6 +63,8 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
 
   @ViewChild(TerraformModuleWizardVarsDirective, { static: true })
   terraformModuleWizardVarsDirective: TerraformModuleWizardVarsDirective;
+
+  childConponentRef: ComponentRef<any>;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -90,7 +99,10 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
       (<any>(
         componentRef.instance
       )).onArchitectureTypeChanged = this.terraformModuleWizardVarsDirective.onArchitectureTypeChanged;
-
+      this.childConponentRef = componentRef;
+      (<any>(
+        this.childConponentRef.instance
+      )).moduleWizardStepper = this._wizardStepper.asObservable();
       this.varsProvider = <any>componentRef.instance;
       this.initArchitectureTypeSelection();
     });
@@ -238,7 +250,7 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
         }
       );
   }
-  onShowOutputApplied() {
+  onShowOutputApplied(event) {
     this.planStepFinished = true;
     this.applyStepFinished = true;
     this.showingDirectOutput = true;

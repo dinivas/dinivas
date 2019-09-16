@@ -34,10 +34,18 @@
           <td mat-cell *matCellDef="let row">{{row.id}}</td>
         </ng-container>
 
-        <!-- Project code Column -->
+        <!-- StateId Column -->
         <ng-container matColumnDef="stateId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>State Id</th>
-          <td mat-cell *matCellDef="let row">{{row.stateId}}</td>
+          <td mat-cell *matCellDef="let row">{{row.stateId}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="lockState">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon class="" *ngIf="row?.lockId" matTooltip="This state is locked" matTooltipPosition="right">lock
+            </mat-icon>
+          </td>
         </ng-container>
 
         <!-- Module Column -->
@@ -64,9 +72,9 @@
             <a class="show-state" mat-icon-button class="has-text-grey-light" (click)="showState(entity)">
               <mat-icon matTooltip="unlock" matTooltipPosition="left">visibility</mat-icon>
             </a>
-            <a class="unlock" mat-icon-button class="has-text-grey-light edit" *ngIf="row?.lockId"
-              [routerLink]="['/admin','cloudproviders', 'edit', entity.id]" queryParamsHandling="merge">
-              <mat-icon matTooltip="unlock" matTooltipPosition="left">lock_open</mat-icon>
+            <a class="unlock" mat-icon-button class="has-text-grey-light edit" *ngIf="entity?.lockId"
+              (click)="unlockState(entity)">
+              <mat-icon matTooltip="Force release lock" matTooltipPosition="left">lock_open</mat-icon>
             </a>
             <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
               (click)="deleteEntity(entity)">

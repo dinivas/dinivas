@@ -28,6 +28,10 @@
 
           </div>
           <div class="repo-detail">
+            <span>
+              <mat-icon class="" [matBadge]="content?.download_count" matBadgeColor="primary">cloud_download
+              </mat-icon>
+            </span>
             <span class="">Score: <strong>{{ content.summary_fields.repository.quality_score }}</strong> / 5</span>
             <span class="">Last Imported <strong>{{ content.imported  }}</strong></span>
           </div>

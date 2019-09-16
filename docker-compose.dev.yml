@@ -10,7 +10,7 @@ volumes:
 
 services:
   # KEYCLOAK
-  postgres-keycloak:
+  postgres_keycloak:
     image: postgres
     volumes:
       - postgres_keycloak_data:/var/lib/postgresql/data
@@ -22,7 +22,7 @@ services:
     image: jboss/keycloak
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres-keycloak
+      DB_ADDR: postgres_keycloak
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
@@ -37,8 +37,8 @@ services:
     volumes:
       - ./dinivas-realm.json:/tmp/dinivas-realm.json
     depends_on:
-      - postgres-keycloak
-  postgres-dinivas:
+      - postgres_keycloak
+  postgres_dinivas:
     image: postgres
     volumes:
       - postgres_dinivas_data:/var/lib/postgresql/data
@@ -46,12 +46,10 @@ services:
       POSTGRES_DB: dinivas
       POSTGRES_USER: dinivas
       POSTGRES_PASSWORD: Pa55W0rd
-    # ports:
-    #   - 5433:5432
-  # Ansible Galaxy
-  ansible-galaxy:
-    image: dinivas/ansible-galaxy
-  postgres-galaxy:
+    ports:
+      - 5433:5432
+  # Galaxy
+  postgres_galaxy:
     image: postgres
     volumes:
       - postgres_galaxy_data:/var/lib/postgresql/data
@@ -59,9 +57,9 @@ services:
       POSTGRES_DB: galaxy
       POSTGRES_USER: galaxy
       POSTGRES_PASSWORD: galaxy
-    # ports:
-    #   - 5434:5432
-  galaxy-influxdb:
+    ports:
+      - 5434:5432
+  galaxy_influxdb:
     image: influxdb:latest
     ports:
       - '8086:8086'
@@ -74,29 +72,27 @@ services:
       - INFLUXDB_WRITE_USER_PASSWORD=galaxy
   rabbitmq:
     image: rabbitmq:3-management
-    # ports:
-    #   - '5672:5672'
-    #   - '15672:15672'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
     environment:
       - RABBITMQ_DEFAULT_USER=galaxy
       - RABBITMQ_DEFAULT_PASS=galaxy
       - RABBITMQ_DEFAULT_VHOST=galaxy
-  galaxy-redis:
+
+  galaxy_redis:
     image: redis:latest
-    # ports:
-    #   - '6379:6379'
+    ports:
+      - '6379:6379'
   # DINIVAS
-  dinivas-api:
-    image: dinivas/api
-    # build:
-    #   context: .
-    #   dockerfile: api.Dockerfile
-    - ./config/docker.yml:/app/config/default.yml
-  dinivas-console:
-    image: dinivas/console
-    # build:
-    #   context: .
-    #   dockerfile: console.Dockerfile
+  # dinivas_api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dinivas-api
+  # dinivas_console:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dinivas-console
 
   # keycloak_gatekeeper:
   #   image: quay.io/keycloak/keycloak-gatekeeper

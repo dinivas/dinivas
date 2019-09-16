@@ -12,7 +12,8 @@
       <mat-nav-list dense *ngIf="projects && projects.length > 0">
         <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}"
           (click)="onCancelClick(project)" *ngFor="let project of projects">
-          {{ project.code }} - {{ project.name }}
+          <mat-icon matListIcon>group_work</mat-icon>
+          <h3 matLine>{{ project.code }} - {{ project.name }}</h3>
         </a>
       </mat-nav-list>
     </mat-card-content>

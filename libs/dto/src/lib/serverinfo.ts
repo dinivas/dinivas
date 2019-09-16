@@ -6,6 +6,7 @@ export interface IGitInfo {
 export interface IServerInfo {
   version?: string;
   gitInfo?: IGitInfo;
+  terraform?: ITerraformInfo;
 }
 
 export interface ITerraformModuleInfo {

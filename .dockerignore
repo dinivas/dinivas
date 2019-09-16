@@ -2,6 +2,15 @@ node_modules
 npm-debug.log
 e2e
 .git
-dist
 documentation
+apps
 coverage
+docker
+libs
+tools
+Dockerfile*
+README.md
+LICENSE
+.vscode
+.dockerignore
+.gitignore

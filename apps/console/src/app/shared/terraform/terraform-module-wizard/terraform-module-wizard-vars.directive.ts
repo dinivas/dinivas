@@ -1,9 +1,12 @@
+import { Observable } from 'rxjs/';
 import {
   Directive,
   ViewContainerRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
+import { MatVerticalStepper } from '@angular/material';
 
 @Directive({
   selector: '[dinivasTerraformModuleWizardVars]'
@@ -17,6 +20,8 @@ export class TerraformModuleWizardVarsDirective {
   showOutputApplied: EventEmitter<any> = new EventEmitter<any>();
   @Output()
   applyApplied: EventEmitter<any> = new EventEmitter<any>();
+  @Input()
+  moduleWizardStepper: Observable<MatVerticalStepper>;
 
   constructor(public viewContainerRef: ViewContainerRef) {}
 }

@@ -6,6 +6,7 @@ if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../config/';
 }
 export const config: IConfig = require('config');
+console.log('NODE_CONFIG_DIR: ' + config.util.getEnv('NODE_CONFIG_DIR'));
 const path = require('path');
 
 @Injectable()

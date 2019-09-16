@@ -28,7 +28,8 @@
     </div>
     <div class="right">
       <button mat-icon-button class="mr-15" color="accent" (click)="toggleDarkTheme()"
-        [matTooltip]="(isDarkTheme | async) ? 'Switch console to ligth theme' : 'Switch console to dark theme'" aria-label="Switch console theme color">
+        [matTooltip]="(isDarkTheme | async) ? 'Switch console to ligth theme' : 'Switch console to dark theme'"
+        aria-label="Switch console theme color">
         <mat-icon>{{ (isDarkTheme | async) ? 'wb_sunny' : 'brightness_3' }}</mat-icon>
       </button>
       <!-- <mat-slide-toggle class="mr-15" matTooltip="Switch console theme color" [checked]="isDarkTheme | async"
@@ -100,18 +101,18 @@
       <dinivas-footer></dinivas-footer>
       <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
         <eco-fab-speed-dial-trigger [spin]="true" class="">
-          <button mat-fab (click)="doAction('trigger')">
+          <button mat-fab>
             <mat-icon class="spin180">add</mat-icon>
           </button>
         </eco-fab-speed-dial-trigger>
         <eco-fab-speed-dial-actions>
-          <button mat-mini-fab (click)="doAction('action1')">
+          <button mat-mini-fab>
             <mat-icon matTooltip="New instance" matTooltipPosition="right">computer</mat-icon>
           </button>
-          <button mat-mini-fab (click)="doAction('action2')">
+          <button mat-mini-fab>
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-mini-fab (click)="doAction('action3')">
+          <button mat-mini-fab>
             <mat-icon>search</mat-icon>
           </button>
         </eco-fab-speed-dial-actions>

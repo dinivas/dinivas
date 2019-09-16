@@ -17,6 +17,28 @@
       box-shadow: none;
       background: transparent;
       mat-card-header {
+        .mat-card-header-text {
+          width: 100%;
+          .mat-card-subtitle {
+            .subtitle-container {
+              display: flex;
+              justify-content: space-between;
+              a {
+                flex: 2;
+                text-align: left;
+              }
+              .right{
+                display: flex;
+                justify-content: flex-end;
+                flex: 1;
+                line-height: 25px;
+                span{
+                  margin-left: 25px;
+                }
+              }
+            }
+          }
+        }
         a.external-url {
           color: $primary-color;
           text-decoration: none;

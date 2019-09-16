@@ -9,7 +9,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "run-s build:api build:console build:docker",
+    "build:api": "ng build api",
+    "build:console": "ng build --configuration=docker --aot --build-optimizer",
+    "build:docker": "run-s docker:build-api docker:build-console",
     "test": "ng test",
     "lint": "nx lint && ng lint",
     "e2e": "ng e2e",
@@ -30,7 +33,11 @@
     "update:check": "ng update",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "docker:build-api": "docker image build -t dinivas-api -f api.Dockerfile .",
+    "docker:build-console": "docker image build -t dinivas-console -f console.Dockerfile .",
+    "docker:up": "docker-compose -p dinivas up -d",
+    "docker:down": "docker-compose -p dinivas down"
   },
   "private": true,
   "dependencies": {
@@ -119,6 +126,7 @@
     "dotenv": "6.2.0",
     "jest": "24.1.0",
     "jest-preset-angular": "^7.1.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "1.16.4",
     "ts-jest": "24.0.0",
     "ts-node": "~7.0.0",

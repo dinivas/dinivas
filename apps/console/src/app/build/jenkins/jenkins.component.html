@@ -3,7 +3,7 @@
   <span class="page-title">Jenkins</span>
 </mat-toolbar>
 
-<mat-card class="empty-item-card" *ngIf="jenkinsList.items.length === 0">
+<mat-card class="empty-item-card" *ngIf="jenkinsList.length === 0">
   <mat-card-header>
     <div mat-card-avatar class="jenkins-logo"></div>
     <mat-card-title>Jenkins server</mat-card-title>
@@ -20,7 +20,7 @@
       Jenkins instance</button>
   </mat-card-actions>
 </mat-card>
-<div class="container" [class.hide]="jenkinsList.items.length === 0">
+<div class="container" [class.hide]="jenkinsList.length === 0">
   <mat-card class="entity-table-card">
     <mat-card-header>
     </mat-card-header>

@@ -12,7 +12,6 @@
       ? 'New ' + moduleWizard.moduleEntityName + ' creation wizard'
       : 'Edit ' + moduleWizard.moduleEntityName + ' ' + moduleWizard.moduleEntity.code +' wizard'
   }}</span>
-  <span class="ml-15">{{ projectForm?.value.name | uppercase }}</span>
 </mat-toolbar>
 
 <mat-vertical-stepper [linear]="isLinear" #stepper>
@@ -76,6 +75,7 @@
         (planApplied)="onPlanApplied($event)"
         (applyApplied)="onApplyApplied($event)"
         (showOutputApplied)="onShowOutputApplied($event)"
+        [moduleWizardStepper]="wizardStepper"
       ></ng-template>
     </div>
   </mat-step>

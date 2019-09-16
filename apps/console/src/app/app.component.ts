@@ -131,15 +131,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     this.watchRouteChanged();
-    this.breakpointObserver.observe([Breakpoints.Tablet]).subscribe(t => {
-      if (t.matches) {
-        this.sideNavMode = 'over';
-      } else {
-        this.sideNavMode = 'side';
-        this.sideNavOpened =
-          this.storage.retrieve('side-nav-opened') === true ? true : false;
-      }
-    });
+    this.breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.Tablet])
+      .subscribe(t => {
+        if (t.matches) {
+          this.sideNavMode = 'over';
+        } else {
+          this.sideNavMode = 'side';
+          this.sideNavOpened =
+            this.storage.retrieve('side-nav-opened') === true ? true : false;
+        }
+      });
     this.contextualMenuService.contextualComponent$.subscribe(component => {
       console.log('loading component', component);
       this.contextualMenuComponent = component;
@@ -189,7 +191,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleSideNav(force: boolean) {
+  toggleSideNav(force?: boolean) {
     if (this.sideNavMode !== 'side' || force) {
       this.sideNavOpened = !this.sideNavOpened;
     } else {

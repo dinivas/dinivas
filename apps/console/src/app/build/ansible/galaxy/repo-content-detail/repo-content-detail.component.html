@@ -3,8 +3,24 @@
     <mat-card-header>
       <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+namespace.avatar_url+')'"
         [style.background-size]="'cover'"></div>
-      <mat-card-title>{{ repository.name }}</mat-card-title>
-      <mat-card-subtitle><a mat-button color="accent" target="_blank" [href]="repository.external_url">{{ repository.external_url }}</a></mat-card-subtitle>
+      <mat-card-title>{{ repository.name }}<mat-icon class="ml-10" [matBadge]="repoContent?.download_count"
+          matBadgeColor="primary">cloud_download
+        </mat-icon>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <div class="subtitle-container">
+          <a mat-button color="accent" target="_blank"
+            [href]="repository.external_url">{{ repository.external_url }}</a>
+          <div class="right">
+            <span class="" [matBadge]="repoContent?.content_score | number:'1.0-1'" matBadgeColor="accent"
+              matBadgeOverlap="false" matBadgeSize="medium">Content score</span>
+            <span class="" [matBadge]="repoContent?.metadata_score | number:'1.0-1'" matBadgeColor="accent"
+              matBadgeOverlap="false" matBadgeSize="medium">Metadata score</span>
+            <span class="" [matBadge]="repoContent?.quality_score | number:'1.0-1'" matBadgeColor="accent"
+              matBadgeOverlap="false" matBadgeSize="medium">Quality score</span>
+          </div>
+        </div>
+      </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group mat-align-tabs="center">

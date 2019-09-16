@@ -40,19 +40,5 @@ export class AuthzGuard implements CanActivate {
         reject(error);
       }
     });
-    // This header should be provide by Keycloak Gatekeeper
-    // if (!request.header(environment.headerRoleAttribute)) {
-    //     return false;
-    // }
-    // const user_roles = request.headers[environment.headerRoleAttribute].split(',');
-    // const hasRole = () => user_roles.some((role) => roles.includes(role));
-    // return hasRole();
-
-    // const grant = request.kauth.grant;
-    // if (!grant || !grant.access_token.content.realm_access.roles) {
-    //     return false;
-    // }
-    // const hasRole = () => grant.access_token.content.realm_access.roles.some((role) => roles.includes(role));
-    // return grant && grant.access_token.content.realm_access && hasRole();
   }
 }

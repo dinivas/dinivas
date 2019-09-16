@@ -30,6 +30,7 @@ export class TerraformStateComponent extends MatCrudComponent
     this.columnDefs = [
       new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
       new ColumnDef('stateId', 'State Id', true, true, false, FilterType.TEXT),
+      new ColumnDef('lockState', '', false),
       new ColumnDef('module', 'Tf module', true, true, false, FilterType.TEXT),
       new ColumnDef('lockId', 'Lock id', false),
       new ColumnDef('lockDate', 'Lock date', false)
@@ -46,6 +47,9 @@ export class TerraformStateComponent extends MatCrudComponent
         tfState: tfState
       }
     });
+  }
+  unlockState(tfState: TerraformStateDTO){
+
   }
 }
 

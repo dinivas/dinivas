@@ -74,8 +74,8 @@ export const SideMenu = [
         label: 'Service Discovery',
         routerLink: ['/network', 'consul'],
         isRouteMatchExact: true,
-        svgIcon: null,
-        icon: 'router',
+        svgIcon: 'consul',
+        icon: null,
         isPinned: false
       }
     ]
@@ -184,10 +184,10 @@ export const SideMenu = [
       {
         name: 'registry-harbor',
         label: 'Harbor registry',
-        routerLink: ['/harbor'],
+        routerLink: ['/build','harbor'],
         isRouteMatchExact: true,
-        svgIcon: null,
-        icon: 'folder',
+        svgIcon: 'harbor',
+        icon: null,
         isPinned: false
       },
       {
