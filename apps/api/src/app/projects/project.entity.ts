@@ -30,7 +30,7 @@ export class Project {
   @Column({ nullable: true })
   public_router: string;
   @Column({ nullable: false })
-  availability_zone: string;
+  availability_zone: string = 'nova';
   @Column()
   monitoring: boolean = false;
   @Column()
