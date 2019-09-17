@@ -138,8 +138,11 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.sideNavMode = 'over';
         } else {
           this.sideNavMode = 'side';
-          this.sideNavOpened =
-            this.storage.retrieve('side-nav-opened') === true ? true : false;
+          this.sideNavOpened = this.storage.retrieve('side-nav-opened') != null
+            ? (this.storage.retrieve('side-nav-opened') === true
+              ? true
+              : false)
+            : true;
         }
       });
     this.contextualMenuService.contextualComponent$.subscribe(component => {

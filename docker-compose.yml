@@ -116,6 +116,8 @@ services:
     # build:
     #   context: .
     #   dockerfile: api.Dockerfile
+    command: >
+      /bin/sh -c "nginx -g '"'daemon on;'"' && nodemon main.js"
     environment:
       - PORT=4001
     ports:

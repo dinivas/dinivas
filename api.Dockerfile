@@ -1,5 +1,12 @@
 FROM node:10-alpine
 
+# Install nginx to forward keycloak request because of realm Url check by the server
+RUN apk update && apk add nginx && \
+    rm -rf /var/cache/apk/* &&  mkdir -p /run/nginx/ && \
+    chown -R nginx:www-data /var/lib/nginx /run/nginx/
+
+COPY nginx/api-nginx.conf /etc/nginx/nginx.conf
+
 RUN npm install -g nodemon
 
 ADD package.json /tmp/package.json

@@ -41,12 +41,12 @@ dinivas:
     config:
       realm: 'dinivas'
       bearer-only: true
-      auth-server-url: 'http://keycloak:8080/auth'
+      auth-server-url: 'http://localhost:8080/auth'
       ssl-required: 'external'
       resource: 'dinivas-api'
       verify-token-audience: true
       credentials:
-        secret: 'c7629cf6-cd8a-465f-8f08-97af5781bb7f'
+        secret: '0b54aa08-a1a2-4d97-a61d-88c138396b5e'
       confidential-port: 0
       policy-enforcer:
     admin:
