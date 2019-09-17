@@ -2,7 +2,7 @@ import { StatusMonitorConfiguration } from 'nest-status-monitor';
 
 export const statusMonitorConfig: StatusMonitorConfiguration = {
   pageTitle: 'Dinivas server Monitoring Page',
-  port: Number(process.env.port) || 3333,
+  port: Number(process.env.PORT) || 3333,
   path: '/status-monitor',
   ignoreStartsWith: '/healt/alive',
   spans: [

@@ -22,7 +22,7 @@ async function bootstrap() {
   setupSwagger(app);
 
   app.setGlobalPrefix(API_PREFFIX);
-  const port = process.env.port || 3333;
+  const port = process.env.PORT || 3333;
   await app.listen(port, () => {
     console.log('Listening at http://localhost:' + port + '/' + API_PREFFIX);
   });

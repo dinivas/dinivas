@@ -49,22 +49,47 @@ services:
     # ports:
     #   - 5433:5432
   # Ansible Galaxy
-  # ansible-galaxy:
-  #   image: dinivas/ansible-galaxy
-  # postgres-galaxy:
-  #   image: postgres
-  #   volumes:
-  #     - postgres_galaxy_data:/var/lib/postgresql/data
-  #   environment:
-  #     POSTGRES_DB: galaxy
-  #     POSTGRES_USER: galaxy
-  #     POSTGRES_PASSWORD: galaxy
+  ansible-galaxy:
+    image: dinivas/ansible-galaxy
+    command: ['run', 'api']
+    environment:
+      - GALAXY_SECRET_KEY=secret
+      - GALAXY_DB_URL=postgres://galaxy:galaxy@postgres-galaxy:5432/galaxy
+      - GALAXY_RABBITMQ_HOST=rabbitmq
+      - GALAXY_RABBITMQ_PASSWORD=galaxy
+    # ports:
+    #   - '8000:8000'
+    depends_on:
+      - postgres-galaxy
+      - rabbitmq
+      - galaxy-influxdb
+  postgres-galaxy:
+    image: postgres
+    volumes:
+      - postgres_galaxy_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: galaxy
+      POSTGRES_USER: galaxy
+      POSTGRES_PASSWORD: galaxy
     # ports:
     #   - 5434:5432
+  ansible-galaxy-celery-worker:
+    image: dinivas/ansible-galaxy
+    command: ['run', 'celery-worker']
+    environment:
+      - GALAXY_SECRET_KEY=secret
+      - GALAXY_DB_URL=postgres://galaxy:galaxy@postgres-galaxy:5432/galaxy
+      - GALAXY_RABBITMQ_HOST=rabbitmq
+      - GALAXY_RABBITMQ_PASSWORD=galaxy
+      - C_FORCE_ROOT=1
+    links:
+      - postgres-galaxy
+      - rabbitmq
+      - galaxy-influxdb
   galaxy-influxdb:
     image: influxdb:latest
-    ports:
-      - '8086:8086'
+    # ports:
+    #   - '8086:8086'
     environment:
       - INFLUXDB_REPORTING_DISABLED=true
       - INFLUXDB_DB=galaxy
@@ -92,9 +117,13 @@ services:
     #   context: .
     #   dockerfile: api.Dockerfile
     environment:
-      - port=4001
+      - PORT=4001
+    ports:
+      - '4001:4001'
     volumes:
       - ./config/docker.yml:/app/config/default.yml
+    depends_on:
+      - postgres-dinivas
   dinivas-console:
     image: dinivas/console
     # build:

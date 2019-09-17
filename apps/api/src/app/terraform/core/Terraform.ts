@@ -217,7 +217,7 @@ export class Terraform extends Base {
     module: string,
     destination: string
   ) {
-    const apiPort = process.env.port || 3333;
+    const apiPort = process.env.PORT || 3333;
     const backendContent = `
     terraform {
       required_version = ">= ${this.configService.get(
