@@ -1,12 +1,19 @@
 language: node_js
+services:
+  - docker
 branches:
   only:
     - master
 node_js:
-    - "8"
+    - "10"
 install:
     - npm install
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script:
+    - npm run build
+    - docker push dinivas/api
+    - docker push dinivas/console
     - npm run compodoc
     - bash ./hack/deploy-gh-pages.sh
 env:
