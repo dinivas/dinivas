@@ -38,7 +38,11 @@ export class Jenkins {
   @Column()
   use_existing_master: boolean;
   @Column({ nullable: true })
-  existing_master_url: string;
+  existing_master_scheme: string;
+  @Column({ nullable: true })
+  existing_master_host: string;
+  @Column({ nullable: true })
+  existing_master_port: number;
   @Column({ nullable: true })
   existing_master_username: string;
   @Column({ nullable: true })

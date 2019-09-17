@@ -1,7 +1,5 @@
 import { ProjectsService } from '../project/projects.service';
-import { Observable } from 'rxjs/';
 import { Injectable } from '@angular/core';
-import { CloudproviderService } from './cloudprovider.service';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,

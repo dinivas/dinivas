@@ -8,9 +8,9 @@ import { JenkinsService } from './../../shared/jenkins/jenkins.service';
 import { MatDialog } from '@angular/material';
 import { ColumnDef } from './../../core/entity/mat-crud/column-def';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
-import { JenkinsDTO } from '@dinivas/dto';
+import { JenkinsDTO, Pagination } from '@dinivas/dto';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'dinivas-jenkins',
@@ -37,7 +37,12 @@ export class JenkinsComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     activatedRoute.data
-      .pipe(map((data: { jenkins: JenkinsDTO[] }) => data.jenkins))
+      .pipe(
+        map(
+          (data: { jenkinsPage: Pagination<JenkinsDTO> }) =>
+            data.jenkinsPage.items
+        )
+      )
       .subscribe((jenkins: JenkinsDTO[]) => (this.jenkinsList = jenkins));
     this.columnDefs = [
       new ColumnDef('id', 'Id', false, false, false),
@@ -57,6 +62,11 @@ export class JenkinsComponent extends MatCrudComponent
       .set('sort', httpParams.get('sort'));
     return this.jenkinsService.get(newHttpParams);
   }
+
+  dataChanged(jenkins: JenkinsDTO[]) {
+    this.jenkinsList = jenkins;
+  }
+
   addJenkins() {
     this.router.navigate(['/build/jenkins/new'], { preserveQueryParams: true });
   }

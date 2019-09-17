@@ -3,6 +3,8 @@ dinivas:
   workspace:
     root-path: '/Users/chidi/.dinivas/workspace'
   terraform:
+    min_required_version: '0.12.2'
+    debug_command_outputs: false
     state:
       username: dinivas
       password: Pa55w0rd!

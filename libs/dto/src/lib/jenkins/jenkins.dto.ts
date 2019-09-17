@@ -12,7 +12,9 @@ export class JenkinsDTO {
   master_admin_url: string;
   master_admin_username: string;
   master_admin_password: string;
-  existing_master_url: string;
+  existing_master_scheme: string;
+  existing_master_host: string;
+  existing_master_port: number;
   existing_master_username: string;
   existing_master_password: string;
   keypair_name: string;

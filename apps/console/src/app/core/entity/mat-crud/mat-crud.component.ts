@@ -73,9 +73,11 @@ export class MatCrudComponent implements OnInit {
 
   @Output() onAddEntity: EventEmitter<any> = new EventEmitter();
 
-  @Output() onRefreshData: EventEmitter<any>;
+  @Output() onRefreshData: EventEmitter<any> = new EventEmitter();
 
-  @Output() onDeleteSelection: EventEmitter<any>;
+  @Output() onDataChanged: EventEmitter<any> = new EventEmitter();
+
+  @Output() onDeleteSelection: EventEmitter<any> = new EventEmitter();
 
   @Output() onEditEntity: EventEmitter<any> = new EventEmitter();
 
@@ -95,52 +97,52 @@ export class MatCrudComponent implements OnInit {
   }
 
   refreshDatas() {
-    if (this.onRefreshData != undefined) {
-      this.onRefreshData.emit();
-    } else {
-      merge(this.sort.sortChange, this.paginator.page)
-        .pipe(
-          startWith({}),
-          delay(0),
-          switchMap(() => {
-            this.isLoadingResults = true;
-            let httpParams = new HttpParams();
-            httpParams = httpParams.append(
-              'page',
-              this.paginator.pageIndex.toString()
-            );
-            httpParams = httpParams.append(
-              'limit',
-              this.paginator.pageSize.toString()
-            );
-            httpParams = httpParams.append(
-              'sort',
-              this.sort.active + ',' + this.sort.direction
-            );
-            httpParams = httpParams.append(
-              'filter',
-              JSON.stringify({ filter: Filter.toHttpParam(this.filters) })
-            );
-            //this.filterInput.nativeElement.value
-            return this.dataProvider.getDatas(httpParams);
-          }),
-          map(data => {
-            // Flip flag to show that loading has finished.
-            this.selection.clear();
-            this.isLoadingResults = false;
-            this.totalEntitiesCount = data.totalItems || data.length;
-            return data.items || data;
-          }),
-          catchError(() => {
-            this.selection.clear();
-            this.isLoadingResults = false;
-            return of([]);
-          })
-        )
-        .subscribe(data => {
-          this.dataSource.data = data;
-        });
-    }
+    this.onRefreshData.emit();
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        delay(0),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          let httpParams = new HttpParams();
+          httpParams = httpParams.append(
+            'page',
+            this.paginator.pageIndex.toString()
+          );
+          httpParams = httpParams.append(
+            'limit',
+            this.paginator.pageSize.toString()
+          );
+          httpParams = httpParams.append(
+            'sort',
+            this.sort.active + ',' + this.sort.direction
+          );
+          httpParams = httpParams.append(
+            'filter',
+            JSON.stringify({ filter: Filter.toHttpParam(this.filters) })
+          );
+          //this.filterInput.nativeElement.value
+          return this.dataProvider.getDatas(httpParams);
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.selection.clear();
+          this.isLoadingResults = false;
+          this.totalEntitiesCount = data.totalItems || data.length;
+          return data.items || data;
+        }),
+        catchError(() => {
+          this.selection.clear();
+          this.isLoadingResults = false;
+          return of([]);
+        })
+      )
+      .subscribe(data => {
+        this.dataSource.data = data;
+        if (this.onDataChanged) {
+          this.onDataChanged.emit(data);
+        }
+      });
   }
 
   isAllSelected() {

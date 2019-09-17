@@ -1,12 +1,13 @@
 import { Observable } from 'rxjs/';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Pagination } from '@dinivas/dto';
 
 export class TerraformModuleResourceServiceBase<T> {
   constructor(protected http: HttpClient, protected path: string) {}
 
-  get(httpParams: HttpParams): Observable<T[]> {
-    return this.http.get<T[]>(`${environment.apiUrl}/${this.path}`, {
+  get(httpParams: HttpParams): Observable<Pagination<T>> {
+    return this.http.get<Pagination<T>>(`${environment.apiUrl}/${this.path}`, {
       params: httpParams
     });
   }

@@ -44,8 +44,14 @@ import { IamModule } from './iam/iam.module';
 import { TerraformModule } from './terraform/terraform.module';
 import * as httpProxy from 'http-proxy-middleware';
 import { json } from 'body-parser';
+import { IConfig } from 'config';
 
-const ormConfigJson: TypeOrmModuleOptions = require('../../../../ormconfig.json');
+if (!process.env['NODE_CONFIG_DIR']) {
+  process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../cfonfig/';
+}
+export const config: IConfig = require('config');
+
+const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
 
 @Module({
   imports: [

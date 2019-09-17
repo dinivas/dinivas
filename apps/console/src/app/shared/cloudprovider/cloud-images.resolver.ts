@@ -27,7 +27,7 @@ export class CloudImagesResolver implements Resolve<ICloudApiImage[]> {
       .getProjectImages(projectId)
       .pipe(
         flatMap(t => t),
-        // filter(img => img.tags.indexOf('dinivas') > -1),
+        filter(img => img.tags.indexOf('dinivas') > -1),
         toArray()
       )
       .toPromise<ICloudApiImage[]>();

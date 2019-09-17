@@ -29,7 +29,7 @@ const routes: Routes = [
     path: '',
     component: JenkinsComponent,
     resolve: {
-      jenkins: JenkinsResolver
+      jenkinsPage: JenkinsResolver
     }
   },
   {

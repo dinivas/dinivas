@@ -7,28 +7,23 @@ import {
   RouterStateSnapshot,
   Resolve
 } from '@angular/router';
-import { JenkinsDTO } from '@dinivas/dto';
+import { JenkinsDTO, Pagination } from '@dinivas/dto';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class JenkinsResolver implements Resolve<JenkinsDTO[]> {
-  constructor(
-    private readonly jenkinsService: JenkinsService
-  ) {}
+export class JenkinsResolver implements Resolve<Pagination<JenkinsDTO>> {
+  constructor(private readonly jenkinsService: JenkinsService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<JenkinsDTO[]> {
-    const projectId = <string>route.queryParams['project'];
+  ): Observable<Pagination<JenkinsDTO>> {
     return this.jenkinsService.get(new HttpParams());
   }
 }
 
 @Injectable({ providedIn: 'root' })
 export class CurrentJenkinsResolver implements Resolve<JenkinsDTO> {
-  constructor(
-    private readonly jenkinsService: JenkinsService
-  ) {}
+  constructor(private readonly jenkinsService: JenkinsService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

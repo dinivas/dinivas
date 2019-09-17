@@ -33,7 +33,7 @@ services:
       #JDBC_PARAMS: "ssl=true"
       KEYCLOAK_IMPORT: /tmp/dinivas-realm.json
     ports:
-      - 8085:8080
+      - 8080:8080
     volumes:
       - ./dinivas-realm.json:/tmp/dinivas-realm.json
     depends_on:
@@ -49,16 +49,16 @@ services:
     # ports:
     #   - 5433:5432
   # Ansible Galaxy
-  ansible-galaxy:
-    image: dinivas/ansible-galaxy
-  postgres-galaxy:
-    image: postgres
-    volumes:
-      - postgres_galaxy_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: galaxy
-      POSTGRES_USER: galaxy
-      POSTGRES_PASSWORD: galaxy
+  # ansible-galaxy:
+  #   image: dinivas/ansible-galaxy
+  # postgres-galaxy:
+  #   image: postgres
+  #   volumes:
+  #     - postgres_galaxy_data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: galaxy
+  #     POSTGRES_USER: galaxy
+  #     POSTGRES_PASSWORD: galaxy
     # ports:
     #   - 5434:5432
   galaxy-influxdb:
@@ -91,12 +91,17 @@ services:
     # build:
     #   context: .
     #   dockerfile: api.Dockerfile
-    - ./config/docker.yml:/app/config/default.yml
+    environment:
+      - port=4001
+    volumes:
+      - ./config/docker.yml:/app/config/default.yml
   dinivas-console:
     image: dinivas/console
     # build:
     #   context: .
     #   dockerfile: console.Dockerfile
+    ports:
+      - '80:80'
 
   # keycloak_gatekeeper:
   #   image: quay.io/keycloak/keycloak-gatekeeper

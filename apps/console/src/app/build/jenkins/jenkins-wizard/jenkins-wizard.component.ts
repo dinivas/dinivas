@@ -26,7 +26,9 @@ import {
   OnInit,
   ViewChild,
   EventEmitter,
-  Input
+  Input,
+  AfterViewChecked,
+  ChangeDetectorRef
 } from '@angular/core';
 import { MatVerticalStepper, MatChipInputEvent } from '@angular/material';
 import { Observable, Subject, forkJoin } from 'rxjs';
@@ -37,7 +39,10 @@ import { findIndex } from 'lodash';
   templateUrl: './jenkins-wizard.component.html'
 })
 export class JenkinsWizardComponent
-  implements OnInit, TerraformModuleWizardVarsProvider<JenkinsDTO> {
+  implements
+    OnInit,
+    AfterViewChecked,
+    TerraformModuleWizardVarsProvider<JenkinsDTO> {
   jenkins: JenkinsDTO;
   jenkinsForm: FormGroup;
   moduleWizardStepper: Observable<MatVerticalStepper>;
@@ -68,7 +73,8 @@ export class JenkinsWizardComponent
     private formBuilder: FormBuilder,
     private jenkinsService: JenkinsService,
     private confirmService: ConfirmDialogService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
   ) {
     activatedRoute.data
       .pipe(
@@ -123,10 +129,16 @@ export class JenkinsWizardComponent
     );
     this.moduleWizardStepper.subscribe(stepper => {
       if (this.jenkins && this.jenkins.architecture_type) {
-        setTimeout(() => (stepper.selectedIndex = 1), 1);
+        //setTimeout(() => (stepper.selectedIndex = 1), 1);
       }
     });
   }
+
+  ngAfterViewChecked(): void {
+    // workaround because of Expression has changed after it was checked. Previous value: 'ngIf: true' form valid
+    this.cdRef.detectChanges();
+  }
+
   initJenkinsForm() {
     this.jenkinsForm = this.formBuilder.group({
       code: [this.jenkins ? this.jenkins.code : null, Validators.required],
@@ -169,8 +181,18 @@ export class JenkinsWizardComponent
         this.jenkins ? this.jenkins.use_floating_ip : false,
         null
       ],
-      existing_master_url: [
-        this.jenkins ? this.jenkins.existing_master_url : null,
+      existing_master_scheme: [
+        this.jenkins ? this.jenkins.existing_master_scheme : 'http',
+        Validators.nullValidator
+      ],
+      existing_master_host: [
+        this.jenkins ? this.jenkins.existing_master_host : null,
+        Validators.nullValidator
+      ],
+      existing_master_port: [
+        this.jenkins && this.jenkins.existing_master_port
+          ? this.jenkins.existing_master_port
+          : 8080,
         Validators.nullValidator
       ],
       existing_master_username: [
@@ -269,8 +291,14 @@ export class JenkinsWizardComponent
     const masterAdminPassword: AbstractControl = this.jenkinsForm.get(
       'master_admin_password'
     );
-    const existingMasterUrl: AbstractControl = this.jenkinsForm.get(
-      'existing_master_url'
+    const existingMasterScheme: AbstractControl = this.jenkinsForm.get(
+      'existing_master_scheme'
+    );
+    const existingMasterHost: AbstractControl = this.jenkinsForm.get(
+      'existing_master_host'
+    );
+    const existingMasterPort: AbstractControl = this.jenkinsForm.get(
+      'existing_master_port'
     );
     const existingMasterUsername: AbstractControl = this.jenkinsForm.get(
       'existing_master_username'
@@ -289,7 +317,9 @@ export class JenkinsWizardComponent
             masterAdminPassword
           );
 
-          existingMasterUrl.setValidators([Validators.required]);
+          existingMasterScheme.setValidators([Validators.required]);
+          existingMasterHost.setValidators([Validators.required]);
+          existingMasterPort.setValidators([Validators.required]);
           existingMasterUsername.setValidators([Validators.required]);
           existingMasterPassword.setValidators([Validators.required]);
         } else {
@@ -299,7 +329,9 @@ export class JenkinsWizardComponent
           masterAdminPassword.setValidators([Validators.required]);
 
           this.resetFormControlValidatorsAndErrors(
-            existingMasterUrl,
+            existingMasterScheme,
+            existingMasterHost,
+            existingMasterPort,
             existingMasterUsername,
             existingMasterPassword
           );

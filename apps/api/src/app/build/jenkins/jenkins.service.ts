@@ -25,7 +25,9 @@ export class JenkinsService {
     jenkinsDTO.master_admin_url = jenkins.master_admin_url;
     jenkinsDTO.master_admin_username = jenkins.master_admin_username;
     jenkinsDTO.master_admin_password = jenkins.master_admin_password;
-    jenkinsDTO.existing_master_url = jenkins.existing_master_url;
+    jenkinsDTO.existing_master_scheme = jenkins.existing_master_scheme;
+    jenkinsDTO.existing_master_host = jenkins.existing_master_host;
+    jenkinsDTO.existing_master_port = jenkins.existing_master_port;
     jenkinsDTO.existing_master_username = jenkins.existing_master_username;
     jenkinsDTO.existing_master_password = jenkins.existing_master_password;
     jenkinsDTO.keypair_name = jenkins.keypair_name;

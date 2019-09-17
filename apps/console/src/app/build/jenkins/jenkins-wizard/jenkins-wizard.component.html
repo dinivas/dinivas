@@ -11,20 +11,6 @@
         creation.</mat-hint>
     </mat-form-field>
     <mat-form-field class="" appearance="outline">
-      <mat-label>Jenkins admin username</mat-label>
-      <input type="text" matInput formControlName="master_admin_username">
-      <mat-hint>The Jenkins admin username. Default value is <strong>admin</strong></mat-hint>
-    </mat-form-field>
-    <mat-form-field class="" appearance="outline">
-      <mat-label>Jenkins admin password</mat-label>
-      <input type="password" matInput formControlName="master_admin_password">
-      <mat-hint>The Jenkins admin password. Default value is <strong>admin</strong></mat-hint>
-    </mat-form-field>
-    <mat-form-field class="" appearance="outline">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" rows="3"></textarea>
-    </mat-form-field>
-    <mat-form-field class="" appearance="outline">
       <mat-label>Jenkins network</mat-label>
       <mat-select formControlName="network_name" required>
         <mat-option [value]="projectNetwork">
@@ -60,6 +46,22 @@
       <mat-hint>The existing master won't be managed by Dinivas</mat-hint>
     </div>
     <ng-container *ngIf="!jenkinsForm?.value.use_existing_master">
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins admin username</mat-label>
+        <input type="text" matInput formControlName="master_admin_username"
+          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="username">
+        <mat-hint>The Jenkins admin username. Default value is <strong>admin</strong></mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins admin password</mat-label>
+        <input type="password" matInput formControlName="master_admin_password"
+          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="current-password">
+        <mat-hint>The Jenkins admin password. Default value is <strong>admin</strong></mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+      </mat-form-field>
       <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_master_image"
         formControlName="master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="cloudImages">
       </dinivas-cloud-image-radios>
@@ -83,23 +85,47 @@
     </ng-container>
     <!-- Existing Jenkins master -->
     <ng-container *ngIf="jenkinsForm?.value.use_existing_master">
+      <div class="host-port-container">
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Jenkins master scheme</mat-label>
+          <mat-select formControlName="existing_master_scheme" [required]="jenkinsForm?.value.use_existing_master">
+            <mat-option value="http">
+              HTTP
+            </mat-option>
+            <mat-option value="https">
+              HTTPS
+            </mat-option>
+          </mat-select>
+          <mat-hint>The master url Scheme</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Jenkins master host/ip</mat-label>
+          <input type="text" matInput formControlName="existing_master_host"
+            [required]="jenkinsForm?.value.use_existing_master">
+          <mat-hint>The Host/Ip of the existing master</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Jenkins master port</mat-label>
+          <input type="number" matInput formControlName="existing_master_port"
+            [required]="jenkinsForm?.value.use_existing_master">
+          <mat-hint>The port of the external master</mat-hint>
+        </mat-form-field>
+      </div>
       <mat-form-field class="" appearance="outline">
-        <mat-label>Jenkins master url</mat-label>
-        <input type="text" matInput formControlName="existing_master_url"
+        <mat-label>External Jenkins master username</mat-label>
+        <input type="text" matInput formControlName="existing_master_username" autocomplete="username"
           [required]="jenkinsForm?.value.use_existing_master">
-        <mat-hint>The Url of the existing Jenkins master</mat-hint>
+        <mat-hint>The external Jenkins username to use for remote access (API)</mat-hint>
       </mat-form-field>
       <mat-form-field class="" appearance="outline">
-        <mat-label>Jenkins master username</mat-label>
-        <input type="text" matInput formControlName="existing_master_username"
+        <mat-label>External Jenkins master password</mat-label>
+        <input type="password" matInput formControlName="existing_master_password" autocomplete="current-password"
           [required]="jenkinsForm?.value.use_existing_master">
-        <mat-hint>The Jenkins username to use for remote access (API)</mat-hint>
+        <mat-hint>The external Jenkins password to use for remote access (API)</mat-hint>
       </mat-form-field>
       <mat-form-field class="" appearance="outline">
-        <mat-label>Jenkins master password</mat-label>
-        <input type="password" matInput formControlName="existing_master_password"
-          [required]="jenkinsForm?.value.use_existing_master">
-        <mat-hint>The Jenkins password to use for remote access (API)</mat-hint>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
       </mat-form-field>
     </ng-container>
     <div class="slide-toggle-container">
@@ -177,7 +203,8 @@
     <button type="button" mat-button class="ml-10" *ngIf="jenkins?.id && isFormValid()"
       (click)="showJenkinsOutput(jenkinsForm.getRawValue())">Show jenkins
       infra infos</button>
-    <button type="submit" mat-raised-button color="primary" class="ml-10" [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan
+    <button type="submit" mat-raised-button color="primary" class="ml-10"
+      [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan
       Jenkins
       resources</button>
   </div>

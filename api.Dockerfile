@@ -8,6 +8,7 @@ RUN cd /tmp && npm install
 RUN mkdir -p /app/api /app/workspace /app/config  && cp -a /tmp/node_modules /app/api/
 
 ENV NODE_CONFIG_DIR=/app/config
+ENV PORT=4001
 
 WORKDIR /app/api
 

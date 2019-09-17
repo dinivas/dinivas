@@ -2,7 +2,18 @@ dinivas:
   production: false
   workspace:
     root-path: '/Users/chidi/.dinivas/workspace'
+  orm:
+    config:
+      type: postgres
+      host: localhost
+      port: 5433
+      username: dinivas
+      password: Pa55W0rd
+      database: dinivas
+      synchronize: true
+      logging: false
   terraform:
+    min_required_version: '0.12.2'
     debug_command_outputs: false
     state:
       username: dinivas

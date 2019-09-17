@@ -27,7 +27,7 @@
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
         [showAddButton]="showAddButton" addButtonLabel="Add new jenkins" (onFilterChanged)="filterChanged($event)"
-        (onRefreshData)="refreshDatas()" (onAddEntity)="addJenkins()" (onDeleteSelection)="deleteEntity($event)">
+        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addJenkins()" (onDeleteSelection)="deleteEntity($event)">
       </dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
         <mat-spinner></mat-spinner>

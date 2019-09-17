@@ -217,16 +217,16 @@ export class Terraform extends Base {
     module: string,
     destination: string
   ) {
+    const apiPort = process.env.port || 3333;
     const backendContent = `
     terraform {
-      required_version = ">= 0.12.2"
+      required_version = ">= ${this.configService.get(
+        'terraform.min_required_version'
+      )}"
       backend "http" {
-        address        = "http://localhost:${process.env.PORT ||
-          3333}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
-        lock_address   = "http://localhost:${process.env.PORT ||
-          3333}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
-        unlock_address = "http://localhost:${process.env.PORT ||
-          3333}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
+        address        = "http://localhost:${apiPort}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
+        lock_address   = "http://localhost:${apiPort}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
+        unlock_address = "http://localhost:${apiPort}/${API_PREFFIX}/terraform/state?stateId=${stateId.toLowerCase()}&module=${module}"
         username       = "${this.configService.get('terraform.state.username')}"
         password       = "${this.configService.get('terraform.state.password')}"
       }
@@ -344,10 +344,20 @@ export class Terraform extends Base {
       module "jenkins-slave-${slaveGroup.code}" {
         source = "./slaves"
 
-        jenkins_master_url = "${
+        jenkins_master_scheme = "${
+          jenkinsDTO.use_existing_master && jenkinsDTO.existing_master_scheme
+            ? jenkinsDTO.existing_master_scheme
+            : 'http'
+        }"
+        jenkins_master_host = "${
           jenkinsDTO.use_existing_master
-            ? jenkinsDTO.existing_master_url
+            ? jenkinsDTO.existing_master_host
             : '${length(module.jenkins_master_instance.network_fixed_ip_v4) > 0 ? module.jenkins_master_instance.network_fixed_ip_v4[0]: ""}'
+        }"
+        jenkins_master_port = "${
+          jenkinsDTO.use_existing_master && jenkinsDTO.existing_master_port
+            ? jenkinsDTO.existing_master_port
+            : 8080
         }"
         jenkins_master_username = "${
           jenkinsDTO.use_existing_master
@@ -387,7 +397,7 @@ export class Terraform extends Base {
 
   computeTerraformJenkinsModuleVars(jenkins: JenkinsDTO): string[] {
     const jenkins_master_vars = [
-      `-var 'enable_jenkins_master=1'`,
+      `-var 'enable_jenkins_master=${jenkins.use_existing_master ? 0 : 1}'`,
       `-var 'jenkins_master_name=${jenkins.code.toLowerCase()}'`,
       `-var 'jenkins_master_instance_count=1'`,
       `-var 'jenkins_master_availability_zone=${

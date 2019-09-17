@@ -41,7 +41,7 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   @ViewChild(MatVerticalStepper, { static: false })
   set _wizardStepperRef(stepper: MatVerticalStepper) {
     this.wizardStepper = stepper;
-    this._wizardStepper.next(stepper);
+    this._wizardStepper.next(this.wizardStepper);
   }
 
   isLinear = true;

@@ -34,8 +34,8 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "docker:build-api": "docker image build -t dinivas-api -f api.Dockerfile .",
-    "docker:build-console": "docker image build -t dinivas-console -f console.Dockerfile .",
+    "docker:build-api": "docker image build -t dinivas/api -f api.Dockerfile .",
+    "docker:build-console": "docker image build -t dinivas/console -f console.Dockerfile .",
     "docker:up": "docker-compose -p dinivas up -d",
     "docker:down": "docker-compose -p dinivas down"
   },
