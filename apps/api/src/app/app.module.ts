@@ -127,10 +127,8 @@ export class AppModule implements NestModule {
       .forRoutes('/*');
     //.apply(CsurfMiddleware)
     //.forRoutes('/*');
-    if (!environment.production) {
-      MorganMiddleware.configure('dev');
-      consumer.apply(MorganMiddleware).forRoutes('/*');
-    }
+    MorganMiddleware.configure(!environment.production ? 'dev' : 'combined');
+    consumer.apply(MorganMiddleware).forRoutes('/*');
     // Keycloak Sso middleware
     consumer
       .apply(Keycloak.middleware(), Keycloak.checkSso())

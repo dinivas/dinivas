@@ -27,6 +27,7 @@ import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/clo
 import { ArchitectureTypeRadiosComponent } from './components/architecture-type-radios/architecture-type-radios.component';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { JsonPrettyPipe } from 'apps/console/src/app/core/pipes/json-pretty.pipe';
+import { NeedYourContributionComponent } from './components/need-your-contribution/need-your-contribution.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { JsonPrettyPipe } from 'apps/console/src/app/core/pipes/json-pretty.pipe
     CloudImageRadiosComponent,
     CloudFlavorRadiosComponent,
     ArchitectureTypeRadiosComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    NeedYourContributionComponent
   ],
   declarations: [
     SnackAlertSuccessComponent,
@@ -62,7 +64,8 @@ import { JsonPrettyPipe } from 'apps/console/src/app/core/pipes/json-pretty.pipe
     CloudFlavorRadiosComponent,
     ArchitectureTypeRadiosComponent,
     TimeAgoPipe,
-    JsonPrettyPipe
+    JsonPrettyPipe,
+    NeedYourContributionComponent
   ],
   entryComponents: [
     SnackAlertSuccessComponent,

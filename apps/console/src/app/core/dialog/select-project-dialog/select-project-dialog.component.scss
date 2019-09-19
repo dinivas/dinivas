@@ -1,19 +1,31 @@
-.mat-dialog-content {
-  text-align: center;
-  padding: 15px;
-}
-.mat-card {
-  padding: 30px;
-  margin: 0 auto;
-  max-width: 600px;
+@import '~@angular/material/theming';
 
-  .mat-card-content {
-    p {
-      margin: 20px;
+@mixin select-project-dialog-theme($theme) {
+  $background: map-get($theme, background);
+
+  .mat-dialog-content {
+    text-align: center;
+    padding: 15px;
+  }
+  .mat-card.info-card {
+    padding-bottom: 10px;
+    margin: 0 auto;
+    max-width: 600px;
+
+    .mat-card-content {
+      p {
+        margin: 20px;
+        padding: 20px;
+        line-height: 1.5;
+        background-color: mat-color($background, background);
+      }
+    }
+    .mat-card-actions {
+      padding: 10px 5px;
     }
   }
-}
-.container{
-  margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
-  transform: translateY(-50%);
+  .component-container {
+    margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
+    transform: translateY(-50%);
+  }
 }

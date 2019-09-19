@@ -9,6 +9,30 @@ volumes:
     driver: local
 
 services:
+  # DINIVAS
+  dinivas-api:
+    image: dinivas/api
+    # build:
+    #   context: .
+    #   dockerfile: api.Dockerfile
+    command: >
+      /bin/sh -c "nginx -g '"'daemon on;'"' && nodemon main.js"
+    environment:
+      - PORT=4001
+    ports:
+      - '4001:4001'
+    volumes:
+      - ./config/docker.yml:/app/config/default.yml
+      - ./nginx/keycloak.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - postgres-dinivas
+  dinivas-console:
+    image: dinivas/console
+    # build:
+    #   context: .
+    #   dockerfile: console.Dockerfile
+    ports:
+      - '80:80'
   # KEYCLOAK
   postgres-keycloak:
     image: postgres
@@ -51,14 +75,19 @@ services:
   # Ansible Galaxy
   ansible-galaxy:
     image: dinivas/ansible-galaxy
-    command: ['run', 'api']
+    command: >
+      /bin/sh -c "nginx -g '"'daemon on;'"' && /entrypoint create-admin-user 2> /dev/null && /entrypoint manage migrate && /entrypoint run api"
     environment:
       - GALAXY_SECRET_KEY=secret
       - GALAXY_DB_URL=postgres://galaxy:galaxy@postgres-galaxy:5432/galaxy
       - GALAXY_RABBITMQ_HOST=rabbitmq
       - GALAXY_RABBITMQ_PASSWORD=galaxy
-    # ports:
-    #   - '8000:8000'
+      - GALAXY_DJANGO_ADMIN_USER=admin
+      - GALAXY_DJANGO_ADMIN_PASSWORD=password
+    volumes:
+      - ./nginx/keycloak.conf:/etc/nginx/nginx.conf
+    ports:
+      - '8000:8000'
     depends_on:
       - postgres-galaxy
       - rabbitmq
@@ -110,35 +139,3 @@ services:
     image: redis:latest
     # ports:
     #   - '6379:6379'
-  # DINIVAS
-  dinivas-api:
-    image: dinivas/api
-    # build:
-    #   context: .
-    #   dockerfile: api.Dockerfile
-    command: >
-      /bin/sh -c "nginx -g '"'daemon on;'"' && nodemon main.js"
-    environment:
-      - PORT=4001
-    ports:
-      - '4001:4001'
-    volumes:
-      - ./config/docker.yml:/app/config/default.yml
-    depends_on:
-      - postgres-dinivas
-  dinivas-console:
-    image: dinivas/console
-    # build:
-    #   context: .
-    #   dockerfile: console.Dockerfile
-    ports:
-      - '80:80'
-
-  # keycloak_gatekeeper:
-  #   image: quay.io/keycloak/keycloak-gatekeeper
-  #   environment:
-  #     PROXY_CONFIG_FILE: /opt/gatekeeper.yml
-  #   volumes:
-  #     - ./.docker/gatekeeper.yml:/opt/gatekeeper.yml
-  #   ports:
-  #     - 3001:3000

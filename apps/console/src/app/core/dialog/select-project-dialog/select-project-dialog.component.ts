@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./select-project-dialog.component.scss']
 })
 export class SelectProjectDialogComponent implements OnInit, OnDestroy {
-  projects: ProjectDTO[];
-  cloudproviders: CloudproviderDTO[];
+  projects: ProjectDTO[] = [];
+  cloudproviders: CloudproviderDTO[] = [];
   nextState: string;
   routeSubscription: Subscription;
 

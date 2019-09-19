@@ -1,15 +1,21 @@
-<div class="container">
-  <mat-card class="">
+<div class="component-container">
+  <mat-card class="info-card">
     <mat-card-header>
       <mat-card-title>
-        {{ projects && projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}
+        {{ projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0">
-        You must create at least one project to unlock some features because they are related to a given project.
+      <p *ngIf="cloudproviders.length === 0">
+        Many feature of Dinivas need at least one Cloud provider configuration. A cloud provider configuration indicate
+        the infrastructure to manage (Openstack, AWS, GCP...). Please create the Cloud provider configuration to
+        continue.
       </p>
-      <mat-nav-list dense *ngIf="projects && projects.length > 0">
+      <p *ngIf="projects.length === 0 && cloudproviders.length > 0">
+        You must create at least one project to unlock some features because they are related to a given project. A
+        project is just a namespace to organise your resources (network for exemple).
+      </p>
+      <mat-nav-list dense *ngIf="projects.length > 0">
         <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}"
           (click)="onCancelClick(project)" *ngFor="let project of projects">
           <mat-icon matListIcon>group_work</mat-icon>
@@ -18,16 +24,15 @@
       </mat-nav-list>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-raised-button color="primary"
-        *ngIf="projects && projects?.length === 0 && cloudproviders && cloudproviders?.length > 0"
+      <button mat-raised-button color="primary" *ngIf="projects.length === 0 && cloudproviders.length > 0"
         [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
         <!-- No project found  -->
-        Create the first project
+        Create the your first project
       </button>
       <button mat-raised-button color="primary"
-        *ngIf="projects && projects?.length === 0 && cloudproviders?.length === 0"
+        *ngIf="projects.length === 0 && cloudproviders.length === 0"
         [routerLink]="['/admin/cloudproviders/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
-        <!-- No project found  -->
+        <!-- No cloud provider found  -->
         Create the first Cloudprovider
       </button>
     </mat-card-actions>

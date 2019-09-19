@@ -1,0 +1,30 @@
+<mat-card class="need-your-contribution container">
+  <mat-card-content>
+    <h2>How to contribute to {{ moduleName | uppercase }} module in Dinivas</h2>
+    <p>Following step are required to implement this module integration in <strong>Dinivas</strong>
+      <br>
+      You can contribute in one of the requirement project or if you want in the whole module prerequisite.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Ansible role that install <strong>{{ moduleName }}</strong></h3>
+    <a [href]="'https://github.com/dinivas/ansible-role-' + moduleName"
+      class="git-repo">{{ 'https://github.com/dinivas/ansible-role-' + moduleName }}</a>
+    <p></p>
+    <mat-divider></mat-divider>
+    <h3>Packer project to create a pre built image of <strong>{{ moduleName }}</strong></h3>
+    <a [href]="'https://github.com/dinivas/packer-' + moduleName"
+      class="git-repo">{{ 'https://github.com/dinivas/packer-' + moduleName }}</a>
+    <p></p>
+    <mat-divider></mat-divider>
+    <h3>Terraform Module to create infrastructure for <strong>{{ moduleName }}</strong></h3>
+    <a [href]="'https://github.com/dinivas/terraform-openstack-' + moduleName"
+      class="git-repo">{{ 'https://github.com/dinivas/terraform-openstack-' + moduleName }}</a>
+    <p></p>
+    <mat-divider></mat-divider>
+    <h3>Dinivas Backend (Api)</h3>
+    <p></p>
+    <mat-divider></mat-divider>
+    <h3>Dinivas Frontend (Console)</h3>
+    <p></p>
+  </mat-card-content>
+</mat-card>

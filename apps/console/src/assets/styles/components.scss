@@ -1,5 +1,7 @@
+@import '../../app/core/components/need-your-contribution/need-your-contribution.component.scss';
 @import '../../app/core/components/architecture-type-radios/architecture-type-radios.component.scss';
 @import '../../app/core/components/cloud-flavor-radios/cloud-flavor-radios.component.scss';
+@import '../../app/core/dialog/select-project-dialog/select-project-dialog.component.scss';
 @import '../../app/core/components/cloud-image-radios/cloud-image-radios.component.scss';
 @import '../../app/shared/terraform/terraform-module-wizard/terraform-module-wizard.component.scss';
 @import '../../app/projects/project-wizard/project-wizard.component.scss';
@@ -119,6 +121,7 @@
 }
 
 @mixin components-theme($theme) {
+  @include need-your-contribution-theme($theme);
   @include architecture-type-radios-theme($theme);
   @include cloud-flavor-radios-theme($theme);
   @include cloud-image-radios-theme($theme);
@@ -138,5 +141,6 @@
   @include custom-mat-form-field-theme($theme);
   @include terraform-resources-representation-theme($theme);
   @include terraform-state-dialog-theme($theme);
+  @include select-project-dialog-theme($theme);
   @include app-component-theme($theme);
 }

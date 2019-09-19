@@ -10,7 +10,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "run-s build:api build:console build:docker",
-    "build:api": "ng build api",
+    "build:api": "ng build api --prod",
     "build:console": "ng build --configuration=docker --aot --build-optimizer",
     "build:docker": "run-s docker:build-api docker:build-console",
     "test": "ng test",
