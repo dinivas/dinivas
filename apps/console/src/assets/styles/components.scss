@@ -120,6 +120,14 @@
   }
 }
 
+@mixin custom-mat-card-theme($theme) {
+  .mat-card {
+    &>.mat-card-actions:last-child {
+      padding-bottom: inherit !important;
+    }
+  }
+}
+
 @mixin components-theme($theme) {
   @include need-your-contribution-theme($theme);
   @include architecture-type-radios-theme($theme);
@@ -139,6 +147,7 @@
   @include page-loading-spinner-theme($theme);
   @include custom-mat-form-field-outline-theme($theme);
   @include custom-mat-form-field-theme($theme);
+  @include custom-mat-card-theme($theme);
   @include terraform-resources-representation-theme($theme);
   @include terraform-state-dialog-theme($theme);
   @include select-project-dialog-theme($theme);

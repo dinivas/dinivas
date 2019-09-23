@@ -54,6 +54,7 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   architectureTypes: {
     code: string;
     label: string;
+    disabled: boolean;
     description: string;
   }[] = [];
   cloudImages: ICloudApiImage[];
@@ -109,35 +110,31 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   }
   initArchitectureTypeSelection() {
     if (this.shouldSelectArchitecture()) {
-      if (this.moduleWizard.supportSingleTier) {
-        this.architectureTypes.push({
-          code: 'singletier',
-          label: 'Single-Tier',
-          description: 'Simple architecture based on only one instance, NO HA'
-        });
-      }
-      if (this.moduleWizard.supportMultiTier) {
-        this.architectureTypes.push({
-          code: 'multitier',
-          label: 'Multi-Tier',
-          description:
-            'High Availability architecture based on multiple instance with load balancing'
-        });
-      }
-      if (this.moduleWizard.supportDocker) {
-        this.architectureTypes.push({
-          code: 'docker',
-          label: 'Docker Container',
-          description: 'Deploy a docker container on one Instance'
-        });
-      }
-      if (this.moduleWizard.supportKubernetes) {
-        this.architectureTypes.push({
-          code: 'kubernetes',
-          label: 'Kubernetes',
-          description: 'Deploy on existing Kubernetes cluster using Helm chart'
-        });
-      }
+      this.architectureTypes.push({
+        code: 'singletier',
+        label: 'Single-Tier',
+        disabled: !this.moduleWizard.supportSingleTier,
+        description: 'Simple architecture based on only one instance, NO HA'
+      });
+      this.architectureTypes.push({
+        code: 'multitier',
+        label: 'Multi-Tier',
+        disabled: !this.moduleWizard.supportMultiTier,
+        description:
+          'High Availability architecture based on multiple instance with load balancing'
+      });
+      this.architectureTypes.push({
+        code: 'docker',
+        label: 'Docker Container',
+        disabled: !this.moduleWizard.supportDocker,
+        description: 'Deploy a docker container on one Instance'
+      });
+      this.architectureTypes.push({
+        code: 'kubernetes',
+        label: 'Kubernetes',
+        disabled: !this.moduleWizard.supportKubernetes,
+        description: 'Deploy on existing Kubernetes cluster using Helm chart'
+      });
       this.architectureTypeForm = this.formBuilder.group({
         architecture_type: [
           this.architectureType ? this.architectureType : null,
@@ -267,6 +264,7 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
 
   shouldSelectArchitecture(): boolean {
     return (
+      this.moduleWizard.supportSingleTier ||
       this.moduleWizard.supportMultiTier ||
       this.moduleWizard.supportDocker ||
       this.moduleWizard.supportKubernetes

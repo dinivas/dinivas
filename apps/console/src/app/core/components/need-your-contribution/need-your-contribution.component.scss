@@ -15,15 +15,18 @@
     background-position: center top;
     background-size: contain;
     background-repeat: no-repeat;
-    padding: 350px 20px;
+    padding: 20px;
     .mat-card-content {
-        background-color: mat-color($background, card);
+      background-color: mat-color($background, card);
+      opacity: 0.9;
       h2 {
       }
       h3 {
       }
       a.git-repo {
-        color: mat-color($foreground, accent);
+        font-size: 15px;
+        font-weight: 400;
+        color: $accent-color;
       }
       p {
         padding: 10px;

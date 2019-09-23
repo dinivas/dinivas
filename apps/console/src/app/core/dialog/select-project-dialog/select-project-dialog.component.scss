@@ -1,16 +1,19 @@
 @import '~@angular/material/theming';
 
 @mixin select-project-dialog-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
   $background: map-get($theme, background);
 
-  .mat-dialog-content {
-    text-align: center;
-    padding: 15px;
-  }
   .mat-card.info-card {
     padding-bottom: 10px;
     margin: 0 auto;
     max-width: 600px;
+
+    .mat-card-header{
+      .mat-card-avatar{
+      }
+    }
 
     .mat-card-content {
       p {
@@ -24,7 +27,7 @@
       padding: 10px 5px;
     }
   }
-  .component-container {
+  .component-container.select-project-dialog {
     margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
     transform: translateY(-50%);
   }

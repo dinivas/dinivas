@@ -13,6 +13,9 @@
   .ansible-search {
     & > mat-toolbar {
       height: 56px;
+      .mat-form-field {
+        font-size: 13px;
+      }
     }
     .content-container {
       display: flex;

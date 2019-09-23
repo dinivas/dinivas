@@ -27,7 +27,12 @@ export class ArchitectureTypeRadiosComponent
   @Input()
   label: string;
   @Input()
-  architectureTypes: { code: string; label: string, description: string }[];
+  architectureTypes: {
+    code: string;
+    label: string;
+    description: string;
+    disabled: boolean;
+  }[];
   @Output()
   onSelect: EventEmitter<any> = new EventEmitter();
 
@@ -41,11 +46,13 @@ export class ArchitectureTypeRadiosComponent
 
   ngOnInit() {}
 
-  select(architectureType: { code: string; label: string }) {
-    this.architectureType = architectureType.code;
-    this.onModelChange(architectureType.code);
-    this.onTouch();
-    this.onSelect.emit(architectureType.code);
+  select(architectureType: { code: string; label: string; disabled: boolean }) {
+    if (!architectureType.disabled) {
+      this.architectureType = architectureType.code;
+      this.onModelChange(architectureType.code);
+      this.onTouch();
+      this.onSelect.emit(architectureType.code);
+    }
   }
 
   writeValue(architectureType: string): void {

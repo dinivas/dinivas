@@ -1,10 +1,10 @@
 <mat-toolbar class="mat-toolbar header-toolbar">
-  <mat-icon matListIcon svgIcon="postgresql"></mat-icon>
+  <mat-icon svgIcon="postgresql"></mat-icon>
   <span class="page-title">PostgreSQL</span>
 </mat-toolbar>
 <mat-card class="empty-item-card info-card">
   <mat-card-header>
-    <div mat-card-avatar class="postgres-logo"></div>
+    <mat-icon mat-card-avatar svgIcon="postgresql" color="primary"></mat-icon>
     <mat-card-title>PostgreSQL</mat-card-title>
     <mat-card-subtitle>Relational Database (managed)</mat-card-subtitle>
   </mat-card-header>
@@ -15,7 +15,9 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-button color="primary" [routerLink]="['/storage', 'postgresql', 'new']" queryParamsHandling="merge">Create PostgreSQL
+    <button mat-button color="primary" [routerLink]="['/storage', 'postgresql', 'new']"
+      queryParamsHandling="merge">Create PostgreSQL
       cluster</button>
   </mat-card-actions>
 </mat-card>
+<dinivas-need-your-contribution moduleName="postgresql"></dinivas-need-your-contribution>

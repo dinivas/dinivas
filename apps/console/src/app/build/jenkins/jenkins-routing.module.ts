@@ -1,3 +1,4 @@
+import { JenkinsStatusComponent } from './jenkins-status/jenkins-status.component';
 import { TerraformModuleWizardComponent } from './../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { CloudImagesResolver } from './../../shared/cloudprovider/cloud-images.resolver';
 import { CloudFlavorsResolver } from './../../shared/cloudprovider/cloud-flavors.resolver';
@@ -9,8 +10,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { JenkinsDTO } from '@dinivas/dto';
 import { TerraformModuleWizard } from '../../shared/terraform/terraform-module-wizard/terraform-module-wizard';
-import {CurrentProjectResolver} from '../../shared/project/current-project.resolver';
-import {CurrentJenkinsResolver} from '../../shared/jenkins/jenkins.resolver';
+import { CurrentProjectResolver } from '../../shared/project/current-project.resolver';
+import { CurrentJenkinsResolver } from '../../shared/jenkins/jenkins.resolver';
+import { JenkinsViewComponent } from './jenkins-view.component';
 
 const moduleWizardData = new TerraformModuleWizard<JenkinsDTO>(
   JenkinsWizardComponent,
@@ -19,7 +21,7 @@ const moduleWizardData = new TerraformModuleWizard<JenkinsDTO>(
   'Jenkins',
   'Jenkins',
   true,
-  true,
+  false,
   false,
   false
 );
@@ -46,18 +48,35 @@ const routes: Routes = [
     }
   },
   {
-    path: 'edit/:jenkinsId',
-    component: TerraformModuleWizardComponent,
-    canActivate: [MandatorySelectedProjectGuard],
-    data: {
-      moduleWizard: moduleWizardData
-    },
+    path: ':jenkinsId',
+    component: JenkinsViewComponent,
     resolve: {
-      cloudFlavors: CloudFlavorsResolver,
-      cloudImages: CloudImagesResolver,
-      moduleEntity: CurrentJenkinsResolver,
-      currentProjectInfo: CurrentProjectResolver
-    }
+      jenkins: CurrentJenkinsResolver,
+    },
+    children: [
+      {
+        path: 'status',
+        component: JenkinsStatusComponent
+      },
+      {
+        path: 'edit',
+        component: TerraformModuleWizardComponent,
+        canActivate: [MandatorySelectedProjectGuard],
+        data: {
+          moduleWizard: moduleWizardData
+        },
+        resolve: {
+          cloudFlavors: CloudFlavorsResolver,
+          cloudImages: CloudImagesResolver,
+          moduleEntity: CurrentJenkinsResolver,
+          currentProjectInfo: CurrentProjectResolver
+        }
+      },
+      {
+        path: '**',
+        redirectTo: 'status'
+      }
+    ]
   }
 ];
 

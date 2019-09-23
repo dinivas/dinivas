@@ -2,7 +2,7 @@
   <span class="label" *ngIf="label">{{ label }}</span>
   <div class="architecture-types">
     <div class="type" *ngFor="let type of architectureTypes" [class.selected]="type.code === architectureType"
-      [class.disabled]="disabled" (click)="select(type)">
+      [class.disabled]="type.disabled" (click)="select(type)">
       <!-- <mat-icon class="main-icon" svgIcon="disc"></mat-icon> -->
       <span class="name">{{ type.label }}</span>
       <p class="description">{{ type.description }}</p>

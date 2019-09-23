@@ -63,9 +63,10 @@
           <h4 mat-line>Admin settings</h4>
         </a>
         <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/projects']" (click)="toggleSideNav()">
-          <mat-icon matListIcon>work</mat-icon>
+          <mat-icon matListIcon>group_work</mat-icon>
           <h4 mat-line>Projects</h4>
         </a>
+        <mat-divider *ngIf="pinnedMenus.length > 0"></mat-divider>
         <ng-container *ngFor="let pinnedMenu of pinnedMenus">
           <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="pinnedMenu.isPinned"
             [routerLink]="pinnedMenu.routerLink" (click)="toggleSideNav()">

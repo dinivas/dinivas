@@ -15,6 +15,7 @@ import * as moment from 'moment';
 })
 export class SearchComponent implements OnInit {
   contentCount: number;
+  searchTerm = '';
   contentItems: Content[];
 
   collectionCount: number;

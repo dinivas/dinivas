@@ -1,3 +1,5 @@
+import { PostgresqlStatusComponent } from './postgresql-status/postgresql-status.component';
+import { PostgresqlViewComponent } from './postgresql-view.component';
 import { CloudImagesResolver } from './../../shared/cloudprovider/cloud-images.resolver';
 import { CloudFlavorsResolver } from './../../shared/cloudprovider/cloud-flavors.resolver';
 import { PostgresqlWizardVarsComponent } from './postgresql-wizard-vars/postgresql-wizard-vars.component';
@@ -16,9 +18,9 @@ const moduleWizardData = new TerraformModuleWizard<PostgresqlDTO>(
   'Postgresql',
   'Postgresql',
   true,
-  true,
-  true,
-  true
+  false,
+  false,
+  false
 );
 
 const routes: Routes = [
@@ -39,9 +41,23 @@ const routes: Routes = [
     }
   },
   {
-    path: 'edit/:postgresqlId',
-    component: TerraformModuleWizardComponent,
-    canActivate: [MandatorySelectedProjectGuard]
+    path: ':postgresqlId',
+    component: PostgresqlViewComponent,
+    children: [
+      {
+        path: 'status',
+        component: PostgresqlStatusComponent
+      },
+      {
+        path: 'edit',
+        component: TerraformModuleWizardComponent,
+        canActivate: [MandatorySelectedProjectGuard]
+      },
+      {
+        path: '**',
+        redirectTo: 'status'
+      }
+    ]
   }
 ];
 

@@ -32,7 +32,9 @@ export class MandatorySelectedProjectGuard implements CanActivate {
     ) {
       return true;
     }
-    this.lastProjectId = next.queryParams['project'] || this.lastProjectId;
+    this.lastProjectId =
+      next.queryParams['project'] ||
+      this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
     if (!this.lastProjectId) {
       this.router.navigate(['/selectProject'], {
         queryParams: {

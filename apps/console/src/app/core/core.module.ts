@@ -1,3 +1,4 @@
+import { FilterByPipe } from './pipes/filter-by.pipe';
 import { ApiInterceptor } from './interceptor/api.interceptor';
 import { MandatorySelectedProjectGuard } from './guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { NotificationInterceptor } from './interceptor/notification.interceptor';
@@ -48,6 +49,7 @@ import { NeedYourContributionComponent } from './components/need-your-contributi
     CloudFlavorRadiosComponent,
     ArchitectureTypeRadiosComponent,
     TimeAgoPipe,
+    FilterByPipe,
     NeedYourContributionComponent
   ],
   declarations: [
@@ -65,6 +67,7 @@ import { NeedYourContributionComponent } from './components/need-your-contributi
     ArchitectureTypeRadiosComponent,
     TimeAgoPipe,
     JsonPrettyPipe,
+    FilterByPipe,
     NeedYourContributionComponent
   ],
   entryComponents: [

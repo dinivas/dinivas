@@ -1,13 +1,15 @@
 <div class="container ansible-search">
   <!-- Search bar -->
   <mat-toolbar>
-    Search bar
+    <mat-form-field class="" [floatLabel]="'never'">
+      <input type="search" matInput [(ngModel)]="searchTerm" placeholder="Filter roles">
+    </mat-form-field>
   </mat-toolbar>
   <!-- list header -->
 
   <!-- List content -->
   <div class="content-container">
-    <div class="content" *ngFor="let content of contentItems">
+    <div class="content" *ngFor="let content of contentItems | filterBy: {'name': searchTerm}">
       <div class="avatar">
         <img [src]="content.summary_fields.namespace.avatar_url" alt="">
         <span>{{ content.summary_fields.provider_namespace.name}}</span>

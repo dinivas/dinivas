@@ -20,7 +20,7 @@
     margin: 10px 0px;
     border: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
     border-radius: 5px;
-    max-width: 600px;
+    //max-width: 600px;
     span.label {
       position: absolute;
       top: -10px;
@@ -45,6 +45,8 @@
         padding: 10px 15px 5px !important;
         margin: 0px 10px 5px 0px;
         background-color: $background-color;
+        min-width: 250px;
+        max-width: 3000px;
         cursor: pointer;
         transition: border-color 0.2s ease-in;
         .name {
@@ -85,7 +87,7 @@
           transition: all 0.2s ease-in;
         }
         &:hover {
-          border: 1px solid rgba(mat-color($foreground, secondary-text), 0.2);
+          border-color: rgba(mat-color($foreground, secondary-text), 0.2);
         }
         &.selected {
           border-color: transparent;
@@ -96,6 +98,17 @@
           }
           mat-icon.main-icon {
             color: rgba($primary-color, 0.9);
+          }
+        }
+        &.disabled {
+          cursor: not-allowed;
+          color: mat-color($foreground, disabled);
+          &:hover {
+            border-color: rgba(mat-color($foreground, secondary-text), 0.1);
+          }
+          .name,
+          p.description {
+            color: mat-color($foreground, disabled);
           }
         }
       }
