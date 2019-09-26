@@ -29,14 +29,13 @@ import {
   ApplyModuleDTO
 } from '@dinivas/dto';
 import { Request } from 'express';
-import YAML from 'yaml';
+const YAML = require('js-yaml');
 
 @ApiUseTags('Jenkins')
 @Controller('jenkins')
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
 export class JenkinsController {
-
   private readonly logger = new Logger(JenkinsController.name);
 
   constructor(
@@ -103,7 +102,7 @@ export class JenkinsController {
       project.cloud_provider.id
     );
     return this.commandBus.execute(
-      new PlanJenkinsCommand(jenkins, YAML.parse(cloudprovider.config))
+      new PlanJenkinsCommand(jenkins, YAML.safeLoad(cloudprovider.config))
     );
   }
 
@@ -143,7 +142,7 @@ export class JenkinsController {
         project.cloud_provider.id
       );
       this.commandBus.execute(
-        new DestroyJenkinsCommand(jenkins, YAML.parse(cloudprovider.config))
+        new DestroyJenkinsCommand(jenkins, YAML.safeLoad(cloudprovider.config))
       );
     }
   }

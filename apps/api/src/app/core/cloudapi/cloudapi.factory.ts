@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { OpenstackApiService } from './openstack.api.service';
 import { ICloudApi, ICloudApiConfig } from '@dinivas/dto';
 
-import YAML from 'yaml';
+const YAML = require('js-yaml');
 
 @Injectable()
 export class CloudApiFactory {
@@ -20,7 +20,7 @@ export class CloudApiFactory {
   getCloudApiConfig(provider: string, config: any): ICloudApiConfig {
     switch (provider) {
       case 'openstack':
-        const cloudConfig = YAML.parse(config).clouds;
+        const cloudConfig = YAML.safeLoad(config).clouds;
         return {
           username: cloudConfig.openstack.auth.username,
           password: cloudConfig.openstack.auth.password,

@@ -28,9 +28,9 @@ import {
   HttpCode
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-
-import YAML from 'yaml';
 import { ApplyProjectCommand } from './commands/impl/apply-project.command';
+
+const YAML = require('js-yaml');
 
 @ApiUseTags('Projects')
 @Controller('projects')
@@ -126,7 +126,7 @@ export class ProjectsController {
         project.monitoring,
         project.logging,
         project.logging_stack,
-        YAML.parse(cloudprovider.config)
+        YAML.safeLoad(cloudprovider.config)
       )
     );
   }
@@ -159,7 +159,7 @@ export class ProjectsController {
         project.cloud_provider.id
       );
       this.commandBus.execute(
-        new DestroyProjectCommand(project, YAML.parse(cloudprovider.config))
+        new DestroyProjectCommand(project, YAML.safeLoad(cloudprovider.config))
       );
     }
   }
