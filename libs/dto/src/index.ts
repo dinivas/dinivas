@@ -13,4 +13,6 @@ export * from './lib/keycloak';
 
 export * from './lib/terraform/terraform.dto';
 
+export * from './lib/packer/packer.dto';
+
 export * from './lib/constants';

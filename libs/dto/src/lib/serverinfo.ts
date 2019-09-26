@@ -21,6 +21,12 @@ export interface ITerraformInfo {
 }
 
 
+export interface IPackerModuleInfo {
+  name: string;
+  type: string;
+  url: string;
+}
+
 export class ServerInfo implements IServerInfo {
   constructor(public version?: string, public gitInfo?: IGitInfo, public terraform?: ITerraformInfo) {
     this.version = version;

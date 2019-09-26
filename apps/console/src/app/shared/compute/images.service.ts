@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ProjectDTO, ICloudApiImage } from '@dinivas/dto';
+import { ICloudApiImage, ModuleImageToBuildDTO } from '@dinivas/dto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
@@ -18,17 +18,10 @@ export class ImagesService {
     );
   }
 
-  createImage(cloudprovider: ProjectDTO): Observable<any> {
+  buildImage(imageToBuild: ModuleImageToBuildDTO): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/compute/images`,
-      cloudprovider
-    );
-  }
-
-  updateImage(cloudprovider: ProjectDTO): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/compute/images/${cloudprovider.id}`,
-      cloudprovider
+      `${environment.apiUrl}/compute/images/build`,
+      imageToBuild
     );
   }
 

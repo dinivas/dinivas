@@ -1,3 +1,5 @@
+import { BuildModuleImageCommand } from './commands/impl/build-image.command';
+import { CloudproviderService } from './../../cloudprovider/cloudprovider.service';
 import { Permissions } from './../../auth/permissions.decorator';
 import { ImagesService } from './images.service';
 import { AuthzGuard } from '../../auth/authz.guard';
@@ -11,16 +13,28 @@ import {
   Put,
   Delete,
   Body,
-  Req
+  Req,
+  Post
 } from '@nestjs/common';
-import { ICloudApiImage, ProjectDTO } from '@dinivas/dto';
+import {
+  ICloudApiImage,
+  ProjectDTO,
+  ModuleImageToBuildDTO
+} from '@dinivas/dto';
+import { CommandBus } from '@nestjs/cqrs';
+
+const YAML = require('js-yaml');
 
 @ApiUseTags('Compute images')
 @Controller('compute/images')
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
 export class ImagesController {
-  constructor(private readonly imagesService: ImagesService) {}
+  constructor(
+    private readonly imagesService: ImagesService,
+    private readonly cloudproviderService: CloudproviderService,
+    private readonly commandBus: CommandBus
+  ) {}
 
   @Get()
   @Permissions('compute.images:list')
@@ -44,5 +58,24 @@ export class ImagesController {
   @Permissions('compute.images:delete')
   remove(@Param('id') id: string) {
     return `This action removes an instance with id ${id}`;
+  }
+
+  @Post('build')
+  @Permissions('compute.images:edit')
+  async buildImage(
+    @Req() request: Request,
+    @Body() moduleImageToBuild: ModuleImageToBuildDTO
+  ): Promise<ModuleImageToBuildDTO> {
+    const project = request['project'] as ProjectDTO;
+    const cloudprovider = await this.cloudproviderService.findOne(
+      project.cloud_provider.id
+    );
+    return this.commandBus.execute(
+      new BuildModuleImageCommand(
+        project.code,
+        moduleImageToBuild,
+        YAML.safeLoad(cloudprovider.config)
+      )
+    );
   }
 }

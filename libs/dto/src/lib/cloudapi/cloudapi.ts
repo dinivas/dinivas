@@ -106,6 +106,12 @@ export interface ICloudApiAvailabilityZone {
   };
 }
 
+export interface ICloudApiNetwork {
+  id: string;
+  cidr: string;
+  label: string;
+}
+
 export interface ICloudApi {
   // Project infos
   getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo>;
@@ -113,6 +119,7 @@ export interface ICloudApi {
   getProjectFloatingIpPools(
     cloudConfig: ICloudApiConfig
   ): Promise<ICloudApiProjectFloatingIpPool[]>;
+  getProjectNetworks(cloudConfig: ICloudApiConfig): Promise<ICloudApiNetwork[]>;
   getProjectRouters(
     cloudConfig: ICloudApiConfig
   ): Promise<ICloudApiProjectRouter[]>;
@@ -122,5 +129,7 @@ export interface ICloudApi {
   getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]>;
   getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
   getAllDisks(cloudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
-  getAllAvailabilityZones(cloudConfig: ICloudApiConfig): Promise<ICloudApiAvailabilityZone[]>;
+  getAllAvailabilityZones(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiAvailabilityZone[]>;
 }

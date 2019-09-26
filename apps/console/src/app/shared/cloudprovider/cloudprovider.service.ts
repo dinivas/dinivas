@@ -7,7 +7,8 @@ import {
   ICloudApiProjectRouter,
   ICloudApiFlavor,
   ICloudApiImage,
-  ICloudApiAvailabilityZone
+  ICloudApiAvailabilityZone,
+  ICloudApiNetwork
 } from '@dinivas/dto';
 import { Injectable } from '@angular/core';
 
@@ -55,6 +56,12 @@ export class CloudproviderService {
   getCloudProviderImages(id: number): Observable<ICloudApiImage[]> {
     return this.http.get<ICloudApiImage[]>(
       `${environment.apiUrl}/cloudproviders/${id}/images`
+    );
+  }
+
+  getCloudProviderNetworks(id: number): Observable<ICloudApiNetwork[]> {
+    return this.http.get<ICloudApiNetwork[]>(
+      `${environment.apiUrl}/cloudproviders/${id}/networks`
     );
   }
 

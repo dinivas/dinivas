@@ -35,6 +35,14 @@ dinivas:
         type: git
         provider: openstack
         url: https://github.com/dinivas/terraform-openstack-flavor.git
+  packer:
+    modules:
+      - name: base_image
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-base-image.git
+      - name: jenkins
+        type: git
+        url: https://github.com/dinivas/packer-jenkins.git
   ansible_galaxy:
     url: http://localhost:8089
   keycloak:

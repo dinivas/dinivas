@@ -8,7 +8,8 @@ import {
   ICloudApiProjectRouter,
   ICloudApiFlavor,
   ICloudApiImage,
-  ICloudApiAvailabilityZone
+  ICloudApiAvailabilityZone,
+  ICloudApiNetwork
 } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import {
@@ -97,6 +98,12 @@ export class CloudproviderController {
     @Param('id') id: number
   ): Promise<ICloudApiProjectFloatingIpPool[]> {
     return this.cloudproviderService.getCloudProviderFloatingIpPools(id);
+  }
+
+  @Get(':id/networks')
+  @Permissions('projects:view')
+  async projectNetworks(@Param('id') id: number): Promise<ICloudApiNetwork[]> {
+    return this.cloudproviderService.getCloudProviderNetworks(id);
   }
 
   @Get(':id/routers')
