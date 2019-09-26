@@ -1,10 +1,14 @@
 <mat-toolbar class="filter-bar-toolbar">
   <mat-toolbar-row class="filter-bar" *ngIf="selection.selected.length == 0">
-    <div class="left" *ngIf="showAddButton">
-      <button mat-button color="primary" (click)="addEntity($event)">
+    <div class="left">
+      <button mat-button color="primary"  *ngIf="showAddButton" (click)="addEntity($event)">
         <mat-icon>add</mat-icon>
         {{ addButtonLabel }}
       </button>
+      <button mat-button color="primary" (click)="customButtonClicked(customButton,$event)" *ngFor="let customButton of customButtons">
+          <mat-icon>{{ customButton.matIcon }}</mat-icon>
+          {{ customButton.label }}
+        </button>
     </div>
     <div class="spacer"></div>
     <div class="right">

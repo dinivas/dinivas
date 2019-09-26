@@ -10,10 +10,6 @@
   $foreground: map-get($theme, foreground);
   $foreground-color: mat-color($foreground, text);
 
-  h4 {
-    font-weight: 400;
-    font-size: 14px;
-  }
   .architecture-type-container {
     position: relative;
     padding: 20px 20px 0px;
@@ -21,6 +17,12 @@
     border: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
     border-radius: 5px;
     //max-width: 600px;
+
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
+
     span.label {
       position: absolute;
       top: -10px;

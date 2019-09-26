@@ -1,3 +1,4 @@
+import { AuthzGuard } from './auth/authz.guard';
 import { ConfigService } from './core/config/config.service';
 import {
   ServerInfo,
@@ -7,7 +8,7 @@ import {
 } from '@dinivas/dto';
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthzGuard } from 'apps/api/src/app/auth/authz.guard';
+
 
 @ApiUseTags('server-info')
 @ApiBearerAuth()

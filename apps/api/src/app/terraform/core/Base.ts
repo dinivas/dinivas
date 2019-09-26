@@ -64,17 +64,22 @@ abstract class Base {
   protected async executeSync(
     path: string,
     args: string,
-    options: ExecuteOptions
+    options: ExecuteOptions,
+    env = Object.assign({}, process.env)
   ): Promise<StdInterface> {
     return new Promise<StdInterface>((resolve, reject) => {
       exec(
         `${this.executableName} ${args}`,
         {
-          cwd: `${path}`
+          cwd: `${path}`,
+          env
         },
         async (err, stdout, stderr) => {
           if (err) {
             await this.log(stderr, options.silent);
+            if (stdout) {
+              await this.log(stdout, options.silent);
+            }
             return reject(err);
           }
           await this.log(stderr, options.silent);

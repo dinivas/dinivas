@@ -1,7 +1,7 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
-import { map } from 'rxjs/operators';
+import { map, filter, flatMap, toArray, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { JenkinsService } from './../../../shared/jenkins/jenkins.service';
 import {
@@ -46,7 +46,8 @@ export class JenkinsWizardComponent
   jenkins: JenkinsDTO;
   jenkinsForm: FormGroup;
   moduleWizardStepper: Observable<MatVerticalStepper>;
-  cloudImages: ICloudApiImage[];
+  masterCloudImages: ICloudApiImage[];
+  slaveCloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
   terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>;
   terraformApplyEvent: TerraformApplyEvent<JenkinsDTO>;
@@ -85,9 +86,12 @@ export class JenkinsWizardComponent
       );
     activatedRoute.data
       .pipe(map((data: { cloudImages: ICloudApiImage[] }) => data.cloudImages))
-      .subscribe(
-        (cloudImages: ICloudApiImage[]) => (this.cloudImages = cloudImages)
-      );
+      .subscribe((cloudImages: ICloudApiImage[]) => {
+        this.masterCloudImages = cloudImages.filter(
+          img => img.tags.indexOf(' jenkins-master') > -1
+        );
+        this.slaveCloudImages = cloudImages;
+      });
     activatedRoute.data
       .pipe(
         map(
@@ -169,11 +173,11 @@ export class JenkinsWizardComponent
         this.jenkins ? this.jenkins.keypair_name : this.projectKeypair,
         Validators.required
       ],
-      master_cloud_image: [
+      _master_cloud_image: [
         this.jenkins ? this.jenkins.master_cloud_image : null,
         Validators.nullValidator
       ],
-      master_cloud_flavor: [
+      _master_cloud_flavor: [
         this.jenkins ? this.jenkins.master_cloud_flavor : null,
         Validators.nullValidator
       ],
@@ -280,10 +284,10 @@ export class JenkinsWizardComponent
 
   setExistingMasterValidators() {
     const masterCloudImage: AbstractControl = this.jenkinsForm.get(
-      'master_cloud_image'
+      '_master_cloud_image'
     );
     const masterCloudFlavor: AbstractControl = this.jenkinsForm.get(
-      'master_cloud_flavor'
+      '_master_cloud_flavor'
     );
     const masterAdminUsername: AbstractControl = this.jenkinsForm.get(
       'master_admin_username'
@@ -432,6 +436,19 @@ export class JenkinsWizardComponent
   }
 
   prepareJenkinsDTOBeforeSendToServer(jenkins: JenkinsDTO) {
+    // Set master image name
+    if (jenkins && this.jenkinsForm.get('_master_cloud_image').value) {
+      jenkins.master_cloud_image = (this.jenkinsForm.get('_master_cloud_image')
+        .value as ICloudApiImage).name;
+      delete jenkins['_master_cloud_image'];
+    }
+    // Set master flavor name
+    if (jenkins && this.jenkinsForm.get('_master_cloud_flavor').value) {
+      jenkins.master_cloud_flavor = (this.jenkinsForm.get(
+        '_master_cloud_flavor'
+      ).value as ICloudApiFlavor).name;
+      delete jenkins['_master_cloud_flavor'];
+    }
     // add project code preffix to jenkins code and all slave code
     if (!this.jenkins) {
       // add prefix only for new Jenkins

@@ -3,7 +3,8 @@ import {
   OnInit,
   Input,
   ChangeDetectionStrategy,
-  forwardRef
+  forwardRef,
+  Output
 } from '@angular/core';
 import { ICloudApiFlavor } from '@dinivas/dto';
 import {
@@ -40,7 +41,7 @@ export class CloudFlavorRadiosComponent
   @Input()
   cloudFlavors: ICloudApiFlavor[];
 
-  cloudFlavor: string;
+  cloudFlavor: ICloudApiFlavor;
   disabled = false;
 
   private onTouch: Function;
@@ -52,13 +53,15 @@ export class CloudFlavorRadiosComponent
   ngOnInit() {}
 
   select(flavor: ICloudApiFlavor) {
-    this.cloudFlavor = flavor.name;
-    this.onModelChange(flavor.name);
+    this.cloudFlavor = flavor;
+    this.onModelChange(flavor);
     this.onTouch();
   }
 
-  writeValue(flavor: string): void {
-    this.cloudFlavor = flavor;
+  writeValue(flavorName: string): void {
+    this.cloudFlavor = this.cloudFlavors
+      ? this.cloudFlavors.find(flavor => flavor.name === flavorName)
+      : null;
   }
   registerOnChange(fn: any): void {
     this.onModelChange = fn;

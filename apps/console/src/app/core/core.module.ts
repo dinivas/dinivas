@@ -1,3 +1,4 @@
+import { JsonPrettyPipe } from './pipes/json-pretty.pipe';
 import { FilterByPipe } from './pipes/filter-by.pipe';
 import { ApiInterceptor } from './interceptor/api.interceptor';
 import { MandatorySelectedProjectGuard } from './guards/mandatory-selected-project/mandatory-selected-project.guard';
@@ -27,7 +28,6 @@ import { CloudImageRadiosComponent } from './components/cloud-image-radios/cloud
 import { CloudFlavorRadiosComponent } from './components/cloud-flavor-radios/cloud-flavor-radios.component';
 import { ArchitectureTypeRadiosComponent } from './components/architecture-type-radios/architecture-type-radios.component';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
-import { JsonPrettyPipe } from 'apps/console/src/app/core/pipes/json-pretty.pipe';
 import { NeedYourContributionComponent } from './components/need-your-contribution/need-your-contribution.component';
 
 @NgModule({

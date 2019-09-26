@@ -136,20 +136,20 @@ export class ProjectWizardComponent implements OnInit {
       ],
       monitoring: [this.project ? this.project.monitoring : false, null],
       logging: [this.project ? this.project.logging : false, null],
-      bastion_cloud_image: [
+      _bastion_cloud_image: [
         this.project ? this.project.bastion_cloud_image : null,
         Validators.required
       ],
-      bastion_cloud_flavor: [
+      _bastion_cloud_flavor: [
         this.project ? this.project.bastion_cloud_flavor : null,
         Validators.required
       ],
       enable_proxy: [this.project ? this.project.enable_proxy : false, null],
-      proxy_cloud_flavor: [
+      _proxy_cloud_flavor: [
         this.project ? this.project.proxy_cloud_flavor : null,
         null
       ],
-      prometheus_cloud_flavor: [
+      _prometheus_cloud_flavor: [
         this.project ? this.project.prometheus_cloud_flavor : null
       ]
     });
@@ -175,6 +175,35 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   submitPlanProject(project: ProjectDTO) {
+    // Set bastion image name
+    if (project && this.projectForm.get('_bastion_cloud_image').value) {
+      project.bastion_cloud_image = (this.projectForm.get(
+        '_bastion_cloud_image'
+      ).value as ICloudApiImage).name;
+      delete project['_bastion_cloud_image'];
+    }
+    // Set bastion image name
+    if (project && this.projectForm.get('_bastion_cloud_flavor').value) {
+      project.bastion_cloud_flavor = (this.projectForm.get(
+        '_bastion_cloud_flavor'
+      ).value as ICloudApiFlavor).name;
+      delete project['_bastion_cloud_flavor'];
+    }
+
+    // Set proxy flavor name
+    if (project && this.projectForm.get('_proxy_cloud_flavor').value) {
+      project.proxy_cloud_flavor = (this.projectForm.get('_proxy_cloud_flavor')
+        .value as ICloudApiFlavor).name;
+      delete project['_proxy_cloud_flavor'];
+    }
+
+    // Set prometheus flavor name
+    if (project && this.projectForm.get('_prometheus_cloud_flavor').value) {
+      project.bastion_cloud_flavor = (this.projectForm.get(
+        '_prometheus_cloud_flavor'
+      ).value as ICloudApiFlavor).name;
+      delete project['_prometheus_cloud_flavor'];
+    }
     this.projectPlanInProgress = true;
     this.projectPlanStepFinished = false;
     if (!project['code'] && this.project) {

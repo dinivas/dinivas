@@ -40,7 +40,7 @@ export class CloudImageRadiosComponent
   @Input()
   cloudImages: ICloudApiImage[];
 
-  imageName: string;
+  image: ICloudApiImage;
   disabled = false;
 
   private onTouch: Function;
@@ -52,13 +52,15 @@ export class CloudImageRadiosComponent
   ngOnInit() {}
 
   select(cloudImage: ICloudApiImage) {
-    this.imageName = cloudImage.name;
-    this.onModelChange(cloudImage.name);
+    this.image = cloudImage;
+    this.onModelChange(cloudImage);
     this.onTouch();
   }
 
   writeValue(imageName: string): void {
-    this.imageName = imageName;
+    this.image = this.cloudImages
+      ? this.cloudImages.find(img => img.name === imageName)
+      : null;
   }
   registerOnChange(fn: any): void {
     this.onModelChange = fn;
@@ -70,7 +72,7 @@ export class CloudImageRadiosComponent
     this.disabled = isDisabled;
   }
   validate(control: AbstractControl): ValidationErrors {
-    return this.imageName ? null : { required: true };
+    return this.image ? null : { required: true };
   }
   registerOnValidatorChange?(fn: () => void): void {
     this.onValidatorChange = fn;

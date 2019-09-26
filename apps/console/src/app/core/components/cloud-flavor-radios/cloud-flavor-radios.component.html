@@ -1,7 +1,7 @@
 <div class="flavors-container">
   <span class="label" *ngIf="label">{{ label }}</span>
   <div class="flavors">
-    <div class="flavor" *ngFor="let flavor of cloudFlavors" [class.selected]="cloudFlavor === flavor.name"
+    <div class="flavor" *ngFor="let flavor of cloudFlavors" [class.selected]="cloudFlavor?.name === flavor.name"
       [class.disabled]="disabled" (click)="select(flavor)">
       <span class="name">{{ flavor.name }}</span>
       <div class="cpu">

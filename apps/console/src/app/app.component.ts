@@ -29,6 +29,7 @@ import {
 } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ThemeService } from './core/services/theme.service';
+import { PageLoadingService } from './core/services/page-loading.service';
 import { countBy, findIndex } from 'lodash';
 
 class SideNavMenuGroup {
@@ -61,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   contextualSidenav: MatSidenav;
   contextualMenuComponent: ComponentType<any>;
   contextualMenuInjector: Injector;
-  loadingPage = false;
+  isPageLoading: Observable<boolean>;
   isDarkTheme: Observable<boolean>;
   availableMenuGroups: SideNavMenuGroup[] = SideMenu;
   pinnedMenus: SideNavMenu[] = [];
@@ -77,6 +78,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private contextualMenuService: ContextualMenuService,
     private breakpointObserver: BreakpointObserver,
     private themeService: ThemeService,
+    private pageLoadingService: PageLoadingService,
     private renderer: Renderer2
   ) {
     this.contextualMenuInjector = ReflectiveInjector.resolveAndCreate([
@@ -112,6 +114,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.renderer.removeClass(document.body, 'dark-theme');
       }
     });
+    this.isPageLoading = this.pageLoadingService.isPageLoading;
 
     this.route.queryParams.subscribe(params => {
       this.projectService
@@ -132,17 +135,18 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.watchRouteChanged();
     this.breakpointObserver
-      .observe([Breakpoints.Handset, Breakpoints.Tablet])
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
       .subscribe(t => {
         if (t.matches) {
           this.sideNavMode = 'over';
         } else {
           this.sideNavMode = 'side';
-          this.sideNavOpened = this.storage.retrieve('side-nav-opened') != null
-            ? (this.storage.retrieve('side-nav-opened') === true
-              ? true
-              : false)
-            : true;
+          this.sideNavOpened =
+            this.storage.retrieve('side-nav-opened') != null
+              ? this.storage.retrieve('side-nav-opened') === true
+                ? true
+                : false
+              : true;
         }
       });
     this.contextualMenuService.contextualComponent$.subscribe(component => {
@@ -174,17 +178,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.router.events.subscribe((event: Event) => {
       switch (true) {
         case event instanceof NavigationStart: {
-          this.loadingPage = true;
+          this.pageLoadingService.setPageLoading(true);
           break;
         }
 
         case event instanceof NavigationEnd:
         case event instanceof NavigationCancel: {
-          this.loadingPage = false;
+          this.pageLoadingService.setPageLoading(false);
           break;
         }
         case event instanceof NavigationError: {
-          this.loadingPage = false;
+          this.pageLoadingService.setPageLoading(false);
           break;
         }
         default: {

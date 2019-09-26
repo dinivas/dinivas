@@ -10,16 +10,16 @@
   $foreground: map-get($theme, foreground);
   $foreground-color: mat-color($foreground, text);
 
-  h4 {
-    font-weight: 400;
-    font-size: 14px;
-  }
   .images-container {
     position: relative;
     padding: 20px 20px 0px;
     margin: 10px 0px;
     border: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
     border-radius: 5px;
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
     span.label {
       position: absolute;
       top: -10px;
@@ -33,7 +33,7 @@
       display: flex;
       flex-wrap: nowrap;
       overflow-x: auto;
-      padding-bottom: 20px;
+      padding: 5px 0px 20px 5px;
     }
   }
   .cloud-image {

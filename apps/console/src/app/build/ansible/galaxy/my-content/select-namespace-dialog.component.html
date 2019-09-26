@@ -17,7 +17,7 @@
         <input matInput [value]="selectedProviderSource.name" disabled>
         <mat-hint>Your account is already linked to the provider {{ selectedProviderSource.provider_name}}</mat-hint>
     </mat-form-field>
-    <h4>Select provider namespace to link</h4>
+    <h4 *ngIf="providerSources?.length > 0">Select provider namespace to link</h4>
     <mat-selection-list #pnsSelectionList dense>
         <mat-list-option *ngFor="let providerSource of providerSources" [value]="providerSource">
             {{ providerSource.name }}

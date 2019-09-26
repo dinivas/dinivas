@@ -14,6 +14,8 @@ export class FilterBarComponent implements OnInit {
   @Input() public showAddButton = true;
   @Input() public addButtonLabel = 'Add';
   @Input() filters: Filter[] = [];
+  @Input() customButtons: FilterBarCustomButton[] = [];
+  @Output() onCustomButtonClicked: EventEmitter<any> = new EventEmitter;
 
   @Output() onFilterChanged: EventEmitter<any> = new EventEmitter;
   @Output() onRefreshData: EventEmitter<any> = new EventEmitter;
@@ -41,4 +43,13 @@ export class FilterBarComponent implements OnInit {
   filterChanged(event){
     this.onFilterChanged.emit(event);
   }
+
+  customButtonClicked(customButton: FilterBarCustomButton, event: any){
+    this.onCustomButtonClicked.emit(customButton);
+  }
+}
+
+export class FilterBarCustomButton {
+  matIcon: string;
+  label: string;
 }

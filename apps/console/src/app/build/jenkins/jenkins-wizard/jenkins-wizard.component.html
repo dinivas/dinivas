@@ -62,15 +62,14 @@
         <mat-label>Description</mat-label>
         <textarea matInput formControlName="description" rows="3"></textarea>
       </mat-form-field>
-      <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_master_image"
-        formControlName="master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="cloudImages">
+      <dinivas-cloud-image-radios *ngIf="masterCloudImages?.length > 0; else loading_master_image"
+        formControlName="_master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="masterCloudImages">
       </dinivas-cloud-image-radios>
       <ng-template #loading_master_image>
-        <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Master
-            instance</strong></p>
+        <p class="no-data-checkbox">No image that match filter found.</p>
       </ng-template>
       <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"
-        formControlName="master_cloud_flavor" label="Select Jenkins master flavor to use" [cloudFlavors]="cloudFlavors">
+        formControlName="_master_cloud_flavor" label="Select Jenkins master flavor to use" [cloudFlavors]="cloudFlavors">
       </dinivas-cloud-flavor-radios>
       <ng-template #loading_master_flavor>
         <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master
@@ -173,8 +172,8 @@
               </mat-slider>
               {{ jenkinsForm?.value.slave_groups[slaveGroupIndex]['instance_count'] | json}}
             </div>
-            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0" formControlName="slave_cloud_image"
-              label="Select Slave group image to use" [cloudImages]="cloudImages">
+            <dinivas-cloud-image-radios *ngIf="slaveCloudImages?.length > 0" formControlName="slave_cloud_image"
+              label="Select Slave group image to use" [cloudImages]="slaveCloudImages">
             </dinivas-cloud-image-radios>
             <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="slave_cloud_flavor"
               label="Select Slave group flavor to use" [cloudFlavors]="cloudFlavors">

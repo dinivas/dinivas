@@ -77,14 +77,14 @@
             <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
           </mat-form-field>
           <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"
-            formControlName="bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
+            formControlName="_bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
           </dinivas-cloud-image-radios>
           <ng-template #loading_bastion_image>
             <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Bastion
                 instance</strong></p>
           </ng-template>
           <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_bastion_flavor"
-            formControlName="bastion_cloud_flavor" label="Select bastion flavor to use" [cloudFlavors]="cloudFlavors">
+            formControlName="_bastion_cloud_flavor" label="Select bastion flavor to use" [cloudFlavors]="cloudFlavors">
           </dinivas-cloud-flavor-radios>
           <ng-template #loading_bastion_flavor>
             <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
@@ -101,7 +101,7 @@
           </div>
           <ng-container *ngIf="projectForm?.value.enable_proxy">
             <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_proxy_flavor"
-              formControlName="proxy_cloud_flavor" label="Select proxy flavor to use" [cloudFlavors]="cloudFlavors">
+              formControlName="_proxy_cloud_flavor" label="Select proxy flavor to use" [cloudFlavors]="cloudFlavors">
             </dinivas-cloud-flavor-radios>
             <ng-template #loading_proxy_flavor>
               <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Proxy
@@ -116,7 +116,7 @@
           </div>
           <dinivas-cloud-flavor-radios
             *ngIf="(projectForm?.value.monitoring && cloudFlavors?.length > 0); else loading_prometheus_flavor"
-            formControlName="prometheus_cloud_flavor" label="Select prometheus flavor to use"
+            formControlName="_prometheus_cloud_flavor" label="Select prometheus flavor to use"
             [cloudFlavors]="cloudFlavors"></dinivas-cloud-flavor-radios>
           <ng-template #loading_prometheus_flavor>
             <p class="no-data-checkbox" *ngIf="projectForm?.value.monitoring">Select a cloudprovider to display

@@ -1,5 +1,5 @@
 <div class="app-container">
-  <div class="spinner-container" *ngIf="loadingPage">
+  <div class="spinner-container" *ngIf="isPageLoading | async">
     <mat-spinner></mat-spinner>
     <span>Loading please wait a moment...</span>
   </div>
@@ -100,7 +100,7 @@
         <router-outlet></router-outlet>
       </div>
       <dinivas-footer></dinivas-footer>
-      <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
+      <!-- <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
         <eco-fab-speed-dial-trigger [spin]="true" class="">
           <button mat-fab>
             <mat-icon class="spin180">add</mat-icon>
@@ -117,7 +117,7 @@
             <mat-icon>search</mat-icon>
           </button>
         </eco-fab-speed-dial-actions>
-      </eco-fab-speed-dial>
+      </eco-fab-speed-dial> -->
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

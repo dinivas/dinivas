@@ -28,6 +28,7 @@ import {
 } from 'lodash';
 import { map, filter, flatMap, toArray } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
+import { PageLoadingService } from '../../../../core/services/page-loading.service';
 
 @Component({
   selector: 'dinivas-my-content',
@@ -51,6 +52,7 @@ export class MyContentComponent implements OnInit {
     private repositoryImportService: RepositoryImportService,
     private userService: UserService,
     private repoCollectionListService: RepoCollectionListService,
+    private pageLoadingService: PageLoadingService,
     public dialog: MatDialog
   ) {}
 
@@ -133,6 +135,7 @@ export class MyContentComponent implements OnInit {
   }
 
   addNamespace() {
+    this.pageLoadingService.setPageLoading(true);
     const selectNamespaceDialogRef = this.dialog.open(
       SelectNamespaceDialogComponent,
       {
@@ -143,7 +146,9 @@ export class MyContentComponent implements OnInit {
         }
       }
     );
-
+    selectNamespaceDialogRef
+      .afterOpened()
+      .subscribe(() => this.pageLoadingService.setPageLoading(false));
     selectNamespaceDialogRef
       .afterClosed()
       .subscribe(
@@ -202,26 +207,35 @@ export class MyContentComponent implements OnInit {
       );
   }
   addRepoSources(providerNamespace: ProviderNamespace) {
+    this.pageLoadingService.setPageLoading(true);
     this.providerSourceService
       .getRepoSources({
         providerName: 'github',
         name: providerNamespace.name
       })
-      .subscribe(repoSources => {
-        const selectRepoDialogRef = this.dialog.open(
-          SelectRepoDialogComponent,
-          {
-            width: '600px',
-            data: {
-              repoSources: repoSources,
-              providerNamespace
+      .subscribe(
+        repoSources => {
+          const selectRepoDialogRef = this.dialog.open(
+            SelectRepoDialogComponent,
+            {
+              width: '600px',
+              data: {
+                repoSources: repoSources,
+                providerNamespace
+              }
             }
-          }
-        );
-        selectRepoDialogRef.afterClosed().subscribe((repos: Repository[]) => {
-          console.log('Imported repos to import', repos);
-        });
-      });
+          );
+          selectRepoDialogRef
+            .afterOpened()
+            .subscribe(() => this.pageLoadingService.setPageLoading(false));
+          selectRepoDialogRef.afterClosed().subscribe((repos: Repository[]) => {
+            console.log('Imported repos to import', repos);
+          });
+        },
+        error => {
+          this.pageLoadingService.setPageLoading(false);
+        }
+      );
   }
 }
 
