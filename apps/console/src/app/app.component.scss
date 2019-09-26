@@ -82,9 +82,15 @@
               }
             }
           }
-          &.pinned-menu-list {
+          &.always-menu-list {
             padding-bottom: 10px;
-            border-bottom: 2px solid mat-color($foreground, divider);
+            .mat-list-item {
+              &.active {
+                color: $primary-color;
+              }
+            }
+          }
+          &.pinned-menu-list {
             .mat-list-item {
               &.active {
                 color: $primary-color;

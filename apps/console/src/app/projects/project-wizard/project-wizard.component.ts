@@ -338,7 +338,7 @@ export class ProjectWizardComponent implements OnInit {
 
   setMonitoringValidators() {
     const prometheusFlavor: AbstractControl = this.projectForm.get(
-      'prometheus_cloud_flavor'
+      '_prometheus_cloud_flavor'
     );
     this.projectForm
       .get('monitoring')
@@ -354,7 +354,7 @@ export class ProjectWizardComponent implements OnInit {
 
   setProxyValidators() {
     const proxyFlavor: AbstractControl = this.projectForm.get(
-      'proxy_cloud_flavor'
+      '_proxy_cloud_flavor'
     );
     this.projectForm
       .get('enable_proxy')
@@ -461,7 +461,7 @@ export class ProjectWizardComponent implements OnInit {
               .subscribe(cloudImages => {
                 this.cloudImages = cloudImages;
                 this.projectForm
-                  .get('bastion_cloud_image')
+                  .get('_bastion_cloud_image')
                   .patchValue(
                     this.cloudImages.find(img => img.tags.indexOf(' base') > -1)
                       .name
@@ -471,18 +471,18 @@ export class ProjectWizardComponent implements OnInit {
 
           if (this.project && this.project.prometheus_cloud_flavor) {
             this.projectForm
-              .get('prometheus_cloud_flavor')
+              .get('_prometheus_cloud_flavor')
               .patchValue(this.project.prometheus_cloud_flavor);
           }
           if (this.project && this.project.bastion_cloud_flavor) {
             this.projectForm
-              .get('bastion_cloud_flavor')
+              .get('_bastion_cloud_flavor')
               .patchValue(this.project.bastion_cloud_flavor);
           }
 
           if (this.project && this.project.bastion_cloud_image) {
             this.projectForm
-              .get('bastion_cloud_image')
+              .get('_bastion_cloud_image')
               .patchValue(this.project.bastion_cloud_image);
           }
         } else {

@@ -51,7 +51,7 @@
   </mat-toolbar>
   <mat-sidenav-container class="global">
     <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
-      <mat-nav-list class="pinned-menu-list">
+      <mat-nav-list class="always-menu-list">
         <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
           [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
           <mat-icon matListIcon>home</mat-icon>
@@ -66,7 +66,8 @@
           <mat-icon matListIcon>group_work</mat-icon>
           <h4 mat-line>Projects</h4>
         </a>
-        <mat-divider *ngIf="pinnedMenus.length > 0"></mat-divider>
+      </mat-nav-list>
+      <mat-nav-list class="pinned-menu-list mat-elevation-z5" *ngIf="pinnedMenus.length > 0">
         <ng-container *ngFor="let pinnedMenu of pinnedMenus">
           <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="pinnedMenu.isPinned"
             [routerLink]="pinnedMenu.routerLink" (click)="toggleSideNav()">
@@ -74,7 +75,6 @@
             <h4 mat-line>{{ pinnedMenu.label }}</h4>
           </a>
         </ng-container>
-
       </mat-nav-list>
       <mat-nav-list class="available-items-nav-list">
         <ng-container *ngFor="let menuGroup of availableMenuGroups">
