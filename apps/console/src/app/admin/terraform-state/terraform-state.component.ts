@@ -28,7 +28,7 @@ export class TerraformStateComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     this.columnDefs = [
-      new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
+      //new ColumnDef('id', 'Id', true, false, false, FilterType.TEXT),
       new ColumnDef('stateId', 'State Id', true, true, false, FilterType.TEXT),
       new ColumnDef('lockState', '', false),
       new ColumnDef('module', 'Tf module', true, true, false, FilterType.TEXT),
@@ -50,6 +50,10 @@ export class TerraformStateComponent extends MatCrudComponent
   }
   unlockState(tfState: TerraformStateDTO){
 
+  }
+
+  canDeleteTfState(tfState: TerraformStateDTO): boolean{
+    return true;
   }
 }
 

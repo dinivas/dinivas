@@ -43,6 +43,9 @@ dinivas:
       - name: jenkins
         type: git
         url: https://github.com/dinivas/packer-jenkins.git
+      - name: docker
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-docker.git
   ansible_galaxy:
     url: http://ansible-galaxy:8000
   keycloak:

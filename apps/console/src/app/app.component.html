@@ -52,11 +52,6 @@
   <mat-sidenav-container class="global">
     <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
       <mat-nav-list class="always-menu-list">
-        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
-          [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
-          <mat-icon matListIcon>home</mat-icon>
-          <h4 mat-line>Home</h4>
-        </a>
         <h3 mat-subheader>Admin</h3>
         <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/admin']" (click)="toggleSideNav()">
           <mat-icon matListIcon>settings</mat-icon>
@@ -67,7 +62,12 @@
           <h4 mat-line>Projects</h4>
         </a>
       </mat-nav-list>
-      <mat-nav-list class="pinned-menu-list mat-elevation-z5" *ngIf="pinnedMenus.length > 0">
+      <mat-nav-list class="pinned-menu-list mat-elevation-z7">
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
+          [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
+          <mat-icon matListIcon>home</mat-icon>
+          <h4 mat-line>Home</h4>
+        </a>
         <ng-container *ngFor="let pinnedMenu of pinnedMenus">
           <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="pinnedMenu.isPinned"
             [routerLink]="pinnedMenu.routerLink" (click)="toggleSideNav()">

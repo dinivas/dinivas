@@ -27,7 +27,7 @@
       <button mat-raised-button color="primary" *ngIf="projects.length === 0 && cloudproviders.length > 0"
         [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
         <!-- No project found  -->
-        Create the your first project
+        Create the first project
       </button>
       <button mat-raised-button color="primary"
         *ngIf="projects.length === 0 && cloudproviders.length === 0"
