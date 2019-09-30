@@ -27,6 +27,11 @@ export class Jenkins {
   master_cloud_flavor: string;
   @Column()
   use_floating_ip: boolean = false;
+  @Column()
+  link_to_keycloak: boolean = false;
+  @Column('text', { nullable: true })
+  @ApiModelProperty()
+  keycloak_config: string;
   @Column({ nullable: true })
   master_admin_url: string;
   @Column({ nullable: true })

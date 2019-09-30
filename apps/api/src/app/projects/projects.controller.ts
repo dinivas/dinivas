@@ -113,7 +113,7 @@ export class ProjectsController {
   @Permissions('projects:create')
   async planproject(@Body() project: ProjectDTO): Promise<ProjectDTO> {
     const cloudprovider = await this.cloudproviderService.findOne(
-      project.cloud_provider.id
+      project.cloud_provider.id, true
     );
     return this.commandBus.execute(
       new PlanProjectCommand(
@@ -156,7 +156,7 @@ export class ProjectsController {
     const project = await this.projectsService.findOne(id);
     if (project) {
       const cloudprovider = await this.cloudproviderService.findOne(
-        project.cloud_provider.id
+        project.cloud_provider.id,true
       );
       this.commandBus.execute(
         new DestroyProjectCommand(project, YAML.safeLoad(cloudprovider.config))

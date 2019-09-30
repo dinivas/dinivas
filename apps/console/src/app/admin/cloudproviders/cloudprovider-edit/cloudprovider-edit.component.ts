@@ -25,7 +25,7 @@ export class CloudproviderEditComponent implements OnInit {
       const cloudproviderId = params['cloudproviderId'];
       if (cloudproviderId) {
         this.cloudproviderService
-          .getOneCloudProvider(cloudproviderId)
+          .getOneCloudProviderRawValue(cloudproviderId)
           .subscribe(cloudprovider => {
             this.cloudprovider = cloudprovider;
             this.initProjectForm();

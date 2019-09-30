@@ -88,7 +88,7 @@ export class JenkinsWizardComponent
       .pipe(map((data: { cloudImages: ICloudApiImage[] }) => data.cloudImages))
       .subscribe((cloudImages: ICloudApiImage[]) => {
         this.masterCloudImages = cloudImages.filter(
-          img => img.tags.indexOf(' jenkins-master') > -1
+          img => img.tags.indexOf('jenkins-master') > -1
         );
         this.slaveCloudImages = cloudImages;
       });
@@ -183,6 +183,14 @@ export class JenkinsWizardComponent
       ],
       use_floating_ip: [
         this.jenkins ? this.jenkins.use_floating_ip : false,
+        null
+      ],
+      link_to_keycloak: [
+        this.jenkins ? this.jenkins.link_to_keycloak : false,
+        null
+      ],
+      keycloak_config: [
+        this.jenkins ? this.jenkins.keycloak_config : null,
         null
       ],
       existing_master_scheme: [
@@ -310,6 +318,9 @@ export class JenkinsWizardComponent
     const existingMasterPassword: AbstractControl = this.jenkinsForm.get(
       'existing_master_password'
     );
+    const keycloaConfig: AbstractControl = this.jenkinsForm.get(
+      'keycloak_config'
+    );
     this.jenkinsForm
       .get('use_existing_master')
       .valueChanges.subscribe((useExistingMaster: boolean) => {
@@ -339,6 +350,16 @@ export class JenkinsWizardComponent
             existingMasterUsername,
             existingMasterPassword
           );
+        }
+      });
+
+    this.jenkinsForm
+      .get('link_to_keycloak')
+      .valueChanges.subscribe((linkToKeycloak: boolean) => {
+        if (linkToKeycloak) {
+          keycloaConfig.setValidators([Validators.required]);
+        } else {
+          this.resetFormControlValidatorsAndErrors(keycloaConfig);
         }
       });
   }

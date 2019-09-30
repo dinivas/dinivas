@@ -63,13 +63,15 @@
         <textarea matInput formControlName="description" rows="3"></textarea>
       </mat-form-field>
       <dinivas-cloud-image-radios *ngIf="masterCloudImages?.length > 0; else loading_master_image"
-        formControlName="_master_cloud_image" label="Select Jenkins master image to use" [cloudImages]="masterCloudImages">
+        formControlName="_master_cloud_image" label="Select Jenkins master image to use"
+        [cloudImages]="masterCloudImages">
       </dinivas-cloud-image-radios>
       <ng-template #loading_master_image>
         <p class="no-data-checkbox">No image that match filter found.</p>
       </ng-template>
       <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"
-        formControlName="_master_cloud_flavor" label="Select Jenkins master flavor to use" [cloudFlavors]="cloudFlavors">
+        formControlName="_master_cloud_flavor" label="Select Jenkins master flavor to use"
+        [cloudFlavors]="cloudFlavors">
       </dinivas-cloud-flavor-radios>
       <ng-template #loading_master_flavor>
         <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master
@@ -81,6 +83,18 @@
         </mat-slide-toggle>
         <mat-hint>A proxy will expose services to external network</mat-hint>
       </div>
+      <div class="slide-toggle-container">
+        <mat-slide-toggle formControlName="link_to_keycloak" color="accent">
+          Link this Jenkins Master to Keycloak?
+        </mat-slide-toggle>
+        <mat-hint>Jenkins authentication will be delegated to Keycloak</mat-hint>
+      </div>
+      <mat-form-field class="" appearance="outline" *ngIf="jenkinsForm?.value.link_to_keycloak">
+        <mat-label>Keycloak configuration</mat-label>
+        <textarea matInput formControlName="keycloak_config" rows="5"
+          [required]="jenkinsForm?.value.link_to_keycloak"></textarea>
+        <mat-hint>Keycloak OIDC Json setup</mat-hint>
+      </mat-form-field>
     </ng-container>
     <!-- Existing Jenkins master -->
     <ng-container *ngIf="jenkinsForm?.value.use_existing_master">
@@ -154,7 +168,7 @@
             <mat-form-field class="" appearance="outline">
               <mat-chip-list #chipList aria-label="Slave labels" formControlName="labels">
                 <mat-chip *ngFor="let label of jenkinsForm?.value.slave_groups[slaveGroupIndex].labels"
-                  [selectable]="selectable" [removable]="true" color="accent" selected
+                  [selectable]="false" [removable]="true" color="accent" selected
                   (removed)="removeSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], label)">
                   {{label}}
                   <mat-icon matChipRemove>cancel</mat-icon>

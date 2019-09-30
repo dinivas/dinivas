@@ -9,6 +9,8 @@ export class JenkinsDTO {
   master_cloud_flavor: string;
   project: ProjectDTO;
   use_floating_ip: boolean;
+  link_to_keycloak: boolean;
+  keycloak_config: string;
   master_admin_url: string;
   master_admin_username: string;
   master_admin_password: string;

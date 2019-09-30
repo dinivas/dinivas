@@ -68,7 +68,7 @@ export class ImagesController {
   ): Promise<ModuleImageToBuildDTO> {
     const project = request['project'] as ProjectDTO;
     const cloudprovider = await this.cloudproviderService.findOne(
-      project.cloud_provider.id
+      project.cloud_provider.id, true
     );
     return this.commandBus.execute(
       new BuildModuleImageCommand(

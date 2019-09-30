@@ -29,12 +29,19 @@ export class CloudproviderService {
   ): Promise<Pagination<CloudproviderDTO>> {
     return await paginate<Cloudprovider>(
       this.cloudproviderRepository,
-      paginationOption
+      paginationOption,
+      CloudproviderService.toDTO
     );
   }
 
-  findOne(id: number): Promise<Cloudprovider> {
-    return this.cloudproviderRepository.findOne(id);
+  async findOne(id: number, raw = false): Promise<CloudproviderDTO> {
+    if (!raw) {
+      return CloudproviderService.toDTO(
+        await this.cloudproviderRepository.findOne(id)
+      );
+    } else {
+      return this.cloudproviderRepository.findOne(id);
+    }
   }
 
   async create(cloudproviderDTO: CloudproviderDTO) {

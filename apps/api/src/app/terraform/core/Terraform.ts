@@ -1,3 +1,4 @@
+import { PlanConsulCommand } from './../../network/consul/commands/impl/plan-consul.command';
 import { API_PREFFIX } from './../../constants';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from './../../core/config/config.service';
@@ -23,7 +24,8 @@ import {
   TFStateRepresentation,
   ProjectDTO,
   JenkinsDTO,
-  JenkinsSlaveGroupDTO
+  JenkinsSlaveGroupDTO,
+  ConsulDTO
 } from '@dinivas/dto';
 const fs = require('fs');
 const path = require('path');
@@ -415,8 +417,67 @@ export class Terraform extends Base {
         ? `-var 'jenkins_master_floating_ip_pool=${
             jenkins.project.floating_ip_pool
           }'`
+        : '',
+      `-var 'jenkins_master_use_keycloak="${
+        jenkins.link_to_keycloak ? '1' : '0'
+      }"'`,
+      jenkins.link_to_keycloak
+        ? `-var 'jenkins_master_keycloak_config="${jenkins.keycloak_config}"`
         : ''
     ];
     return jenkins_master_vars;
+  }
+
+  computeTerraformConsulModuleVars(consulCommand: PlanConsulCommand): string[] {
+    const consul_cluster_vars = [
+      `-var 'enable_consul_cluster=1'`,
+      `-var 'consul_cluster_name=${consulCommand.consul.code.toLowerCase()}'`,
+      `-var 'consul_cluster_domain=${consulCommand.consul.cluster_domain}'`,
+      `-var 'consul_cluster_datacenter=${
+        consulCommand.consul.cluster_datacenter
+      }'`,
+      `-var 'consul_cluster_availability_zone=${
+        consulCommand.consul.project.availability_zone
+      }'`,
+      `-var 'consul_server_image_name=${consulCommand.consul.server_image}'`,
+      `-var 'consul_server_flavor_name=${consulCommand.consul.server_flavor}'`,
+      `-var 'consul_client_image_name=${consulCommand.consul.client_image}'`,
+      `-var 'consul_client_flavor_name=${consulCommand.consul.client_flavor}'`,
+      `-var 'consul_server_instance_count=${
+        consulCommand.consul.server_instance_count
+      }'`,
+      `-var 'consul_client_instance_count=${
+        consulCommand.consul.client_instance_count
+      }'`,
+      `-var 'consul_server_keypair_name=${consulCommand.consul.keypair_name}'`,
+      `-var 'consul_client_keypair_name=${consulCommand.consul.keypair_name}'`,
+      `-var 'consul_cluster_security_groups_to_associate=["${consulCommand.consul.project.code.toLowerCase()}-common"]'`,
+      `-var 'consul_cluster_network=${consulCommand.consul.network_name}'`,
+      `-var 'consul_cluster_metadata={"consul_cluster_name":"${consulCommand.consul.code.toLowerCase()}"}'`,
+      `-var 'consul_cluster_subnet=${
+        consulCommand.consul.network_subnet_name
+      }'`,
+      consulCommand.consul.use_floating_ip
+        ? `-var 'consul_cluster_floating_ip_pool=${
+            consulCommand.consul.project.floating_ip_pool
+          }'`
+        : '',
+      `-var 'os_auth_domain_name=${
+        consulCommand.cloudConfig.clouds.openstack.auth.user_domain_name
+      }'`,
+      `-var 'os_auth_username=${
+        consulCommand.cloudConfig.clouds.openstack.auth.username
+      }'`,
+      `-var 'os_auth_password=${
+        consulCommand.cloudConfig.clouds.openstack.auth.password
+      }'`,
+      `-var 'os_auth_url=${
+        consulCommand.cloudConfig.clouds.openstack.auth.auth_url
+      }'`,
+      `-var 'os_project_id=${
+        consulCommand.cloudConfig.clouds.openstack.auth.project_id
+      }'`
+    ];
+    return consul_cluster_vars;
   }
 }

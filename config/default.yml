@@ -27,6 +27,10 @@ dinivas:
         type: git
         provider: openstack
         url: https://github.com/dinivas/terraform-openstack-jenkins.git
+      - name: consul
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-consul.git
       - name: keypair
         type: git
         provider: openstack

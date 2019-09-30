@@ -99,7 +99,7 @@ export class JenkinsController {
     const project = request['project'] as ProjectDTO;
     jenkins.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
-      project.cloud_provider.id
+      project.cloud_provider.id, true
     );
     return this.commandBus.execute(
       new PlanJenkinsCommand(jenkins, YAML.safeLoad(cloudprovider.config))
@@ -139,7 +139,7 @@ export class JenkinsController {
     const jenkins = await this.jenkinsService.findOne(id);
     if (jenkins) {
       const cloudprovider = await this.cloudproviderService.findOne(
-        project.cloud_provider.id
+        project.cloud_provider.id, true
       );
       this.commandBus.execute(
         new DestroyJenkinsCommand(jenkins, YAML.safeLoad(cloudprovider.config))

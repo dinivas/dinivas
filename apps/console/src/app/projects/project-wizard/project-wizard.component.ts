@@ -174,7 +174,7 @@ export class ProjectWizardComponent implements OnInit {
     return this.projectForm && this.projectForm.valid;
   }
 
-  submitPlanProject(project: ProjectDTO) {
+  prepareProjectFormValueBeforeSendToServer(project: ProjectDTO) {
     // Set bastion image name
     if (project && this.projectForm.get('_bastion_cloud_image').value) {
       project.bastion_cloud_image = (this.projectForm.get(
@@ -204,6 +204,10 @@ export class ProjectWizardComponent implements OnInit {
       ).value as ICloudApiFlavor).name;
       delete project['_prometheus_cloud_flavor'];
     }
+  }
+
+  submitPlanProject(project: ProjectDTO) {
+    this.prepareProjectFormValueBeforeSendToServer(project);
     this.projectPlanInProgress = true;
     this.projectPlanStepFinished = false;
     if (!project['code'] && this.project) {
@@ -250,6 +254,7 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   submitApplyProjectPlan(project: ProjectDTO) {
+    this.prepareProjectFormValueBeforeSendToServer(project);
     this.projectApplyInProgress = true;
     if (!this.project) {
       // create
@@ -460,12 +465,15 @@ export class ProjectWizardComponent implements OnInit {
               )
               .subscribe(cloudImages => {
                 this.cloudImages = cloudImages;
-                this.projectForm
-                  .get('_bastion_cloud_image')
-                  .patchValue(
-                    this.cloudImages.find(img => img.tags.indexOf(' base') > -1)
-                      .name
-                  );
+                // this.projectForm
+                //   .get('_bastion_cloud_image')
+                //   .patchValue(
+                //     this.cloudImages.find(
+                //       img =>
+                //         img.tags.indexOf('base') > -1 &&
+                //         img.tags.indexOf('dinivas') > -1
+                //     ).name
+                //   );
               });
           }
 

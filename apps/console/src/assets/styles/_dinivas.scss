@@ -39,9 +39,13 @@
 
   .mat-menu-panel.project-selection {
     button.project-selection-item {
-      font-size: 120%;
+      font-size: 90%;
       &.selected {
         color: $primary-color;
+        .mat-icon{
+          margin-right: 5px;
+          color: $primary-color;
+        }
       }
     }
   }

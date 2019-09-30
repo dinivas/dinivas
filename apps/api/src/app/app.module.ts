@@ -1,3 +1,5 @@
+import { Consul } from './network/consul/consul.entity';
+import { NetworkModule } from './network/network.module';
 import { ConfigService } from './core/config/config.service';
 import { Jenkins, JenkinsSlaveGroup } from './build/jenkins/jenkins.entity';
 import { BuildModule } from './build/build.module';
@@ -62,7 +64,8 @@ const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
         Project,
         TerraformState,
         Jenkins,
-        JenkinsSlaveGroup
+        JenkinsSlaveGroup,
+        Consul
       ]
     }),
     ComputeModule,
@@ -72,6 +75,7 @@ const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
     TerraformModule,
     CoreModule,
     BuildModule,
+    NetworkModule,
     StatusMonitorModule.setUp(statusMonitorConfig)
   ],
   controllers: [InfoController],

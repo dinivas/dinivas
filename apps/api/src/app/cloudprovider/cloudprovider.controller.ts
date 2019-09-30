@@ -43,8 +43,7 @@ export class CloudproviderController {
     return this.cloudproviderService.findAll({
       page,
       limit,
-      sort,
-      route: 'http://cats.com/cats'
+      sort
     });
   }
 
@@ -52,6 +51,12 @@ export class CloudproviderController {
   @Permissions('cloudproviders:view')
   async findOne(@Param('id') id: number): Promise<CloudproviderDTO> {
     return this.cloudproviderService.findOne(id);
+  }
+
+  @Get(':id/raw')
+  @Permissions('cloudproviders:view')
+  async findOneRaw(@Param('id') id: number): Promise<CloudproviderDTO> {
+    return this.cloudproviderService.findOne(id, true);
   }
 
   @Get(':id/check_connection')

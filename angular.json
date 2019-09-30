@@ -121,7 +121,9 @@
               "apps/console/tsconfig.app.json",
               "apps/console/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -173,7 +175,9 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "docker": {
@@ -225,7 +229,9 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -250,7 +256,9 @@
               "libs/material/tsconfig.lib.json",
               "libs/material/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -275,7 +283,9 @@
               "libs/common-ui/tsconfig.lib.json",
               "libs/common-ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -302,7 +312,9 @@
               "libs/dto/tsconfig.lib.json",
               "libs/dto/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -310,6 +322,64 @@
           "options": {
             "jestConfig": "libs/dto/jest.config.js",
             "tsConfig": "libs/dto/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "worker": {
+      "root": "apps/worker",
+      "sourceRoot": "apps/worker/src",
+      "projectType": "application",
+      "prefix": "worker",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/worker",
+            "main": "apps/worker/src/main.ts",
+            "tsConfig": "apps/worker/tsconfig.app.json",
+            "assets": [
+              "apps/worker/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "worker:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/worker/tsconfig.app.json",
+              "apps/worker/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/worker/jest.config.js",
+            "tsConfig": "apps/worker/tsconfig.spec.json"
           }
         }
       }

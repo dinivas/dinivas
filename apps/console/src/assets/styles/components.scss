@@ -12,6 +12,7 @@
 @import '../../app/build/ansible/galaxy/my-import/my-import.component.scss';
 @import '../../app/build/ansible/galaxy/my-content/my-content.component.scss';
 @import '../../app/build/jenkins/jenkins-wizard/jenkins-wizard.component.scss';
+@import '../../app/network/consul/consul-wizard/consul-wizard.component.scss';
 @import '../../app/build/ansible/galaxy/repo-content-detail/repo-content-detail.component.scss';
 @import '../../app/shared/terraform/terraform-representation/terraform-representation.component.scss';
 @import '../../app/admin/terraform-state/display-terraform-state-dialog.component.scss';
@@ -144,6 +145,7 @@
   @include ansible-repo-detail-theme($theme);
   @include confirm-dialog-theme($theme);
   @include jenkins-wizard-theme($theme);
+  @include consul-wizard-theme($theme);
   @include page-loading-spinner-theme($theme);
   @include custom-mat-form-field-outline-theme($theme);
   @include custom-mat-form-field-theme($theme);

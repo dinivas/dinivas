@@ -22,7 +22,7 @@
         <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"
           [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">
           <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>
-          {{ project?.name }}
+          {{ project?.name }} ({{ project?.code }}) on {{ project?.cloud_provider.name }}
         </button>
       </mat-menu>
     </div>

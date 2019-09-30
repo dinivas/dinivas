@@ -15,6 +15,6 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-button color="primary">Create Consul cluster</button>
+    <button mat-button color="primary" [routerLink]="['/network', 'consul', 'new']" queryParamsHandling="merge">Create Consul cluster</button>
   </mat-card-actions>
 </mat-card>

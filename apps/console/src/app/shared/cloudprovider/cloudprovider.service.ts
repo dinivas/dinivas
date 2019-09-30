@@ -31,6 +31,12 @@ export class CloudproviderService {
     );
   }
 
+  getOneCloudProviderRawValue(id: number): Observable<CloudproviderDTO> {
+    return this.http.get<CloudproviderDTO>(
+      `${environment.apiUrl}/cloudproviders/${id}/raw`
+    );
+  }
+
   getCloudProviderFloatingIps(
     id: number
   ): Observable<ICloudApiProjectFloatingIpPool[]> {

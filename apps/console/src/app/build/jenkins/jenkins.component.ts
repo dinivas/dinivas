@@ -79,6 +79,7 @@ export class JenkinsComponent extends MatCrudComponent
   }
 
   entityCanEdit = (jenkinsDTO: JenkinsDTO) => true;
+  entityCanDelete = (jenkinsDTO: JenkinsDTO) => true;
 
   entityEdit(jenkinsDTO: JenkinsDTO) {}
 }

@@ -4,6 +4,7 @@ export * from './lib/cloudprovider/cloudprovider-type';
 export * from './lib/pagination';
 export * from './lib/project/project.dto';
 export * from './lib/jenkins/jenkins.dto';
+export * from './lib/consul/consul.dto';
 export * from './lib/gitlab/gitlab.dto';
 export * from './lib/postgresql/postgresql.dto';
 export * from './lib/serverinfo';

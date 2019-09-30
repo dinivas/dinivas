@@ -5,6 +5,9 @@
       [class.disabled]="type.disabled" (click)="select(type)">
       <!-- <mat-icon class="main-icon" svgIcon="disc"></mat-icon> -->
       <span class="name">{{ type.label }}</span>
+      <div class="architecture-type-icon" [class.singletier]="type.code == 'singletier'"
+        [class.multitier]="type.code == 'multitier'" [class.docker]="type.code == 'docker'"
+        [class.kubernetes]="type.code == 'kubernetes'"></div>
       <p class="description">{{ type.description }}</p>
       <div class="checkmark-overlay"></div>
       <mat-icon class="checkmark">check</mat-icon>

@@ -47,8 +47,8 @@
         padding: 10px 15px 5px !important;
         margin: 0px 10px 5px 0px;
         background-color: $background-color;
-        min-width: 250px;
-        max-width: 3000px;
+        // min-width: 250px;
+        width: 300px;
         cursor: pointer;
         transition: border-color 0.2s ease-in;
         .name {
@@ -57,11 +57,31 @@
           z-index: 2;
           color: $accent-color;
         }
+        .architecture-type-icon {
+          width: 100px;
+          height: 100px;
+          margin: 10px auto;
+          background-size: contain;
+          background-repeat: no-repeat;
+          &.singletier {
+            background-image: url('./assets/icons/animal_castor.svg');
+          }
+          &.multitier {
+            background-image: url('./assets/icons/animal_cat.svg');
+          }
+          &.docker {
+            background-image: url('./assets/icons/animal_dog.svg');
+          }
+          &.kubernetes {
+            background-image: url('./assets/icons/animal_duck.svg');
+          }
+        }
         p.description {
           margin: 10px auto 5px;
           font-size: 13px;
           color: mat-color($foreground, secondary-text);
           line-height: 1.7;
+          text-align: center;
         }
         .checkmark-overlay {
           display: inline-block;
@@ -107,6 +127,9 @@
           color: mat-color($foreground, disabled);
           &:hover {
             border-color: rgba(mat-color($foreground, secondary-text), 0.1);
+          }
+          .architecture-type-icon {
+            opacity: 0.3;
           }
           .name,
           p.description {

@@ -13,7 +13,7 @@
         <mat-spinner></mat-spinner>
         <span>We are planning your project resources, wait a moment...</span>
       </div>
-      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.value)">
+      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.getRawValue())">
         <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
             resources</span></ng-template>
         <div class="mat-form-container" fxLayout="column">
@@ -187,7 +187,7 @@
       <div class="actions">
         <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
         <button mat-button matStepperPrevious class="ml-10">Back</button>
-        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.value)"
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.getRawValue())"
           class="ml-10">{{ !project?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
       </div>
     </div>
