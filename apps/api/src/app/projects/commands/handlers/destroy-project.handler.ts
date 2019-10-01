@@ -40,7 +40,8 @@ export class DestroyProjectHandler
               [
                 '-auto-approve',
                 ...this.terraform.computeTerraformProjectBaseModuleVars(
-                  command.project
+                  command.project,
+                  command.cloudConfig
                 )
               ],
               {

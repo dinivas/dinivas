@@ -76,6 +76,7 @@
             </mat-select>
             <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
           </mat-form-field>
+          <h4>Bastion</h4>
           <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"
             formControlName="_bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
           </dinivas-cloud-image-radios>

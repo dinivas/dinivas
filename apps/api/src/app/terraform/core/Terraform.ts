@@ -306,7 +306,10 @@ export class Terraform extends Base {
     );
   }
 
-  computeTerraformProjectBaseModuleVars(project: ProjectDTO): string[] {
+  computeTerraformProjectBaseModuleVars(
+    project: ProjectDTO,
+    cloudConfig: any
+  ): string[] {
     return [
       `-var 'project_name=${project.code.toLowerCase()}'`,
       `-var 'project_description=${project.description}'`,
@@ -335,7 +338,15 @@ export class Terraform extends Base {
       }'`,
       `-var 'enable_logging_kibana=${
         project.logging && project.logging_stack == 'kibana' ? '1' : '0'
-      }'`
+      }'`,
+      `-var 'consul_cluster_datacenter=gra`,
+      `-var 'os_auth_domain_name=${
+        cloudConfig.clouds.openstack.auth.user_domain_name
+      }'`,
+      `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
+      `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
+      `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
+      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`
     ];
   }
 
