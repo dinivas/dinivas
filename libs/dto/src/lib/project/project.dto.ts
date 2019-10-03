@@ -1,3 +1,4 @@
+import { ConsulDTO } from './../consul/consul.dto';
 import { CloudproviderDTO } from '../cloudprovider/cloudprovider.dto';
 export class ProjectDTO {
   id: number;
@@ -11,12 +12,19 @@ export class ProjectDTO {
   monitoring = false;
   logging = false;
   management_subnet_cidr: string;
+  management_subnet_dhcp_allocation_start: string;
+  management_subnet_dhcp_allocation_end: string;
   enable_proxy = true;
   proxy_cloud_flavor: string;
   logging_stack: string;
   bastion_cloud_image: string;
   bastion_cloud_flavor: string;
   prometheus_cloud_flavor: string;
+}
+
+export class ProjectDefinitionDTO {
+  project: ProjectDTO;
+  consul: ConsulDTO;
 }
 
 export class ApplyModuleDTO<T> {

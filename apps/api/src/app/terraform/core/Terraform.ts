@@ -308,6 +308,7 @@ export class Terraform extends Base {
 
   computeTerraformProjectBaseModuleVars(
     project: ProjectDTO,
+    projectConsul: ConsulDTO,
     cloudConfig: any
   ): string[] {
     return [
@@ -317,6 +318,12 @@ export class Terraform extends Base {
       project.management_subnet_cidr
         ? `-var 'mgmt_subnet_cidr=${project.management_subnet_cidr}'`
         : '',
+      `-var 'mgmt_subnet_dhcp_allocation_start=${
+        project.management_subnet_dhcp_allocation_start
+      }'`,
+      `-var 'mgmt_subnet_dhcp_allocation_end=${
+        project.management_subnet_dhcp_allocation_end
+      }'`,
       `-var 'public_router_name=${project.public_router}'`,
       `-var 'bastion_image_name=${project.bastion_cloud_image}'`,
       `-var 'bastion_compute_flavor_name=${project.bastion_cloud_flavor}'`,
@@ -339,7 +346,20 @@ export class Terraform extends Base {
       `-var 'enable_logging_kibana=${
         project.logging && project.logging_stack == 'kibana' ? '1' : '0'
       }'`,
-      `-var 'consul_cluster_datacenter=gra`,
+      `-var 'project_consul_enable=1'`,
+      `-var 'project_consul_domain=${projectConsul.cluster_domain}`,
+      `-var 'consul_cluster_datacenter=${
+        projectConsul.cluster_datacenter
+      }`,
+      `-var 'project_consul_server_count=${
+        projectConsul.server_instance_count
+      }`,
+      `-var 'project_consul_client_count=${
+        projectConsul.client_instance_count
+      }`,
+      `-var 'project_consul_floating_ip_pool=${
+        projectConsul.use_floating_ip ? project.floating_ip_pool : ''
+      }`,
       `-var 'os_auth_domain_name=${
         cloudConfig.clouds.openstack.auth.user_domain_name
       }'`,

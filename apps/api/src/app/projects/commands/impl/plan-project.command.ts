@@ -1,4 +1,4 @@
-import { ProjectDTO } from '@dinivas/dto';
+import { ProjectDTO, ConsulDTO } from '@dinivas/dto';
 
 export class PlanProjectCommand {
   constructor(
@@ -11,6 +11,7 @@ export class PlanProjectCommand {
     public readonly enableMonitoring: boolean,
     public readonly enableLogging: boolean,
     public readonly loggingStack: string,
-    public readonly cloudConfig: any
+    public readonly cloudConfig: any,
+    public readonly consul: ConsulDTO
   ) {}
 }

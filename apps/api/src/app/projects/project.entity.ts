@@ -26,6 +26,10 @@ export class Project {
   @Column({ nullable: true })
   management_subnet_cidr: string;
   @Column({ nullable: true })
+  management_subnet_dhcp_allocation_start: string;
+  @Column({ nullable: true })
+  management_subnet_dhcp_allocation_end: string;
+  @Column({ nullable: true })
   floating_ip_pool: string;
   @Column({ nullable: true })
   public_router: string;

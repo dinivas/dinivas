@@ -44,6 +44,7 @@ export class PlanProjectHandler implements ICommandHandler<PlanProjectCommand> {
             [
               ...this.terraform.computeTerraformProjectBaseModuleVars(
                 command.project,
+                command.consul,
                 command.cloudConfig
               ),
               '-out=last-plan'

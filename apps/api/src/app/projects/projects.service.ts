@@ -27,6 +27,10 @@ export class ProjectsService {
     projectDTO.logging = project.logging;
     projectDTO.logging_stack = project.logging_stack;
     projectDTO.management_subnet_cidr = project.management_subnet_cidr;
+    projectDTO.management_subnet_dhcp_allocation_start =
+      project.management_subnet_dhcp_allocation_start;
+    projectDTO.management_subnet_dhcp_allocation_end =
+      project.management_subnet_dhcp_allocation_end;
     projectDTO.enable_proxy = project.enable_proxy;
     projectDTO.proxy_cloud_flavor = project.proxy_cloud_flavor;
     projectDTO.bastion_cloud_image = project.bastion_cloud_image;

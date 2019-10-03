@@ -9,7 +9,9 @@ import {
   ICloudApiProjectQuota,
   ApplyModuleDTO,
   ICloudApiImage,
-  ICloudApiFlavor
+  ICloudApiFlavor,
+  ConsulDTO,
+  ProjectDefinitionDTO
 } from '@dinivas/dto';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -111,9 +113,13 @@ export class ProjectsController {
 
   @Post('plan')
   @Permissions('projects:create')
-  async planproject(@Body() project: ProjectDTO): Promise<ProjectDTO> {
+  async planproject(
+    @Body() projectDefinition: ProjectDefinitionDTO
+  ): Promise<ProjectDTO> {
+    const project = projectDefinition.project;
     const cloudprovider = await this.cloudproviderService.findOne(
-      project.cloud_provider.id, true
+      project.cloud_provider.id,
+      true
     );
     return this.commandBus.execute(
       new PlanProjectCommand(
@@ -126,7 +132,8 @@ export class ProjectsController {
         project.monitoring,
         project.logging,
         project.logging_stack,
-        YAML.safeLoad(cloudprovider.config)
+        YAML.safeLoad(cloudprovider.config),
+        projectDefinition.consul
       )
     );
   }
@@ -134,9 +141,15 @@ export class ProjectsController {
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('projects:create')
-  async applyProject(@Body() applyProject: ApplyModuleDTO<ProjectDTO>) {
+  async applyProject(
+    @Body() applyProjectDefinition: ApplyModuleDTO<ProjectDefinitionDTO>
+  ) {
     this.commandBus.execute(
-      new ApplyProjectCommand(applyProject.source, applyProject.workingDir)
+      new ApplyProjectCommand(
+        applyProjectDefinition.source.project,
+        applyProjectDefinition.source.consul,
+        applyProjectDefinition.workingDir
+      )
     );
   }
 
@@ -153,13 +166,15 @@ export class ProjectsController {
   @Delete(':id')
   @Permissions('projects:delete')
   async remove(@Param('id') id: number) {
+    //TODO rachide: find project consul
     const project = await this.projectsService.findOne(id);
     if (project) {
       const cloudprovider = await this.cloudproviderService.findOne(
-        project.cloud_provider.id,true
+        project.cloud_provider.id,
+        true
       );
       this.commandBus.execute(
-        new DestroyProjectCommand(project, YAML.safeLoad(cloudprovider.config))
+        new DestroyProjectCommand(project,null, YAML.safeLoad(cloudprovider.config))
       );
     }
   }
