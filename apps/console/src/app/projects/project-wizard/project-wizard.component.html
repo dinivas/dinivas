@@ -13,7 +13,7 @@
         <mat-spinner></mat-spinner>
         <span>We are planning your project resources, wait a moment...</span>
       </div>
-      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.getRawValue())">
+      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.getRawValue(), projectForm.getRawValue()._consul)">
         <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
             resources</span></ng-template>
         <div class="mat-form-container" fxLayout="column">
@@ -62,11 +62,23 @@
             </mat-select>
             <mat-hint>The name of the router to use as an external gateway</mat-hint>
           </mat-form-field>
-          <mat-form-field class="" appearance="outline">
-            <mat-label>Subnet cidr</mat-label>
-            <input type="text" matInput formControlName="management_subnet_cidr" required>
-            <mat-hint>The main subnet cidr.</mat-hint>
-          </mat-form-field>
+          <div class="subnet-info">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Subnet cidr</mat-label>
+              <input type="text" matInput formControlName="management_subnet_cidr" required>
+              <mat-hint>The main subnet cidr.</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Dhcp allocation start</mat-label>
+              <input type="text" matInput formControlName="management_subnet_dhcp_allocation_start" required>
+              <mat-hint>The start ip for DHCP allocation</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Dhcp allocation end</mat-label>
+              <input type="text" matInput formControlName="management_subnet_dhcp_allocation_end" required>
+              <mat-hint>The end ip for DHCP allocation</mat-hint>
+            </mat-form-field>
+          </div>
           <mat-form-field class="" appearance="outline">
             <mat-label>Floating Ip pool</mat-label>
             <mat-select formControlName="floating_ip_pool" required>
@@ -76,6 +88,28 @@
             </mat-select>
             <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
           </mat-form-field>
+          <h4>Consul</h4>
+          <ng-container formGroupName="_consul">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Consul domain</mat-label>
+              <input type="text" matInput formControlName="cluster_domain" required>
+              <mat-hint>The domain name used for consul cluster, default to <strong>consul</strong></mat-hint>
+            </mat-form-field>
+            <div class="slider-container">
+              <span>Choose the number of consul server</span>
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="server_instance_count" [max]="10" [min]="1"
+                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+              </mat-slider>
+              {{ projectForm?.value._consul.server_instance_count | json}}
+            </div>
+            <div class="slider-container">
+              <span>Choose the number of consul client</span>
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="1"
+                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+              </mat-slider>
+              {{ projectForm?.value._consul.client_instance_count | json}}
+            </div>
+          </ng-container>
           <h4>Bastion</h4>
           <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"
             formControlName="_bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
@@ -188,7 +222,7 @@
       <div class="actions">
         <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
         <button mat-button matStepperPrevious class="ml-10">Back</button>
-        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.getRawValue())"
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.getRawValue(), projectForm.getRawValue()._consul)"
           class="ml-10">{{ !project?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
       </div>
     </div>

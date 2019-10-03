@@ -341,10 +341,10 @@ export class Terraform extends Base {
       }'`,
       `-var 'enable_prometheus=${project.monitoring ? '1' : '0'}'`,
       `-var 'enable_logging_graylog=${
-        project.logging && project.logging_stack == 'graylog' ? '1' : '0'
+        project.logging && project.logging_stack === 'graylog' ? '1' : '0'
       }'`,
       `-var 'enable_logging_kibana=${
-        project.logging && project.logging_stack == 'kibana' ? '1' : '0'
+        project.logging && project.logging_stack === 'kibana' ? '1' : '0'
       }'`,
       `-var 'project_consul_enable=1'`,
       `-var 'project_consul_domain=${projectConsul.cluster_domain}`,
@@ -359,7 +359,7 @@ export class Terraform extends Base {
       }`,
       `-var 'project_consul_floating_ip_pool=${
         projectConsul.use_floating_ip ? project.floating_ip_pool : ''
-      }`,
+      }'`,
       `-var 'os_auth_domain_name=${
         cloudConfig.clouds.openstack.auth.user_domain_name
       }'`,

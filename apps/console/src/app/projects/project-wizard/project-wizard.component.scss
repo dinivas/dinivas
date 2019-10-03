@@ -28,6 +28,22 @@
       background-color: mat-color($background, background);
       text-align: center;
     }
+    .slider-container {
+      margin: 10px 5px;
+      span {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+    }
+    .subnet-info {
+      max-width: 600px;
+      .mat-form-field {
+        &:not(:first-child) {
+          margin-left: 15px;
+        }
+        width: 31.5%;
+      }
+    }
   }
   .apply-container {
     min-height: 300px;

@@ -4,7 +4,8 @@ import {
   ICloudApiProjectQuota,
   ApplyModuleDTO,
   ICloudApiFlavor,
-  ICloudApiImage
+  ICloudApiImage,
+  ProjectDefinitionDTO
 } from '@dinivas/dto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -43,12 +44,12 @@ export class ProjectsService {
     return this.http.post(`${environment.apiUrl}/projects`, project);
   }
 
-  planProject(project: ProjectDTO): Observable<any> {
+  planProject(project: ProjectDefinitionDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}/projects/plan`, project);
   }
 
   applyProjectPlan(
-    applyProjectDTO: ApplyModuleDTO<ProjectDTO>
+    applyProjectDTO: ApplyModuleDTO<ProjectDefinitionDTO>
   ): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/projects/apply-plan`,

@@ -22,7 +22,9 @@ import {
   ICloudApiImage,
   ICloudApiFlavor,
   ApplyModuleDTO,
-  ICloudApiAvailabilityZone
+  ICloudApiAvailabilityZone,
+  ConsulDTO,
+  ProjectDefinitionDTO
 } from '@dinivas/dto';
 import { TerraformWebSocket } from '../../shared/terraform/terraform-websocket.service';
 import { MatVerticalStepper } from '@angular/material';
@@ -130,6 +132,16 @@ export class ProjectWizardComponent implements OnInit {
         this.project ? this.project.management_subnet_cidr : '10.10.11.0/24',
         null
       ],
+      management_subnet_dhcp_allocation_start: [
+        this.project
+          ? this.project.management_subnet_dhcp_allocation_start
+          : '10.10.11.2'
+      ],
+      management_subnet_dhcp_allocation_end: [
+        this.project
+          ? this.project.management_subnet_dhcp_allocation_end
+          : '10.10.11.254'
+      ],
       floating_ip_pool: [
         this.project ? this.project.floating_ip_pool : null,
         null
@@ -151,7 +163,12 @@ export class ProjectWizardComponent implements OnInit {
       ],
       _prometheus_cloud_flavor: [
         this.project ? this.project.prometheus_cloud_flavor : null
-      ]
+      ],
+      _consul: this.formBuilder.group({
+        cluster_domain: ['consul', Validators.required],
+        server_instance_count: [3, Validators.required],
+        client_instance_count: [1, Validators.required]
+      })
     });
     if (this.project && this.project.code) {
       this.projectForm.get('code').disable();
@@ -206,7 +223,7 @@ export class ProjectWizardComponent implements OnInit {
     }
   }
 
-  submitPlanProject(project: ProjectDTO) {
+  submitPlanProject(project: ProjectDTO, consul: ConsulDTO) {
     this.prepareProjectFormValueBeforeSendToServer(project);
     this.projectPlanInProgress = true;
     this.projectPlanStepFinished = false;
@@ -216,15 +233,15 @@ export class ProjectWizardComponent implements OnInit {
     }
     project.logging_stack = this.loggingStack;
     if (!this.project) {
-      this.planProject(project);
+      this.planProject(project, consul);
     } else {
       project.id = this.project.id;
-      this.planProject(project);
+      this.planProject(project, consul);
     }
   }
 
-  planProject(project: ProjectDTO) {
-    this.projectService.planProject(project).subscribe(
+  planProject(project: ProjectDTO, consul: ConsulDTO) {
+    this.projectService.planProject({ project, consul }).subscribe(
       () => {
         const projectPlanEventSubscription = this.terraformWebSocket
           .receivePlanEvent(project.code)
@@ -253,7 +270,7 @@ export class ProjectWizardComponent implements OnInit {
     );
   }
 
-  submitApplyProjectPlan(project: ProjectDTO) {
+  submitApplyProjectPlan(project: ProjectDTO, consul: ConsulDTO) {
     this.prepareProjectFormValueBeforeSendToServer(project);
     this.projectApplyInProgress = true;
     if (!this.project) {
@@ -261,7 +278,7 @@ export class ProjectWizardComponent implements OnInit {
       this.projectService
         .createProject(project)
         .subscribe((savedProject: ProjectDTO) => {
-          this.applyProject(savedProject);
+          this.applyProject(savedProject, consul);
         });
     } else {
       // update
@@ -269,16 +286,16 @@ export class ProjectWizardComponent implements OnInit {
       this.projectService
         .updateProject(project)
         .subscribe((savedProject: ProjectDTO) => {
-          this.applyProject(savedProject);
+          this.applyProject(savedProject, consul);
         });
     }
   }
 
-  applyProject(project: ProjectDTO) {
+  applyProject(project: ProjectDTO, consul: ConsulDTO) {
     this.projectService
       .applyProjectPlan(
-        new ApplyModuleDTO<ProjectDTO>(
-          project,
+        new ApplyModuleDTO<ProjectDefinitionDTO>(
+          { project, consul: consul },
           this.terraformPlanEvent.workingDir
         )
       )
