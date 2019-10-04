@@ -2,7 +2,7 @@
   <mat-icon matListIcon svgIcon="consul"></mat-icon>
   <span class="page-title">Consul</span>
 </mat-toolbar>
-<mat-card class="empty-item-card info-card">
+<mat-card class="empty-item-card info-card" *ngIf="consulList.length === 0">
   <mat-card-header>
     <div mat-card-avatar class="consul-logo"></div>
     <mat-card-title>Consul</mat-card-title>
@@ -15,6 +15,104 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-button color="primary" [routerLink]="['/network', 'consul', 'new']" queryParamsHandling="merge">Create Consul cluster</button>
+    <button mat-button color="primary" [routerLink]="['/network', 'consul', 'new']" queryParamsHandling="merge">Create
+      Consul cluster</button>
   </mat-card-actions>
 </mat-card>
+<div class="container" [class.hide]="consulList.length === 0">
+  <mat-card class="entity-table-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
+        [showAddButton]="showAddButton" addButtonLabel="Add new consul" (onFilterChanged)="filterChanged($event)"
+        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addConsul()"
+        (onDeleteSelection)="deleteEntity($event)">
+      </dinivas-filter-bar>
+      <div class="spinner-container" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table #table class="responsive full-width-table" [dataSource]="dataSource" matSort matSortActive="id"
+        matSortDirection="desc" matSortDisableClear>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="select-cell">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="select-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Datas -->
+        <!-- Id Column -->
+        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container> -->
+
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" [routerLink]="['/network','consul', row.id, 'edit']"
+              queryParamsHandling="merge">
+              {{row.code }}
+            </button>
+          </td>
+        </ng-container>
+        <!-- Project Code Column -->
+        <ng-container matColumnDef="project">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Project code</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.project.code }}
+          </td>
+        </ng-container>
+
+        <!-- Domain Column -->
+        <ng-container matColumnDef="domain">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Domain</th>
+          <td mat-cell *matCellDef="let row">{{row.cluster_domain}}</td>
+        </ng-container>
+        <!-- Datacenter Column -->
+        <ng-container matColumnDef="datacenter">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Datacenter</th>
+          <td mat-cell *matCellDef="let row">{{ row.cluster_datacenter }}</td>
+        </ng-container>
+        <!-- Servers Column -->
+        <ng-container matColumnDef="servers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nb servers</th>
+          <td mat-cell *matCellDef="let row">{{ row.server_instance_count }}</td>
+        </ng-container>
+        <!-- Clients Column -->
+        <ng-container matColumnDef="clients">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nb clients</th>
+          <td mat-cell *matCellDef="let row">{{ row.client_instance_count }}</td>
+        </ng-container>
+        <!-- Actions -->
+        <ng-container matColumnDef="row-actions">
+          <th mat-header-cell *matHeaderCellDef class="action-cell ">
+          </th>
+          <td mat-cell *matCellDef="let entity" class="row-action edit-action">
+            <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
+              [routerLink]="['/network','consul', entity.id , 'edit']" queryParamsHandling="merge">
+              <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
+            </a>
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
+              (click)="deleteEntity(entity)">
+              <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      </table>
+      <mat-paginator [length]="totalEntitiesCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

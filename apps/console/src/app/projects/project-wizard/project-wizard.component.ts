@@ -1,3 +1,4 @@
+import { ConsulService } from './../../shared/consul/consul.service';
 import { AlertService } from './../../core/alert/alert.service';
 import { SelectProjectDialogComponent } from './../../core/dialog/select-project-dialog/select-project-dialog.component';
 import { ContextualMenuService } from './../../core/contextual-menu/contextual-menu.service';
@@ -37,6 +38,7 @@ import { filter, flatMap, toArray, map } from 'rxjs/operators';
 })
 export class ProjectWizardComponent implements OnInit {
   project: ProjectDTO;
+  consul: ConsulDTO;
   projectForm: FormGroup;
   projectPlanFormGroup: FormGroup;
   cloudproviders: CloudproviderDTO[];
@@ -62,6 +64,7 @@ export class ProjectWizardComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private projectService: ProjectsService,
+    private consulService: ConsulService,
     private readonly cloudproviderService: CloudproviderService,
     private readonly terraformWebSocket: TerraformWebSocket,
     private activatedRoute: ActivatedRoute,
@@ -102,10 +105,15 @@ export class ProjectWizardComponent implements OnInit {
           }) => data.currentProjectInfo
         )
       )
-      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo && projectInfo.project;
-        this.initProjectForm();
-      });
+      .subscribe(
+        async (projectInfo: { project: ProjectDTO; projectState: any }) => {
+          this.project = projectInfo && projectInfo.project;
+          this.consul = await this.consulService
+            .getOneByCode(this.project.code)
+            .toPromise();
+          this.initProjectForm();
+        }
+      );
     this.projectPlanFormGroup = this.formBuilder.group({});
     this.cloudproviderService
       .getCloudproviders(new HttpParams())
@@ -165,9 +173,22 @@ export class ProjectWizardComponent implements OnInit {
         this.project ? this.project.prometheus_cloud_flavor : null
       ],
       _consul: this.formBuilder.group({
-        cluster_domain: ['consul', Validators.required],
-        server_instance_count: [3, Validators.required],
-        client_instance_count: [1, Validators.required]
+        cluster_domain: [
+          this.consul ? this.consul.cluster_domain : 'consul',
+          Validators.required
+        ],
+        cluster_datacenter: [
+          this.consul ? this.consul.cluster_datacenter : null,
+          Validators.required
+        ],
+        server_instance_count: [
+          this.consul ? this.consul.server_instance_count : 1,
+          Validators.required
+        ],
+        client_instance_count: [
+          this.consul ? this.consul.client_instance_count : 1,
+          Validators.required
+        ]
       })
     });
     if (this.project && this.project.code) {
@@ -191,7 +212,10 @@ export class ProjectWizardComponent implements OnInit {
     return this.projectForm && this.projectForm.valid;
   }
 
-  prepareProjectFormValueBeforeSendToServer(project: ProjectDTO) {
+  prepareProjectFormValueBeforeSendToServer(
+    project: ProjectDTO,
+    consul: ConsulDTO
+  ) {
     // Set bastion image name
     if (project && this.projectForm.get('_bastion_cloud_image').value) {
       project.bastion_cloud_image = (this.projectForm.get(
@@ -221,10 +245,22 @@ export class ProjectWizardComponent implements OnInit {
       ).value as ICloudApiFlavor).name;
       delete project['_prometheus_cloud_flavor'];
     }
+    consul.code = project.code.toLowerCase();
+    consul.description = `Project ${project.name} dedicated Consul cluster`;
+    consul.keypair_name = project.code.toLowerCase();
+    consul.network_name = `${project.code.toLowerCase()}-mgmt`;
+    consul.network_subnet_name = `${project.code.toLowerCase()}-mgmt-subnet`;
+    consul.architecture_type = 'singletier';
+    consul.server_image = 'Dinivas Base';
+    consul.server_flavor = 'dinivas.medium';
+    consul.client_image = 'Dinivas Base';
+    consul.client_flavor = 'dinivas.medium';
+    consul.use_floating_ip = false;
+    delete project['_consul'];
   }
 
   submitPlanProject(project: ProjectDTO, consul: ConsulDTO) {
-    this.prepareProjectFormValueBeforeSendToServer(project);
+    this.prepareProjectFormValueBeforeSendToServer(project, consul);
     this.projectPlanInProgress = true;
     this.projectPlanStepFinished = false;
     if (!project['code'] && this.project) {
@@ -271,22 +307,30 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   submitApplyProjectPlan(project: ProjectDTO, consul: ConsulDTO) {
-    this.prepareProjectFormValueBeforeSendToServer(project);
+    this.prepareProjectFormValueBeforeSendToServer(project, consul);
     this.projectApplyInProgress = true;
     if (!this.project) {
       // create
       this.projectService
-        .createProject(project)
-        .subscribe((savedProject: ProjectDTO) => {
-          this.applyProject(savedProject, consul);
+        .createProject({ project, consul })
+        .subscribe((projectDefinition: ProjectDefinitionDTO) => {
+          this.applyProject(
+            projectDefinition.project,
+            projectDefinition.consul
+          );
         });
     } else {
       // update
       project.id = this.project.id;
+      consul.id = this.consul.id;
+      consul.project = project;
       this.projectService
-        .updateProject(project)
-        .subscribe((savedProject: ProjectDTO) => {
-          this.applyProject(savedProject, consul);
+        .updateProject({ project, consul })
+        .subscribe((projectDefinition: ProjectDefinitionDTO) => {
+          this.applyProject(
+            projectDefinition.project,
+            projectDefinition.consul
+          );
         });
     }
   }
@@ -420,6 +464,15 @@ export class ProjectWizardComponent implements OnInit {
                 this.projectForm.controls['availability_zone'].patchValue(
                   this.availabilityZones[0].zoneName
                 );
+              }
+              if (this.consul && this.consul.cluster_datacenter) {
+                (this.projectForm.controls['_consul'] as FormGroup).controls[
+                  'cluster_datacenter'
+                ].patchValue(this.consul.cluster_datacenter);
+              } else if (this.availabilityZones.length === 1) {
+                (this.projectForm.controls['_consul'] as FormGroup).controls[
+                  'cluster_datacenter'
+                ].patchValue(this.availabilityZones[0].zoneName);
               }
             });
 

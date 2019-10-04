@@ -13,7 +13,13 @@ import {
   TerraformApplyEvent,
   ApplyModuleDTO
 } from '@dinivas/dto';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  ChangeDetectorRef,
+  AfterViewChecked
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 
@@ -22,7 +28,10 @@ import { map } from 'rxjs/operators';
   templateUrl: './consul-wizard.component.html'
 })
 export class ConsulWizardComponent
-  implements OnInit, TerraformModuleWizardVarsProvider<ConsulDTO> {
+  implements
+    OnInit,
+    AfterViewChecked,
+    TerraformModuleWizardVarsProvider<ConsulDTO> {
   consul: ConsulDTO;
   consulForm: FormGroup;
   moduleWizardStepper: Observable<MatVerticalStepper>;
@@ -50,7 +59,8 @@ export class ConsulWizardComponent
     private formBuilder: FormBuilder,
     private consulService: ConsulService,
     private confirmService: ConfirmDialogService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
   ) {
     activatedRoute.data
       .pipe(map((data: { cloudImages: ICloudApiImage[] }) => data.cloudImages))
@@ -108,10 +118,18 @@ export class ConsulWizardComponent
     });
   }
 
+  ngAfterViewChecked(): void {
+    // workaround because of Expression has changed after it was checked. Previous value: 'ngIf: true' form valid
+    this.cdRef.detectChanges();
+  }
+
   initConsulForm() {
     this.consulForm = this.formBuilder.group({
       code: [this.consul ? this.consul.code : null, Validators.required],
-      cluster_domain: [this.consul ? this.consul.cluster_domain : null, Validators.required],
+      cluster_domain: [
+        this.consul ? this.consul.cluster_domain : null,
+        Validators.required
+      ],
       description: [this.consul ? this.consul.description : null, null],
       network_name: [
         this.consul ? this.consul.network_name : this.projectNetwork,

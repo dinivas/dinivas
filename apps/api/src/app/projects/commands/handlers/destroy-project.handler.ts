@@ -1,3 +1,4 @@
+import { ConsulService } from './../../../network/consul/consul.service';
 import { ProjectsService } from './../../projects.service';
 import { DestroyProjectCommand } from './../impl/destroy-project.command';
 import { TerraformGateway } from '../../../terraform/terraform.gateway';
@@ -16,6 +17,7 @@ export class DestroyProjectHandler
     private readonly publisher: EventPublisher,
     private readonly configService: ConfigService,
     private readonly projectsService: ProjectsService,
+    private readonly consulService: ConsulService,
     private readonly terraformGateway: TerraformGateway
   ) {
     this.terraform = new Terraform(this.configService);
@@ -50,7 +52,9 @@ export class DestroyProjectHandler
                 silent: false
               }
             );
+            await this.consulService.delete(command.consul.id);
             await this.projectsService.delete(command.project.id);
+
             this.terraformGateway.emit(`destroyEvent-${command.project.code}`, {
               source: command.project
             } as TerraformDestroyEvent<ProjectDTO>);

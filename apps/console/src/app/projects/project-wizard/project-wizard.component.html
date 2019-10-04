@@ -95,6 +95,11 @@
               <input type="text" matInput formControlName="cluster_domain" required>
               <mat-hint>The domain name used for consul cluster, default to <strong>consul</strong></mat-hint>
             </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Consul datacenter</mat-label>
+              <input type="text" matInput formControlName="cluster_datacenter" required>
+              <mat-hint>The datacenter name used for consul cluster, default to <strong>availability zone</strong></mat-hint>
+            </mat-form-field>
             <div class="slider-container">
               <span>Choose the number of consul server</span>
               <mat-slider class="" [class.cdk-focused]="true" formControlName="server_instance_count" [max]="10" [min]="1"

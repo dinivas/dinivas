@@ -1,3 +1,4 @@
+import { ConsulModule } from './../network/consul/consul.module';
 import { TerraformStateService } from './../terraform/terraform-state/terraform-state.service';
 import { TerraformStateModule } from './../terraform/terraform-state/terraform-state.module';
 import { TerraformModule } from './../terraform/terraform.module';
@@ -18,7 +19,8 @@ import { CqrsModule } from '@nestjs/cqrs';
     CloudproviderModule,
     CqrsModule,
     TerraformModule,
-    TerraformStateModule
+    TerraformStateModule,
+    ConsulModule
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService, ...CommandHandlers],

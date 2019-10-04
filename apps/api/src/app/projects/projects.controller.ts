@@ -1,3 +1,4 @@
+import { ConsulService } from './../network/consul/consul.service';
 import { TerraformStateService } from './../terraform/terraform-state/terraform-state.service';
 import { DestroyProjectCommand } from './commands/impl/destroy-project.command';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
@@ -42,6 +43,7 @@ export class ProjectsController {
   private readonly logger = new Logger(ProjectsController.name);
   constructor(
     private readonly projectsService: ProjectsService,
+    private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
     private readonly commandBus: CommandBus
@@ -107,8 +109,10 @@ export class ProjectsController {
 
   @Post()
   @Permissions('projects:create')
-  create(@Body() project: ProjectDTO): Promise<ProjectDTO> {
-    return this.projectsService.create(project);
+  create(
+    @Body() projectDefinition: ProjectDefinitionDTO
+  ): Promise<ProjectDefinitionDTO> {
+    return this.projectsService.create(projectDefinition);
   }
 
   @Post('plan')
@@ -157,10 +161,14 @@ export class ProjectsController {
   @Permissions('projects:edit')
   async update(
     @Param('id') id: number,
-    @Body() project: ProjectDTO
-  ): Promise<ProjectDTO> {
-    this.logger.debug(`Updating project ${project.id} ${project.name}`);
-    return await this.projectsService.update(id, project);
+    @Body() projectDefinition: ProjectDefinitionDTO
+  ): Promise<ProjectDefinitionDTO> {
+    this.logger.debug(
+      `Updating project ${projectDefinition.project.id} ${
+        projectDefinition.project.name
+      }`
+    );
+    return await this.projectsService.update(id, projectDefinition);
   }
 
   @Delete(':id')
@@ -173,8 +181,15 @@ export class ProjectsController {
         project.cloud_provider.id,
         true
       );
+      const consul: ConsulDTO = await this.consulService.findOneByCode(
+        project.code
+      );
       this.commandBus.execute(
-        new DestroyProjectCommand(project,null, YAML.safeLoad(cloudprovider.config))
+        new DestroyProjectCommand(
+          project,
+          consul,
+          YAML.safeLoad(cloudprovider.config)
+        )
       );
     }
   }

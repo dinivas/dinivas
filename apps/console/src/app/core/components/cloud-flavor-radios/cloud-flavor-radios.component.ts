@@ -65,6 +65,7 @@ export class CloudFlavorRadiosComponent
   }
   registerOnChange(fn: any): void {
     this.onModelChange = fn;
+    this.onModelChange(this.cloudFlavor);
   }
   registerOnTouched(fn: any): void {
     this.onTouch = fn;

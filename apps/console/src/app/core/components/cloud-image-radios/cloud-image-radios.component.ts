@@ -64,6 +64,7 @@ export class CloudImageRadiosComponent
   }
   registerOnChange(fn: any): void {
     this.onModelChange = fn;
+    this.onModelChange(this.image);
   }
   registerOnTouched(fn: any): void {
     this.onTouch = fn;

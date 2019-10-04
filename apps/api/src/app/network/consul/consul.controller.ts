@@ -66,6 +66,12 @@ export class ConsulController {
     return this.consulService.findOne(id);
   }
 
+  @Get('by_code/:code')
+  @Permissions('consul:view')
+  async findOneByCode(@Param('code') code: string): Promise<ConsulDTO> {
+    return this.consulService.findOneByCode(code);
+  }
+
   @Post()
   @Permissions('consul:create')
   create(

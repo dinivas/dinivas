@@ -1,3 +1,5 @@
+import { ConsulService } from './../network/consul/consul.service';
+import { Consul } from './../network/consul/consul.entity';
 import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,7 +8,8 @@ import {
   paginate,
   IPaginationOptions,
   Pagination,
-  ICloudApiProjectQuota
+  ICloudApiProjectQuota,
+  ProjectDefinitionDTO
 } from '@dinivas/dto';
 import { Project } from './project.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -45,6 +48,7 @@ export class ProjectsService {
   constructor(
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
+    private readonly consulService: ConsulService,
     private cloudApiFactory: CloudApiFactory
   ) {}
 
@@ -84,17 +88,29 @@ export class ProjectsService {
     );
   }
 
-  async create(projectDTO: ProjectDTO): Promise<ProjectDTO> {
+  async create(
+    projectDefinition: ProjectDefinitionDTO
+  ): Promise<ProjectDefinitionDTO> {
     const project: ProjectDTO = ProjectsService.toDTO(
-      await this.projectRepository.save(projectDTO as Project)
+      await this.projectRepository.save(projectDefinition.project as Project)
     );
-    return project;
+    projectDefinition.consul.project = project;
+    const consul = await this.consulService.create(projectDefinition.consul);
+    return { project, consul };
   }
 
-  async update(id: number, projectDTO: ProjectDTO): Promise<ProjectDTO> {
-    return ProjectsService.toDTO(
-      await this.projectRepository.save(projectDTO as Project)
+  async update(
+    id: number,
+    projectDefinition: ProjectDefinitionDTO
+  ): Promise<ProjectDefinitionDTO> {
+    const project: ProjectDTO = ProjectsService.toDTO(
+      await this.projectRepository.save(projectDefinition.project as Project)
     );
+    const consul = await this.consulService.update(
+      projectDefinition.consul.id,
+      projectDefinition.consul
+    );
+    return { project, consul };
   }
 
   async delete(id: number) {

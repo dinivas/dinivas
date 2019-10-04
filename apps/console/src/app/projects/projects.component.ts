@@ -86,6 +86,7 @@ export class ProjectsComponent extends MatCrudComponent
   }
 
   entityCanEdit = (projectDTO: ProjectDTO) => true;
+  entityCanDelete = (projectDTO: ProjectDTO) => true;
 
   entityEdit(projectDTO: ProjectDTO) {}
 }

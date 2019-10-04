@@ -347,16 +347,16 @@ export class Terraform extends Base {
         project.logging && project.logging_stack === 'kibana' ? '1' : '0'
       }'`,
       `-var 'project_consul_enable=1'`,
-      `-var 'project_consul_domain=${projectConsul.cluster_domain}`,
-      `-var 'consul_cluster_datacenter=${
-        projectConsul.cluster_datacenter
-      }`,
+      `-var 'project_consul_domain=${projectConsul.cluster_domain}'`,
+      `-var 'project_consul_datacenter=${
+        projectConsul.cluster_datacenter ? projectConsul.cluster_datacenter : project.availability_zone
+      }'`,
       `-var 'project_consul_server_count=${
         projectConsul.server_instance_count
-      }`,
+      }'`,
       `-var 'project_consul_client_count=${
         projectConsul.client_instance_count
-      }`,
+      }'`,
       `-var 'project_consul_floating_ip_pool=${
         projectConsul.use_floating_ip ? project.floating_ip_pool : ''
       }'`,
