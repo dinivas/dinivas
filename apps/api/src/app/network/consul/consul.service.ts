@@ -20,6 +20,15 @@ export class ConsulService {
     consulDTO.cluster_datacenter = consul.cluster_datacenter;
     consulDTO.server_instance_count = consul.server_instance_count;
     consulDTO.client_instance_count = consul.client_instance_count;
+    consulDTO.architecture_type = consul.architecture_type;
+    consulDTO.network_name = consul.network_name;
+    consulDTO.network_subnet_name = consul.network_subnet_name;
+    consulDTO.keypair_name = consul.keypair_name;
+    consulDTO.server_image = consul.server_image;
+    consulDTO.server_flavor = consul.server_flavor;
+    consulDTO.client_image = consul.client_image;
+    consulDTO.client_flavor = consul.client_flavor;
+    consulDTO.use_floating_ip = consul.use_floating_ip;
     consulDTO.project = new ProjectDTO();
     consulDTO.project.id = consul.project.id;
     consulDTO.project.code = consul.project.code;

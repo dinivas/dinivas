@@ -189,8 +189,8 @@ export class JenkinsWizardComponent
         this.jenkins ? this.jenkins.link_to_keycloak : false,
         null
       ],
-      keycloak_config: [
-        this.jenkins ? this.jenkins.keycloak_config : null,
+      keycloak_client_id: [
+        this.jenkins ? this.jenkins.keycloak_client_id : null,
         null
       ],
       existing_master_scheme: [
@@ -318,8 +318,8 @@ export class JenkinsWizardComponent
     const existingMasterPassword: AbstractControl = this.jenkinsForm.get(
       'existing_master_password'
     );
-    const keycloaConfig: AbstractControl = this.jenkinsForm.get(
-      'keycloak_config'
+    const keycloaClientId: AbstractControl = this.jenkinsForm.get(
+      'keycloak_client_id'
     );
     this.jenkinsForm
       .get('use_existing_master')
@@ -357,9 +357,9 @@ export class JenkinsWizardComponent
       .get('link_to_keycloak')
       .valueChanges.subscribe((linkToKeycloak: boolean) => {
         if (linkToKeycloak) {
-          keycloaConfig.setValidators([Validators.required]);
+          keycloaClientId.setValidators([Validators.required]);
         } else {
-          this.resetFormControlValidatorsAndErrors(keycloaConfig);
+          this.resetFormControlValidatorsAndErrors(keycloaClientId);
         }
       });
   }

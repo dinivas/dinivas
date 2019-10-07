@@ -42,7 +42,9 @@ export class DestroyJenkinsHandler
               [
                 '-auto-approve',
                 ...this.terraform.computeTerraformJenkinsModuleVars(
-                  command.jenkins
+                  command.jenkins,
+                  command.consul,
+                  command.cloudConfig
                 )
               ],
               {

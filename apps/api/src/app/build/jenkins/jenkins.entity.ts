@@ -29,9 +29,9 @@ export class Jenkins {
   use_floating_ip: boolean = false;
   @Column()
   link_to_keycloak: boolean = false;
-  @Column('text', { nullable: true })
+  @Column({ nullable: true })
   @ApiModelProperty()
-  keycloak_config: string;
+  keycloak_client_id: string;
   @Column({ nullable: true })
   master_admin_url: string;
   @Column({ nullable: true })

@@ -108,9 +108,11 @@ export class ProjectWizardComponent implements OnInit {
       .subscribe(
         async (projectInfo: { project: ProjectDTO; projectState: any }) => {
           this.project = projectInfo && projectInfo.project;
-          this.consul = await this.consulService
-            .getOneByCode(this.project.code)
-            .toPromise();
+          if (this.project) {
+            this.consul = await this.consulService
+              .getOneByCode(this.project.code)
+              .toPromise();
+          }
           this.initProjectForm();
         }
       );
@@ -130,6 +132,7 @@ export class ProjectWizardComponent implements OnInit {
         this.project ? this.project.cloud_provider : null,
         Validators.required
       ],
+      root_domain: [this.project ? this.project.root_domain : null, null],
       description: [this.project ? this.project.description : null, null],
       availability_zone: [
         this.project ? this.project.availability_zone : null,
@@ -168,6 +171,18 @@ export class ProjectWizardComponent implements OnInit {
       _proxy_cloud_flavor: [
         this.project ? this.project.proxy_cloud_flavor : null,
         null
+      ],
+      keycloak_host: [
+        this.project ? this.project.keycloak_host : null,
+        Validators.required
+      ],
+      keycloak_client_id: [
+        this.project ? this.project.keycloak_client_id : null,
+        Validators.required
+      ],
+      keycloak_client_secret: [
+        this.project ? this.project.keycloak_client_secret : null,
+        Validators.required
       ],
       _prometheus_cloud_flavor: [
         this.project ? this.project.prometheus_cloud_flavor : null

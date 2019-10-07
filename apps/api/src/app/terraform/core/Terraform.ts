@@ -258,6 +258,27 @@ export class Terraform extends Base {
     }
   }
 
+  addKeycloakProviderConfigFileToModule(
+    project: ProjectDTO,
+    destination: string
+  ) {
+    const providerContent = `
+    provider "keycloak" {
+      client_id   = "${project.keycloak_client_id}"
+      client_secret = "${project.keycloak_client_secret}"
+      url    = "http://${project.keycloak_host}"
+    }
+    `;
+    try {
+      fs.writeFileSync(
+        path.join(destination, 'keycloak-provider.tf'),
+        providerContent
+      );
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+
   executeInTerraformModuleDir(
     projectCode: string,
     tfModuleName: string,
@@ -313,6 +334,7 @@ export class Terraform extends Base {
   ): string[] {
     return [
       `-var 'project_name=${project.code.toLowerCase()}'`,
+      `-var 'project_root_domain=${project.root_domain}'`,
       `-var 'project_description=${project.description}'`,
       `-var 'project_availability_zone=${project.availability_zone}'`,
       project.management_subnet_cidr
@@ -328,8 +350,9 @@ export class Terraform extends Base {
       `-var 'bastion_image_name=${project.bastion_cloud_image}'`,
       `-var 'bastion_compute_flavor_name=${project.bastion_cloud_flavor}'`,
       `-var 'bastion_ssh_user=centos'`,
-      `-var 'proxy_image_name=Dinivas Base Centos7'`,
+      `-var 'proxy_image_name=Dinivas Proxy'`,
       `-var 'enable_proxy=${project.enable_proxy ? '1' : '0'}'`,
+      `-var 'project_keycloak_host=${project.keycloak_host}'`,
       `-var 'proxy_compute_flavor_name=${
         project.proxy_cloud_flavor
           ? project.proxy_cloud_flavor
@@ -349,7 +372,9 @@ export class Terraform extends Base {
       `-var 'project_consul_enable=1'`,
       `-var 'project_consul_domain=${projectConsul.cluster_domain}'`,
       `-var 'project_consul_datacenter=${
-        projectConsul.cluster_datacenter ? projectConsul.cluster_datacenter : project.availability_zone
+        projectConsul.cluster_datacenter
+          ? projectConsul.cluster_datacenter
+          : project.availability_zone
       }'`,
       `-var 'project_consul_server_count=${
         projectConsul.server_instance_count
@@ -428,8 +453,13 @@ export class Terraform extends Base {
     );
   }
 
-  computeTerraformJenkinsModuleVars(jenkins: JenkinsDTO): string[] {
+  computeTerraformJenkinsModuleVars(
+    jenkins: JenkinsDTO,
+    consul: ConsulDTO,
+    cloudConfig: any
+  ): string[] {
     const jenkins_master_vars = [
+      `-var 'project_name=${jenkins.project.code.toLowerCase()}'`,
       `-var 'enable_jenkins_master=${jenkins.use_existing_master ? 0 : 1}'`,
       `-var 'jenkins_master_name=${jenkins.code.toLowerCase()}'`,
       `-var 'jenkins_master_instance_count=1'`,
@@ -449,12 +479,24 @@ export class Terraform extends Base {
             jenkins.project.floating_ip_pool
           }'`
         : '',
-      `-var 'jenkins_master_use_keycloak="${
+      `-var 'jenkins_master_use_keycloak=${
         jenkins.link_to_keycloak ? '1' : '0'
-      }"'`,
+      }'`,
       jenkins.link_to_keycloak
-        ? `-var 'jenkins_master_keycloak_config="${jenkins.keycloak_config}"`
-        : ''
+      ? `-var 'jenkins_master_keycloak_host=${jenkins.project.keycloak_host}'`
+      : '',
+      jenkins.link_to_keycloak
+      ? `-var 'jenkins_master_keycloak_client_id=${jenkins.keycloak_client_id}'`
+      : '',
+      `-var 'project_consul_domain=${consul.cluster_domain}'`,
+      `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
+      `-var 'os_auth_domain_name=${
+        cloudConfig.clouds.openstack.auth.user_domain_name
+      }'`,
+      `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
+      `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
+      `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
+      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`
     ];
     return jenkins_master_vars;
   }

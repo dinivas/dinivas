@@ -40,6 +40,11 @@
               creation.</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
+            <mat-label>Project root domain (DNS)</mat-label>
+            <input type="text" matInput formControlName="root_domain" required>
+            <mat-hint>This is the root domain used for all components</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea matInput formControlName="description" rows="3"></textarea>
           </mat-form-field>
@@ -148,6 +153,22 @@
                   instance</strong></p>
             </ng-template>
           </ng-container>
+          <h4>Keycloak (SSO)</h4>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Keycloak Host</mat-label>
+            <input type="text" matInput formControlName="keycloak_host" required>
+            <mat-hint>Keycloak host in the form <strong>Host</strong>:<strong>Port</strong></mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Keycloak Client id</mat-label>
+            <input type="text" matInput formControlName="keycloak_client_id" required>
+            <mat-hint>Keycloak Client ID used to create Project Real and client</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Keycloak Client secret</mat-label>
+            <input type="text" matInput formControlName="keycloak_client_secret" required>
+            <mat-hint>Keycloak Client Secret used to create Project Real and client</mat-hint>
+          </mat-form-field>
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="monitoring" color="accent">
               Enable project monitoring?

@@ -17,6 +17,9 @@ export class Project {
   @Column({ unique: true })
   @ApiModelProperty()
   code: string;
+  @Column({ unique: true })
+  @ApiModelProperty()
+  root_domain: string;
   @Column('text', { nullable: true })
   @ApiModelProperty()
   description: string;
@@ -51,4 +54,10 @@ export class Project {
   bastion_cloud_flavor: string;
   @Column({ nullable: true })
   prometheus_cloud_flavor: string;
+  @Column({ nullable: false })
+  keycloak_host: string;
+  @Column({ nullable: false })
+  keycloak_client_id: string;
+  @Column({ nullable: false })
+  keycloak_client_secret: string;
 }

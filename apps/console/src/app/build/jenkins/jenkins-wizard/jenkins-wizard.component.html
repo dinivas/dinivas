@@ -90,9 +90,9 @@
         <mat-hint>Jenkins authentication will be delegated to Keycloak</mat-hint>
       </div>
       <mat-form-field class="" appearance="outline" *ngIf="jenkinsForm?.value.link_to_keycloak">
-        <mat-label>Keycloak configuration</mat-label>
-        <textarea matInput formControlName="keycloak_config" rows="5"
-          [required]="jenkinsForm?.value.link_to_keycloak"></textarea>
+        <mat-label>Keycloak client id</mat-label>
+        <input type="text" matInput formControlName="keycloak_client_id"
+          [required]="jenkinsForm?.value.link_to_keycloak">
         <mat-hint>Keycloak OIDC Json setup</mat-hint>
       </mat-form-field>
     </ng-container>

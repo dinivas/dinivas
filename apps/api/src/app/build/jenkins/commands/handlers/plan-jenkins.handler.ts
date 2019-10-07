@@ -45,7 +45,9 @@ export class PlanJenkinsHandler implements ICommandHandler<PlanJenkinsCommand> {
               workingDir,
               [
                 ...this.terraform.computeTerraformJenkinsModuleVars(
-                  command.jenkins
+                  command.jenkins,
+                  command.consul,
+                  command.cloudConfig
                 ),
                 '-out=last-plan'
               ],

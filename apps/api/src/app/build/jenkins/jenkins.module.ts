@@ -1,3 +1,4 @@
+import { ConsulModule } from './../../network/consul/consul.module';
 import { TerraformModule } from './../../terraform/terraform.module';
 import { CommandHandlers } from './commands/handlers/index';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -17,7 +18,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CqrsModule,
     TerraformModule,
     TerraformStateModule,
-    CloudproviderModule
+    CloudproviderModule,
+    ConsulModule
   ],
   controllers: [JenkinsController],
   providers: [JenkinsService, ...CommandHandlers],

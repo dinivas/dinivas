@@ -30,6 +30,8 @@ export class JenkinsService {
     jenkinsDTO.existing_master_port = jenkins.existing_master_port;
     jenkinsDTO.existing_master_username = jenkins.existing_master_username;
     jenkinsDTO.existing_master_password = jenkins.existing_master_password;
+    jenkinsDTO.link_to_keycloak = jenkins.link_to_keycloak;
+    jenkinsDTO.keycloak_client_id = jenkins.keycloak_client_id;
     jenkinsDTO.keypair_name = jenkins.keypair_name;
     jenkinsDTO.manage_slave = jenkins.manage_slave;
     jenkinsDTO.network_name = jenkins.network_name;

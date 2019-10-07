@@ -4,6 +4,7 @@ export class ProjectDTO {
   id: number;
   name: string;
   code: string;
+  root_domain: string;
   description: string;
   cloud_provider: CloudproviderDTO;
   availability_zone: string;
@@ -20,6 +21,9 @@ export class ProjectDTO {
   bastion_cloud_image: string;
   bastion_cloud_flavor: string;
   prometheus_cloud_flavor: string;
+  keycloak_host: string;
+  keycloak_client_id: string;
+  keycloak_client_secret: string;
 }
 
 export class ProjectDefinitionDTO {

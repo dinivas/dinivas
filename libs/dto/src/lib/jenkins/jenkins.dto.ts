@@ -10,7 +10,7 @@ export class JenkinsDTO {
   project: ProjectDTO;
   use_floating_ip: boolean;
   link_to_keycloak: boolean;
-  keycloak_config: string;
+  keycloak_client_id: string = 'jenkins';
   master_admin_url: string;
   master_admin_username: string;
   master_admin_password: string;

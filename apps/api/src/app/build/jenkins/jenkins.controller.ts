@@ -1,3 +1,4 @@
+import { ConsulService } from './../../network/consul/consul.service';
 import { DestroyJenkinsCommand } from './commands/impl/destroy-jenkins.command';
 import { ApplyJenkinsCommand } from './commands/impl/apply-jenkins.command';
 import { PlanJenkinsCommand } from './commands/impl/plan-jenkins.command';
@@ -26,7 +27,8 @@ import {
   Pagination,
   JenkinsDTO,
   ProjectDTO,
-  ApplyModuleDTO
+  ApplyModuleDTO,
+  ConsulDTO
 } from '@dinivas/dto';
 import { Request } from 'express';
 const YAML = require('js-yaml');
@@ -40,6 +42,7 @@ export class JenkinsController {
 
   constructor(
     private jenkinsService: JenkinsService,
+    private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
     private readonly commandBus: CommandBus
@@ -101,8 +104,11 @@ export class JenkinsController {
     const cloudprovider = await this.cloudproviderService.findOne(
       project.cloud_provider.id, true
     );
+    const consul: ConsulDTO = await this.consulService.findOneByCode(
+      project.code
+    );
     return this.commandBus.execute(
-      new PlanJenkinsCommand(jenkins, YAML.safeLoad(cloudprovider.config))
+      new PlanJenkinsCommand(jenkins, consul, YAML.safeLoad(cloudprovider.config))
     );
   }
 
@@ -141,8 +147,11 @@ export class JenkinsController {
       const cloudprovider = await this.cloudproviderService.findOne(
         project.cloud_provider.id, true
       );
+      const consul: ConsulDTO = await this.consulService.findOneByCode(
+        project.code
+      );
       this.commandBus.execute(
-        new DestroyJenkinsCommand(jenkins, YAML.safeLoad(cloudprovider.config))
+        new DestroyJenkinsCommand(jenkins, consul, YAML.safeLoad(cloudprovider.config))
       );
     }
   }

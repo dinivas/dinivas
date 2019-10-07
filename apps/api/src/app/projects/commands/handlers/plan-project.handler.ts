@@ -39,6 +39,7 @@ export class PlanProjectHandler implements ICommandHandler<PlanProjectCommand> {
       null,
       async workingDir => {
         try {
+          this.terraform.addKeycloakProviderConfigFileToModule(command.project, workingDir);
           const planResult: TFPlanRepresentation = await this.terraform.plan(
             workingDir,
             [

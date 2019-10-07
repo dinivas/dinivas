@@ -22,6 +22,7 @@ export class ProjectsService {
     projectDTO.id = project.id;
     projectDTO.name = project.name;
     projectDTO.code = project.code;
+    projectDTO.root_domain = project.root_domain;
     projectDTO.description = project.description;
     projectDTO.public_router = project.public_router;
     projectDTO.availability_zone = project.availability_zone;
@@ -35,6 +36,9 @@ export class ProjectsService {
     projectDTO.management_subnet_dhcp_allocation_end =
       project.management_subnet_dhcp_allocation_end;
     projectDTO.enable_proxy = project.enable_proxy;
+    projectDTO.keycloak_host = project.keycloak_host;
+    projectDTO.keycloak_client_id = project.keycloak_client_id;
+    projectDTO.keycloak_client_secret = project.keycloak_client_secret;
     projectDTO.proxy_cloud_flavor = project.proxy_cloud_flavor;
     projectDTO.bastion_cloud_image = project.bastion_cloud_image;
     projectDTO.bastion_cloud_flavor = project.bastion_cloud_flavor;

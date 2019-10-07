@@ -37,6 +37,7 @@ export class DestroyProjectHandler
         null,
         async workingDir => {
           try {
+            this.terraform.addKeycloakProviderConfigFileToModule(command.project, workingDir);
             await this.terraform.destroy(
               workingDir,
               [
