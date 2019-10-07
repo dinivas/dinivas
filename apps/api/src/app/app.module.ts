@@ -1,3 +1,4 @@
+import { AdminIamModule } from './admin-iam/admin-iam.module';
 import { Consul } from './network/consul/consul.entity';
 import { NetworkModule } from './network/network.module';
 import { ConfigService } from './core/config/config.service';
@@ -49,7 +50,7 @@ import { json } from 'body-parser';
 import { IConfig } from 'config';
 
 if (!process.env['NODE_CONFIG_DIR']) {
-  process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../cfonfig/';
+  process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../config/';
 }
 export const config: IConfig = require('config');
 
@@ -71,6 +72,7 @@ const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
     ComputeModule,
     CloudproviderModule,
     ProjectsModule,
+    AdminIamModule,
     IamModule,
     TerraformModule,
     CoreModule,
@@ -104,7 +106,7 @@ export class AppModule implements NestModule {
       )
       .forRoutes('ansible-galaxy/*');
     // Add manually body-parser because we disabled it in main.ts
-    const jsonParseMiddleware = json();
+    const jsonParseMiddleware = json({limit: '10mb'});
     consumer
       .apply((req: any, res: any, next: any) => {
         jsonParseMiddleware(req, res, next);

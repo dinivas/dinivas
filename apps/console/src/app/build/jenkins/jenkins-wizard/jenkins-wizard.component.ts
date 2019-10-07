@@ -240,6 +240,7 @@ export class JenkinsWizardComponent
     this.jenkinsForm.get('network_name').disable();
     this.jenkinsForm.get('network_subnet_name').disable();
     this.jenkinsForm.get('keypair_name').disable();
+    this.jenkinsForm.get('use_floating_ip').disable();
     this.setExistingMasterValidators();
     this.setManageSlaveValidators();
     this.jenkinsForm
@@ -477,11 +478,17 @@ export class JenkinsWizardComponent
     }
 
     if (jenkins.manage_slave) {
-      jenkins.slave_groups.forEach(slave => {
+      jenkins.slave_groups.forEach((slave, slaveIndex) => {
         if (!slave.id) {
           // add prefix only for new Jenkins
           slave.code = `${jenkins.code}-${slave.code.toLowerCase()}`;
         }
+        slave.slave_cloud_image = this.jenkinsForm.get('slave_groups').value[
+          slaveIndex
+        ].slave_cloud_image.name;
+        slave.slave_cloud_flavor = this.jenkinsForm.get('slave_groups').value[
+          slaveIndex
+        ].slave_cloud_flavor.name;
       });
     } else {
       jenkins.slave_groups = [];

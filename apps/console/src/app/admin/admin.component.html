@@ -7,6 +7,8 @@
     routerLink="dashboard">Dashboard</a> -->
   <a mat-tab-link routerLinkActive #rlaCloudprovider="routerLinkActive" [active]="rlaCloudprovider.isActive"
     routerLink="cloudproviders">Cloud providers</a>
+  <a mat-tab-link routerLinkActive #rlaIam="routerLinkActive" [active]="rlaIam.isActive"
+    routerLink="admin-iam">IAM</a>
   <a mat-tab-link routerLinkActive #rlaServerInfo="routerLinkActive" [active]="rlaServerInfo.isActive"
     routerLink="server-info">Server infos</a>
   <a mat-tab-link routerLinkActive #rlaTerraformState="routerLinkActive" [active]="rlaTerraformState.isActive"

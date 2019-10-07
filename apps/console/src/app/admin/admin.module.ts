@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin.component';
 import { ServerInfoComponent } from './server-info/server-info.component';
 import { ServerMonitorStatusComponent } from './server-monitor-status/server-monitor-status.component';
+import { AdminIamModule } from './admin-iam/admin-iam.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,6 @@ import { ServerMonitorStatusComponent } from './server-monitor-status/server-mon
     ServerInfoComponent,
     ServerMonitorStatusComponent
   ],
-  imports: [CommonModule, CoreModule, CommonUiModule, AdminRoutingModule]
+  imports: [CommonModule, CoreModule, CommonUiModule, AdminRoutingModule, AdminIamModule]
 })
 export class AdminModule {}

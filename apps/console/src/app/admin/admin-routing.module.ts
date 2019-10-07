@@ -12,31 +12,27 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [MandatorySelectedProjectGuard]
-      },
-      {
         path: 'server-info',
-        component: ServerInfoComponent,
-        canActivate: [MandatorySelectedProjectGuard]
+        component: ServerInfoComponent
       },
       {
         path: 'server-monitor-status',
-        component: ServerMonitorStatusComponent,
-        canActivate: [MandatorySelectedProjectGuard]
+        component: ServerMonitorStatusComponent
       },
       {
         path: 'cloudproviders',
         loadChildren:
-          './cloudproviders/cloudproviders.module#CloudprovidersModule',
-        canActivate: [MandatorySelectedProjectGuard]
+          './cloudproviders/cloudproviders.module#CloudprovidersModule'
+      },
+      {
+        path: 'admin-iam',
+        loadChildren:
+          './admin-iam/admin-iam.module#AdminIamModule'
       },
       {
         path: 'terraform-state',
         loadChildren:
-          './terraform-state/terraform-state.module#TerraformStateModule',
-        canActivate: [MandatorySelectedProjectGuard]
+          './terraform-state/terraform-state.module#TerraformStateModule'
       },
       { path: '', redirectTo: 'server-monitor-status' }
     ]
