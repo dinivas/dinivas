@@ -52,6 +52,16 @@ export class Jenkins {
   existing_master_username: string;
   @Column({ nullable: true })
   existing_master_password: string;
+  @Column({ nullable: true })
+  slave_api_scheme: string;
+  @Column({ nullable: true })
+  slave_api_host: string;
+  @Column({ nullable: true })
+  slave_api_port: number;
+  @Column({ nullable: true })
+  slave_api_username: string;
+  @Column({ nullable: true })
+  slave_api_token: string;
   @Column({ nullable: false })
   keypair_name: string;
   @Column({ nullable: false })

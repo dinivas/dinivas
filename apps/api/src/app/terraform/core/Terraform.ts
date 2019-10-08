@@ -406,27 +406,27 @@ export class Terraform extends Base {
         jenkins_master_scheme = "${
           jenkinsDTO.use_existing_master && jenkinsDTO.existing_master_scheme
             ? jenkinsDTO.existing_master_scheme
-            : 'http'
+            : jenkinsDTO.slave_api_scheme ? jenkinsDTO.slave_api_scheme : 'http'
         }"
         jenkins_master_host = "${
           jenkinsDTO.use_existing_master
             ? jenkinsDTO.existing_master_host
-            : '${length(module.jenkins_master_instance.network_fixed_ip_v4) > 0 ? module.jenkins_master_instance.network_fixed_ip_v4[0]: ""}'
+            : jenkinsDTO.slave_api_host ? jenkinsDTO.slave_api_host : '${length(module.jenkins_master_instance.network_fixed_ip_v4) > 0 ? module.jenkins_master_instance.network_fixed_ip_v4[0]: ""}'
         }"
         jenkins_master_port = "${
           jenkinsDTO.use_existing_master && jenkinsDTO.existing_master_port
             ? jenkinsDTO.existing_master_port
-            : 8080
+            : jenkinsDTO.slave_api_port ? jenkinsDTO.slave_api_port : 8080
         }"
         jenkins_master_username = "${
           jenkinsDTO.use_existing_master
             ? jenkinsDTO.existing_master_username
-            : jenkinsDTO.master_admin_username
+            : jenkinsDTO.slave_api_username
         }"
         jenkins_master_password = "${
           jenkinsDTO.use_existing_master
             ? jenkinsDTO.existing_master_password
-            : jenkinsDTO.master_admin_password
+            : jenkinsDTO.slave_api_token
         }"
         jenkins_slave_group_name = "${slaveGroup.code}"
         jenkins_slave_group_labels = "${slaveGroup.labels.join(',')}"

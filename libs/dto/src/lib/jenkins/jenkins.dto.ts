@@ -19,6 +19,11 @@ export class JenkinsDTO {
   existing_master_port: number;
   existing_master_username: string;
   existing_master_password: string;
+  slave_api_scheme: string;
+  slave_api_host: string;
+  slave_api_port: number;
+  slave_api_username: string;
+  slave_api_token: string;
   keypair_name: string;
   manage_slave: boolean;
   network_name: string;

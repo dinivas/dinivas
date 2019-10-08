@@ -153,6 +153,44 @@
       <h4>Slave groups <small
           *ngIf="jenkinsForm.get('slave_groups').controls.length > 0">({{ jenkinsForm.get('slave_groups').controls.length }}
           groups)</small></h4>
+      <div class="host-port-container">
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Jenkins master scheme</mat-label>
+          <mat-select formControlName="slave_api_scheme" [required]="!jenkinsForm?.value.use_existing_master">
+            <mat-option value="http">
+              HTTP
+            </mat-option>
+            <mat-option value="https">
+              HTTPS
+            </mat-option>
+          </mat-select>
+          <mat-hint>The master url Scheme</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Jenkins master host/ip</mat-label>
+          <input type="text" matInput formControlName="slave_api_host"
+            [required]="!jenkinsForm?.value.use_existing_master">
+          <mat-hint>The Host/Ip of the existing master</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Jenkins master port</mat-label>
+          <input type="number" matInput formControlName="slave_api_port"
+            [required]="!jenkinsForm?.value.use_existing_master">
+          <mat-hint>The port of the external master</mat-hint>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins username to use for slave creation</mat-label>
+        <input type="text" matInput formControlName="slave_api_username"
+          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="username">
+        <mat-hint>The Jenkins username used by API to create slave.</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Jenkins user API token </mat-label>
+        <input type="text" matInput formControlName="slave_api_token"
+          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="username">
+        <mat-hint>The Jenkins user API token used to create slave.</mat-hint>
+      </mat-form-field>
       <div class="jenkins-slave-groups-container">
         <div formArrayName="slave_groups" class="jenkins-slave-group-container mat-elevation-z2"
           *ngFor="let slaveGroup of jenkinsForm.get('slave_groups').controls; let slaveGroupIndex = index;">

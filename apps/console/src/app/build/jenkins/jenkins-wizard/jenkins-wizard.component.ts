@@ -215,6 +215,30 @@ export class JenkinsWizardComponent
         this.jenkins ? this.jenkins.existing_master_password : null,
         Validators.nullValidator
       ],
+      slave_api_scheme: [
+        this.jenkins ? this.jenkins.slave_api_scheme : 'http',
+        Validators.nullValidator
+      ],
+      slave_api_host: [
+        this.jenkins ? this.jenkins.slave_api_host : null,
+        Validators.nullValidator
+      ],
+      slave_api_port: [
+        this.jenkins && this.jenkins.existing_master_port
+          ? this.jenkins.existing_master_port
+          : this.jenkins.slave_api_port
+          ? this.jenkins.slave_api_port
+          : 8080,
+        Validators.nullValidator
+      ],
+      slave_api_username: [
+        this.jenkins ? this.jenkins.slave_api_username : null,
+        Validators.nullValidator
+      ],
+      slave_api_token: [
+        this.jenkins ? this.jenkins.slave_api_token : null,
+        Validators.nullValidator
+      ],
       manage_slave: [this.jenkins ? this.jenkins.manage_slave : false, null],
       slave_groups: this.formBuilder.array(
         this.jenkins &&
@@ -236,6 +260,9 @@ export class JenkinsWizardComponent
     });
     if (this.jenkins && this.jenkins.code) {
       this.jenkinsForm.get('code').disable();
+    }
+    if (!this.jenkins) {
+      this.jenkinsForm.get('manage_slave').disable();
     }
     this.jenkinsForm.get('network_name').disable();
     this.jenkinsForm.get('network_subnet_name').disable();
