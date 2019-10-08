@@ -33,6 +33,8 @@ export class DestroyJenkinsHandler
         workingDir =>
           this.terraform.addJenkinsSlaveFilesToModule(
             command.jenkins,
+            command.consul,
+            command.cloudConfig,
             workingDir
           ),
         async workingDir => {

@@ -395,13 +395,14 @@ export class Terraform extends Base {
     ];
   }
 
-  addJenkinsSlaveFilesToModule(jenkinsDTO: JenkinsDTO, destination: string) {
+  addJenkinsSlaveFilesToModule(jenkinsDTO: JenkinsDTO, projectConsul: ConsulDTO, cloudConfig: any, destination: string) {
     jenkinsDTO.slave_groups.forEach(
       (slaveGroup: JenkinsSlaveGroupDTO, index: number) => {
         let slaveGroupFileContent = `
       module "jenkins-slave-${slaveGroup.code}" {
         source = "./slaves"
 
+        project_name = "${jenkinsDTO.project.code.toLowerCase()}"
         jenkins_master_scheme = "${
           jenkinsDTO.use_existing_master && jenkinsDTO.existing_master_scheme
             ? jenkinsDTO.existing_master_scheme
@@ -438,6 +439,15 @@ export class Terraform extends Base {
         jenkins_slave_availability_zone   = "${
           jenkinsDTO.project.availability_zone
         }"
+        project_consul_domain = "${projectConsul.cluster_domain}"
+        project_consul_datacenter = "${projectConsul.cluster_datacenter}"
+        os_auth_domain_name = "${
+          cloudConfig.clouds.openstack.auth.user_domain_name
+        }"
+        os_auth_username = "${cloudConfig.clouds.openstack.auth.username}"
+        os_auth_password = "${cloudConfig.clouds.openstack.auth.password}"
+        os_auth_url = "${cloudConfig.clouds.openstack.auth.auth_url}"
+        os_project_id = "${cloudConfig.clouds.openstack.auth.project_id}"
       }
 
       `;

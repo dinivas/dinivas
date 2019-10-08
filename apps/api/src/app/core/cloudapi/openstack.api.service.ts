@@ -26,7 +26,6 @@ export class OpenstackApiService implements ICloudApi {
         if (error) {
           reject(error);
         } else {
-          console.log(availabilityZones);
           resolve(availabilityZones as ICloudApiAvailabilityZone[]);
         }
       });

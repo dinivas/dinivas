@@ -37,6 +37,8 @@ export class PlanJenkinsHandler implements ICommandHandler<PlanJenkinsCommand> {
         workingDir =>
           this.terraform.addJenkinsSlaveFilesToModule(
             command.jenkins,
+            command.consul,
+            command.cloudConfig,
             workingDir
           ),
         async workingDir => {

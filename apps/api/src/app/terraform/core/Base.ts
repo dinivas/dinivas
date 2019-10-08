@@ -72,7 +72,8 @@ abstract class Base {
         `${this.executableName} ${args}`,
         {
           cwd: `${path}`,
-          env
+          env,
+          maxBuffer: 1024 * 1024
         },
         async (err, stdout, stderr) => {
           if (err) {
