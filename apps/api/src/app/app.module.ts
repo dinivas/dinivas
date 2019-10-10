@@ -1,3 +1,4 @@
+import { MessagingModule } from './messaging/messaging.module';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
 import { Consul } from './network/consul/consul.entity';
 import { NetworkModule } from './network/network.module';
@@ -48,6 +49,7 @@ import { TerraformModule } from './terraform/terraform.module';
 import * as httpProxy from 'http-proxy-middleware';
 import { json } from 'body-parser';
 import { IConfig } from 'config';
+import { RabbitMQ } from './messaging/rabbitmq/rabbitmq.entity';
 
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../config/';
@@ -66,7 +68,8 @@ const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
         TerraformState,
         Jenkins,
         JenkinsSlaveGroup,
-        Consul
+        Consul,
+        RabbitMQ
       ]
     }),
     ComputeModule,
@@ -78,6 +81,7 @@ const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
     CoreModule,
     BuildModule,
     NetworkModule,
+    MessagingModule,
     StatusMonitorModule.setUp(statusMonitorConfig)
   ],
   controllers: [InfoController],

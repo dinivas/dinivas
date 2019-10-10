@@ -35,6 +35,10 @@ dinivas:
         type: git
         provider: openstack
         url: https://github.com/dinivas/terraform-openstack-keypair.git
+      - name: rabbitmq
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-rabbitmq.git
       - name: flavor
         type: git
         provider: openstack
@@ -50,6 +54,9 @@ dinivas:
       - name: docker
         type: git
         url: https://github.com/dinivas/packer-dinivas-docker.git
+      - name: rabbitmq
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-rabbitmq.git
   ansible_galaxy:
     url: http://ansible-galaxy:8000
   keycloak:

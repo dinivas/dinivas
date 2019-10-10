@@ -25,7 +25,8 @@ import {
   ProjectDTO,
   JenkinsDTO,
   JenkinsSlaveGroupDTO,
-  ConsulDTO
+  ConsulDTO,
+  RabbitMQDTO
 } from '@dinivas/dto';
 const fs = require('fs');
 const path = require('path');
@@ -399,7 +400,7 @@ export class Terraform extends Base {
   addJenkinsSlaveFilesToModule(jenkinsDTO: JenkinsDTO, projectConsul: ConsulDTO, cloudConfig: any, destination: string) {
     jenkinsDTO.slave_groups.forEach(
       (slaveGroup: JenkinsSlaveGroupDTO, index: number) => {
-        let slaveGroupFileContent = `
+        const slaveGroupFileContent = `
       module "jenkins-slave-${slaveGroup.code}" {
         source = "./slaves"
 
@@ -510,6 +511,40 @@ export class Terraform extends Base {
       `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`
     ];
     return jenkins_master_vars;
+  }
+
+  computeTerraformRabbitMQModuleVars(
+    rabbitmq: RabbitMQDTO,
+    consul: ConsulDTO,
+    cloudConfig: any
+  ): string[] {
+    const rabbitmq_cluster_vars = [
+      `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
+      `-var 'enable_rabbitmq=1'`,
+      `-var 'rabbitmq_cluster_name=${rabbitmq.code.toLowerCase()}'`,
+      `-var 'rabbitmq_nodes_count=1'`,
+      `-var 'rabbitmq_cluster_availability_zone=${
+        rabbitmq.project.availability_zone
+      }'`,
+      `-var 'rabbitmq_cluster_image_name=${rabbitmq.cluster_cloud_image}'`,
+      `-var 'rabbitmq_cluster_compute_flavor_name=${
+        rabbitmq.cluster_cloud_flavor
+      }'`,
+      `-var 'rabbitmq_cluster_keypair_name=${rabbitmq.keypair_name}'`,
+      `-var 'rabbitmq_cluster_security_groups_to_associate=["${rabbitmq.project.code.toLowerCase()}-common"]'`,
+      `-var 'rabbitmq_cluster_network=${rabbitmq.network_name}'`,
+      `-var 'rabbitmq_cluster_subnet=${rabbitmq.network_subnet_name}'`,
+      `-var 'project_consul_domain=${consul.cluster_domain}'`,
+      `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
+      `-var 'os_auth_domain_name=${
+        cloudConfig.clouds.openstack.auth.user_domain_name
+      }'`,
+      `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
+      `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
+      `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
+      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`
+    ];
+    return rabbitmq_cluster_vars;
   }
 
   computeTerraformConsulModuleVars(consulCommand: PlanConsulCommand): string[] {

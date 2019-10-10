@@ -6,9 +6,17 @@ import { CommonUiModule } from '@dinivas/common-ui';
 
 import { RabbitmqRoutingModule } from './rabbitmq-routing.module';
 import { RabbitmqComponent } from './rabbitmq.component';
+import { RabbitmqStatusComponent } from './rabbitmq-status/rabbitmq-status.component';
+import { RabbitmqWizardComponent } from './rabbitmq-wizard/rabbitmq-wizard.component';
+import { RabbitMQViewComponent } from './rabbitmq-view.component';
 
 @NgModule({
-  declarations: [RabbitmqComponent],
+  declarations: [
+    RabbitmqComponent,
+    RabbitmqStatusComponent,
+    RabbitmqWizardComponent,
+    RabbitMQViewComponent
+  ],
   imports: [
     CommonModule,
     CommonUiModule,

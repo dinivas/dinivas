@@ -1,7 +1,7 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { ConsulService } from './../../../shared/consul/consul.service';
 import { MatVerticalStepper } from '@angular/material';
-import { Observable, Subject, forkJoin } from 'rxjs/';
+import { Observable, Subject, forkJoin, of } from 'rxjs/';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import {
@@ -256,6 +256,8 @@ export class ConsulWizardComponent
   }
 
   moduleServiceTerraformState(moduleEntity: ConsulDTO): Observable<any> {
-    return this.consulService.getTerraformState(moduleEntity.id);
+    return this.consul.managed_by_project
+      ? of(null)
+      : this.consulService.getTerraformState(moduleEntity.id);
   }
 }
