@@ -90,7 +90,10 @@ export class JenkinsWizardComponent
         this.masterCloudImages = cloudImages.filter(
           img => img.tags.indexOf('jenkins-master') > -1
         );
-        this.slaveCloudImages = cloudImages;
+        this.slaveCloudImages = cloudImages.filter(
+          img =>
+            img.tags.indexOf('builder') > -1 || img.tags.indexOf('docker') > -1
+        );
       });
     activatedRoute.data
       .pipe(
@@ -226,7 +229,7 @@ export class JenkinsWizardComponent
       slave_api_port: [
         this.jenkins && this.jenkins.existing_master_port
           ? this.jenkins.existing_master_port
-          : this.jenkins.slave_api_port
+          : this.jenkins && this.jenkins.slave_api_port
           ? this.jenkins.slave_api_port
           : 8080,
         Validators.nullValidator

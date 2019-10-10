@@ -1,3 +1,4 @@
+import { ContextualMenuService } from './../../../core/contextual-menu/contextual-menu.service';
 import { AdminIamService } from './../../../shared/admin-iam/admin-iam.service';
 import { FilterType } from './../../../core/entity/filter-bar/filter';
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
@@ -10,13 +11,14 @@ import { HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UserRepresentation } from '@dinivas/dto';
 import { DataProvider } from '../../../core/entity/mat-crud/data-provider';
+import { AdminIAMMemberEditComponent } from './member-edit/member-edit.component';
 
 @Component({
   selector: 'dinivas-admin-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss']
 })
-export class MembersComponent extends MatCrudComponent
+export class AdminIAMMemberComponent extends MatCrudComponent
   implements DataProvider<UserRepresentation> {
   filterPlaceholder = 'Filter';
   dataProvider = this;
@@ -26,7 +28,8 @@ export class MembersComponent extends MatCrudComponent
 
   constructor(
     private adminIamService: AdminIamService,
-    public confirmDialog: ConfirmDialogService
+    public confirmDialog: ConfirmDialogService,
+    private contextualMenuService: ContextualMenuService
   ) {
     super(confirmDialog);
     this.columnDefs = [
@@ -57,5 +60,10 @@ export class MembersComponent extends MatCrudComponent
   }
 
   addMember() {}
+  editMember(userRepresentation: UserRepresentation){
+    this.contextualMenuService.openComponentInContextualMenu(
+      AdminIAMMemberEditComponent, userRepresentation
+    );
+  }
   entityCanEdit = (userRepresentation: UserRepresentation) => true;
 }

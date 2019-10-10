@@ -25,7 +25,8 @@ import {
   ApplyModuleDTO,
   ICloudApiAvailabilityZone,
   ConsulDTO,
-  ProjectDefinitionDTO
+  ProjectDefinitionDTO,
+  ICloudApiProjectFloatingIp
 } from '@dinivas/dto';
 import { TerraformWebSocket } from '../../shared/terraform/terraform-websocket.service';
 import { MatVerticalStepper } from '@angular/material';
@@ -43,6 +44,7 @@ export class ProjectWizardComponent implements OnInit {
   projectPlanFormGroup: FormGroup;
   cloudproviders: CloudproviderDTO[];
   availableFloatingIpPools: ICloudApiProjectFloatingIpPool[];
+  availableFloatingIps: ICloudApiProjectFloatingIp[];
   availableRouters: ICloudApiProjectRouter[];
   loggingStack = 'graylog';
   isLinear = true;
@@ -168,6 +170,10 @@ export class ProjectWizardComponent implements OnInit {
         Validators.required
       ],
       enable_proxy: [this.project ? this.project.enable_proxy : false, null],
+      proxy_prefered_floating_ip: [
+        this.project ? this.project.proxy_prefered_floating_ip : '',
+        null
+      ],
       _proxy_cloud_flavor: [
         this.project ? this.project.proxy_cloud_flavor : null,
         null
@@ -217,6 +223,7 @@ export class ProjectWizardComponent implements OnInit {
     if (!this.project || (this.project && !this.project.cloud_provider)) {
       this.projectForm.get('availability_zone').disable();
       this.projectForm.get('floating_ip_pool').disable();
+      this.projectForm.get('proxy_prefered_floating_ip').disable();
       this.projectForm.get('public_router').disable();
     }
     this.setMonitoringValidators();
@@ -462,9 +469,11 @@ export class ProjectWizardComponent implements OnInit {
         if (cloudprovider) {
           this.projectForm.get('availability_zone').reset();
           this.projectForm.get('floating_ip_pool').reset();
+          this.projectForm.get('proxy_prefered_floating_ip').reset();
           this.projectForm.get('public_router').reset();
           this.projectForm.get('availability_zone').enable();
           this.projectForm.get('floating_ip_pool').enable();
+          this.projectForm.get('proxy_prefered_floating_ip').enable();
           this.projectForm.get('public_router').enable();
           // Retrieve availability zones from cloud provider
           this.cloudproviderService
@@ -491,11 +500,11 @@ export class ProjectWizardComponent implements OnInit {
               }
             });
 
-          // Retrieve floating ips from cloud provider
+          // Retrieve floating ip pools from cloud provider
           this.cloudproviderService
-            .getCloudProviderFloatingIps(cloudprovider.id)
-            .subscribe(floatingIps => {
-              this.availableFloatingIpPools = floatingIps;
+            .getCloudProviderFloatingIpPools(cloudprovider.id)
+            .subscribe(floatingIpPools => {
+              this.availableFloatingIpPools = floatingIpPools;
               if (this.project && this.project.floating_ip_pool) {
                 this.projectForm.controls['floating_ip_pool'].patchValue(
                   this.project.floating_ip_pool
@@ -503,6 +512,42 @@ export class ProjectWizardComponent implements OnInit {
               } else if (this.availableFloatingIpPools.length === 1) {
                 this.projectForm.controls['floating_ip_pool'].patchValue(
                   this.availableFloatingIpPools[0].name
+                );
+              }
+            });
+
+          // Retrieve available floating ips from cloud provider
+          this.cloudproviderService
+            .getCloudProviderFloatingIps(cloudprovider.id)
+            .subscribe(floatingIps => {
+              this.availableFloatingIps = floatingIps.filter(
+                floatingIp =>
+                  !floatingIp.fixed_ip ||
+                  (this.project &&
+                    floatingIp.fixed_ip &&
+                    floatingIp.ip == this.project.proxy_prefered_floating_ip)
+              );
+              if (this.project && this.project.proxy_prefered_floating_ip) {
+                this.projectForm.controls[
+                  'proxy_prefered_floating_ip'
+                ].patchValue(this.project.proxy_prefered_floating_ip);
+              } else if (this.availableFloatingIps.length === 1) {
+                this.projectForm.controls[
+                  'proxy_prefered_floating_ip'
+                ].patchValue(this.availableFloatingIps[0].ip);
+                if (!this.projectForm.controls['root_domain'].value) {
+                  this.projectForm.controls['root_domain'].patchValue(
+                    `${this.availableFloatingIps[0].ip}.nip.io`
+                  );
+                }
+              }
+            });
+          this.projectForm
+            .get('proxy_prefered_floating_ip')
+            .valueChanges.subscribe((preferedFloatingIp: string) => {
+              if (!this.projectForm.controls['root_domain'].value) {
+                this.projectForm.controls['root_domain'].patchValue(
+                  `${preferedFloatingIp}.nip.io`
                 );
               }
             });
@@ -581,8 +626,10 @@ export class ProjectWizardComponent implements OnInit {
         } else {
           this.projectForm.get('availability_zone').reset();
           this.projectForm.get('floating_ip_pool').reset();
+          this.projectForm.get('proxy_prefered_floating_ip').reset();
           this.projectForm.get('public_router').reset();
           this.projectForm.get('floating_ip_pool').disable();
+          this.projectForm.get('proxy_prefered_floating_ip').disable();
           this.projectForm.get('public_router').disable();
         }
       });

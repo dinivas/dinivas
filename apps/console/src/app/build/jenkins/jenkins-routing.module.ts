@@ -56,7 +56,11 @@ const routes: Routes = [
     children: [
       {
         path: 'status',
-        component: JenkinsStatusComponent
+        component: JenkinsStatusComponent,
+        resolve: {
+          moduleEntity: CurrentJenkinsResolver,
+          currentProjectInfo: CurrentProjectResolver
+        }
       },
       {
         path: 'edit',

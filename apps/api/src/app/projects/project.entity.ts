@@ -47,6 +47,8 @@ export class Project {
   @Column({ nullable: true })
   proxy_cloud_flavor: string;
   @Column({ nullable: true })
+  proxy_prefered_floating_ip: string;
+  @Column({ nullable: true })
   logging_stack: string;
   @Column({ nullable: true })
   bastion_cloud_image: string;
@@ -60,4 +62,6 @@ export class Project {
   keycloak_client_id: string;
   @Column({ nullable: false })
   keycloak_client_secret: string;
+  @Column({ nullable: true })
+  status: string;
 }

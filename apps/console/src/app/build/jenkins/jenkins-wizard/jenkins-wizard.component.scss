@@ -33,7 +33,15 @@
       .host-port-container {
         display: flex;
         .mat-form-field {
-          width: 193px;
+          &.scheme {
+            width: 140px;
+          }
+          &.host {
+            width: 330px;
+          }
+          &.port {
+            width: 110px;
+          }
           &:not(:last-child) {
             margin-right: 10px;
           }

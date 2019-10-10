@@ -9,7 +9,8 @@ import {
   ICloudApiProjectRouter,
   ICloudApiProjectFloatingIpPool,
   ICloudApiAvailabilityZone,
-  ICloudApiNetwork
+  ICloudApiNetwork,
+  ICloudApiProjectFloatingIp
 } from '@dinivas/dto';
 import { Cloudprovider } from './cloudprovider.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
@@ -96,6 +97,23 @@ export class CloudproviderService {
       cloudprovider.cloud
     );
     return cloudApi.getProjectFloatingIpPools(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
+
+  async getCloudProviderFloatingIps(
+    id: number
+  ): Promise<ICloudApiProjectFloatingIp[]> {
+    const cloudprovider: Cloudprovider = await this.cloudproviderRepository.findOne(
+      id
+    );
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getProjectFloatingIps(
       this.cloudApiFactory.getCloudApiConfig(
         cloudprovider.cloud,
         cloudprovider.config

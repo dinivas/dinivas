@@ -1,3 +1,9 @@
-<p>
-  jenkins-status works!
-</p>
+<div class="container">
+  <p>You can access to this Jenkins here
+    <a class="ml-10" mat-button color="primary" [href]="'http://' + jenkins.code + '.' + project?.root_domain" target="_blank"
+      *ngIf="project?.root_domain && !jenkins.use_existing_master">
+      {{jenkins.code + '.' + project?.root_domain }}
+      <mat-icon>open_in_new</mat-icon>
+    </a>
+  </p>
+</div>

@@ -6,11 +6,17 @@ import { ComponentType } from '@angular/cdk/portal';
   providedIn: 'root'
 })
 export class ContextualMenuService {
-  private contextualComponent = new Subject<ComponentType<any>>();
+  private contextualComponent = new Subject<{
+    component: ComponentType<any>;
+    data?: any;
+  }>();
   contextualComponent$ = this.contextualComponent.asObservable();
   constructor(private _injector: Injector) {}
 
-  openComponentInContextualMenu<T>(componentOrTemplateRef: ComponentType<T>) {
-    this.contextualComponent.next(componentOrTemplateRef);
+  openComponentInContextualMenu<T>(
+    componentOrTemplateRef: ComponentType<T>,
+    data?: any
+  ) {
+    this.contextualComponent.next({ component: componentOrTemplateRef, data });
   }
 }

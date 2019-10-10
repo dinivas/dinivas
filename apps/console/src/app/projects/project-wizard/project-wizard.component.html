@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-toolbar header-toolbar">
+<mat-toolbar class="mat-toolbar header-toolbar" *ngIf="!project">
   <button mat-icon-button color="primary" [routerLink]="['/projects']" queryParamsHandling="merge">
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -38,11 +38,6 @@
             <input type="text" matInput formControlName="code" required>
             <mat-hint>The project code will be used to suffix most components. You can't change it after project
               creation.</mat-hint>
-          </mat-form-field>
-          <mat-form-field class="" appearance="outline">
-            <mat-label>Project root domain (DNS)</mat-label>
-            <input type="text" matInput formControlName="root_domain" required>
-            <mat-hint>This is the root domain used for all components</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Description</mat-label>
@@ -135,8 +130,8 @@
             <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
                 instance</strong></p>
           </ng-template>
-          <!-- <h5>Bastion SSH Key</h5>
-          <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->
+          <h4>Project proxy</h4>
+          <!-- <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="enable_proxy" color="accent">
               Enable proxy instance?
@@ -144,6 +139,21 @@
             <mat-hint>A proxy will expose services to external network. This will preserve your public (or floating) Ips
             </mat-hint>
           </div>
+          <mat-form-field class="" appearance="outline" *ngIf="projectForm?.value.enable_proxy">
+            <mat-label>Allocated Floating IP to assign to the proxy instance, Select NONE for new floating IP</mat-label>
+            <mat-select formControlName="proxy_prefered_floating_ip">
+              <mat-option value="">None</mat-option>
+              <mat-option *ngFor="let floatingIp of availableFloatingIps;trackBy" [value]="floatingIp.ip">
+                {{ floatingIp.ip }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>This floating IP should be already allocate to the Cloud Provider project/tenant and not in use.</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline" *ngIf="projectForm?.value.enable_proxy">
+            <mat-label>Project root domain (DNS)</mat-label>
+            <input type="text" matInput formControlName="root_domain" required>
+            <mat-hint>This is the root domain used for all components</mat-hint>
+          </mat-form-field>
           <ng-container *ngIf="projectForm?.value.enable_proxy">
             <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_proxy_flavor"
               formControlName="_proxy_cloud_flavor" label="Select proxy flavor to use" [cloudFlavors]="cloudFlavors">

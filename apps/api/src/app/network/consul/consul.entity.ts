@@ -46,4 +46,6 @@ export class Consul {
   client_flavor: string;
   @Column()
   use_floating_ip: boolean = false;
+  @Column({default: false})
+  managed_by_project: boolean = false;
 }

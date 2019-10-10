@@ -1,3 +1,4 @@
+import { AdminIAMMemberEditComponent } from './../admin/admin-iam/members/member-edit/member-edit.component';
 import { JsonPrettyPipe } from './pipes/json-pretty.pipe';
 import { FilterByPipe } from './pipes/filter-by.pipe';
 import { ApiInterceptor } from './interceptor/api.interceptor';
@@ -68,14 +69,16 @@ import { NeedYourContributionComponent } from './components/need-your-contributi
     TimeAgoPipe,
     JsonPrettyPipe,
     FilterByPipe,
-    NeedYourContributionComponent
+    NeedYourContributionComponent,
+    AdminIAMMemberEditComponent
   ],
   entryComponents: [
     SnackAlertSuccessComponent,
     SnackAlertWarningComponent,
     SnackAlertDangerComponent,
     ConfirmDialogComponent,
-    SelectProjectDialogComponent
+    SelectProjectDialogComponent,
+    AdminIAMMemberEditComponent
   ],
   providers: [
     AlertService,

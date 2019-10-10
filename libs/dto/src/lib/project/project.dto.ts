@@ -17,6 +17,7 @@ export class ProjectDTO {
   management_subnet_dhcp_allocation_end: string;
   enable_proxy = true;
   proxy_cloud_flavor: string;
+  proxy_prefered_floating_ip: string;
   logging_stack: string;
   bastion_cloud_image: string;
   bastion_cloud_flavor: string;
@@ -24,6 +25,7 @@ export class ProjectDTO {
   keycloak_host: string;
   keycloak_client_id: string;
   keycloak_client_secret: string;
+  status: string;
 }
 
 export class ProjectDefinitionDTO {

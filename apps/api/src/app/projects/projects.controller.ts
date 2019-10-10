@@ -168,7 +168,7 @@ export class ProjectsController {
         projectDefinition.project.name
       }`
     );
-    return await this.projectsService.update(id, projectDefinition);
+    return await this.projectsService.update(projectDefinition);
   }
 
   @Delete(':id')

@@ -17,4 +17,5 @@ export class ConsulDTO {
   client_image: string;
   client_flavor: string;
   use_floating_ip: boolean = false;
+  managed_by_project: boolean;
 }

@@ -21,6 +21,9 @@
       font-size: 14px;
       max-width: 600px;
     }
+    h4 {
+      color: rgba(mat-color($primary),.7);
+    }
     .no-data-checkbox {
       font-size: 14px;
       padding: 15px 10px;
@@ -76,7 +79,7 @@
         padding: 10px 20px;
         cursor: pointer;
         max-width: 300px;
-        @include transition(all 0.3 ease);
+        @include transition(all 0.3s ease);
         .mat-card-header {
           justify-content: center;
           .mat-card-title {

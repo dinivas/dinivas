@@ -8,7 +8,8 @@ import {
   ICloudApiFlavor,
   ICloudApiImage,
   ICloudApiAvailabilityZone,
-  ICloudApiNetwork
+  ICloudApiNetwork,
+  ICloudApiProjectFloatingIp
 } from '@dinivas/dto';
 import { Injectable } from '@angular/core';
 
@@ -37,11 +38,19 @@ export class CloudproviderService {
     );
   }
 
-  getCloudProviderFloatingIps(
+  getCloudProviderFloatingIpPools(
     id: number
   ): Observable<ICloudApiProjectFloatingIpPool[]> {
     return this.http.get<ICloudApiProjectFloatingIpPool[]>(
       `${environment.apiUrl}/cloudproviders/${id}/floating_ip_pools`
+    );
+  }
+
+  getCloudProviderFloatingIps(
+    id: number
+  ): Observable<ICloudApiProjectFloatingIp[]> {
+    return this.http.get<ICloudApiProjectFloatingIp[]>(
+      `${environment.apiUrl}/cloudproviders/${id}/floating_ips`
     );
   }
 

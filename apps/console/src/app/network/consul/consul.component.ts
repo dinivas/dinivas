@@ -47,6 +47,7 @@ export class ConsulComponent extends MatCrudComponent
       //new ColumnDef('id', 'Id', false, false, false),
       new ColumnDef('code', 'Code', true, true, false, FilterType.TEXT),
       new ColumnDef('project', 'Project code', false),
+      new ColumnDef('managed_by_project', '', false),
       new ColumnDef('domain', 'Domain', false),
       new ColumnDef('datacenter', 'Datacenter', false),
       new ColumnDef('servers', 'Nb servers', false),

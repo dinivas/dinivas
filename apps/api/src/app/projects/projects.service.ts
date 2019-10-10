@@ -40,12 +40,14 @@ export class ProjectsService {
     projectDTO.keycloak_client_id = project.keycloak_client_id;
     projectDTO.keycloak_client_secret = project.keycloak_client_secret;
     projectDTO.proxy_cloud_flavor = project.proxy_cloud_flavor;
+    projectDTO.proxy_prefered_floating_ip = project.proxy_prefered_floating_ip;
     projectDTO.bastion_cloud_image = project.bastion_cloud_image;
     projectDTO.bastion_cloud_flavor = project.bastion_cloud_flavor;
     projectDTO.prometheus_cloud_flavor = project.prometheus_cloud_flavor;
     projectDTO.cloud_provider = CloudproviderService.toDTO(
       project.cloud_provider
     );
+    projectDTO.status = project.status;
     return projectDTO;
   };
 
@@ -99,17 +101,18 @@ export class ProjectsService {
       await this.projectRepository.save(projectDefinition.project as Project)
     );
     projectDefinition.consul.project = project;
+    projectDefinition.consul.managed_by_project = true;
     const consul = await this.consulService.create(projectDefinition.consul);
     return { project, consul };
   }
 
   async update(
-    id: number,
     projectDefinition: ProjectDefinitionDTO
   ): Promise<ProjectDefinitionDTO> {
     const project: ProjectDTO = ProjectsService.toDTO(
       await this.projectRepository.save(projectDefinition.project as Project)
     );
+    projectDefinition.consul.managed_by_project = true;
     const consul = await this.consulService.update(
       projectDefinition.consul.id,
       projectDefinition.consul

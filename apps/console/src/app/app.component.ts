@@ -15,7 +15,8 @@ import {
   ReflectiveInjector,
   Renderer2,
   OnInit,
-  AfterViewInit
+  AfterViewInit,
+  Type
 } from '@angular/core';
 import { MatDialog, MatSidenav } from '@angular/material';
 import {
@@ -66,6 +67,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   isDarkTheme: Observable<boolean>;
   availableMenuGroups: SideNavMenuGroup[] = SideMenu;
   pinnedMenus: SideNavMenu[] = [];
+  contextualMenuData: any;
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -79,7 +81,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private breakpointObserver: BreakpointObserver,
     private themeService: ThemeService,
     private pageLoadingService: PageLoadingService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private inj: Injector
   ) {
     this.contextualMenuInjector = ReflectiveInjector.resolveAndCreate([
       {
@@ -149,11 +152,19 @@ export class AppComponent implements OnInit, AfterViewInit {
               : true;
         }
       });
-    this.contextualMenuService.contextualComponent$.subscribe(component => {
-      console.log('loading component', component);
-      this.contextualMenuComponent = component;
+    this.contextualMenuService.contextualComponent$.subscribe(componentDef => {
+      console.log('loading component', componentDef.component);
+      this.contextualMenuComponent = componentDef.component;
+      //this.contextualMenuData = componentDef.data;
       this.contextualSidenav.open();
     });
+  }
+
+  createSideNavInjector(data){
+    let injector = Injector.create([
+      { provide: 'contextualData', useValue: data }
+    ], this.inj);
+    return injector;
   }
 
   ngAfterViewInit() {

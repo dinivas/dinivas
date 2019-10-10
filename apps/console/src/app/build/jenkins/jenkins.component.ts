@@ -47,6 +47,7 @@ export class JenkinsComponent extends MatCrudComponent
     this.columnDefs = [
       //new ColumnDef('id', 'Id', false, false, false),
       new ColumnDef('code', 'Code', true, true, false, FilterType.TEXT),
+      new ColumnDef('url', '?', false),
       new ColumnDef('managed_master', 'Is Master managed?', false),
       new ColumnDef('description', 'Description', false),
       new ColumnDef('slave_groups', 'Slaves', false)

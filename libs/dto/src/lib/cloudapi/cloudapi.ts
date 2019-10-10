@@ -88,6 +88,14 @@ export interface ICloudApiProjectFloatingIpPool {
   name: string;
 }
 
+export interface ICloudApiProjectFloatingIp {
+  fixed_ip: string;
+  id: string;
+  instance_id: string;
+  ip: string;
+  pool: string;
+}
+
 export interface ICloudApiProjectRouter {
   id: string;
   name: string;
@@ -119,6 +127,9 @@ export interface ICloudApi {
   getProjectFloatingIpPools(
     cloudConfig: ICloudApiConfig
   ): Promise<ICloudApiProjectFloatingIpPool[]>;
+  getProjectFloatingIps(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectFloatingIp[]>;
   getProjectNetworks(cloudConfig: ICloudApiConfig): Promise<ICloudApiNetwork[]>;
   getProjectRouters(
     cloudConfig: ICloudApiConfig

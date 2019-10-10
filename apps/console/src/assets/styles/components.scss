@@ -4,6 +4,7 @@
 @import '../../app/core/dialog/select-project-dialog/select-project-dialog.component.scss';
 @import '../../app/core/components/cloud-image-radios/cloud-image-radios.component.scss';
 @import '../../app/shared/terraform/terraform-module-wizard/terraform-module-wizard.component.scss';
+@import '../../app/projects/project-status/project-status.component.scss';
 @import '../../app/projects/project-wizard/project-wizard.component.scss';
 @import '../../app/layouts/footer/footer.component.scss';
 @import '../../app/core/entity/filter-bar/filter-bar.component.scss';
@@ -135,6 +136,7 @@
   @include cloud-flavor-radios-theme($theme);
   @include cloud-image-radios-theme($theme);
   @include terraform-module-wizard-theme($theme);
+  @include project-status-theme($theme);
   @include project-wizard-theme($theme);
   @include app-footer-theme($theme);
   @include entity-filter-bar-theme($theme);

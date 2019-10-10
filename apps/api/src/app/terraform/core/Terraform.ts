@@ -352,6 +352,7 @@ export class Terraform extends Base {
       `-var 'bastion_ssh_user=centos'`,
       `-var 'proxy_image_name=Dinivas Proxy'`,
       `-var 'enable_proxy=${project.enable_proxy ? '1' : '0'}'`,
+      `-var 'proxy_prefered_floating_ip=${project.proxy_prefered_floating_ip ? project.proxy_prefered_floating_ip: ''}'`,
       `-var 'project_keycloak_host=${project.keycloak_host}'`,
       `-var 'proxy_compute_flavor_name=${
         project.proxy_cloud_flavor

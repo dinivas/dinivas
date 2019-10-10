@@ -12,7 +12,8 @@ import {
   ICloudApiProjectRouter,
   ICloudApiFlavor,
   ICloudApiAvailabilityZone,
-  ICloudApiNetwork
+  ICloudApiNetwork,
+  ICloudApiProjectFloatingIp
 } from '@dinivas/dto';
 const OSWrap = require('openstack-wrapper');
 
@@ -75,6 +76,30 @@ export class OpenstackApiService implements ICloudApi {
             floating_ip_pools.map(floatingIpPool => {
               return {
                 name: floatingIpPool.name
+              };
+            })
+          );
+        }
+      });
+    });
+  }
+
+  getProjectFloatingIps(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectFloatingIp[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.listFloatingIps((error, floating_ips) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(
+            floating_ips.map(floatingIp => {
+              return {
+                id: floatingIp.id,
+                fixed_ip: floatingIp.fixed_ip,
+                instance_id: floatingIp.instance_id,
+                ip: floatingIp.ip,
+                pool: floatingIp.pool
               };
             })
           );

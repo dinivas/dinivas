@@ -1,3 +1,5 @@
+import { ProjectViewComponent } from './project-view.component';
+import { ProjectStatusComponent } from './project-status/project-status.component';
 import { CurrentProjectResolver } from './../shared/project/current-project.resolver';
 import { CloudImagesResolver } from './../shared/cloudprovider/cloud-images.resolver';
 import { CloudFlavorsResolver } from './../shared/cloudprovider/cloud-flavors.resolver';
@@ -16,15 +18,28 @@ const routes: Routes = [
     canActivate: [MandatorySelectedProjectGuard]
   },
   {
-    path: 'edit/:projectId',
-    component: ProjectWizardComponent,
-    canActivate: [MandatorySelectedProjectGuard],
+    path: ':projectId',
+    component: ProjectViewComponent,
     resolve: {
-      cloudFlavors: CloudFlavorsResolver,
-      cloudImages: CloudImagesResolver,
-      currentProjectInfo: CurrentProjectResolver,
-      availabilityZones: AvailabilityZonesResolver
-    }
+      currentProjectInfo: CurrentProjectResolver
+    },
+    children: [
+      {
+        path: 'status',
+        component: ProjectStatusComponent
+      },
+      {
+        path: 'edit',
+        component: ProjectWizardComponent,
+        canActivate: [MandatorySelectedProjectGuard],
+        resolve: {
+          cloudFlavors: CloudFlavorsResolver,
+          cloudImages: CloudImagesResolver,
+          currentProjectInfo: CurrentProjectResolver,
+          availabilityZones: AvailabilityZonesResolver
+        }
+      }
+    ]
   }
 ];
 

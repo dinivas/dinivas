@@ -51,17 +51,17 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #moreMenu="matMenu" xPosition="before">
-      <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
+      <button mat-menu-item disabled>
+        <mat-icon>file_download</mat-icon>
+        <span>Export selection</span>
       </button>
       <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voicemail</span>
+        <mat-icon>print</mat-icon>
+        <span>Print selection</span>
       </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
+      <button mat-menu-item disabled>
+        <mat-icon>delete</mat-icon>
+        <span>Delete selection</span>
       </button>
     </mat-menu>
   </mat-toolbar-row>

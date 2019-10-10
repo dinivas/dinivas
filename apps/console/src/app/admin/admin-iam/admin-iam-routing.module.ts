@@ -1,5 +1,5 @@
-import { MemberEditComponent } from './members/member-edit/member-edit.component';
-import { MembersComponent } from './members/members.component';
+import { AdminIAMMemberEditComponent } from './members/member-edit/member-edit.component';
+import { AdminIAMMemberComponent } from './members/members.component';
 import { AdminIamComponent } from './admin-iam.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,15 +11,15 @@ const routes: Routes = [
     children: [
       {
         path: 'members',
-        component: MembersComponent
+        component: AdminIAMMemberComponent
       },
       {
         path: 'members/new',
-        component: MemberEditComponent
+        component: AdminIAMMemberEditComponent
       },
       {
         path: 'members/edit/:memberId',
-        component: MemberEditComponent
+        component: AdminIAMMemberEditComponent
       },
       { path: '', redirectTo: 'members' }
     ]

@@ -153,10 +153,11 @@
       <h4>Slave groups <small
           *ngIf="jenkinsForm.get('slave_groups').controls.length > 0">({{ jenkinsForm.get('slave_groups').controls.length }}
           groups)</small></h4>
-      <div class="host-port-container">
-        <mat-form-field class="" appearance="outline">
+      <!-- Do not show host:port fields because the internal master Ip will be used if needed -->
+      <div class="host-port-container" *ngIf="false">
+        <mat-form-field class="scheme" appearance="outline">
           <mat-label>Jenkins master scheme</mat-label>
-          <mat-select formControlName="slave_api_scheme" [required]="!jenkinsForm?.value.use_existing_master">
+          <mat-select formControlName="slave_api_scheme">
             <mat-option value="http">
               HTTP
             </mat-option>
@@ -164,19 +165,17 @@
               HTTPS
             </mat-option>
           </mat-select>
-          <mat-hint>The master url Scheme</mat-hint>
+          <mat-hint>Jenkins API Scheme</mat-hint>
         </mat-form-field>
-        <mat-form-field class="" appearance="outline">
+        <mat-form-field class="host" appearance="outline">
           <mat-label>Jenkins master host/ip</mat-label>
-          <input type="text" matInput formControlName="slave_api_host"
-            [required]="!jenkinsForm?.value.use_existing_master">
-          <mat-hint>The Host/Ip of the existing master</mat-hint>
+          <input type="text" matInput formControlName="slave_api_host">
+          <mat-hint>Jenkins API Host/Ip</mat-hint>
         </mat-form-field>
-        <mat-form-field class="" appearance="outline">
-          <mat-label>Jenkins master port</mat-label>
-          <input type="number" matInput formControlName="slave_api_port"
-            [required]="!jenkinsForm?.value.use_existing_master">
-          <mat-hint>The port of the external master</mat-hint>
+        <mat-form-field class="port" appearance="outline">
+          <mat-label>Jenkins Api port</mat-label>
+          <input type="number" matInput formControlName="slave_api_port">
+          <mat-hint>Jenkins Api port</mat-hint>
         </mat-form-field>
       </div>
       <mat-form-field class="" appearance="outline">

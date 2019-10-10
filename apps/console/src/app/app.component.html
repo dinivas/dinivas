@@ -93,7 +93,7 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav class="contextual" #contextualSidenav [mode]="'over'" position="end">
-      <ng-container *ngComponentOutlet="contextualMenuComponent"></ng-container>
+      <!-- <ng-container *ngComponentOutlet="contextualMenuComponent; injector:createSideNavInjector(contextualMenuData)"></ng-container> -->
     </mat-sidenav>
     <mat-sidenav-content>
       <div class="main-container">

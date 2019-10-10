@@ -29,6 +29,7 @@ export class ConsulService {
     consulDTO.client_image = consul.client_image;
     consulDTO.client_flavor = consul.client_flavor;
     consulDTO.use_floating_ip = consul.use_floating_ip;
+    consulDTO.managed_by_project = consul.managed_by_project;
     consulDTO.project = new ProjectDTO();
     consulDTO.project.id = consul.project.id;
     consulDTO.project.code = consul.project.code;
