@@ -39,8 +39,8 @@ export class RabbitmqComponent extends MatCrudComponent
     activatedRoute.data
       .pipe(
         map(
-          (data: { rabbitmqPage: Pagination<RabbitMQDTO> }) =>
-            data.rabbitmqPage.items
+          (data: { rabbitMQPage: Pagination<RabbitMQDTO> }) =>
+            data.rabbitMQPage.items
         )
       )
       .subscribe((rabbitmq: RabbitMQDTO[]) => (this.rabbitmqList = rabbitmq));

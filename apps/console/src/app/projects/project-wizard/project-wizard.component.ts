@@ -207,7 +207,7 @@ export class ProjectWizardComponent implements OnInit {
           Validators.required
         ],
         client_instance_count: [
-          this.consul ? this.consul.client_instance_count : 1,
+          this.consul ? this.consul.client_instance_count : 0,
           Validators.required
         ]
       })

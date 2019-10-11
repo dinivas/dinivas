@@ -109,7 +109,7 @@
             </div>
             <div class="slider-container">
               <span>Choose the number of consul client</span>
-              <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="1"
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="0"
                 [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
               </mat-slider>
               {{ projectForm?.value._consul.client_instance_count | json}}

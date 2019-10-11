@@ -2,7 +2,7 @@
   <mat-icon svgIcon="rabbitmq"></mat-icon>
   <span class="page-title">RabbitMQ</span>
 </mat-toolbar>
-<mat-card class="empty-item-card info-card">
+<mat-card class="empty-item-card info-card" *ngIf="rabbitmqList.length === 0">
   <mat-card-header>
     <mat-icon svgIcon="rabbitmq" mat-card-avatar color="primary"></mat-icon>
     <mat-card-title>RabbitMQ</mat-card-title>

@@ -23,6 +23,7 @@ import { RabbitMQViewComponent } from './rabbitmq-view.component';
     SharedModule,
     CoreModule,
     RabbitmqRoutingModule
-  ]
+  ],
+  entryComponents: [RabbitmqWizardComponent]
 })
 export class RabbitmqModule {}

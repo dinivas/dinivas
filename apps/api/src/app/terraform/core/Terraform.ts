@@ -522,7 +522,7 @@ export class Terraform extends Base {
       `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
       `-var 'enable_rabbitmq=1'`,
       `-var 'rabbitmq_cluster_name=${rabbitmq.code.toLowerCase()}'`,
-      `-var 'rabbitmq_nodes_count=1'`,
+      `-var 'rabbitmq_nodes_count=${rabbitmq.cluster_instance_count}'`,
       `-var 'rabbitmq_cluster_availability_zone=${
         rabbitmq.project.availability_zone
       }'`,
@@ -534,6 +534,7 @@ export class Terraform extends Base {
       `-var 'rabbitmq_cluster_security_groups_to_associate=["${rabbitmq.project.code.toLowerCase()}-common"]'`,
       `-var 'rabbitmq_cluster_network=${rabbitmq.network_name}'`,
       `-var 'rabbitmq_cluster_subnet=${rabbitmq.network_subnet_name}'`,
+      `-var 'rabbitmq_plugin_list=${rabbitmq.enabled_plugin_list}'`,
       `-var 'project_consul_domain=${consul.cluster_domain}'`,
       `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
       `-var 'os_auth_domain_name=${
