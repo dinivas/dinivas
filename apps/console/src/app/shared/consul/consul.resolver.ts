@@ -1,5 +1,5 @@
 import { ConsulService } from './consul.service';
-import { Observable } from 'rxjs/';
+import { Observable, forkJoin } from 'rxjs/';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -8,6 +8,8 @@ import {
 } from '@angular/router';
 import { ConsulDTO, Pagination } from '@dinivas/dto';
 import { HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../terraform/terraform-module-entity-info';
 
 @Injectable({ providedIn: 'root' })
 export class ConsulResolver implements Resolve<Pagination<ConsulDTO>> {
@@ -21,13 +23,22 @@ export class ConsulResolver implements Resolve<Pagination<ConsulDTO>> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CurrentConsulResolver implements Resolve<ConsulDTO> {
+export class CurrentConsulResolver
+  implements Resolve<TerraformModuleEntityInfo<ConsulDTO>> {
   constructor(private readonly consulService: ConsulService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<ConsulDTO> {
-    const consulId = <string>route.params['consulId'];
-    return this.consulService.getOne(Number.parseInt(consulId));
+  ): Observable<TerraformModuleEntityInfo<ConsulDTO>> {
+    const consulIdString = <string>route.params['consulId'];
+    const consulId = Number.parseInt(consulIdString);
+    return forkJoin([
+      this.consulService.getOne(consulId),
+      this.consulService.getTerraformState(consulId)
+    ]).pipe(
+      map(result => {
+        return { entity: result[0], entityState: result[1] };
+      })
+    );
   }
 }

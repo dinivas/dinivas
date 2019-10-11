@@ -1,4 +1,4 @@
-<div class="project-status container">
+<div class="project-status container" *ngIf="project">
   <div class="web-access-container">
     <a class="web-access consul" [href]=" 'http://' + project.code + '-consul-dashboard.' + project.root_domain"
       target="_blank">
@@ -14,4 +14,25 @@
       <mat-icon>open_in_new</mat-icon>
     </a>
   </div>
+  <mat-card>
+      <mat-card-header>
+        <mat-card-title>Project infra infos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list *ngIf="projectState" dense>
+          <mat-list-item
+            *ngFor="let output of (projectState.outputs | keyvalue)"
+          >
+            <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+            <h3 matLine>
+              {{ output.key }}:<strong
+                class="ml-10"
+                *ngIf="!output.value.sensitive"
+                >{{ output.value.value }}</strong
+              >
+            </h3>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
 </div>

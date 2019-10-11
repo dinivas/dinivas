@@ -26,7 +26,10 @@ const routes: Routes = [
     children: [
       {
         path: 'status',
-        component: ProjectStatusComponent
+        component: ProjectStatusComponent,
+        resolve: {
+          currentProjectInfo: CurrentProjectResolver
+        }
       },
       {
         path: 'edit',

@@ -1,3 +1,23 @@
-<p>
-  rabbitmq-status works!
-</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>RabbitMQ infra infos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list *ngIf="rabbitMQInfo" dense>
+        <mat-list-item
+          *ngFor="let output of (rabbitMQInfo.entityState.outputs | keyvalue)"
+        >
+          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+          <h3 matLine>
+            {{ output.key }}:<strong
+              class="ml-10"
+              *ngIf="!output.value.sensitive"
+              >{{ output.value.value }}</strong
+            >
+          </h3>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

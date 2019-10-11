@@ -2,6 +2,7 @@ import { ProjectDTO } from '@dinivas/dto';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-project-view',
@@ -48,12 +49,12 @@ export class ProjectViewComponent implements OnInit {
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
-      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo.project;
+      .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+        this.project = projectInfo.entity;
       });
   }
 }

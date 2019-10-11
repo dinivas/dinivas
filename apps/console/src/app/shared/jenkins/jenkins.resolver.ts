@@ -1,6 +1,6 @@
 import { JenkinsService } from './jenkins.service';
 import { ProjectsService } from '../project/projects.service';
-import { Observable } from 'rxjs/';
+import { Observable, forkJoin } from 'rxjs/';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -9,6 +9,8 @@ import {
 } from '@angular/router';
 import { JenkinsDTO, Pagination } from '@dinivas/dto';
 import { HttpParams } from '@angular/common/http';
+import { TerraformModuleEntityInfo } from '../terraform/terraform-module-entity-info';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class JenkinsResolver implements Resolve<Pagination<JenkinsDTO>> {
@@ -22,13 +24,22 @@ export class JenkinsResolver implements Resolve<Pagination<JenkinsDTO>> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CurrentJenkinsResolver implements Resolve<JenkinsDTO> {
+export class CurrentJenkinsResolver
+  implements Resolve<TerraformModuleEntityInfo<JenkinsDTO>> {
   constructor(private readonly jenkinsService: JenkinsService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<JenkinsDTO> {
-    const jenkinsId = <string>route.params['jenkinsId'];
-    return this.jenkinsService.getOne(Number.parseInt(jenkinsId));
+  ): Observable<TerraformModuleEntityInfo<JenkinsDTO>> {
+    const jenkinsIdString = <string>route.params['jenkinsId'];
+    const jenkinsId = Number.parseInt(jenkinsIdString);
+    return forkJoin([
+      this.jenkinsService.getOne(jenkinsId),
+      this.jenkinsService.getTerraformState(jenkinsId)
+    ]).pipe(
+      map(result => {
+        return { entity: result[0], entityState: result[1] };
+      })
+    );
   }
 }

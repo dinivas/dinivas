@@ -1,5 +1,5 @@
 import { RabbitMQService } from './rabbitmq.service';
-import { Observable } from 'rxjs/';
+import { Observable, forkJoin } from 'rxjs/';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -8,6 +8,8 @@ import {
 } from '@angular/router';
 import { RabbitMQDTO, Pagination } from '@dinivas/dto';
 import { HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../terraform/terraform-module-entity-info';
 
 @Injectable({ providedIn: 'root' })
 export class RabbitMQResolver implements Resolve<Pagination<RabbitMQDTO>> {
@@ -21,13 +23,22 @@ export class RabbitMQResolver implements Resolve<Pagination<RabbitMQDTO>> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CurrentRabbitMQResolver implements Resolve<RabbitMQDTO> {
+export class CurrentRabbitMQResolver
+  implements Resolve<TerraformModuleEntityInfo<RabbitMQDTO>> {
   constructor(private readonly rabbitMQService: RabbitMQService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<RabbitMQDTO> {
-    const rabbitMQId = <string>route.params['rabbitMQId'];
-    return this.rabbitMQService.getOne(Number.parseInt(rabbitMQId));
+  ): Observable<TerraformModuleEntityInfo<RabbitMQDTO>> {
+    const rabbitMQIdString = <string>route.params['rabbitMQId'];
+    const rabbitMQId = Number.parseInt(rabbitMQIdString);
+    return forkJoin([
+      this.rabbitMQService.getOne(rabbitMQId),
+      this.rabbitMQService.getTerraformState(rabbitMQId)
+    ]).pipe(
+      map(result => {
+        return { entity: result[0], entityState: result[1] };
+      })
+    );
   }
 }

@@ -51,14 +51,13 @@ const routes: Routes = [
     path: ':rabbitMQId',
     component: RabbitMQViewComponent,
     resolve: {
-      rabbitmq: CurrentRabbitMQResolver
+      currentRabbitmqInfo: CurrentRabbitMQResolver
     },
     children: [
       {
         path: 'status',
         component: RabbitmqStatusComponent,
         resolve: {
-          moduleEntity: CurrentRabbitMQResolver,
           currentProjectInfo: CurrentProjectResolver
         }
       },

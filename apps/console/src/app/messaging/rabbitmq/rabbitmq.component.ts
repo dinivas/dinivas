@@ -71,8 +71,8 @@ export class RabbitmqComponent extends MatCrudComponent
     this.rabbitmqList = rabbitmq;
   }
 
-  addRabbitMQ() {
-    this.router.navigate(['/build/rabbitmq/new'], {
+  addRabbitMQCluster() {
+    this.router.navigate(['/messaging/rabbitmq/new'], {
       preserveQueryParams: true
     });
   }

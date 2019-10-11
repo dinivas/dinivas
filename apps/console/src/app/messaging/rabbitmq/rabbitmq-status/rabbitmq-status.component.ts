@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RabbitMQDTO } from '@dinivas/dto';
+import { TerraformModuleEntityInfo } from '../../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-rabbitmq-status',
@@ -6,10 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rabbitmq-status.component.scss']
 })
 export class RabbitmqStatusComponent implements OnInit {
+  rabbitMQInfo: TerraformModuleEntityInfo<RabbitMQDTO>;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.parent.data.subscribe(
+      data => (this.rabbitMQInfo = data.currentRabbitmqInfo)
+    );
   }
-
 }

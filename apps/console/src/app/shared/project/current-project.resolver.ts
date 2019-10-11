@@ -9,10 +9,11 @@ import {
 import { CONSTANT, ProjectDTO } from '@dinivas/dto';
 import { LocalStorageService } from 'ngx-webstorage';
 import { map, defaultIfEmpty } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../terraform/terraform-module-entity-info';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectResolver
-  implements Resolve<{ project: ProjectDTO; projectState: any }> {
+  implements Resolve<TerraformModuleEntityInfo<ProjectDTO>> {
   constructor(
     private readonly projectService: ProjectsService,
     private storage: LocalStorageService
@@ -20,7 +21,7 @@ export class CurrentProjectResolver
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<{ project: ProjectDTO; projectState: any }> {
+  ): Observable<TerraformModuleEntityInfo<ProjectDTO>> {
     const projectIdString =
       <string>route.paramMap.get('projectId') ||
       this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
@@ -30,7 +31,7 @@ export class CurrentProjectResolver
       this.projectService.getProjectTerraformState(projectId)
     ]).pipe(
       map(result => {
-        return { project: result[0], projectState: result[1] };
+        return { entity: result[0], entityState: result[1] };
       })
     );
   }

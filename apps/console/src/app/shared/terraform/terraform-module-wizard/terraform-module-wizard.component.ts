@@ -78,7 +78,9 @@ export class TerraformModuleWizardComponent<T> implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe(data => {
       this.moduleWizard = data.moduleWizard;
-      this.moduleWizard.moduleEntity = data.moduleEntity;
+      this.moduleWizard.moduleEntity = data.moduleEntity
+        ? data.moduleEntity.entity
+        : undefined;
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         this.moduleWizard.component
       );

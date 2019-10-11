@@ -22,6 +22,11 @@ export class RabbitMQService {
     rabbitMQDTO.keypair_name = rabbitmq.keypair_name;
     rabbitMQDTO.network_name = rabbitmq.network_name;
     rabbitMQDTO.network_subnet_name = rabbitmq.network_subnet_name;
+    rabbitMQDTO.cluster_availability_zone = rabbitmq.cluster_availability_zone;
+    rabbitMQDTO.cluster_cloud_image = rabbitmq.cluster_cloud_image;
+    rabbitMQDTO.cluster_cloud_flavor = rabbitmq.cluster_cloud_flavor;
+    rabbitMQDTO.cluster_instance_count = rabbitmq.cluster_instance_count;
+    rabbitMQDTO.enabled_plugin_list = rabbitmq.enabled_plugin_list;
     rabbitMQDTO.project = new ProjectDTO();
     rabbitMQDTO.project.code = rabbitmq.project.code;
     rabbitMQDTO.project.floating_ip_pool = rabbitmq.project.floating_ip_pool;

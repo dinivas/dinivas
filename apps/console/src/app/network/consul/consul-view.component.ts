@@ -2,6 +2,7 @@ import { ConsulDTO } from '@dinivas/dto';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-consul-view',
@@ -45,7 +46,12 @@ export class ConsulViewComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { consul: ConsulDTO }) => data.consul))
+      .pipe(
+        map(
+          (data: { currentConsulInfo: TerraformModuleEntityInfo<ConsulDTO> }) =>
+            data.currentConsulInfo.entity
+        )
+      )
       .subscribe((consul: ConsulDTO) => (this.consul = consul));
   }
 }

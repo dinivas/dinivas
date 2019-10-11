@@ -51,7 +51,7 @@ const routes: Routes = [
     path: ':consulId',
     component: ConsulViewComponent,
     resolve: {
-      consul: CurrentConsulResolver
+      currentConsulInfo: CurrentConsulResolver
     },
     children: [
       {

@@ -33,6 +33,7 @@ import {
 import { MatVerticalStepper, MatChipInputEvent } from '@angular/material';
 import { Observable, Subject, forkJoin } from 'rxjs';
 import { findIndex } from 'lodash';
+import { TerraformModuleEntityInfo } from '../../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-jenkins-wizard',
@@ -99,13 +100,13 @@ export class JenkinsWizardComponent
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
-      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo.project;
-        this.projectTfState = projectInfo.projectState;
+      .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+        this.project = projectInfo.entity;
+        this.projectTfState = projectInfo.entityState;
         this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
           ? this.projectTfState.outputs['mgmt_network_name'].value
           : undefined;

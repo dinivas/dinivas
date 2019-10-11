@@ -22,6 +22,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-consul-wizard',
@@ -78,13 +79,13 @@ export class ConsulWizardComponent
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
-      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo.project;
-        this.projectTfState = projectInfo.projectState;
+      .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+        this.project = projectInfo.entity;
+        this.projectTfState = projectInfo.entityState;
         this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
           ? this.projectTfState.outputs['mgmt_network_name'].value
           : undefined;
@@ -102,9 +103,9 @@ export class ConsulWizardComponent
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { moduleEntity: ConsulDTO }) => data.moduleEntity))
-      .subscribe((consul: ConsulDTO) => {
-        this.consul = consul;
+      .pipe(map((data: {moduleEntity: TerraformModuleEntityInfo<ConsulDTO>}) => data.moduleEntity))
+      .subscribe((moduleEntity: TerraformModuleEntityInfo<ConsulDTO>) => {
+        this.consul = moduleEntity ? moduleEntity.entity : undefined;
         this.initConsulForm();
       });
 

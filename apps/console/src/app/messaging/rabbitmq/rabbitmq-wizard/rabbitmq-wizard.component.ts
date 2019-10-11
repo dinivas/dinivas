@@ -26,6 +26,7 @@ import {
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-rabbitmq-wizard',
@@ -112,13 +113,13 @@ export class RabbitmqWizardComponent
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
-      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo.project;
-        this.projectTfState = projectInfo.projectState;
+      .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+        this.project = projectInfo.entity;
+        this.projectTfState = projectInfo.entityState;
         this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
           ? this.projectTfState.outputs['mgmt_network_name'].value
           : undefined;
@@ -136,7 +137,13 @@ export class RabbitmqWizardComponent
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { moduleEntity: RabbitMQDTO }) => data.moduleEntity))
+      .pipe(
+        map(
+          (data: {
+            moduleEntity: TerraformModuleEntityInfo<RabbitMQDTO>;
+          }) => data.moduleEntity ?  data.moduleEntity.entity : undefined
+        )
+      )
       .subscribe((rabbitmq: RabbitMQDTO) => {
         this.rabbitmq = rabbitmq;
         this.initRabbitMQForm();
@@ -211,7 +218,7 @@ export class RabbitmqWizardComponent
       ],
       _enabled_plugin_list: [
         this.rabbitmq
-          ? this.rabbitmq.enabled_plugin_list
+          ? this.rabbitmq.enabled_plugin_list.split(',')
           : this.selectedRabbitmqPlugins,
         Validators.required
       ]

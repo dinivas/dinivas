@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectDTO } from '@dinivas/dto';
 import { map } from 'rxjs/operators';
+import { TerraformModuleEntityInfo } from '../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-project-status',
@@ -10,6 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class ProjectStatusComponent implements OnInit {
   project: ProjectDTO;
+  projectState: any;
   constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
@@ -17,13 +19,14 @@ export class ProjectStatusComponent implements OnInit {
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
       .subscribe(
-        async (projectInfo: { project: ProjectDTO; projectState: any }) => {
-          this.project = projectInfo && projectInfo.project;
+        async (projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+          this.project = projectInfo.entity;
+          this.projectState = projectInfo.entityState;
         }
       );
   }

@@ -25,7 +25,7 @@
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
         [showAddButton]="showAddButton" addButtonLabel="Add new Cluster" (onFilterChanged)="filterChanged($event)"
-        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addCluster()"
+        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addRabbitMQCluster()"
         (onDeleteSelection)="deleteEntity($event)">
       </dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
