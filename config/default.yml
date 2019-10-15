@@ -48,6 +48,9 @@ dinivas:
       - name: base_image
         type: git
         url: https://github.com/dinivas/packer-dinivas-base-image.git
+      - name: proxy
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-proxy.git
       - name: jenkins
         type: git
         url: https://github.com/dinivas/packer-jenkins.git

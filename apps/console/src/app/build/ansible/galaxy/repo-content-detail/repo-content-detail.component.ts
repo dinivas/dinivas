@@ -71,7 +71,9 @@ export class RepoContentDetailComponent implements OnInit {
       this.repository = data.contentType['data']['repository'];
       this.content = data.contentType['data']['content'];
       this.namespace = data.contentType['data']['namespace'];
-      this.fetchContentDetail(this.content[0].id);
+      if (this.content.length > 0) {
+        this.fetchContentDetail(this.content[0].id);
+      }
       // Load repo imports
       this.repositoryImports = this.repositoryService
         .getImports(this.repository.id, {})

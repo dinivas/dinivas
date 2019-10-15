@@ -1,3 +1,4 @@
+import { TerraformModuleEntityInfo } from './../../shared/terraform/terraform-module-entity-info';
 import { CloudproviderService } from './../../shared/cloudprovider/cloudprovider.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ProjectsService } from './../../shared/project/projects.service';
@@ -67,12 +68,12 @@ export class ImagesComponent extends MatCrudComponent
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
-      .subscribe((projectInfo: { project: ProjectDTO; projectState: any }) => {
-        this.project = projectInfo.project;
+      .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+        this.project = projectInfo.entity;
       });
   }
 
@@ -115,7 +116,7 @@ export class ImageToBuildDialogComponent implements OnInit {
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
   projectNetworks: ICloudApiNetwork[];
-  availableModuleImages: string[] = ['jenkins', 'consul', 'prometheus'];
+  availableModuleImages: string[] = ['base_image', 'proxy', 'jenkins', 'rabbitmq'];
   imageToBuildForm: FormGroup;
 
   constructor(

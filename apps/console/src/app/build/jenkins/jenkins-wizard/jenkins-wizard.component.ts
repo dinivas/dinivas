@@ -124,9 +124,14 @@ export class JenkinsWizardComponent
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { moduleEntity: JenkinsDTO }) => data.moduleEntity))
-      .subscribe((jenkins: JenkinsDTO) => {
-        this.jenkins = jenkins;
+      .pipe(
+        map(
+          (data: { moduleEntity: TerraformModuleEntityInfo<JenkinsDTO> }) =>
+            data.moduleEntity
+        )
+      )
+      .subscribe((moduleEntity: TerraformModuleEntityInfo<JenkinsDTO>) => {
+        this.jenkins = moduleEntity ? moduleEntity.entity : undefined;
         // Wait for project state to be resolved before init form
         //this.projectTfStateSubject.subscribe(()=>this.initJenkinsForm());
         this.initJenkinsForm();

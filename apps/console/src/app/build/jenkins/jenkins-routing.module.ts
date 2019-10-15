@@ -58,7 +58,7 @@ const routes: Routes = [
         path: 'status',
         component: JenkinsStatusComponent,
         resolve: {
-          moduleEntity: CurrentJenkinsResolver,
+          currentJenkinsInfo: CurrentJenkinsResolver,
           currentProjectInfo: CurrentProjectResolver
         }
       },

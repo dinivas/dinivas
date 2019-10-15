@@ -1,3 +1,4 @@
+import { TerraformModuleEntityInfo } from './../../shared/terraform/terraform-module-entity-info';
 import { ConsulService } from './../../shared/consul/consul.service';
 import { AlertService } from './../../core/alert/alert.service';
 import { SelectProjectDialogComponent } from './../../core/dialog/select-project-dialog/select-project-dialog.component';
@@ -103,13 +104,13 @@ export class ProjectWizardComponent implements OnInit {
       .pipe(
         map(
           (data: {
-            currentProjectInfo: { project: ProjectDTO; projectState: any };
+            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
           }) => data.currentProjectInfo
         )
       )
       .subscribe(
-        async (projectInfo: { project: ProjectDTO; projectState: any }) => {
-          this.project = projectInfo && projectInfo.project;
+        async (projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
+          this.project = projectInfo ? projectInfo.entity : undefined;
           if (this.project) {
             this.consul = await this.consulService
               .getOneByCode(this.project.code)

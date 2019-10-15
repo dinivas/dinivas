@@ -2,7 +2,7 @@ import { IamService } from './iam.service';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { Controller, UseGuards, Get, Req, Param } from '@nestjs/common';
-import { UserRepresentation } from '@dinivas/dto';
+import { UserRepresentation, ProjectDTO } from '@dinivas/dto';
 
 @ApiUseTags('IAM')
 @Controller('iam')
@@ -13,11 +13,16 @@ export class IamController {
 
   @Get('members')
   async findAllUsers(@Req() request: Request): Promise<any[]> {
-    return this.iamService.findAllUsers();
+    const project = request['project'] as ProjectDTO;
+    return this.iamService.findAllUsers(project);
   }
 
   @Get('members/:id')
-  async findOneUser(@Param('id') id: string): Promise<UserRepresentation> {
-    return this.iamService.findOneUser(id);
+  async findOneUser(
+    @Req() request: Request,
+    @Param('id') id: string
+  ): Promise<UserRepresentation> {
+    const project = request['project'] as ProjectDTO;
+    return this.iamService.findOneUser(project, id);
   }
 }
