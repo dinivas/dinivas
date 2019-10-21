@@ -1,3 +1,4 @@
+import { TerraformStateService } from './../../../../terraform/terraform-state/terraform-state.service';
 import { TerraformGateway } from './../../../../terraform/terraform.gateway';
 import { ConfigService } from './../../../../core/config/config.service';
 import { Terraform } from './../../../../terraform/core/Terraform';
@@ -16,12 +17,14 @@ const path = require('path');
 const os = require('os');
 
 @CommandHandler(PlanRabbitMQCommand)
-export class PlanRabbitMQHandler implements ICommandHandler<PlanRabbitMQCommand> {
+export class PlanRabbitMQHandler
+  implements ICommandHandler<PlanRabbitMQCommand> {
   private readonly logger = new Logger(PlanRabbitMQHandler.name);
   terraform: Terraform;
   constructor(
     private readonly publisher: EventPublisher,
     private readonly configService: ConfigService,
+    private readonly terraformStateService: TerraformStateService,
     private readonly terraformGateway: TerraformGateway
   ) {
     this.terraform = new Terraform(configService);
@@ -34,7 +37,16 @@ export class PlanRabbitMQHandler implements ICommandHandler<PlanRabbitMQCommand>
         command.rabbitmq.code,
         'rabbitmq',
         command.cloudConfig,
-        workingDir =>{},
+        async workingDir => {
+          const rawProjectState = await this.terraformStateService.findState(
+            command.rabbitmq.project.code.toLowerCase(),
+            'project_base'
+          );
+          this.terraform.addSshViaBastionConfigFileToModule(
+            JSON.parse(rawProjectState.state),
+            workingDir
+          );
+        },
         async workingDir => {
           try {
             const planResult: TFPlanRepresentation = await this.terraform.plan(

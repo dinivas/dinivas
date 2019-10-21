@@ -80,7 +80,7 @@
           <th mat-header-cell *matHeaderCellDef class="action-cell ">
           </th>
           <td mat-cell *matCellDef="let entity" class="row-action edit-action">
-            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entity?.metadata.project"
               (click)="deleteEntity(entity)">
               <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
             </a>

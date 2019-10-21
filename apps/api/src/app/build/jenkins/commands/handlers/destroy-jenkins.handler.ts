@@ -1,3 +1,4 @@
+import { TerraformStateService } from './../../../../terraform/terraform-state/terraform-state.service';
 import { TerraformGateway } from './../../../../terraform/terraform.gateway';
 import { JenkinsService } from './../../jenkins.service';
 import { ConfigService } from './../../../../core/config/config.service';
@@ -16,6 +17,7 @@ export class DestroyJenkinsHandler
     private readonly publisher: EventPublisher,
     private readonly configService: ConfigService,
     private readonly jenkinsService: JenkinsService,
+    private readonly terraformStateService: TerraformStateService,
     private readonly terraformGateway: TerraformGateway
   ) {
     this.terraform = new Terraform(this.configService);
@@ -30,13 +32,19 @@ export class DestroyJenkinsHandler
         command.jenkins.code,
         'jenkins',
         command.cloudConfig,
-        workingDir =>
+        async workingDir => {
+          const rawState = await this.terraformStateService.findState(
+            command.jenkins.project.code.toLowerCase(),
+            'project_base'
+          );
+          this.terraform.addSshViaBastionConfigFileToModule(JSON.parse(rawState.state), workingDir);
           this.terraform.addJenkinsSlaveFilesToModule(
             command.jenkins,
             command.consul,
             command.cloudConfig,
             workingDir
-          ),
+          );
+        },
         async workingDir => {
           try {
             await this.terraform.destroy(

@@ -23,6 +23,10 @@ dinivas:
         type: git
         provider: openstack
         url: https://github.com/dinivas/terraform-openstack-project-base.git
+      - name: project_instance
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-project-instance.git
       - name: jenkins
         type: git
         provider: openstack

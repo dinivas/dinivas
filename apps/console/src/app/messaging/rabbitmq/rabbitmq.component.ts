@@ -46,7 +46,7 @@ export class RabbitmqComponent extends MatCrudComponent
       .subscribe((rabbitmq: RabbitMQDTO[]) => (this.rabbitmqList = rabbitmq));
     this.columnDefs = [
       //new ColumnDef('id', 'Id', false, false, false),
-      new ColumnDef('code', 'Code', true, true, false, FilterType.TEXT),
+      new ColumnDef('code', 'Code', false),
       new ColumnDef('url', '?', false),
       new ColumnDef(
         'cluster_availability_zone',

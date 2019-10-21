@@ -26,7 +26,8 @@ import {
   JenkinsDTO,
   JenkinsSlaveGroupDTO,
   ConsulDTO,
-  RabbitMQDTO
+  RabbitMQDTO,
+  InstanceDTO
 } from '@dinivas/dto';
 const fs = require('fs');
 const path = require('path');
@@ -465,11 +466,31 @@ export class Terraform extends Base {
     );
   }
 
+  addSshViaBastionConfigFileToModule(projectState: any, destination: string){
+    const content = `
+    ssh_via_bastion_config = {
+      "host_private_key"     = <<EOT
+      ${projectState.outputs.project_private_key.value}
+      EOT
+      "bastion_host"         = "${projectState.outputs.bastion_floating_ip.value}"
+      "bastion_private_key"  = <<EOT
+      ${projectState.outputs.bastion_private_key.value}
+      EOT
+    }
+    `;
+    try {
+      fs.writeFileSync(path.join(destination, 'ssh-via-bastion.tfvars'), content);
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+
   computeTerraformJenkinsModuleVars(
     jenkins: JenkinsDTO,
     consul: ConsulDTO,
     cloudConfig: any
   ): string[] {
+    const onDestroyCommand = 'consul leave';
     const jenkins_master_vars = [
       `-var 'project_name=${jenkins.project.code.toLowerCase()}'`,
       `-var 'enable_jenkins_master=${jenkins.use_existing_master ? 0 : 1}'`,
@@ -505,10 +526,12 @@ export class Terraform extends Base {
       `-var 'os_auth_domain_name=${
         cloudConfig.clouds.openstack.auth.user_domain_name
       }'`,
+      `-var 'execute_on_destroy_jenkins_master_script=${onDestroyCommand}'`,
       `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
       `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
       `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
-      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`
+      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`,
+      `-var-file=ssh-via-bastion.tfvars`
     ];
     return jenkins_master_vars;
   }
@@ -518,6 +541,7 @@ export class Terraform extends Base {
     consul: ConsulDTO,
     cloudConfig: any
   ): string[] {
+    const onDestroyCommand = 'consul leave';
     const rabbitmq_cluster_vars = [
       `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
       `-var 'enable_rabbitmq=1'`,
@@ -540,12 +564,48 @@ export class Terraform extends Base {
       `-var 'os_auth_domain_name=${
         cloudConfig.clouds.openstack.auth.user_domain_name
       }'`,
+      `-var 'execute_on_destroy_rabbitmq_node_script=${onDestroyCommand}'`,
       `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
       `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
       `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
-      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`
+      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`,
+      `-var-file=ssh-via-bastion.tfvars`
     ];
     return rabbitmq_cluster_vars;
+  }
+
+
+  computeTerraformInstanceModuleVars(
+    instance: InstanceDTO,
+    consul: ConsulDTO,
+    cloudConfig: any
+  ): string[] {
+    const onDestroyCommand = 'consul leave';
+    const instance_vars = [
+      `-var 'project_name=${instance.project.code.toLowerCase()}'`,
+      `-var 'instance_name=${instance.code.toLowerCase()}'`,
+      `-var 'enable_instance=1'`,
+      `-var 'instance_count=1'`,
+      `-var 'instance_image_name=${instance.cloud_image}'`,
+      `-var 'instance_flavor_name=${instance.cloud_flavor}'`,
+      `-var 'instance_keypair_name=${instance.keypair_name}'`,
+      `-var 'instance_network=${instance.network_name}'`,
+      `-var 'instance_subnet=${instance.network_subnet_name}'`,
+      `-var 'instance_availability_zone=${instance.project.availability_zone}'`,
+      `-var 'instance_security_groups_to_associate=["${instance.project.code.toLowerCase()}-common"]'`,
+      `-var 'project_consul_domain=${consul.cluster_domain}'`,
+      `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
+      `-var 'os_auth_domain_name=${
+        cloudConfig.clouds.openstack.auth.user_domain_name
+      }'`,
+      `-var 'execute_on_destroy_instance_script=${onDestroyCommand}'`,
+      `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
+      `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
+      `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
+      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`,
+      `-var-file=ssh-via-bastion.tfvars`
+    ];
+    return instance_vars;
   }
 
   computeTerraformConsulModuleVars(consulCommand: PlanConsulCommand): string[] {

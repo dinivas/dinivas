@@ -1,3 +1,4 @@
+import { Instance } from './compute/instances/instance.entity';
 import { MessagingModule } from './messaging/messaging.module';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
 import { Consul } from './network/consul/consul.entity';
@@ -69,7 +70,8 @@ const ormConfigJson: TypeOrmModuleOptions = config.get('dinivas.orm.config');
         Jenkins,
         JenkinsSlaveGroup,
         Consul,
-        RabbitMQ
+        RabbitMQ,
+        Instance
       ]
     }),
     ComputeModule,
@@ -110,7 +112,7 @@ export class AppModule implements NestModule {
       )
       .forRoutes('ansible-galaxy/*');
     // Add manually body-parser because we disabled it in main.ts
-    const jsonParseMiddleware = json({limit: '10mb'});
+    const jsonParseMiddleware = json({ limit: '10mb' });
     consumer
       .apply((req: any, res: any, next: any) => {
         jsonParseMiddleware(req, res, next);

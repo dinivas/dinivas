@@ -173,7 +173,8 @@ export class OpenstackApiService implements ICloudApi {
                 status: srv.status,
                 adresses: currentSrvAdresses,
                 created_date: srv.created,
-                updated_date: srv.updated
+                updated_date: srv.updated,
+                metadata: srv.metadata
               } as ICloudApiInstance;
             })
           );

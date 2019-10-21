@@ -8,7 +8,8 @@ import { MatDialog } from '@angular/material';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
 import { Component } from '@angular/core';
-import { ICloudApiImage, ICloudApiInstance } from '@dinivas/dto';
+import { ICloudApiImage, ICloudApiInstance, InstanceDTO } from '@dinivas/dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dinivas-instances',
@@ -26,7 +27,8 @@ export class InstancesComponent extends MatCrudComponent
   constructor(
     public dialog: MatDialog,
     private readonly instancesService: InstancesService,
-    public confirmDialog: ConfirmDialogService
+    public confirmDialog: ConfirmDialogService,
+    private readonly router: Router
   ) {
     super(confirmDialog);
     this.columnDefs = [
@@ -50,13 +52,17 @@ export class InstancesComponent extends MatCrudComponent
     return this.instancesService.getInstances(newHttpParams);
   }
 
-  addInstance() {}
+  addInstance() {
+    this.router.navigate(['/compute/instances/new'], {
+      preserveQueryParams: true
+    });
+  }
 
   deleteSelected(selection: any[]): Observable<any> {
     return Observable.create((observer: Observer<any>) => {});
   }
 
-  delete(imageDTO: ICloudApiImage): Observable<any> {
-    return this.instancesService.deleteInstance(0);
+  delete(instanceDTO: InstanceDTO): Observable<any> {
+    return this.instancesService.delete(instanceDTO.id);
   }
 }

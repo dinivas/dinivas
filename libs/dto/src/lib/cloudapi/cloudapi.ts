@@ -43,6 +43,7 @@ export interface ICloudApiInstance {
   keys: string[];
   created_date: string;
   updated_date: string;
+  metadata: any;
 }
 
 export interface ICloudApiImage {

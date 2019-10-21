@@ -1,0 +1,70 @@
+<form [formGroup]="instanceForm" *ngIf="instanceForm" (ngSubmit)="submitPlanInstance(instanceForm.getRawValue())"
+  class="instance-wizard-form">
+  <ng-template matStepLabel>instance informations - <span class="text-warn">This step will not create any
+      resources</span></ng-template>
+  <div class="mat-form-container" fxLayout="column">
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Instance name</mat-label>
+      <input type="text" matInput formControlName="code" required>
+      <span *ngIf="!instance?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
+      <mat-hint>The Instance cluster nameYou can't change it after Instance
+        creation.</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Instance network</mat-label>
+      <mat-select formControlName="network_name" required>
+        <mat-option [value]="projectNetwork.name">
+          {{ projectNetwork.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Instance will be added to project Network by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Instance network subnet</mat-label>
+      <mat-select formControlName="network_subnet_name" required>
+        <mat-option [value]="projectNetworkSubnet.name">
+          {{ projectNetworkSubnet.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Instance will be added to project Subnet by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Instance instances keypair</mat-label>
+      <mat-select formControlName="keypair_name" required>
+        <mat-option [value]="projectKeypair">
+          {{ projectKeypair }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>This Keypair will be added to all instances crated</mat-hint>
+    </mat-form-field>
+    <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_nodes_image"
+      formControlName="_cluster_cloud_image" label="Select Instance node image to use" [cloudImages]="cloudImages">
+    </dinivas-cloud-image-radios>
+    <ng-template #loading_nodes_image>
+      <p class="no-data-checkbox">No image that match filter found.</p>
+    </ng-template>
+    <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_nodes_flavor"
+      formControlName="_cluster_cloud_flavor" label="Select Instance node flavor to use" [cloudFlavors]="cloudFlavors">
+    </dinivas-cloud-flavor-radios>
+    <ng-template #loading_nodes_flavor>
+      <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Cluster
+          nodes</strong></p>
+    </ng-template>
+  </div>
+  <div class="actions">
+    <button mat-button [routerLink]="['/compute', 'instances']" queryParamsHandling="merge"
+      type="button">Cancel</button>
+    <button type="button" mat-button matStepperPrevious>Back</button>
+    <button type="button" mat-button class="ml-10" *ngIf="instance?.id && isFormValid()"
+      (click)="showInstanceOutput(instanceForm.getRawValue())">Show instance
+      infra infos</button>
+    <button type="submit" mat-raised-button color="primary" class="ml-10"
+      [disabled]="!isFormValid() || (isFormValid() && !instanceForm.dirty)">Plan
+      Instance
+      resources</button>
+  </div>
+</form>

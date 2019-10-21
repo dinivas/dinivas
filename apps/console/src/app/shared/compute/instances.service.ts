@@ -1,13 +1,18 @@
+import { TerraformModuleResourceServiceBase } from './../terraform/terraform-module-resource-base.service';
 import { Observable } from 'rxjs';
-import { ProjectDTO, ICloudApiInstance } from '@dinivas/dto';
+import { ProjectDTO, ICloudApiInstance, InstanceDTO } from '@dinivas/dto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class InstancesService {
-  constructor(private http: HttpClient) {}
+export class InstancesService extends TerraformModuleResourceServiceBase<
+  InstanceDTO
+> {
+  constructor(http: HttpClient) {
+    super(http, 'compute/instances');
+  }
 
   getInstances(httpParams: HttpParams): Observable<ICloudApiInstance[]> {
     return this.http.get<ICloudApiInstance[]>(

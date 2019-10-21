@@ -58,7 +58,7 @@
         <ng-container matColumnDef="code">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-button color="primary" [routerLink]="['/network','consul', row.id, 'edit']"
+            <button mat-button color="primary" [routerLink]="['/network','consul', row.id, 'status']"
               queryParamsHandling="merge">
               {{row.code }}
             </button>
