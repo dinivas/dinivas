@@ -1,7 +1,5 @@
 dinivas:
   production: false
-  workspace:
-    root-path: '/Users/chidi/.dinivas/workspace'
   orm:
     config:
       type: postgres
