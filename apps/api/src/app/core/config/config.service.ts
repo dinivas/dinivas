@@ -9,6 +9,13 @@ export const config: IConfig = require('config');
 console.log('NODE_CONFIG_DIR: ' + config.util.getEnv('NODE_CONFIG_DIR'));
 const path = require('path');
 
+const fileSystem = require('fs');
+const homeDirectory = require('os').homedir();
+const dinivasWorkspaceDirectory = homeDirectory + '/.dinivas/workspace';
+if (!fileSystem.existsSync(dinivasWorkspaceDirectory)){
+  fileSystem.mkdirSync(dinivasWorkspaceDirectory, { recursive: true });
+}
+
 @Injectable()
 export class ConfigService {
   private readonly logger = new Logger(ConfigService.name);
@@ -36,7 +43,7 @@ export class ConfigService {
   }
 
   getWorkspaceRootPath(): string {
-    return this.get('workspace.root-path');
+    return dinivasWorkspaceDirectory;
   }
 
   private checkRequiredPath() {

@@ -6,7 +6,7 @@ RUN apk update && apk add nginx && \
     rm -rf /var/cache/apk/* &&  mkdir -p /run/nginx/ && \
     chown -R nginx:www-data /var/lib/nginx /run/nginx/
 
-RUN npm install -g nodemon
+RUN npm config set unsafe-perm true && npm install -g nodemon
 
 ADD package.json /tmp/package.json
 ADD package-lock.json /tmp/package-lock.json
