@@ -1,0 +1,1685 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>AppComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/console/src/app/app.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-root</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./app.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./app.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#availableMenuGroups">availableMenuGroups</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#confirmDialog">confirmDialog</a>
+                            </li>
+                            <li>
+                                <a href="#contextualMenuComponent">contextualMenuComponent</a>
+                            </li>
+                            <li>
+                                <a href="#contextualMenuData">contextualMenuData</a>
+                            </li>
+                            <li>
+                                <a href="#contextualMenuInjector">contextualMenuInjector</a>
+                            </li>
+                            <li>
+                                <a href="#contextualSidenav">contextualSidenav</a>
+                            </li>
+                            <li>
+                                <a href="#currentProject">currentProject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog">dialog</a>
+                            </li>
+                            <li>
+                                <a href="#isDarkTheme">isDarkTheme</a>
+                            </li>
+                            <li>
+                                <a href="#isPageLoading">isPageLoading</a>
+                            </li>
+                            <li>
+                                <a href="#pinnedMenus">pinnedMenus</a>
+                            </li>
+                            <li>
+                                <a href="#projects">projects</a>
+                            </li>
+                            <li>
+                                <a href="#routerLinkActiveOptionsExact">routerLinkActiveOptionsExact</a>
+                            </li>
+                            <li>
+                                <a href="#serverInfo">serverInfo</a>
+                            </li>
+                            <li>
+                                <a href="#sideNavMode">sideNavMode</a>
+                            </li>
+                            <li>
+                                <a href="#sideNavOpened">sideNavOpened</a>
+                            </li>
+                            <li>
+                                <a href="#userDetails">userDetails</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#createSideNavInjector">createSideNavInjector</a>
+                            </li>
+                            <li>
+                                <a href="#logout">logout</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#profileManagement">profileManagement</a>
+                            </li>
+                            <li>
+                                <a href="#switchCurrentProject">switchCurrentProject</a>
+                            </li>
+                            <li>
+                                <a href="#toggleDarkTheme">toggleDarkTheme</a>
+                            </li>
+                            <li>
+                                <a href="#togglePin">togglePin</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSideNav">toggleSideNav</a>
+                            </li>
+                            <li>
+                                <a href="#watchRouteChanged">watchRouteChanged</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(keycloakService: <a href="../s/Keycloak.html">KeycloakService</a>, dialog: MatDialog, projectService: <a href="../injectables/ProjectsService.html">ProjectsService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, storage: LocalStorageService, confirmDialog: <a href="../injectables/ConfirmDialogService.html">ConfirmDialogService</a>, contextualMenuService: <a href="../injectables/ContextualMenuService.html">ContextualMenuService</a>, breakpointObserver: BreakpointObserver, themeService: <a href="../injectables/ThemeService.html">ThemeService</a>, pageLoadingService: <a href="../injectables/PageLoadingService.html">PageLoadingService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, inj: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>keycloakService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../miscellaneous/variables.html#Keycloak" target="_self" >KeycloakService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>projectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProjectsService.html" target="_self" >ProjectsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>storage</td>
+                                                  
+                                                        <td>
+                                                                    <code>LocalStorageService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>confirmDialog</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfirmDialogService.html" target="_self" >ConfirmDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>contextualMenuService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ContextualMenuService.html" target="_self" >ContextualMenuService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>breakpointObserver</td>
+                                                  
+                                                        <td>
+                                                                    <code>BreakpointObserver</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>themeService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ThemeService.html" target="_self" >ThemeService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>pageLoadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PageLoadingService.html" target="_self" >PageLoadingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>renderer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>inj</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createSideNavInjector"></a>
+                    <span class="name">
+                        <b>
+                            createSideNavInjector
+                        </b>
+                        <a href="#createSideNavInjector"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createSideNavInjector(data)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                        <b>
+                            logout
+                        </b>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>logout()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileManagement"></a>
+                    <span class="name">
+                        <b>
+                            profileManagement
+                        </b>
+                        <a href="#profileManagement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>profileManagement()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="switchCurrentProject"></a>
+                    <span class="name">
+                        <b>
+                            switchCurrentProject
+                        </b>
+                        <a href="#switchCurrentProject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>switchCurrentProject(project: <a href="../classes/ProjectDTO.html">ProjectDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>project</td>
+                                    <td>
+                                                <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleDarkTheme"></a>
+                    <span class="name">
+                        <b>
+                            toggleDarkTheme
+                        </b>
+                        <a href="#toggleDarkTheme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleDarkTheme()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="togglePin"></a>
+                    <span class="name">
+                        <b>
+                            togglePin
+                        </b>
+                        <a href="#togglePin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>togglePin(sideNavMenu: <a href="../classes/SideNavMenu.html">SideNavMenu</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sideNavMenu</td>
+                                    <td>
+                                                <code><a href="../classes/SideNavMenu.html" target="_self" >SideNavMenu</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSideNav"></a>
+                    <span class="name">
+                        <b>
+                            toggleSideNav
+                        </b>
+                        <a href="#toggleSideNav"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSideNav(force?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>force</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="watchRouteChanged"></a>
+                    <span class="name">
+                        <b>
+                            watchRouteChanged
+                        </b>
+                        <a href="#watchRouteChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>watchRouteChanged()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="availableMenuGroups"></a>
+                        <span class="name">
+                            <b>
+                            availableMenuGroups</b>
+                            <a href="#availableMenuGroups"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>SideNavMenuGroup[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>SideMenu</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="confirmDialog"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            confirmDialog</b>
+                            <a href="#confirmDialog"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/ConfirmDialogService.html" target="_self" >ConfirmDialogService</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contextualMenuComponent"></a>
+                        <span class="name">
+                            <b>
+                            contextualMenuComponent</b>
+                            <a href="#contextualMenuComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ComponentType&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contextualMenuData"></a>
+                        <span class="name">
+                            <b>
+                            contextualMenuData</b>
+                            <a href="#contextualMenuData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contextualMenuInjector"></a>
+                        <span class="name">
+                            <b>
+                            contextualMenuInjector</b>
+                            <a href="#contextualMenuInjector"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contextualSidenav"></a>
+                        <span class="name">
+                            <b>
+                            contextualSidenav</b>
+                            <a href="#contextualSidenav"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatSidenav</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;contextualSidenav&#x27;, {static: true})<br />
+                            </code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentProject"></a>
+                        <span class="name">
+                            <b>
+                            currentProject</b>
+                            <a href="#currentProject"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dialog"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dialog</b>
+                            <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatDialog</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isDarkTheme"></a>
+                        <span class="name">
+                            <b>
+                            isDarkTheme</b>
+                            <a href="#isDarkTheme"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;boolean&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isPageLoading"></a>
+                        <span class="name">
+                            <b>
+                            isPageLoading</b>
+                            <a href="#isPageLoading"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;boolean&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pinnedMenus"></a>
+                        <span class="name">
+                            <b>
+                            pinnedMenus</b>
+                            <a href="#pinnedMenus"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/SideNavMenu.html" target="_self" >SideNavMenu[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projects"></a>
+                        <span class="name">
+                            <b>
+                            projects</b>
+                            <a href="#projects"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ProjectDTO[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="routerLinkActiveOptionsExact"></a>
+                        <span class="name">
+                            <b>
+                            routerLinkActiveOptionsExact</b>
+                            <a href="#routerLinkActiveOptionsExact"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{ exact: true }</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="serverInfo"></a>
+                        <span class="name">
+                            <b>
+                            serverInfo</b>
+                            <a href="#serverInfo"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/IServerInfo.html" target="_self" >IServerInfo</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sideNavMode"></a>
+                        <span class="name">
+                            <b>
+                            sideNavMode</b>
+                            <a href="#sideNavMode"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;side&#x27;</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sideNavOpened"></a>
+                        <span class="name">
+                            <b>
+                            sideNavOpened</b>
+                            <a href="#sideNavOpened"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userDetails"></a>
+                        <span class="name">
+                            <b>
+                            userDetails</b>
+                            <a href="#userDetails"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Keycloak" target="_self" >Keycloak.KeycloakProfile</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;app-container&quot;&gt;
+  &lt;div class&#x3D;&quot;spinner-container&quot; *ngIf&#x3D;&quot;isPageLoading | async&quot;&gt;
+    &lt;mat-spinner&gt;&lt;/mat-spinner&gt;
+    &lt;span&gt;Loading please wait a moment...&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;mat-toolbar class&#x3D;&quot;app-toolbar mat-elevation-z6&quot; fxLayout&#x3D;&quot;row&quot; fxLayoutAlign&#x3D;&quot;space-between center&quot; color&#x3D;&quot;primary&quot;&gt;
+    &lt;div class&#x3D;&quot;left&quot;&gt;
+      &lt;button type&#x3D;&quot;button&quot; aria-label&#x3D;&quot;Toggle sidenav&quot; mat-icon-button (click)&#x3D;&quot;toggleSideNav(true)&quot;&gt;
+        &lt;mat-icon aria-label&#x3D;&quot;Side nav toggle icon&quot;&gt;menu&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;a mat-button routerLink&#x3D;&quot;/&quot; class&#x3D;&quot;logo&quot; fxHide fxShow.gt-xs&gt;
+        &lt;span&gt;Dinivas CE&lt;/span&gt;
+      &lt;/a&gt;
+      &lt;button mat-button [matMenuTriggerFor]&#x3D;&quot;project_selection_menu&quot; *ngIf&#x3D;&quot;projects?.length &gt; 0&quot;
+        [matTooltip]&#x3D;&quot;currentProject ? currentProject.cloud_provider.name + &#x27; on &#x27; + currentProject.cloud_provider.cloud : &#x27;&#x27;&quot;
+        matTooltipPosition&#x3D;&quot;below&quot;&gt;
+        &lt;mat-icon *ngIf&#x3D;&quot;currentProject&quot;&gt;group_work&lt;/mat-icon&gt;
+        {{ currentProject ? currentProject?.name  : &#x27;Select project&#x27; }}
+        &lt;mat-icon&gt;arrow_drop_down&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;mat-menu #project_selection_menu&#x3D;&quot;matMenu&quot; class&#x3D;&quot;project-selection&quot;&gt;
+        &lt;button mat-menu-item *ngFor&#x3D;&quot;let project of projects&quot; class&#x3D;&quot;project-selection-item&quot;
+          [class.selected]&#x3D;&quot;project.id &#x3D;&#x3D;&#x3D; currentProject?.id&quot; (click)&#x3D;&quot;switchCurrentProject(project)&quot;&gt;
+          &lt;mat-icon *ngIf&#x3D;&quot;project.id &#x3D;&#x3D;&#x3D; currentProject?.id&quot;&gt;check&lt;/mat-icon&gt;
+          {{ project?.name }} ({{ project?.code }}) on {{ project?.cloud_provider.name }}
+        &lt;/button&gt;
+      &lt;/mat-menu&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;right&quot;&gt;
+      &lt;button mat-icon-button class&#x3D;&quot;mr-15&quot; color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;toggleDarkTheme()&quot;
+        [matTooltip]&#x3D;&quot;(isDarkTheme | async) ? &#x27;Switch console to ligth theme&#x27; : &#x27;Switch console to dark theme&#x27;&quot;
+        aria-label&#x3D;&quot;Switch console theme color&quot;&gt;
+        &lt;mat-icon&gt;{{ (isDarkTheme | async) ? &#x27;wb_sunny&#x27; : &#x27;brightness_3&#x27; }}&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;!-- &lt;mat-slide-toggle class&#x3D;&quot;mr-15&quot; matTooltip&#x3D;&quot;Switch console theme color&quot; [checked]&#x3D;&quot;isDarkTheme | async&quot;
+        (change)&#x3D;&quot;toggleDarkTheme($event.checked)&quot;&gt;
+      &lt;/mat-slide-toggle&gt; --&gt;
+      &lt;span class&#x3D;&quot;username&quot; *ngIf&#x3D;&quot;userDetails&quot; [matTooltip]&#x3D;&quot;userDetails.email&quot;&gt;{{ userDetails.firstName }}&lt;/span&gt;
+      &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;menu&quot;&gt;
+        &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;mat-menu #menu&#x3D;&quot;matMenu&quot;&gt;
+        &lt;button mat-menu-item class&#x3D;&quot;&quot; (click)&#x3D;&quot;profileManagement()&quot;&gt;
+          Profile
+        &lt;/button&gt;
+        &lt;button mat-menu-item class&#x3D;&quot;&quot; (click)&#x3D;&quot;logout()&quot;&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/mat-menu&gt;
+    &lt;/div&gt;
+  &lt;/mat-toolbar&gt;
+  &lt;mat-sidenav-container class&#x3D;&quot;global&quot;&gt;
+    &lt;mat-sidenav class&#x3D;&quot;menu&quot; #sidenav [mode]&#x3D;&quot;sideNavMode&quot; [(opened)]&#x3D;&quot;sideNavOpened&quot; style&#x3D;&quot;overflow: hidden;&quot;&gt;
+      &lt;mat-nav-list class&#x3D;&quot;always-menu-list&quot;&gt;
+        &lt;h3 mat-subheader&gt;Admin&lt;/h3&gt;
+        &lt;a mat-list-item [routerLinkActive]&#x3D;&quot;[&#x27;active&#x27;]&quot; [routerLink]&#x3D;&quot;[&#x27;/admin&#x27;]&quot; (click)&#x3D;&quot;toggleSideNav()&quot;&gt;
+          &lt;mat-icon matListIcon&gt;settings&lt;/mat-icon&gt;
+          &lt;h4 mat-line&gt;Admin settings&lt;/h4&gt;
+        &lt;/a&gt;
+        &lt;a mat-list-item [routerLinkActive]&#x3D;&quot;[&#x27;active&#x27;]&quot; [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;]&quot; (click)&#x3D;&quot;toggleSideNav()&quot;&gt;
+          &lt;mat-icon matListIcon&gt;group_work&lt;/mat-icon&gt;
+          &lt;h4 mat-line&gt;Projects&lt;/h4&gt;
+        &lt;/a&gt;
+      &lt;/mat-nav-list&gt;
+      &lt;mat-nav-list class&#x3D;&quot;pinned-menu-list mat-elevation-z7&quot;&gt;
+        &lt;a mat-list-item [routerLinkActive]&#x3D;&quot;[&#x27;active&#x27;]&quot; [routerLink]&#x3D;&quot;[&#x27;&#x27;]&quot;
+          [routerLinkActiveOptions]&#x3D;&quot;routerLinkActiveOptionsExact&quot; (click)&#x3D;&quot;toggleSideNav()&quot;&gt;
+          &lt;mat-icon matListIcon&gt;home&lt;/mat-icon&gt;
+          &lt;h4 mat-line&gt;Home&lt;/h4&gt;
+        &lt;/a&gt;
+        &lt;ng-container *ngFor&#x3D;&quot;let pinnedMenu of pinnedMenus&quot;&gt;
+          &lt;a mat-list-item [routerLinkActive]&#x3D;&quot;[&#x27;active&#x27;]&quot; [class.pinned]&#x3D;&quot;pinnedMenu.isPinned&quot;
+            [routerLink]&#x3D;&quot;pinnedMenu.routerLink&quot; (click)&#x3D;&quot;toggleSideNav()&quot;&gt;
+            &lt;mat-icon matListIcon [svgIcon]&#x3D;&quot;pinnedMenu.svgIcon&quot;&gt;{{ pinnedMenu.icon }}&lt;/mat-icon&gt;
+            &lt;h4 mat-line&gt;{{ pinnedMenu.label }}&lt;/h4&gt;
+          &lt;/a&gt;
+        &lt;/ng-container&gt;
+      &lt;/mat-nav-list&gt;
+      &lt;mat-nav-list class&#x3D;&quot;available-items-nav-list&quot;&gt;
+        &lt;ng-container *ngFor&#x3D;&quot;let menuGroup of availableMenuGroups&quot;&gt;
+          &lt;h3 mat-subheader&gt;{{ menuGroup.group }}&lt;/h3&gt;
+          &lt;ng-container *ngFor&#x3D;&quot;let menu of menuGroup.menus&quot;&gt;
+            &lt;a mat-list-item [routerLinkActive]&#x3D;&quot;[&#x27;active&#x27;]&quot; [class.pinned]&#x3D;&quot;menu.isPinned&quot;
+              [routerLink]&#x3D;&quot;menu.routerLink&quot; (click)&#x3D;&quot;toggleSideNav()&quot;&gt;
+              &lt;mat-icon matListIcon [svgIcon]&#x3D;&quot;menu.svgIcon&quot;&gt;{{ menu.icon }}&lt;/mat-icon&gt;
+              &lt;h4 mat-line&gt;{{ menu.label }}&lt;/h4&gt;
+              &lt;button mat-icon-button (click)&#x3D;&quot;togglePin(menu);$event.preventDefault();$event.stopPropagation();&quot;&gt;
+                &lt;mat-icon [matTooltip]&#x3D;&quot;menu.isPinned ? &#x27;Unpin&#x27;: &#x27;Pin&#x27;&quot; svgIcon&#x3D;&quot;pin&quot;&gt;&lt;/mat-icon&gt;
+              &lt;/button&gt;
+            &lt;/a&gt;
+          &lt;/ng-container&gt;
+        &lt;/ng-container&gt;
+      &lt;/mat-nav-list&gt;
+    &lt;/mat-sidenav&gt;
+    &lt;mat-sidenav class&#x3D;&quot;contextual&quot; #contextualSidenav [mode]&#x3D;&quot;&#x27;over&#x27;&quot; position&#x3D;&quot;end&quot;&gt;
+      &lt;!-- &lt;ng-container *ngComponentOutlet&#x3D;&quot;contextualMenuComponent; injector:createSideNavInjector(contextualMenuData)&quot;&gt;&lt;/ng-container&gt; --&gt;
+    &lt;/mat-sidenav&gt;
+    &lt;mat-sidenav-content&gt;
+      &lt;div class&#x3D;&quot;main-container&quot;&gt;
+        &lt;router-outlet&gt;&lt;/router-outlet&gt;
+      &lt;/div&gt;
+      &lt;dinivas-footer&gt;&lt;/dinivas-footer&gt;
+      &lt;!-- &lt;eco-fab-speed-dial [class.sidenavopen]&#x3D;&quot;sideNavOpened&quot;&gt;
+        &lt;eco-fab-speed-dial-trigger [spin]&#x3D;&quot;true&quot; class&#x3D;&quot;&quot;&gt;
+          &lt;button mat-fab&gt;
+            &lt;mat-icon class&#x3D;&quot;spin180&quot;&gt;add&lt;/mat-icon&gt;
+          &lt;/button&gt;
+        &lt;/eco-fab-speed-dial-trigger&gt;
+        &lt;eco-fab-speed-dial-actions&gt;
+          &lt;button mat-mini-fab&gt;
+            &lt;mat-icon matTooltip&#x3D;&quot;New instance&quot; matTooltipPosition&#x3D;&quot;right&quot;&gt;computer&lt;/mat-icon&gt;
+          &lt;/button&gt;
+          &lt;button mat-mini-fab&gt;
+            &lt;mat-icon&gt;edit&lt;/mat-icon&gt;
+          &lt;/button&gt;
+          &lt;button mat-mini-fab&gt;
+            &lt;mat-icon&gt;search&lt;/mat-icon&gt;
+          &lt;/button&gt;
+        &lt;/eco-fab-speed-dial-actions&gt;
+      &lt;/eco-fab-speed-dial&gt; --&gt;
+    &lt;/mat-sidenav-content&gt;
+  &lt;/mat-sidenav-container&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./app.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;../assets/styles/mixins&#x27;;
+@import &#x27;~@angular/material/theming&#x27;;
+
+@mixin app-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  $toolbar-height: 48px;
+
+  .app-container {
+
+    *{
+      //@include transition(color 0.3s ease);
+      //@include transition(background-color 0.3s ease);
+    }
+
+    height: 100%;
+    &amp; &gt; mat-toolbar {
+      position: -webkit-sticky;
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      height: $toolbar-height;
+
+      .left {
+        a.logo {
+          font-size: 18px;
+        }
+      }
+
+      .right {
+        span.username {
+          font-size: 16px;
+        }
+      }
+    }
+    &amp; &gt; mat-sidenav-container.global {
+      padding-top: $toolbar-height;
+      height: 100%;
+      z-index: 99;
+
+      .mat-sidenav.menu {
+        padding: $toolbar-height 0px 0px;
+        @media screen and (min-width: 961px) {
+          margin-bottom: $toolbar-height;
+        }
+        border-bottom: 1px solid mat-color($foreground, divider);
+
+        .mat-nav-list {
+          .mat-list-item {
+            button.mat-icon-button {
+              opacity: 0;
+              @include transition(opacity 0.3s ease);
+            }
+            &amp;:hover,
+            &amp;.pinned {
+              button.mat-icon-button {
+                opacity: 1;
+              }
+            }
+            &amp;.pinned {
+              button.mat-icon-button {
+                color: $accent-color;
+              }
+            }
+          }
+          &amp;.available-items-nav-list {
+            .mat-list-item {
+              &amp;.active {
+                color: #fff;
+                background-color: rgba($primary-color, 0.7);
+                &amp;.pinned {
+                  button.mat-icon-button {
+                    color: #fff;
+                  }
+                }
+              }
+            }
+          }
+          &amp;.always-menu-list {
+            padding-bottom: 10px;
+            .mat-list-item {
+              &amp;.active {
+                color: $primary-color;
+              }
+            }
+          }
+          &amp;.pinned-menu-list {
+            position: sticky;
+            display: block;
+            top: 0px;
+            z-index: 2;
+            background-color: $background-color;
+            .mat-list-item {
+              &amp;.active {
+                color: $primary-color;
+              }
+            }
+          }
+        }
+        .mat-list-base .mat-list-item .mat-list-text &gt; * {
+          font-weight: 400;
+          font-size: 15px;
+        }
+        .mat-list-base .mat-list-item .mat-list-icon {
+          width: 18px;
+          height: 18px;
+          font-size: 18px;
+        }
+        a.mat-list-item {
+          height: 40px;
+        }
+
+        .mat-drawer-inner-container {
+          overflow-y: auto;
+
+          .available-items-nav-list {
+            // overflow: auto;
+            // height: 100%;
+          }
+        }
+      }
+      .mat-sidenav.contextual {
+        padding: $toolbar-height 0px 0px;
+      }
+      .mat-sidenav-content {
+        // background: #fff;
+      }
+
+      .main-container {
+        margin: 5px 5px 52px;
+        overflow-x: hidden;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      eco-fab-speed-dial {
+        position: fixed;
+        bottom: 29px;
+        right: 80px;
+        z-index: 10;
+        @include transition(all 0.3s ease);
+        &amp;.sidenavopen {
+        }
+      }
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="app-container">  <div class="spinner-container" *ngIf="isPageLoading | async">    <mat-spinner></mat-spinner>    <span>Loading please wait a moment...</span>  </div>  <mat-toolbar class="app-toolbar mat-elevation-z6" fxLayout="row" fxLayoutAlign="space-between center" color="primary">    <div class="left">      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav(true)">        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>      </button>      <a mat-button routerLink="/" class="logo" fxHide fxShow.gt-xs>        <span>Dinivas CE</span>      </a>      <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects?.length > 0"        [matTooltip]="currentProject ? currentProject.cloud_provider.name + \' on \' + currentProject.cloud_provider.cloud : \'\'"        matTooltipPosition="below">        <mat-icon *ngIf="currentProject">group_work</mat-icon>        {{ currentProject ? currentProject?.name  : \'Select project\' }}        <mat-icon>arrow_drop_down</mat-icon>      </button>      <mat-menu #project_selection_menu="matMenu" class="project-selection">        <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"          [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">          <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>          {{ project?.name }} ({{ project?.code }}) on {{ project?.cloud_provider.name }}        </button>      </mat-menu>    </div>    <div class="right">      <button mat-icon-button class="mr-15" color="accent" (click)="toggleDarkTheme()"        [matTooltip]="(isDarkTheme | async) ? \'Switch console to ligth theme\' : \'Switch console to dark theme\'"        aria-label="Switch console theme color">        <mat-icon>{{ (isDarkTheme | async) ? \'wb_sunny\' : \'brightness_3\' }}</mat-icon>      </button>      <!-- <mat-slide-toggle class="mr-15" matTooltip="Switch console theme color" [checked]="isDarkTheme | async"        (change)="toggleDarkTheme($event.checked)">      </mat-slide-toggle> -->      <span class="username" *ngIf="userDetails" [matTooltip]="userDetails.email">{{ userDetails.firstName }}</span>      <button mat-icon-button [matMenuTriggerFor]="menu">        <mat-icon>more_vert</mat-icon>      </button>      <mat-menu #menu="matMenu">        <button mat-menu-item class="" (click)="profileManagement()">          Profile        </button>        <button mat-menu-item class="" (click)="logout()">          Logout        </button>      </mat-menu>    </div>  </mat-toolbar>  <mat-sidenav-container class="global">    <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">      <mat-nav-list class="always-menu-list">        <h3 mat-subheader>Admin</h3>        <a mat-list-item [routerLinkActive]="[\'active\']" [routerLink]="[\'/admin\']" (click)="toggleSideNav()">          <mat-icon matListIcon>settings</mat-icon>          <h4 mat-line>Admin settings</h4>        </a>        <a mat-list-item [routerLinkActive]="[\'active\']" [routerLink]="[\'/projects\']" (click)="toggleSideNav()">          <mat-icon matListIcon>group_work</mat-icon>          <h4 mat-line>Projects</h4>        </a>      </mat-nav-list>      <mat-nav-list class="pinned-menu-list mat-elevation-z7">        <a mat-list-item [routerLinkActive]="[\'active\']" [routerLink]="[\'\']"          [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">          <mat-icon matListIcon>home</mat-icon>          <h4 mat-line>Home</h4>        </a>        <ng-container *ngFor="let pinnedMenu of pinnedMenus">          <a mat-list-item [routerLinkActive]="[\'active\']" [class.pinned]="pinnedMenu.isPinned"            [routerLink]="pinnedMenu.routerLink" (click)="toggleSideNav()">            <mat-icon matListIcon [svgIcon]="pinnedMenu.svgIcon">{{ pinnedMenu.icon }}</mat-icon>            <h4 mat-line>{{ pinnedMenu.label }}</h4>          </a>        </ng-container>      </mat-nav-list>      <mat-nav-list class="available-items-nav-list">        <ng-container *ngFor="let menuGroup of availableMenuGroups">          <h3 mat-subheader>{{ menuGroup.group }}</h3>          <ng-container *ngFor="let menu of menuGroup.menus">            <a mat-list-item [routerLinkActive]="[\'active\']" [class.pinned]="menu.isPinned"              [routerLink]="menu.routerLink" (click)="toggleSideNav()">              <mat-icon matListIcon [svgIcon]="menu.svgIcon">{{ menu.icon }}</mat-icon>              <h4 mat-line>{{ menu.label }}</h4>              <button mat-icon-button (click)="togglePin(menu);$event.preventDefault();$event.stopPropagation();">                <mat-icon [matTooltip]="menu.isPinned ? \'Unpin\': \'Pin\'" svgIcon="pin"></mat-icon>              </button>            </a>          </ng-container>        </ng-container>      </mat-nav-list>    </mat-sidenav>    <mat-sidenav class="contextual" #contextualSidenav [mode]="\'over\'" position="end">      <!-- <ng-container *ngComponentOutlet="contextualMenuComponent; injector:createSideNavInjector(contextualMenuData)"></ng-container> -->    </mat-sidenav>    <mat-sidenav-content>      <div class="main-container">        <router-outlet></router-outlet>      </div>      <dinivas-footer></dinivas-footer>      <!-- <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">        <eco-fab-speed-dial-trigger [spin]="true" class="">          <button mat-fab>            <mat-icon class="spin180">add</mat-icon>          </button>        </eco-fab-speed-dial-trigger>        <eco-fab-speed-dial-actions>          <button mat-mini-fab>            <mat-icon matTooltip="New instance" matTooltipPosition="right">computer</mat-icon>          </button>          <button mat-mini-fab>            <mat-icon>edit</mat-icon>          </button>          <button mat-mini-fab>            <mat-icon>search</mat-icon>          </button>        </eco-fab-speed-dial-actions>      </eco-fab-speed-dial> -->    </mat-sidenav-content>  </mat-sidenav-container></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'app-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'app-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'app-snack-alert-warning'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'AppComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AppComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

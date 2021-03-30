@@ -1,0 +1,2234 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>ProjectWizardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/console/src/app/projects/project-wizard/project-wizard.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-project-wizard</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./project-wizard.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./project-wizard.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#availabilityZones">availabilityZones</a>
+                            </li>
+                            <li>
+                                <a href="#availableFloatingIpPools">availableFloatingIpPools</a>
+                            </li>
+                            <li>
+                                <a href="#availableFloatingIps">availableFloatingIps</a>
+                            </li>
+                            <li>
+                                <a href="#availableRouters">availableRouters</a>
+                            </li>
+                            <li>
+                                <a href="#cloudFlavors">cloudFlavors</a>
+                            </li>
+                            <li>
+                                <a href="#cloudImages">cloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#cloudproviders">cloudproviders</a>
+                            </li>
+                            <li>
+                                <a href="#consul">consul</a>
+                            </li>
+                            <li>
+                                <a href="#isLinear">isLinear</a>
+                            </li>
+                            <li>
+                                <a href="#loggingStack">loggingStack</a>
+                            </li>
+                            <li>
+                                <a href="#project">project</a>
+                            </li>
+                            <li>
+                                <a href="#projectApplyInProgress">projectApplyInProgress</a>
+                            </li>
+                            <li>
+                                <a href="#projectApplyStepFinished">projectApplyStepFinished</a>
+                            </li>
+                            <li>
+                                <a href="#projectForm">projectForm</a>
+                            </li>
+                            <li>
+                                <a href="#projectPlanFormGroup">projectPlanFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#projectPlanInProgress">projectPlanInProgress</a>
+                            </li>
+                            <li>
+                                <a href="#projectPlanStepFinished">projectPlanStepFinished</a>
+                            </li>
+                            <li>
+                                <a href="#projectWizardStepper">projectWizardStepper</a>
+                            </li>
+                            <li>
+                                <a href="#shouldShowSensitiveData">shouldShowSensitiveData</a>
+                            </li>
+                            <li>
+                                <a href="#showingDirectOutput">showingDirectOutput</a>
+                            </li>
+                            <li>
+                                <a href="#terraformApplyEvent">terraformApplyEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformPlanEvent">terraformPlanEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformStateOutputs">terraformStateOutputs</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addSSHKey">addSSHKey</a>
+                            </li>
+                            <li>
+                                <a href="#applyProject">applyProject</a>
+                            </li>
+                            <li>
+                                <a href="#compareFn">compareFn</a>
+                            </li>
+                            <li>
+                                <a href="#initProjectForm">initProjectForm</a>
+                            </li>
+                            <li>
+                                <a href="#isFormValid">isFormValid</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCloudProviderChanges">onCloudProviderChanges</a>
+                            </li>
+                            <li>
+                                <a href="#planProject">planProject</a>
+                            </li>
+                            <li>
+                                <a href="#prepareProjectFormValueBeforeSendToServer">prepareProjectFormValueBeforeSendToServer</a>
+                            </li>
+                            <li>
+                                <a href="#setMonitoringValidators">setMonitoringValidators</a>
+                            </li>
+                            <li>
+                                <a href="#setProxyValidators">setProxyValidators</a>
+                            </li>
+                            <li>
+                                <a href="#showProjectOutput">showProjectOutput</a>
+                            </li>
+                            <li>
+                                <a href="#submitApplyProjectPlan">submitApplyProjectPlan</a>
+                            </li>
+                            <li>
+                                <a href="#submitPlanProject">submitPlanProject</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, projectService: <a href="../injectables/ProjectsService.html">ProjectsService</a>, consulService: <a href="../injectables/ConsulService.html">ConsulService</a>, cloudproviderService: <a href="../injectables/CloudproviderService.html">CloudproviderService</a>, terraformWebSocket: <a href="../injectables/TerraformWebSocket.html">TerraformWebSocket</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, contextualMenuService: <a href="../injectables/ContextualMenuService.html">ContextualMenuService</a>, alertService: <a href="../injectables/AlertService.html">AlertService</a>)</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>projectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProjectsService.html" target="_self" >ProjectsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>consulService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConsulService.html" target="_self" >ConsulService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cloudproviderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CloudproviderService.html" target="_self" >CloudproviderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>terraformWebSocket</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TerraformWebSocket.html" target="_self" >TerraformWebSocket</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>contextualMenuService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ContextualMenuService.html" target="_self" >ContextualMenuService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>alertService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AlertService.html" target="_self" >AlertService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSSHKey"></a>
+                    <span class="name">
+                        <b>
+                            addSSHKey
+                        </b>
+                        <a href="#addSSHKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addSSHKey()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyProject"></a>
+                    <span class="name">
+                        <b>
+                            applyProject
+                        </b>
+                        <a href="#applyProject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyProject(project: <a href="../classes/ProjectDTO.html">ProjectDTO</a>, consul: <a href="../classes/ConsulDTO.html">ConsulDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>project</td>
+                                    <td>
+                                                <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>consul</td>
+                                    <td>
+                                                <code><a href="../classes/ConsulDTO.html" target="_self" >ConsulDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="compareFn"></a>
+                    <span class="name">
+                        <b>
+                            compareFn
+                        </b>
+                        <a href="#compareFn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>compareFn(cloudprovider1: <a href="../classes/CloudproviderDTO.html">CloudproviderDTO</a>, cloudprovider2: <a href="../classes/CloudproviderDTO.html">CloudproviderDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cloudprovider1</td>
+                                    <td>
+                                                <code><a href="../classes/CloudproviderDTO.html" target="_self" >CloudproviderDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cloudprovider2</td>
+                                    <td>
+                                                <code><a href="../classes/CloudproviderDTO.html" target="_self" >CloudproviderDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initProjectForm"></a>
+                    <span class="name">
+                        <b>
+                            initProjectForm
+                        </b>
+                        <a href="#initProjectForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initProjectForm()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFormValid"></a>
+                    <span class="name">
+                        <b>
+                            isFormValid
+                        </b>
+                        <a href="#isFormValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isFormValid()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCloudProviderChanges"></a>
+                    <span class="name">
+                        <b>
+                            onCloudProviderChanges
+                        </b>
+                        <a href="#onCloudProviderChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCloudProviderChanges()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="planProject"></a>
+                    <span class="name">
+                        <b>
+                            planProject
+                        </b>
+                        <a href="#planProject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>planProject(project: <a href="../classes/ProjectDTO.html">ProjectDTO</a>, consul: <a href="../classes/ConsulDTO.html">ConsulDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>project</td>
+                                    <td>
+                                                <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>consul</td>
+                                    <td>
+                                                <code><a href="../classes/ConsulDTO.html" target="_self" >ConsulDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareProjectFormValueBeforeSendToServer"></a>
+                    <span class="name">
+                        <b>
+                            prepareProjectFormValueBeforeSendToServer
+                        </b>
+                        <a href="#prepareProjectFormValueBeforeSendToServer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prepareProjectFormValueBeforeSendToServer(project: <a href="../classes/ProjectDTO.html">ProjectDTO</a>, consul: <a href="../classes/ConsulDTO.html">ConsulDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>project</td>
+                                    <td>
+                                                <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>consul</td>
+                                    <td>
+                                                <code><a href="../classes/ConsulDTO.html" target="_self" >ConsulDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMonitoringValidators"></a>
+                    <span class="name">
+                        <b>
+                            setMonitoringValidators
+                        </b>
+                        <a href="#setMonitoringValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMonitoringValidators()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setProxyValidators"></a>
+                    <span class="name">
+                        <b>
+                            setProxyValidators
+                        </b>
+                        <a href="#setProxyValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setProxyValidators()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showProjectOutput"></a>
+                    <span class="name">
+                        <b>
+                            showProjectOutput
+                        </b>
+                        <a href="#showProjectOutput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showProjectOutput()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitApplyProjectPlan"></a>
+                    <span class="name">
+                        <b>
+                            submitApplyProjectPlan
+                        </b>
+                        <a href="#submitApplyProjectPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitApplyProjectPlan(project: <a href="../classes/ProjectDTO.html">ProjectDTO</a>, consul: <a href="../classes/ConsulDTO.html">ConsulDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>project</td>
+                                    <td>
+                                                <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>consul</td>
+                                    <td>
+                                                <code><a href="../classes/ConsulDTO.html" target="_self" >ConsulDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitPlanProject"></a>
+                    <span class="name">
+                        <b>
+                            submitPlanProject
+                        </b>
+                        <a href="#submitPlanProject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitPlanProject(project: <a href="../classes/ProjectDTO.html">ProjectDTO</a>, consul: <a href="../classes/ConsulDTO.html">ConsulDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>project</td>
+                                    <td>
+                                                <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>consul</td>
+                                    <td>
+                                                <code><a href="../classes/ConsulDTO.html" target="_self" >ConsulDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="availabilityZones"></a>
+                        <span class="name">
+                            <b>
+                            availabilityZones</b>
+                            <a href="#availabilityZones"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiAvailabilityZone[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="availableFloatingIpPools"></a>
+                        <span class="name">
+                            <b>
+                            availableFloatingIpPools</b>
+                            <a href="#availableFloatingIpPools"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Project.html" target="_self" >ICloudApiProjectFloatingIpPool[]</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="availableFloatingIps"></a>
+                        <span class="name">
+                            <b>
+                            availableFloatingIps</b>
+                            <a href="#availableFloatingIps"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Project.html" target="_self" >ICloudApiProjectFloatingIp[]</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="availableRouters"></a>
+                        <span class="name">
+                            <b>
+                            availableRouters</b>
+                            <a href="#availableRouters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Project.html" target="_self" >ICloudApiProjectRouter[]</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudFlavors"></a>
+                        <span class="name">
+                            <b>
+                            cloudFlavors</b>
+                            <a href="#cloudFlavors"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiFlavor[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudImages"></a>
+                        <span class="name">
+                            <b>
+                            cloudImages</b>
+                            <a href="#cloudImages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudproviders"></a>
+                        <span class="name">
+                            <b>
+                            cloudproviders</b>
+                            <a href="#cloudproviders"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>CloudproviderDTO[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="consul"></a>
+                        <span class="name">
+                            <b>
+                            consul</b>
+                            <a href="#consul"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ConsulDTO.html" target="_self" >ConsulDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLinear"></a>
+                        <span class="name">
+                            <b>
+                            isLinear</b>
+                            <a href="#isLinear"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loggingStack"></a>
+                        <span class="name">
+                            <b>
+                            loggingStack</b>
+                            <a href="#loggingStack"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;graylog&#x27;</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="project"></a>
+                        <span class="name">
+                            <b>
+                            project</b>
+                            <a href="#project"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectApplyInProgress"></a>
+                        <span class="name">
+                            <b>
+                            projectApplyInProgress</b>
+                            <a href="#projectApplyInProgress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectApplyStepFinished"></a>
+                        <span class="name">
+                            <b>
+                            projectApplyStepFinished</b>
+                            <a href="#projectApplyStepFinished"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectForm"></a>
+                        <span class="name">
+                            <b>
+                            projectForm</b>
+                            <a href="#projectForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectPlanFormGroup"></a>
+                        <span class="name">
+                            <b>
+                            projectPlanFormGroup</b>
+                            <a href="#projectPlanFormGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectPlanInProgress"></a>
+                        <span class="name">
+                            <b>
+                            projectPlanInProgress</b>
+                            <a href="#projectPlanInProgress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectPlanStepFinished"></a>
+                        <span class="name">
+                            <b>
+                            projectPlanStepFinished</b>
+                            <a href="#projectPlanStepFinished"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectWizardStepper"></a>
+                        <span class="name">
+                            <b>
+                            projectWizardStepper</b>
+                            <a href="#projectWizardStepper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatVerticalStepper</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(MatVerticalStepper, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shouldShowSensitiveData"></a>
+                        <span class="name">
+                            <b>
+                            shouldShowSensitiveData</b>
+                            <a href="#shouldShowSensitiveData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showingDirectOutput"></a>
+                        <span class="name">
+                            <b>
+                            showingDirectOutput</b>
+                            <a href="#showingDirectOutput"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformApplyEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformApplyEvent</b>
+                            <a href="#terraformApplyEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformApplyEvent.html" target="_self" >TerraformApplyEvent&lt;ProjectDTO&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformPlanEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformPlanEvent</b>
+                            <a href="#terraformPlanEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformPlanEvent.html" target="_self" >TerraformPlanEvent&lt;ProjectDTO&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformStateOutputs"></a>
+                        <span class="name">
+                            <b>
+                            terraformStateOutputs</b>
+                            <a href="#terraformStateOutputs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar class&#x3D;&quot;mat-toolbar header-toolbar&quot; *ngIf&#x3D;&quot;!project&quot;&gt;
+  &lt;button mat-icon-button color&#x3D;&quot;primary&quot; [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;]&quot; queryParamsHandling&#x3D;&quot;merge&quot;&gt;
+    &lt;mat-icon&gt;arrow_back&lt;/mat-icon&gt;
+  &lt;/button&gt;
+  &lt;span class&#x3D;&quot;page-title&quot;&gt;{{ !project ? &#x27;New project creation wizard&#x27; : &#x27;Edit project wizard&#x27; }}&lt;/span&gt;
+  &lt;span class&#x3D;&quot;ml-15&quot;&gt;{{ projectForm?.value.name | uppercase }}&lt;/span&gt;
+&lt;/mat-toolbar&gt;
+
+&lt;mat-vertical-stepper [linear]&#x3D;&quot;isLinear&quot; #stepper&gt;
+  &lt;mat-step [completed]&#x3D;&quot;projectPlanStepFinished&quot;&gt;
+    &lt;div class&#x3D;&quot;form-container&quot;&gt;
+      &lt;div class&#x3D;&quot;spinner-container&quot; *ngIf&#x3D;&quot;projectPlanInProgress&quot;&gt;
+        &lt;mat-spinner&gt;&lt;/mat-spinner&gt;
+        &lt;span&gt;We are planning your project resources, wait a moment...&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;form [formGroup]&#x3D;&quot;projectForm&quot; *ngIf&#x3D;&quot;projectForm&quot; (ngSubmit)&#x3D;&quot;submitPlanProject(projectForm.getRawValue(), projectForm.getRawValue()._consul)&quot;&gt;
+        &lt;ng-template matStepLabel&gt;Project informations - &lt;span class&#x3D;&quot;text-warn&quot;&gt;This step will not create any
+            resources&lt;/span&gt;&lt;/ng-template&gt;
+        &lt;div class&#x3D;&quot;mat-form-container&quot; fxLayout&#x3D;&quot;column&quot;&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Cloud provider configuration&lt;/mat-label&gt;
+            &lt;mat-select formControlName&#x3D;&quot;cloud_provider&quot; [compareWith]&#x3D;&quot;compareFn&quot;
+              (selectionChange)&#x3D;&quot;onCloudProviderChanges()&quot; required&gt;
+              &lt;mat-option&gt;None&lt;/mat-option&gt;
+              &lt;mat-option *ngFor&#x3D;&quot;let cp of cloudproviders&quot; [value]&#x3D;&quot;cp&quot;&gt;
+                {{ cp.name }} ({{ cp.cloud }})
+              &lt;/mat-option&gt;
+            &lt;/mat-select&gt;
+            &lt;mat-hint&gt;The existing cloud provider configuration (created by admin)&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Project name&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;name&quot; required&gt;
+            &lt;mat-hint&gt;This is the display project name&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Project code&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;code&quot; required&gt;
+            &lt;mat-hint&gt;The project code will be used to suffix most components. You can&#x27;t change it after project
+              creation.&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Description&lt;/mat-label&gt;
+            &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Availability zone&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;Select availability zone&quot; aria-label&#x3D;&quot;Availability zone&quot; matInput
+              formControlName&#x3D;&quot;availability_zone&quot; [matAutocomplete]&#x3D;&quot;auto_availability_zone&quot; required&gt;
+            &lt;mat-autocomplete #auto_availability_zone&#x3D;&quot;matAutocomplete&quot;&gt;
+              &lt;mat-option *ngFor&#x3D;&quot;let az of availabilityZones&quot; [value]&#x3D;&quot;az.zoneName&quot;&gt;
+                {{ az.zoneName }}
+              &lt;/mat-option&gt;
+            &lt;/mat-autocomplete&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Public router name&lt;/mat-label&gt;
+            &lt;mat-select formControlName&#x3D;&quot;public_router&quot; required&gt;
+              &lt;mat-option *ngFor&#x3D;&quot;let router of availableRouters;trackBy&quot; [value]&#x3D;&quot;router.name&quot;&gt;
+                {{ router.name }}
+              &lt;/mat-option&gt;
+            &lt;/mat-select&gt;
+            &lt;mat-hint&gt;The name of the router to use as an external gateway&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;div class&#x3D;&quot;subnet-info&quot;&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Subnet cidr&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;management_subnet_cidr&quot; required&gt;
+              &lt;mat-hint&gt;The main subnet cidr.&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Dhcp allocation start&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;management_subnet_dhcp_allocation_start&quot; required&gt;
+              &lt;mat-hint&gt;The start ip for DHCP allocation&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Dhcp allocation end&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;management_subnet_dhcp_allocation_end&quot; required&gt;
+              &lt;mat-hint&gt;The end ip for DHCP allocation&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+          &lt;/div&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Floating Ip pool&lt;/mat-label&gt;
+            &lt;mat-select formControlName&#x3D;&quot;floating_ip_pool&quot; required&gt;
+              &lt;mat-option *ngFor&#x3D;&quot;let floatingIpPool of availableFloatingIpPools;trackBy&quot; [value]&#x3D;&quot;floatingIpPool.name&quot;&gt;
+                {{ floatingIpPool.name }}
+              &lt;/mat-option&gt;
+            &lt;/mat-select&gt;
+            &lt;mat-hint&gt;The floating ip pool where to retrieve floating IP&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;h4&gt;Consul&lt;/h4&gt;
+          &lt;ng-container formGroupName&#x3D;&quot;_consul&quot;&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Consul domain&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;cluster_domain&quot; required&gt;
+              &lt;mat-hint&gt;The domain name used for consul cluster, default to &lt;strong&gt;consul&lt;/strong&gt;&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Consul datacenter&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;cluster_datacenter&quot; required&gt;
+              &lt;mat-hint&gt;The datacenter name used for consul cluster, default to &lt;strong&gt;availability zone&lt;/strong&gt;&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;div class&#x3D;&quot;slider-container&quot;&gt;
+              &lt;span&gt;Choose the number of consul server&lt;/span&gt;
+              &lt;mat-slider class&#x3D;&quot;&quot; [class.cdk-focused]&#x3D;&quot;true&quot; formControlName&#x3D;&quot;server_instance_count&quot; [max]&#x3D;&quot;10&quot; [min]&#x3D;&quot;1&quot;
+                [step]&#x3D;&quot;1&quot; [thumbLabel]&#x3D;&quot;true&quot; [tickInterval]&#x3D;&quot;0&quot; [vertical]&#x3D;&quot;false&quot;&gt;
+              &lt;/mat-slider&gt;
+              {{ projectForm?.value._consul.server_instance_count | json}}
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;slider-container&quot;&gt;
+              &lt;span&gt;Choose the number of consul client&lt;/span&gt;
+              &lt;mat-slider class&#x3D;&quot;&quot; [class.cdk-focused]&#x3D;&quot;true&quot; formControlName&#x3D;&quot;client_instance_count&quot; [max]&#x3D;&quot;10&quot; [min]&#x3D;&quot;0&quot;
+                [step]&#x3D;&quot;1&quot; [thumbLabel]&#x3D;&quot;true&quot; [tickInterval]&#x3D;&quot;0&quot; [vertical]&#x3D;&quot;false&quot;&gt;
+              &lt;/mat-slider&gt;
+              {{ projectForm?.value._consul.client_instance_count | json}}
+            &lt;/div&gt;
+          &lt;/ng-container&gt;
+          &lt;h4&gt;Bastion&lt;/h4&gt;
+          &lt;dinivas-cloud-image-radios *ngIf&#x3D;&quot;cloudImages?.length &gt; 0; else loading_bastion_image&quot;
+            formControlName&#x3D;&quot;_bastion_cloud_image&quot; label&#x3D;&quot;Select bastion image to use&quot; [cloudImages]&#x3D;&quot;cloudImages&quot;&gt;
+          &lt;/dinivas-cloud-image-radios&gt;
+          &lt;ng-template #loading_bastion_image&gt;
+            &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;Select a cloudprovider to display &lt;strong&gt;images&lt;/strong&gt; for &lt;strong&gt;Bastion
+                instance&lt;/strong&gt;&lt;/p&gt;
+          &lt;/ng-template&gt;
+          &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0; else loading_bastion_flavor&quot;
+            formControlName&#x3D;&quot;_bastion_cloud_flavor&quot; label&#x3D;&quot;Select bastion flavor to use&quot; [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+          &lt;/dinivas-cloud-flavor-radios&gt;
+          &lt;ng-template #loading_bastion_flavor&gt;
+            &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;Select a cloudprovider to display &lt;strong&gt;flavors&lt;/strong&gt; for &lt;strong&gt;Bastion
+                instance&lt;/strong&gt;&lt;/p&gt;
+          &lt;/ng-template&gt;
+          &lt;h4&gt;Project proxy&lt;/h4&gt;
+          &lt;!-- &lt;button type&#x3D;&quot;button&quot; mat-button (click)&#x3D;&quot;addSSHKey()&quot;&gt;New SSH key&lt;/button&gt; --&gt;
+          &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+            &lt;mat-slide-toggle formControlName&#x3D;&quot;enable_proxy&quot; color&#x3D;&quot;accent&quot;&gt;
+              Enable proxy instance?
+            &lt;/mat-slide-toggle&gt;
+            &lt;mat-hint&gt;A proxy will expose services to external network. This will preserve your public (or floating) Ips
+            &lt;/mat-hint&gt;
+          &lt;/div&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot; *ngIf&#x3D;&quot;projectForm?.value.enable_proxy&quot;&gt;
+            &lt;mat-label&gt;Allocated Floating IP to assign to the proxy instance, Select NONE for new floating IP&lt;/mat-label&gt;
+            &lt;mat-select formControlName&#x3D;&quot;proxy_prefered_floating_ip&quot;&gt;
+              &lt;mat-option value&#x3D;&quot;&quot;&gt;None&lt;/mat-option&gt;
+              &lt;mat-option *ngFor&#x3D;&quot;let floatingIp of availableFloatingIps;trackBy&quot; [value]&#x3D;&quot;floatingIp.ip&quot;&gt;
+                {{ floatingIp.ip }}
+              &lt;/mat-option&gt;
+            &lt;/mat-select&gt;
+            &lt;mat-hint&gt;This floating IP should be already allocate to the Cloud Provider project/tenant and not in use.&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot; *ngIf&#x3D;&quot;projectForm?.value.enable_proxy&quot;&gt;
+            &lt;mat-label&gt;Project root domain (DNS)&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;root_domain&quot; required&gt;
+            &lt;mat-hint&gt;This is the root domain used for all components&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;ng-container *ngIf&#x3D;&quot;projectForm?.value.enable_proxy&quot;&gt;
+            &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0; else loading_proxy_flavor&quot;
+              formControlName&#x3D;&quot;_proxy_cloud_flavor&quot; label&#x3D;&quot;Select proxy flavor to use&quot; [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+            &lt;/dinivas-cloud-flavor-radios&gt;
+            &lt;ng-template #loading_proxy_flavor&gt;
+              &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;Select a cloudprovider to display &lt;strong&gt;flavors&lt;/strong&gt; for &lt;strong&gt;Proxy
+                  instance&lt;/strong&gt;&lt;/p&gt;
+            &lt;/ng-template&gt;
+          &lt;/ng-container&gt;
+          &lt;h4&gt;Keycloak (SSO)&lt;/h4&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Keycloak Host&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;keycloak_host&quot; required&gt;
+            &lt;mat-hint&gt;Keycloak host in the form &lt;strong&gt;Host&lt;/strong&gt;:&lt;strong&gt;Port&lt;/strong&gt;&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Keycloak Client id&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;keycloak_client_id&quot; required&gt;
+            &lt;mat-hint&gt;Keycloak Client ID used to create Project Real and client&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+            &lt;mat-label&gt;Keycloak Client secret&lt;/mat-label&gt;
+            &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;keycloak_client_secret&quot; required&gt;
+            &lt;mat-hint&gt;Keycloak Client Secret used to create Project Real and client&lt;/mat-hint&gt;
+          &lt;/mat-form-field&gt;
+          &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+            &lt;mat-slide-toggle formControlName&#x3D;&quot;monitoring&quot; color&#x3D;&quot;accent&quot;&gt;
+              Enable project monitoring?
+            &lt;/mat-slide-toggle&gt;
+            &lt;mat-hint&gt;Prometheus will be installed at project level&lt;/mat-hint&gt;
+          &lt;/div&gt;
+          &lt;dinivas-cloud-flavor-radios
+            *ngIf&#x3D;&quot;(projectForm?.value.monitoring &amp;&amp; cloudFlavors?.length &gt; 0); else loading_prometheus_flavor&quot;
+            formControlName&#x3D;&quot;_prometheus_cloud_flavor&quot; label&#x3D;&quot;Select prometheus flavor to use&quot;
+            [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;&lt;/dinivas-cloud-flavor-radios&gt;
+          &lt;ng-template #loading_prometheus_flavor&gt;
+            &lt;p class&#x3D;&quot;no-data-checkbox&quot; *ngIf&#x3D;&quot;projectForm?.value.monitoring&quot;&gt;Select a cloudprovider to display
+              &lt;strong&gt;flavors&lt;/strong&gt; for
+              &lt;strong&gt;Prometheus instance&lt;/strong&gt;&lt;/p&gt;
+          &lt;/ng-template&gt;
+          &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+            &lt;mat-slide-toggle formControlName&#x3D;&quot;logging&quot; color&#x3D;&quot;accent&quot;&gt;
+              Enable project logging?
+            &lt;/mat-slide-toggle&gt;
+            &lt;mat-hint&gt;When enabled, you&#x27;ll have to select the Logging stack to install&lt;/mat-hint&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;logging-stack&quot; *ngIf&#x3D;&quot;projectForm?.value.logging&quot;&gt;
+            &lt;h4&gt;Select logging stack bellow&lt;/h4&gt;
+            &lt;div class&#x3D;&quot;stack-container&quot;&gt;
+              &lt;mat-card (click)&#x3D;&quot;loggingStack &#x3D; &#x27;graylog&#x27;&quot; [class.selected]&#x3D;&quot;loggingStack &#x3D;&#x3D;&#x3D; &#x27;graylog&#x27;&quot;&gt;
+                &lt;mat-card-header&gt;
+                  &lt;mat-card-title&gt;Graylog&lt;/mat-card-title&gt;
+                &lt;/mat-card-header&gt;
+                &lt;mat-card-content&gt;
+                  &lt;div class&#x3D;&quot;graylog&quot;&gt;&lt;/div&gt;
+                  &lt;p&gt;This will install Graylog stack&lt;/p&gt;
+                &lt;/mat-card-content&gt;
+                &lt;div class&#x3D;&quot;checkmark-overlay&quot;&gt;&lt;/div&gt;
+                &lt;mat-icon class&#x3D;&quot;checkmark&quot;&gt;check&lt;/mat-icon&gt;
+              &lt;/mat-card&gt;
+              &lt;mat-card class&#x3D;&quot;&quot; (click)&#x3D;&quot;loggingStack &#x3D; &#x27;kibana&#x27;&quot; [class.selected]&#x3D;&quot;loggingStack &#x3D;&#x3D;&#x3D; &#x27;kibana&#x27;&quot;&gt;
+                &lt;mat-card-header&gt;
+                  &lt;mat-card-title&gt;Kibana&lt;/mat-card-title&gt;
+                &lt;/mat-card-header&gt;
+                &lt;mat-card-content&gt;
+                  &lt;div class&#x3D;&quot;kibana&quot;&gt;&lt;/div&gt;
+                  &lt;p&gt;This will install Kibana stack&lt;/p&gt;
+                &lt;/mat-card-content&gt;
+                &lt;div class&#x3D;&quot;checkmark-overlay&quot;&gt;&lt;/div&gt;
+                &lt;mat-icon class&#x3D;&quot;checkmark&quot;&gt;check&lt;/mat-icon&gt;
+              &lt;/mat-card&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;actions&quot;&gt;
+          &lt;button mat-button [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;]&quot; queryParamsHandling&#x3D;&quot;merge&quot; type&#x3D;&quot;button&quot;&gt;Cancel&lt;/button&gt;
+          &lt;button type&#x3D;&quot;button&quot; mat-button matStepperNext class&#x3D;&quot;ml-10&quot; *ngIf&#x3D;&quot;project?.id &amp;&amp; isFormValid()&quot;
+            (click)&#x3D;&quot;showProjectOutput()&quot;&gt;Show project
+            infra infos&lt;/button&gt;
+          &lt;button type&#x3D;&quot;submit&quot; mat-button matStepperNext color&#x3D;&quot;primary&quot; class&#x3D;&quot;ml-10&quot;
+            [disabled]&#x3D;&quot;!isFormValid() || (isFormValid() &amp;&amp; !projectForm.dirty)&quot;&gt;Plan
+            project
+            resources&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+  &lt;mat-step [completed]&#x3D;&quot;projectApplyStepFinished&quot; [editable]&#x3D;&quot;!showingDirectOutput&quot;&gt;
+    &lt;div class&#x3D;&quot;apply-container&quot;&gt;
+      &lt;div class&#x3D;&quot;spinner-container&quot; *ngIf&#x3D;&quot;projectApplyInProgress&quot;&gt;
+        &lt;mat-spinner&gt;&lt;/mat-spinner&gt;
+        &lt;span&gt;We are creating your project resources, wait a moment...&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;ng-template matStepLabel&gt;Check and validate resources to be created - &lt;span class&#x3D;&quot;text-warn&quot;&gt;This step will
+          not create any resources&lt;/span&gt;
+      &lt;/ng-template&gt;
+      &lt;div class&#x3D;&quot;tf-plan-resources-container&quot;&gt;
+        &lt;dinivas-terraform-representation [planRepresentation]&#x3D;&quot;terraformPlanEvent?.planResult&quot;&gt;
+        &lt;/dinivas-terraform-representation&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;actions&quot;&gt;
+        &lt;button mat-button [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;]&quot; queryParamsHandling&#x3D;&quot;merge&quot; type&#x3D;&quot;button&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button mat-button matStepperPrevious class&#x3D;&quot;ml-10&quot;&gt;Back&lt;/button&gt;
+        &lt;button mat-raised-button matStepperNext color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;submitApplyProjectPlan(projectForm.getRawValue(), projectForm.getRawValue()._consul)&quot;
+          class&#x3D;&quot;ml-10&quot;&gt;{{ !project?.id ? &#x27;Save &amp; &#x27;: &#x27;Update &amp; &#x27; }} apply resources changes&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+  &lt;mat-step&gt;
+    &lt;div&gt;
+      &lt;ng-template matStepLabel&gt;View project infrastructure informations
+      &lt;/ng-template&gt;
+      &lt;mat-list *ngIf&#x3D;&quot;projectApplyStepFinished&quot; dense&gt;
+        &lt;mat-list-item *ngFor&#x3D;&quot;let output of terraformStateOutputs | keyvalue&quot;&gt;
+          &lt;mat-icon *ngIf&#x3D;&quot;output.value.sensitive &amp;&amp; !shouldShowSensitiveData[output.key]&quot;
+            (click)&#x3D;&quot;shouldShowSensitiveData[output.key] &#x3D; !shouldShowSensitiveData[output.key]&quot;&gt;visibility&lt;/mat-icon&gt;
+          &lt;mat-icon *ngIf&#x3D;&quot;output.value.sensitive &amp;&amp; shouldShowSensitiveData[output.key]&quot;
+            (click)&#x3D;&quot;shouldShowSensitiveData[output.key] &#x3D; !shouldShowSensitiveData[output.key]&quot;&gt;visibility_off
+          &lt;/mat-icon&gt;
+          &lt;mat-icon *ngIf&#x3D;&quot;!output.value.sensitive&quot;&gt;info&lt;/mat-icon&gt;
+          &lt;h3 matLine&gt; {{ output.key }}:&lt;strong class&#x3D;&quot;ml-10&quot;
+              *ngIf&#x3D;&quot;!output.value.sensitive || (output.value.sensitive &amp;&amp; shouldShowSensitiveData[output.key])&quot;&gt;{{output.value.value}}&lt;/strong&gt;
+          &lt;/h3&gt;
+        &lt;/mat-list-item&gt;
+      &lt;/mat-list&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;actions&quot;&gt;
+      &lt;button mat-raised-button color&#x3D;&quot;primary&quot; [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;]&quot;&gt;Done !&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+&lt;/mat-vertical-stepper&gt;
+
+
+
+
+
+
+&lt;!-- &lt;form [formGroup]&#x3D;&quot;projectForm&quot; (ngSubmit)&#x3D;&quot;submit(projectForm.value)&quot;&gt;
+  &lt;div mat-dialog-content&gt;
+
+  &lt;/div&gt;
+  &lt;div mat-dialog-actions align&#x3D;&quot;end&quot;&gt;
+    &lt;button mat-button (click)&#x3D;&quot;cancel()&quot; type&#x3D;&quot;button&quot;&gt;Cancel&lt;/button&gt;
+    &lt;button mat-button color&#x3D;&quot;primary&quot; type&#x3D;&quot;submit&quot; [disabled]&#x3D;&quot;!isFormValid()&quot;&gt;
+      {{ project ? &quot;Update&quot; : &quot;Create&quot; }}
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt; --&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./project-wizard.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;../../../assets/styles/mixins&#x27;;
+@import &#x27;~@angular/material/theming&#x27;;
+
+@mixin project-wizard-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .mat-stepper-vertical {
+    background-color: $background-color;
+    max-width: 1400px;
+  }
+
+  .form-container {
+    margin: 20px 10px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
+    }
+    h4 {
+      color: rgba(mat-color($primary),.7);
+    }
+    .no-data-checkbox {
+      font-size: 14px;
+      padding: 15px 10px;
+      margin: 20px 0px;
+      background-color: mat-color($background, background);
+      text-align: center;
+    }
+    .slider-container {
+      margin: 10px 5px;
+      span {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+    }
+    .subnet-info {
+      max-width: 600px;
+      .mat-form-field {
+        &amp;:not(:first-child) {
+          margin-left: 15px;
+        }
+        width: 31.5%;
+      }
+    }
+    .mat-form-field,
+    .subnet-info {
+      margin: 2px 0px;
+    }
+  }
+  .apply-container {
+    min-height: 300px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    max-width: 90%;
+  }
+
+  .logging-stack {
+    margin-bottom: 15px;
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
+    .stack-container {
+      display: flex;
+      //justify-content: space-between;
+      .mat-card {
+        flex: 1;
+        margin: 10px 15px;
+        height: 100px;
+        padding: 10px 20px;
+        cursor: pointer;
+        max-width: 300px;
+        @include transition(all 0.3s ease);
+        .mat-card-header {
+          justify-content: center;
+          .mat-card-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 0px;
+          }
+        }
+        .mat-card-content {
+          padding: 5px 5px 5px 60px;
+          position: relative;
+          margin-bottom: 0px;
+        }
+        .mat-icon {
+          position: absolute;
+          right: 15px;
+          top: 5px;
+          color: green;
+          font-size: 30px;
+          opacity: 0;
+          @include transition(opacity 0.5 ease);
+        }
+        .checkmark-overlay {
+          display: inline-block;
+          border-top: 40px solid $primary-color;
+          border-left: 40px solid $background-color;
+          width: 40px;
+          height: 40px;
+          opacity: 0;
+          position: absolute;
+          top: -1px !important;
+          right: -1px;
+          transition: all 0.2s ease-in;
+        }
+        .checkmark {
+          display: block;
+          position: absolute;
+          top: -1px !important;
+          right: 5px;
+          width: 20px;
+          height: 20px;
+          color: $background-color;
+          opacity: 0;
+          transition: all 0.2s ease-in;
+        }
+        &amp;.selected,
+        &amp;:hover {
+          @include box-shadow(3);
+        }
+        &amp;.selected {
+          .checkmark,
+          .checkmark-overlay {
+            opacity: 1;
+          }
+          .mat-icon {
+            opacity: 1;
+          }
+        }
+        .graylog,
+        .kibana {
+          width: 48px;
+          height: 48px;
+          position: absolute;
+          left: 5px;
+        }
+        .graylog {
+          background: url(&#x27;./~/../assets/icons/graylog.svg&#x27;) center no-repeat;
+          background-size: contain;
+        }
+        .kibana {
+          background: url(&#x27;./~/../assets/icons/kibana.svg&#x27;) center no-repeat;
+          background-size: contain;
+        }
+      }
+    }
+  }
+
+  .tf-plan-resources-container {
+    margin: 20px 10px;
+  }
+  dinivas-cloud-image-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+
+  dinivas-cloud-flavor-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-toolbar class="mat-toolbar header-toolbar" *ngIf="!project">  <button mat-icon-button color="primary" [routerLink]="[\'/projects\']" queryParamsHandling="merge">    <mat-icon>arrow_back</mat-icon>  </button>  <span class="page-title">{{ !project ? \'New project creation wizard\' : \'Edit project wizard\' }}</span>  <span class="ml-15">{{ projectForm?.value.name | uppercase }}</span></mat-toolbar><mat-vertical-stepper [linear]="isLinear" #stepper>  <mat-step [completed]="projectPlanStepFinished">    <div class="form-container">      <div class="spinner-container" *ngIf="projectPlanInProgress">        <mat-spinner></mat-spinner>        <span>We are planning your project resources, wait a moment...</span>      </div>      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.getRawValue(), projectForm.getRawValue()._consul)">        <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any            resources</span></ng-template>        <div class="mat-form-container" fxLayout="column">          <mat-form-field class="" appearance="outline">            <mat-label>Cloud provider configuration</mat-label>            <mat-select formControlName="cloud_provider" [compareWith]="compareFn"              (selectionChange)="onCloudProviderChanges()" required>              <mat-option>None</mat-option>              <mat-option *ngFor="let cp of cloudproviders" [value]="cp">                {{ cp.name }} ({{ cp.cloud }})              </mat-option>            </mat-select>            <mat-hint>The existing cloud provider configuration (created by admin)</mat-hint>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Project name</mat-label>            <input type="text" matInput formControlName="name" required>            <mat-hint>This is the display project name</mat-hint>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Project code</mat-label>            <input type="text" matInput formControlName="code" required>            <mat-hint>The project code will be used to suffix most components. You can\'t change it after project              creation.</mat-hint>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Description</mat-label>            <textarea matInput formControlName="description" rows="3"></textarea>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Availability zone</mat-label>            <input type="text" placeholder="Select availability zone" aria-label="Availability zone" matInput              formControlName="availability_zone" [matAutocomplete]="auto_availability_zone" required>            <mat-autocomplete #auto_availability_zone="matAutocomplete">              <mat-option *ngFor="let az of availabilityZones" [value]="az.zoneName">                {{ az.zoneName }}              </mat-option>            </mat-autocomplete>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Public router name</mat-label>            <mat-select formControlName="public_router" required>              <mat-option *ngFor="let router of availableRouters;trackBy" [value]="router.name">                {{ router.name }}              </mat-option>            </mat-select>            <mat-hint>The name of the router to use as an external gateway</mat-hint>          </mat-form-field>          <div class="subnet-info">            <mat-form-field class="" appearance="outline">              <mat-label>Subnet cidr</mat-label>              <input type="text" matInput formControlName="management_subnet_cidr" required>              <mat-hint>The main subnet cidr.</mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Dhcp allocation start</mat-label>              <input type="text" matInput formControlName="management_subnet_dhcp_allocation_start" required>              <mat-hint>The start ip for DHCP allocation</mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Dhcp allocation end</mat-label>              <input type="text" matInput formControlName="management_subnet_dhcp_allocation_end" required>              <mat-hint>The end ip for DHCP allocation</mat-hint>            </mat-form-field>          </div>          <mat-form-field class="" appearance="outline">            <mat-label>Floating Ip pool</mat-label>            <mat-select formControlName="floating_ip_pool" required>              <mat-option *ngFor="let floatingIpPool of availableFloatingIpPools;trackBy" [value]="floatingIpPool.name">                {{ floatingIpPool.name }}              </mat-option>            </mat-select>            <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>          </mat-form-field>          <h4>Consul</h4>          <ng-container formGroupName="_consul">            <mat-form-field class="" appearance="outline">              <mat-label>Consul domain</mat-label>              <input type="text" matInput formControlName="cluster_domain" required>              <mat-hint>The domain name used for consul cluster, default to <strong>consul</strong></mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Consul datacenter</mat-label>              <input type="text" matInput formControlName="cluster_datacenter" required>              <mat-hint>The datacenter name used for consul cluster, default to <strong>availability zone</strong></mat-hint>            </mat-form-field>            <div class="slider-container">              <span>Choose the number of consul server</span>              <mat-slider class="" [class.cdk-focused]="true" formControlName="server_instance_count" [max]="10" [min]="1"                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">              </mat-slider>              {{ projectForm?.value._consul.server_instance_count | json}}            </div>            <div class="slider-container">              <span>Choose the number of consul client</span>              <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="0"                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">              </mat-slider>              {{ projectForm?.value._consul.client_instance_count | json}}            </div>          </ng-container>          <h4>Bastion</h4>          <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"            formControlName="_bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">          </dinivas-cloud-image-radios>          <ng-template #loading_bastion_image>            <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Bastion                instance</strong></p>          </ng-template>          <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_bastion_flavor"            formControlName="_bastion_cloud_flavor" label="Select bastion flavor to use" [cloudFlavors]="cloudFlavors">          </dinivas-cloud-flavor-radios>          <ng-template #loading_bastion_flavor>            <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion                instance</strong></p>          </ng-template>          <h4>Project proxy</h4>          <!-- <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->          <div class="slide-toggle-container">            <mat-slide-toggle formControlName="enable_proxy" color="accent">              Enable proxy instance?            </mat-slide-toggle>            <mat-hint>A proxy will expose services to external network. This will preserve your public (or floating) Ips            </mat-hint>          </div>          <mat-form-field class="" appearance="outline" *ngIf="projectForm?.value.enable_proxy">            <mat-label>Allocated Floating IP to assign to the proxy instance, Select NONE for new floating IP</mat-label>            <mat-select formControlName="proxy_prefered_floating_ip">              <mat-option value="">None</mat-option>              <mat-option *ngFor="let floatingIp of availableFloatingIps;trackBy" [value]="floatingIp.ip">                {{ floatingIp.ip }}              </mat-option>            </mat-select>            <mat-hint>This floating IP should be already allocate to the Cloud Provider project/tenant and not in use.</mat-hint>          </mat-form-field>          <mat-form-field class="" appearance="outline" *ngIf="projectForm?.value.enable_proxy">            <mat-label>Project root domain (DNS)</mat-label>            <input type="text" matInput formControlName="root_domain" required>            <mat-hint>This is the root domain used for all components</mat-hint>          </mat-form-field>          <ng-container *ngIf="projectForm?.value.enable_proxy">            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_proxy_flavor"              formControlName="_proxy_cloud_flavor" label="Select proxy flavor to use" [cloudFlavors]="cloudFlavors">            </dinivas-cloud-flavor-radios>            <ng-template #loading_proxy_flavor>              <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Proxy                  instance</strong></p>            </ng-template>          </ng-container>          <h4>Keycloak (SSO)</h4>          <mat-form-field class="" appearance="outline">            <mat-label>Keycloak Host</mat-label>            <input type="text" matInput formControlName="keycloak_host" required>            <mat-hint>Keycloak host in the form <strong>Host</strong>:<strong>Port</strong></mat-hint>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Keycloak Client id</mat-label>            <input type="text" matInput formControlName="keycloak_client_id" required>            <mat-hint>Keycloak Client ID used to create Project Real and client</mat-hint>          </mat-form-field>          <mat-form-field class="" appearance="outline">            <mat-label>Keycloak Client secret</mat-label>            <input type="text" matInput formControlName="keycloak_client_secret" required>            <mat-hint>Keycloak Client Secret used to create Project Real and client</mat-hint>          </mat-form-field>          <div class="slide-toggle-container">            <mat-slide-toggle formControlName="monitoring" color="accent">              Enable project monitoring?            </mat-slide-toggle>            <mat-hint>Prometheus will be installed at project level</mat-hint>          </div>          <dinivas-cloud-flavor-radios            *ngIf="(projectForm?.value.monitoring && cloudFlavors?.length > 0); else loading_prometheus_flavor"            formControlName="_prometheus_cloud_flavor" label="Select prometheus flavor to use"            [cloudFlavors]="cloudFlavors"></dinivas-cloud-flavor-radios>          <ng-template #loading_prometheus_flavor>            <p class="no-data-checkbox" *ngIf="projectForm?.value.monitoring">Select a cloudprovider to display              <strong>flavors</strong> for              <strong>Prometheus instance</strong></p>          </ng-template>          <div class="slide-toggle-container">            <mat-slide-toggle formControlName="logging" color="accent">              Enable project logging?            </mat-slide-toggle>            <mat-hint>When enabled, you\'ll have to select the Logging stack to install</mat-hint>          </div>          <div class="logging-stack" *ngIf="projectForm?.value.logging">            <h4>Select logging stack bellow</h4>            <div class="stack-container">              <mat-card (click)="loggingStack = \'graylog\'" [class.selected]="loggingStack === \'graylog\'">                <mat-card-header>                  <mat-card-title>Graylog</mat-card-title>                </mat-card-header>                <mat-card-content>                  <div class="graylog"></div>                  <p>This will install Graylog stack</p>                </mat-card-content>                <div class="checkmark-overlay"></div>                <mat-icon class="checkmark">check</mat-icon>              </mat-card>              <mat-card class="" (click)="loggingStack = \'kibana\'" [class.selected]="loggingStack === \'kibana\'">                <mat-card-header>                  <mat-card-title>Kibana</mat-card-title>                </mat-card-header>                <mat-card-content>                  <div class="kibana"></div>                  <p>This will install Kibana stack</p>                </mat-card-content>                <div class="checkmark-overlay"></div>                <mat-icon class="checkmark">check</mat-icon>              </mat-card>            </div>          </div>        </div>        <div class="actions">          <button mat-button [routerLink]="[\'/projects\']" queryParamsHandling="merge" type="button">Cancel</button>          <button type="button" mat-button matStepperNext class="ml-10" *ngIf="project?.id && isFormValid()"            (click)="showProjectOutput()">Show project            infra infos</button>          <button type="submit" mat-button matStepperNext color="primary" class="ml-10"            [disabled]="!isFormValid() || (isFormValid() && !projectForm.dirty)">Plan            project            resources</button>        </div>      </form>    </div>  </mat-step>  <mat-step [completed]="projectApplyStepFinished" [editable]="!showingDirectOutput">    <div class="apply-container">      <div class="spinner-container" *ngIf="projectApplyInProgress">        <mat-spinner></mat-spinner>        <span>We are creating your project resources, wait a moment...</span>      </div>      <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will          not create any resources</span>      </ng-template>      <div class="tf-plan-resources-container">        <dinivas-terraform-representation [planRepresentation]="terraformPlanEvent?.planResult">        </dinivas-terraform-representation>      </div>      <div class="actions">        <button mat-button [routerLink]="[\'/projects\']" queryParamsHandling="merge" type="button">Cancel</button>        <button mat-button matStepperPrevious class="ml-10">Back</button>        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.getRawValue(), projectForm.getRawValue()._consul)"          class="ml-10">{{ !project?.id ? \'Save & \': \'Update & \' }} apply resources changes</button>      </div>    </div>  </mat-step>  <mat-step>    <div>      <ng-template matStepLabel>View project infrastructure informations      </ng-template>      <mat-list *ngIf="projectApplyStepFinished" dense>        <mat-list-item *ngFor="let output of terraformStateOutputs | keyvalue">          <mat-icon *ngIf="output.value.sensitive && !shouldShowSensitiveData[output.key]"            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility</mat-icon>          <mat-icon *ngIf="output.value.sensitive && shouldShowSensitiveData[output.key]"            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility_off          </mat-icon>          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>          <h3 matLine> {{ output.key }}:<strong class="ml-10"              *ngIf="!output.value.sensitive || (output.value.sensitive && shouldShowSensitiveData[output.key])">{{output.value.value}}</strong>          </h3>        </mat-list-item>      </mat-list>    </div>    <div class="actions">      <button mat-raised-button color="primary" [routerLink]="[\'/projects\']">Done !</button>    </div>  </mat-step></mat-vertical-stepper><!-- <form [formGroup]="projectForm" (ngSubmit)="submit(projectForm.value)">  <div mat-dialog-content>  </div>  <div mat-dialog-actions align="end">    <button mat-button (click)="cancel()" type="button">Cancel</button>    <button mat-button color="primary" type="submit" [disabled]="!isFormValid()">      {{ project ? "Update" : "Create" }}    </button>  </div></form> --></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'app-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'app-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'app-snack-alert-warning'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'ProjectWizardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProjectWizardComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2432 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>JenkinsWizardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/console/src/app/build/jenkins/jenkins-wizard/jenkins-wizard.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewChecked" target="_blank" >AfterViewChecked</a></code>
+                    <code><a href="../interfaces/TerraformModuleWizardVarsProvider.html" target="_self" >TerraformModuleWizardVarsProvider</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-jenkins-wizard</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./jenkins-wizard.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyApplied">applyApplied</a>
+                            </li>
+                            <li>
+                                <a href="#architectureType">architectureType</a>
+                            </li>
+                            <li>
+                                <a href="#cloudFlavors">cloudFlavors</a>
+                            </li>
+                            <li>
+                                <a href="#handleSlaveValidators">handleSlaveValidators</a>
+                            </li>
+                            <li>
+                                <a href="#jenkins">jenkins</a>
+                            </li>
+                            <li>
+                                <a href="#jenkinsForm">jenkinsForm</a>
+                            </li>
+                            <li>
+                                <a href="#masterCloudImages">masterCloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#moduleWizardStepper">moduleWizardStepper</a>
+                            </li>
+                            <li>
+                                <a href="#onArchitectureTypeChanged">onArchitectureTypeChanged</a>
+                            </li>
+                            <li>
+                                <a href="#planApplied">planApplied</a>
+                            </li>
+                            <li>
+                                <a href="#project">project</a>
+                            </li>
+                            <li>
+                                <a href="#projectKeypair">projectKeypair</a>
+                            </li>
+                            <li>
+                                <a href="#projectNetwork">projectNetwork</a>
+                            </li>
+                            <li>
+                                <a href="#projectNetworkSubnet">projectNetworkSubnet</a>
+                            </li>
+                            <li>
+                                <a href="#projectTfState">projectTfState</a>
+                            </li>
+                            <li>
+                                <a href="#projectTfStateSubject">projectTfStateSubject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#separatorKeysCodes">separatorKeysCodes</a>
+                            </li>
+                            <li>
+                                <a href="#shouldShowSensitiveData">shouldShowSensitiveData</a>
+                            </li>
+                            <li>
+                                <a href="#showingDirectOutput">showingDirectOutput</a>
+                            </li>
+                            <li>
+                                <a href="#showOutputApplied">showOutputApplied</a>
+                            </li>
+                            <li>
+                                <a href="#slaveCloudImages">slaveCloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#terraformApplyEvent">terraformApplyEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformPlanEvent">terraformPlanEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformStateOutputs">terraformStateOutputs</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addJenkinsSlave">addJenkinsSlave</a>
+                            </li>
+                            <li>
+                                <a href="#addSlaveGroupLabel">addSlaveGroupLabel</a>
+                            </li>
+                            <li>
+                                <a href="#createSlaveFormGroup">createSlaveFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#initJenkinsForm">initJenkinsForm</a>
+                            </li>
+                            <li>
+                                <a href="#isFormValid">isFormValid</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServiceApplyPlan">moduleServiceApplyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServicePlan">moduleServicePlan</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServiceTerraformState">moduleServiceTerraformState</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewChecked">ngAfterViewChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#prepareJenkinsDTOBeforeSendToServer">prepareJenkinsDTOBeforeSendToServer</a>
+                            </li>
+                            <li>
+                                <a href="#removeSlaveGroup">removeSlaveGroup</a>
+                            </li>
+                            <li>
+                                <a href="#removeSlaveGroupLabel">removeSlaveGroupLabel</a>
+                            </li>
+                            <li>
+                                <a href="#resetFormControlValidatorsAndErrors">resetFormControlValidatorsAndErrors</a>
+                            </li>
+                            <li>
+                                <a href="#setExistingMasterValidators">setExistingMasterValidators</a>
+                            </li>
+                            <li>
+                                <a href="#setManageSlaveValidators">setManageSlaveValidators</a>
+                            </li>
+                            <li>
+                                <a href="#showJenkinsOutput">showJenkinsOutput</a>
+                            </li>
+                            <li>
+                                <a href="#submitApplyPlan">submitApplyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#submitPlanJenkins">submitPlanJenkins</a>
+                            </li>
+                            <li>
+                                <a href="#terraformWebsocketEventId">terraformWebsocketEventId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, jenkinsService: <a href="../injectables/JenkinsService.html">JenkinsService</a>, confirmService: <a href="../injectables/ConfirmDialogService.html">ConfirmDialogService</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>jenkinsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/JenkinsService.html" target="_self" >JenkinsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>confirmService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfirmDialogService.html" target="_self" >ConfirmDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addJenkinsSlave"></a>
+                    <span class="name">
+                        <b>
+                            addJenkinsSlave
+                        </b>
+                        <a href="#addJenkinsSlave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addJenkinsSlave(jenkinsSlaveGroup: <a href="../classes/JenkinsSlaveGroupDTO.html">JenkinsSlaveGroupDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkinsSlaveGroup</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsSlaveGroupDTO.html" target="_self" >JenkinsSlaveGroupDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSlaveGroupLabel"></a>
+                    <span class="name">
+                        <b>
+                            addSlaveGroupLabel
+                        </b>
+                        <a href="#addSlaveGroupLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addSlaveGroupLabel(jenkinsSlaveGroup: <a href="../classes/JenkinsSlaveGroupDTO.html">JenkinsSlaveGroupDTO</a>, event: MatChipInputEvent)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkinsSlaveGroup</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsSlaveGroupDTO.html" target="_self" >JenkinsSlaveGroupDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MatChipInputEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createSlaveFormGroup"></a>
+                    <span class="name">
+                        <b>
+                            createSlaveFormGroup
+                        </b>
+                        <a href="#createSlaveFormGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createSlaveFormGroup(jenkinsSlaveGroup: <a href="../classes/JenkinsSlaveGroupDTO.html">JenkinsSlaveGroupDTO</a>, manageSlave: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkinsSlaveGroup</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsSlaveGroupDTO.html" target="_self" >JenkinsSlaveGroupDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>manageSlave</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initJenkinsForm"></a>
+                    <span class="name">
+                        <b>
+                            initJenkinsForm
+                        </b>
+                        <a href="#initJenkinsForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initJenkinsForm()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFormValid"></a>
+                    <span class="name">
+                        <b>
+                            isFormValid
+                        </b>
+                        <a href="#isFormValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isFormValid()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServiceApplyPlan"></a>
+                    <span class="name">
+                        <b>
+                            moduleServiceApplyPlan
+                        </b>
+                        <a href="#moduleServiceApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServiceApplyPlan(moduleEntity: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>, terraformPlanEvent: <a href="../interfaces/TerraformPlanEvent.html">TerraformPlanEvent<JenkinsDTO></a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>terraformPlanEvent</td>
+                                    <td>
+                                                <code><a href="../interfaces/TerraformPlanEvent.html" target="_self" >TerraformPlanEvent&lt;JenkinsDTO&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServicePlan"></a>
+                    <span class="name">
+                        <b>
+                            moduleServicePlan
+                        </b>
+                        <a href="#moduleServicePlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServicePlan(moduleEntity: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServiceTerraformState"></a>
+                    <span class="name">
+                        <b>
+                            moduleServiceTerraformState
+                        </b>
+                        <a href="#moduleServiceTerraformState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServiceTerraformState(moduleEntity: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewChecked"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterViewChecked
+                        </b>
+                        <a href="#ngAfterViewChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewChecked()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareJenkinsDTOBeforeSendToServer"></a>
+                    <span class="name">
+                        <b>
+                            prepareJenkinsDTOBeforeSendToServer
+                        </b>
+                        <a href="#prepareJenkinsDTOBeforeSendToServer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prepareJenkinsDTOBeforeSendToServer(jenkins: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkins</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeSlaveGroup"></a>
+                    <span class="name">
+                        <b>
+                            removeSlaveGroup
+                        </b>
+                        <a href="#removeSlaveGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeSlaveGroup(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeSlaveGroupLabel"></a>
+                    <span class="name">
+                        <b>
+                            removeSlaveGroupLabel
+                        </b>
+                        <a href="#removeSlaveGroupLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeSlaveGroupLabel(jenkinsSlaveGroup: <a href="../classes/JenkinsSlaveGroupDTO.html">JenkinsSlaveGroupDTO</a>, label: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkinsSlaveGroup</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsSlaveGroupDTO.html" target="_self" >JenkinsSlaveGroupDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>label</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetFormControlValidatorsAndErrors"></a>
+                    <span class="name">
+                        <b>
+                            resetFormControlValidatorsAndErrors
+                        </b>
+                        <a href="#resetFormControlValidatorsAndErrors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetFormControlValidatorsAndErrors(...formControls: AbstractControl[])</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>formControls</td>
+                                    <td>
+                                            <code>AbstractControl[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setExistingMasterValidators"></a>
+                    <span class="name">
+                        <b>
+                            setExistingMasterValidators
+                        </b>
+                        <a href="#setExistingMasterValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setExistingMasterValidators()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setManageSlaveValidators"></a>
+                    <span class="name">
+                        <b>
+                            setManageSlaveValidators
+                        </b>
+                        <a href="#setManageSlaveValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setManageSlaveValidators()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showJenkinsOutput"></a>
+                    <span class="name">
+                        <b>
+                            showJenkinsOutput
+                        </b>
+                        <a href="#showJenkinsOutput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showJenkinsOutput(jenkins: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkins</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitApplyPlan"></a>
+                    <span class="name">
+                        <b>
+                            submitApplyPlan
+                        </b>
+                        <a href="#submitApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitApplyPlan(jenkins: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkins</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitPlanJenkins"></a>
+                    <span class="name">
+                        <b>
+                            submitPlanJenkins
+                        </b>
+                        <a href="#submitPlanJenkins"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitPlanJenkins(jenkins: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jenkins</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="terraformWebsocketEventId"></a>
+                    <span class="name">
+                        <b>
+                            terraformWebsocketEventId
+                        </b>
+                        <a href="#terraformWebsocketEventId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>terraformWebsocketEventId(moduleEntity: <a href="../classes/JenkinsDTO.html">JenkinsDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="applyApplied"></a>
+                        <span class="name">
+                            <b>
+                            applyApplied</b>
+                            <a href="#applyApplied"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="architectureType"></a>
+                        <span class="name">
+                            <b>
+                            architectureType</b>
+                            <a href="#architectureType"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudFlavors"></a>
+                        <span class="name">
+                            <b>
+                            cloudFlavors</b>
+                            <a href="#cloudFlavors"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiFlavor[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="handleSlaveValidators"></a>
+                        <span class="name">
+                            <b>
+                            handleSlaveValidators</b>
+                            <a href="#handleSlaveValidators"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="jenkins"></a>
+                        <span class="name">
+                            <b>
+                            jenkins</b>
+                            <a href="#jenkins"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/JenkinsDTO.html" target="_self" >JenkinsDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="jenkinsForm"></a>
+                        <span class="name">
+                            <b>
+                            jenkinsForm</b>
+                            <a href="#jenkinsForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="masterCloudImages"></a>
+                        <span class="name">
+                            <b>
+                            masterCloudImages</b>
+                            <a href="#masterCloudImages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="moduleWizardStepper"></a>
+                        <span class="name">
+                            <b>
+                            moduleWizardStepper</b>
+                            <a href="#moduleWizardStepper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;MatVerticalStepper&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onArchitectureTypeChanged"></a>
+                        <span class="name">
+                            <b>
+                            onArchitectureTypeChanged</b>
+                            <a href="#onArchitectureTypeChanged"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="planApplied"></a>
+                        <span class="name">
+                            <b>
+                            planApplied</b>
+                            <a href="#planApplied"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="project"></a>
+                        <span class="name">
+                            <b>
+                            project</b>
+                            <a href="#project"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectKeypair"></a>
+                        <span class="name">
+                            <b>
+                            projectKeypair</b>
+                            <a href="#projectKeypair"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectNetwork"></a>
+                        <span class="name">
+                            <b>
+                            projectNetwork</b>
+                            <a href="#projectNetwork"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectNetworkSubnet"></a>
+                        <span class="name">
+                            <b>
+                            projectNetworkSubnet</b>
+                            <a href="#projectNetworkSubnet"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectTfState"></a>
+                        <span class="name">
+                            <b>
+                            projectTfState</b>
+                            <a href="#projectTfState"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectTfStateSubject"></a>
+                        <span class="name">
+                            <b>
+                            projectTfStateSubject</b>
+                            <a href="#projectTfStateSubject"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;any&gt;()</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="separatorKeysCodes"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            separatorKeysCodes</b>
+                            <a href="#separatorKeysCodes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>number[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[ENTER, COMMA]</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shouldShowSensitiveData"></a>
+                        <span class="name">
+                            <b>
+                            shouldShowSensitiveData</b>
+                            <a href="#shouldShowSensitiveData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showingDirectOutput"></a>
+                        <span class="name">
+                            <b>
+                            showingDirectOutput</b>
+                            <a href="#showingDirectOutput"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showOutputApplied"></a>
+                        <span class="name">
+                            <b>
+                            showOutputApplied</b>
+                            <a href="#showOutputApplied"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="slaveCloudImages"></a>
+                        <span class="name">
+                            <b>
+                            slaveCloudImages</b>
+                            <a href="#slaveCloudImages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformApplyEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformApplyEvent</b>
+                            <a href="#terraformApplyEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformApplyEvent.html" target="_self" >TerraformApplyEvent&lt;JenkinsDTO&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformPlanEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformPlanEvent</b>
+                            <a href="#terraformPlanEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformPlanEvent.html" target="_self" >TerraformPlanEvent&lt;JenkinsDTO&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformStateOutputs"></a>
+                        <span class="name">
+                            <b>
+                            terraformStateOutputs</b>
+                            <a href="#terraformStateOutputs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;form [formGroup]&#x3D;&quot;jenkinsForm&quot; *ngIf&#x3D;&quot;jenkinsForm&quot; (ngSubmit)&#x3D;&quot;submitPlanJenkins(jenkinsForm.getRawValue())&quot;
+  class&#x3D;&quot;jenkins-wizard-form&quot;&gt;
+  &lt;ng-template matStepLabel&gt;Jenkins informations - &lt;span class&#x3D;&quot;text-warn&quot;&gt;This step will not create any
+      resources&lt;/span&gt;&lt;/ng-template&gt;
+  &lt;div class&#x3D;&quot;mat-form-container&quot; fxLayout&#x3D;&quot;column&quot;&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Jenkins code&lt;/mat-label&gt;
+      &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;code&quot; required&gt;
+      &lt;span *ngIf&#x3D;&quot;!jenkins?.id&quot; matPrefix&gt;{{ project.code.toLowerCase() }}-&lt;/span&gt;
+      &lt;mat-hint&gt;The Jenkins code will be used to suffix most components. You can&#x27;t change it after Jenkins
+        creation.&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Jenkins network&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;network_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectNetwork&quot;&gt;
+          {{ projectNetwork }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;Jenkins will be added to project Network by default&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Jenkins network subnet&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;network_subnet_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectNetworkSubnet&quot;&gt;
+          {{ projectNetworkSubnet }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;Jenkins will be added to project Network by default&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Jenkins instances keypair&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;keypair_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectKeypair&quot;&gt;
+          {{ projectKeypair }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;This Keypair will be added to all instances crated&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;!-- Jenkins Master configuration --&gt;
+    &lt;h4&gt;Jenkins master&lt;/h4&gt;
+    &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+      &lt;mat-slide-toggle formControlName&#x3D;&quot;use_existing_master&quot; color&#x3D;&quot;accent&quot;&gt;
+        Use an external existing master and not create a new one?
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-hint&gt;The existing master won&#x27;t be managed by Dinivas&lt;/mat-hint&gt;
+    &lt;/div&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;!jenkinsForm?.value.use_existing_master&quot;&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Jenkins admin username&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;master_admin_username&quot;
+          [required]&#x3D;&quot;!jenkinsForm?.value.use_existing_master&quot; autocomplete&#x3D;&quot;username&quot;&gt;
+        &lt;mat-hint&gt;The Jenkins admin username. Default value is &lt;strong&gt;admin&lt;/strong&gt;&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Jenkins admin password&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;password&quot; matInput formControlName&#x3D;&quot;master_admin_password&quot;
+          [required]&#x3D;&quot;!jenkinsForm?.value.use_existing_master&quot; autocomplete&#x3D;&quot;current-password&quot;&gt;
+        &lt;mat-hint&gt;The Jenkins admin password. Default value is &lt;strong&gt;admin&lt;/strong&gt;&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Description&lt;/mat-label&gt;
+        &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+      &lt;/mat-form-field&gt;
+      &lt;dinivas-cloud-image-radios *ngIf&#x3D;&quot;masterCloudImages?.length &gt; 0; else loading_master_image&quot;
+        formControlName&#x3D;&quot;_master_cloud_image&quot; label&#x3D;&quot;Select Jenkins master image to use&quot;
+        [cloudImages]&#x3D;&quot;masterCloudImages&quot;&gt;
+      &lt;/dinivas-cloud-image-radios&gt;
+      &lt;ng-template #loading_master_image&gt;
+        &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;No image that match filter found.&lt;/p&gt;
+      &lt;/ng-template&gt;
+      &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0; else loading_master_flavor&quot;
+        formControlName&#x3D;&quot;_master_cloud_flavor&quot; label&#x3D;&quot;Select Jenkins master flavor to use&quot;
+        [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+      &lt;/dinivas-cloud-flavor-radios&gt;
+      &lt;ng-template #loading_master_flavor&gt;
+        &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;Select a cloudprovider to display &lt;strong&gt;flavors&lt;/strong&gt; for &lt;strong&gt;Master
+            instance&lt;/strong&gt;&lt;/p&gt;
+      &lt;/ng-template&gt;
+      &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+        &lt;mat-slide-toggle formControlName&#x3D;&quot;use_floating_ip&quot; color&#x3D;&quot;accent&quot;&gt;
+          Use floating IP?
+        &lt;/mat-slide-toggle&gt;
+        &lt;mat-hint&gt;A proxy will expose services to external network&lt;/mat-hint&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+        &lt;mat-slide-toggle formControlName&#x3D;&quot;link_to_keycloak&quot; color&#x3D;&quot;accent&quot;&gt;
+          Link this Jenkins Master to project Keycloak?
+        &lt;/mat-slide-toggle&gt;
+        &lt;mat-hint&gt;Jenkins authentication will be delegated to Keycloak&lt;/mat-hint&gt;
+      &lt;/div&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot; *ngIf&#x3D;&quot;jenkinsForm?.value.link_to_keycloak&quot;&gt;
+        &lt;mat-label&gt;Keycloak client id&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;keycloak_client_id&quot;
+          [required]&#x3D;&quot;jenkinsForm?.value.link_to_keycloak&quot;&gt;
+        &lt;mat-hint&gt;Keycloak OIDC Client Id&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;!-- Existing Jenkins master --&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;jenkinsForm?.value.use_existing_master&quot;&gt;
+      &lt;div class&#x3D;&quot;host-port-container&quot;&gt;
+        &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+          &lt;mat-label&gt;Jenkins master scheme&lt;/mat-label&gt;
+          &lt;mat-select formControlName&#x3D;&quot;existing_master_scheme&quot; [required]&#x3D;&quot;jenkinsForm?.value.use_existing_master&quot;&gt;
+            &lt;mat-option value&#x3D;&quot;http&quot;&gt;
+              HTTP
+            &lt;/mat-option&gt;
+            &lt;mat-option value&#x3D;&quot;https&quot;&gt;
+              HTTPS
+            &lt;/mat-option&gt;
+          &lt;/mat-select&gt;
+          &lt;mat-hint&gt;The master url Scheme&lt;/mat-hint&gt;
+        &lt;/mat-form-field&gt;
+        &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+          &lt;mat-label&gt;Jenkins master host/ip&lt;/mat-label&gt;
+          &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;existing_master_host&quot;
+            [required]&#x3D;&quot;jenkinsForm?.value.use_existing_master&quot;&gt;
+          &lt;mat-hint&gt;The Host/Ip of the existing master&lt;/mat-hint&gt;
+        &lt;/mat-form-field&gt;
+        &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+          &lt;mat-label&gt;Jenkins master port&lt;/mat-label&gt;
+          &lt;input type&#x3D;&quot;number&quot; matInput formControlName&#x3D;&quot;existing_master_port&quot;
+            [required]&#x3D;&quot;jenkinsForm?.value.use_existing_master&quot;&gt;
+          &lt;mat-hint&gt;The port of the external master&lt;/mat-hint&gt;
+        &lt;/mat-form-field&gt;
+      &lt;/div&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;External Jenkins master username&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;existing_master_username&quot; autocomplete&#x3D;&quot;username&quot;
+          [required]&#x3D;&quot;jenkinsForm?.value.use_existing_master&quot;&gt;
+        &lt;mat-hint&gt;The external Jenkins username to use for remote access (API)&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;External Jenkins master password&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;password&quot; matInput formControlName&#x3D;&quot;existing_master_password&quot; autocomplete&#x3D;&quot;current-password&quot;
+          [required]&#x3D;&quot;jenkinsForm?.value.use_existing_master&quot;&gt;
+        &lt;mat-hint&gt;The external Jenkins password to use for remote access (API)&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Description&lt;/mat-label&gt;
+        &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+      &lt;mat-slide-toggle formControlName&#x3D;&quot;manage_slave&quot; color&#x3D;&quot;accent&quot;&gt;
+        Manage slaves for this Jenkins?
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-hint&gt;Dinivas will manage Jenkins slave for you&lt;/mat-hint&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Jenkins slave configuration --&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;jenkinsForm?.value.manage_slave&quot;&gt;
+      &lt;h4&gt;Slave groups &lt;small
+          *ngIf&#x3D;&quot;jenkinsForm.get(&#x27;slave_groups&#x27;).controls.length &gt; 0&quot;&gt;({{ jenkinsForm.get(&#x27;slave_groups&#x27;).controls.length }}
+          groups)&lt;/small&gt;&lt;/h4&gt;
+      &lt;!-- Do not show host:port fields because the internal master Ip will be used if needed --&gt;
+      &lt;div class&#x3D;&quot;host-port-container&quot; *ngIf&#x3D;&quot;false&quot;&gt;
+        &lt;mat-form-field class&#x3D;&quot;scheme&quot; appearance&#x3D;&quot;outline&quot;&gt;
+          &lt;mat-label&gt;Jenkins master scheme&lt;/mat-label&gt;
+          &lt;mat-select formControlName&#x3D;&quot;slave_api_scheme&quot;&gt;
+            &lt;mat-option value&#x3D;&quot;http&quot;&gt;
+              HTTP
+            &lt;/mat-option&gt;
+            &lt;mat-option value&#x3D;&quot;https&quot;&gt;
+              HTTPS
+            &lt;/mat-option&gt;
+          &lt;/mat-select&gt;
+          &lt;mat-hint&gt;Jenkins API Scheme&lt;/mat-hint&gt;
+        &lt;/mat-form-field&gt;
+        &lt;mat-form-field class&#x3D;&quot;host&quot; appearance&#x3D;&quot;outline&quot;&gt;
+          &lt;mat-label&gt;Jenkins master host/ip&lt;/mat-label&gt;
+          &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;slave_api_host&quot;&gt;
+          &lt;mat-hint&gt;Jenkins API Host/Ip&lt;/mat-hint&gt;
+        &lt;/mat-form-field&gt;
+        &lt;mat-form-field class&#x3D;&quot;port&quot; appearance&#x3D;&quot;outline&quot;&gt;
+          &lt;mat-label&gt;Jenkins Api port&lt;/mat-label&gt;
+          &lt;input type&#x3D;&quot;number&quot; matInput formControlName&#x3D;&quot;slave_api_port&quot;&gt;
+          &lt;mat-hint&gt;Jenkins Api port&lt;/mat-hint&gt;
+        &lt;/mat-form-field&gt;
+      &lt;/div&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Jenkins username to use for slave creation&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;slave_api_username&quot;
+          [required]&#x3D;&quot;!jenkinsForm?.value.use_existing_master&quot; autocomplete&#x3D;&quot;username&quot;&gt;
+        &lt;mat-hint&gt;The Jenkins username used by API to create slave.&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Jenkins user API token &lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;slave_api_token&quot;
+          [required]&#x3D;&quot;!jenkinsForm?.value.use_existing_master&quot; autocomplete&#x3D;&quot;username&quot;&gt;
+        &lt;mat-hint&gt;The Jenkins user API token used to create slave.&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;div class&#x3D;&quot;jenkins-slave-groups-container&quot;&gt;
+        &lt;div formArrayName&#x3D;&quot;slave_groups&quot; class&#x3D;&quot;jenkins-slave-group-container mat-elevation-z4&quot;
+          *ngFor&#x3D;&quot;let slaveGroup of jenkinsForm.get(&#x27;slave_groups&#x27;).controls; let slaveGroupIndex &#x3D; index;&quot;&gt;
+          &lt;span class&#x3D;&quot;slave-group-number&quot;&gt;#{{ slaveGroupIndex + 1 }}&lt;/span&gt;
+          &lt;div [formGroupName]&#x3D;&quot;slaveGroupIndex&quot; class&#x3D;&quot;&quot; fxLayout&#x3D;&quot;column&quot;&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Slave group name&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;code&quot; required&gt;
+              &lt;span *ngIf&#x3D;&quot;jenkinsForm?.value.code&quot;
+                matPrefix&gt;{{ project.code.toLowerCase() }}-{{ jenkinsForm?.value.code.toLowerCase() }}-&lt;/span&gt;
+              &lt;mat-hint&gt;This is just an identification for this slave group&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-chip-list #chipList aria-label&#x3D;&quot;Slave labels&quot; formControlName&#x3D;&quot;labels&quot;&gt;
+                &lt;mat-chip *ngFor&#x3D;&quot;let label of jenkinsForm?.value.slave_groups[slaveGroupIndex].labels&quot;
+                  [selectable]&#x3D;&quot;false&quot; [removable]&#x3D;&quot;true&quot; color&#x3D;&quot;accent&quot; selected
+                  (removed)&#x3D;&quot;removeSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], label)&quot;&gt;
+                  {{label}}
+                  &lt;mat-icon matChipRemove&gt;cancel&lt;/mat-icon&gt;
+                &lt;/mat-chip&gt;
+                &lt;input placeholder&#x3D;&quot;Slave group labels&quot; [matChipInputFor]&#x3D;&quot;chipList&quot;
+                  [matChipInputSeparatorKeyCodes]&#x3D;&quot;separatorKeysCodes&quot; [matChipInputAddOnBlur]&#x3D;&quot;true&quot;
+                  (matChipInputTokenEnd)&#x3D;&quot;addSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], $event)&quot;&gt;
+              &lt;/mat-chip-list&gt;
+              &lt;mat-hint&gt;Those label could be used to select target slave&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;div class&#x3D;&quot;slider-container&quot;&gt;
+              &lt;span&gt;Select the number of slave instance&lt;/span&gt;
+              &lt;mat-slider class&#x3D;&quot;&quot; [class.cdk-focused]&#x3D;&quot;true&quot; formControlName&#x3D;&quot;instance_count&quot; [max]&#x3D;&quot;10&quot; [min]&#x3D;&quot;1&quot;
+                [step]&#x3D;&quot;1&quot; [thumbLabel]&#x3D;&quot;true&quot; [tickInterval]&#x3D;&quot;0&quot; [vertical]&#x3D;&quot;false&quot;&gt;
+              &lt;/mat-slider&gt;
+              {{ jenkinsForm?.value.slave_groups[slaveGroupIndex][&#x27;instance_count&#x27;] | json}}
+            &lt;/div&gt;
+            &lt;dinivas-cloud-image-radios *ngIf&#x3D;&quot;slaveCloudImages?.length &gt; 0&quot; formControlName&#x3D;&quot;slave_cloud_image&quot;
+              label&#x3D;&quot;Select Slave group image to use&quot; [cloudImages]&#x3D;&quot;slaveCloudImages&quot;&gt;
+            &lt;/dinivas-cloud-image-radios&gt;
+            &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0&quot; formControlName&#x3D;&quot;slave_cloud_flavor&quot;
+              label&#x3D;&quot;Select Slave group flavor to use&quot; [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+            &lt;/dinivas-cloud-flavor-radios&gt;
+            &lt;div fxLayout&#x3D;&quot;row&quot; fxLayoutAlign&#x3D;&quot;end&quot;&gt;
+              &lt;button type&#x3D;&quot;button&quot; mat-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;removeSlaveGroup(slaveGroupIndex)&quot;&gt;
+                &lt;mat-icon&gt;delete&lt;/mat-icon&gt;Delete this
+                slave group
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;add-jenkins-slave&quot; mat-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;addJenkinsSlave()&quot;&gt;
+        &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+        Add new Jenkins
+        slave
+        group
+      &lt;/button&gt;
+    &lt;/ng-container&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;actions&quot;&gt;
+    &lt;button mat-button [routerLink]&#x3D;&quot;[&#x27;/build&#x27;, &#x27;jenkins&#x27;]&quot; queryParamsHandling&#x3D;&quot;merge&quot; type&#x3D;&quot;button&quot;&gt;Cancel&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; mat-button matStepperPrevious&gt;Back&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; mat-button class&#x3D;&quot;ml-10&quot; *ngIf&#x3D;&quot;jenkins?.id &amp;&amp; isFormValid()&quot;
+      (click)&#x3D;&quot;showJenkinsOutput(jenkinsForm.getRawValue())&quot;&gt;Show jenkins
+      infra infos&lt;/button&gt;
+    &lt;button type&#x3D;&quot;submit&quot; mat-raised-button color&#x3D;&quot;primary&quot; class&#x3D;&quot;ml-10&quot;
+      [disabled]&#x3D;&quot;!isFormValid() || (isFormValid() &amp;&amp; !jenkinsForm.dirty)&quot;&gt;Plan
+      Jenkins
+      resources&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><form [formGroup]="jenkinsForm" *ngIf="jenkinsForm" (ngSubmit)="submitPlanJenkins(jenkinsForm.getRawValue())"  class="jenkins-wizard-form">  <ng-template matStepLabel>Jenkins informations - <span class="text-warn">This step will not create any      resources</span></ng-template>  <div class="mat-form-container" fxLayout="column">    <mat-form-field class="" appearance="outline">      <mat-label>Jenkins code</mat-label>      <input type="text" matInput formControlName="code" required>      <span *ngIf="!jenkins?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>      <mat-hint>The Jenkins code will be used to suffix most components. You can\'t change it after Jenkins        creation.</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Jenkins network</mat-label>      <mat-select formControlName="network_name" required>        <mat-option [value]="projectNetwork">          {{ projectNetwork }}        </mat-option>      </mat-select>      <mat-hint>Jenkins will be added to project Network by default</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Jenkins network subnet</mat-label>      <mat-select formControlName="network_subnet_name" required>        <mat-option [value]="projectNetworkSubnet">          {{ projectNetworkSubnet }}        </mat-option>      </mat-select>      <mat-hint>Jenkins will be added to project Network by default</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Jenkins instances keypair</mat-label>      <mat-select formControlName="keypair_name" required>        <mat-option [value]="projectKeypair">          {{ projectKeypair }}        </mat-option>      </mat-select>      <mat-hint>This Keypair will be added to all instances crated</mat-hint>    </mat-form-field>    <!-- Jenkins Master configuration -->    <h4>Jenkins master</h4>    <div class="slide-toggle-container">      <mat-slide-toggle formControlName="use_existing_master" color="accent">        Use an external existing master and not create a new one?      </mat-slide-toggle>      <mat-hint>The existing master won\'t be managed by Dinivas</mat-hint>    </div>    <ng-container *ngIf="!jenkinsForm?.value.use_existing_master">      <mat-form-field class="" appearance="outline">        <mat-label>Jenkins admin username</mat-label>        <input type="text" matInput formControlName="master_admin_username"          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="username">        <mat-hint>The Jenkins admin username. Default value is <strong>admin</strong></mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Jenkins admin password</mat-label>        <input type="password" matInput formControlName="master_admin_password"          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="current-password">        <mat-hint>The Jenkins admin password. Default value is <strong>admin</strong></mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Description</mat-label>        <textarea matInput formControlName="description" rows="3"></textarea>      </mat-form-field>      <dinivas-cloud-image-radios *ngIf="masterCloudImages?.length > 0; else loading_master_image"        formControlName="_master_cloud_image" label="Select Jenkins master image to use"        [cloudImages]="masterCloudImages">      </dinivas-cloud-image-radios>      <ng-template #loading_master_image>        <p class="no-data-checkbox">No image that match filter found.</p>      </ng-template>      <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"        formControlName="_master_cloud_flavor" label="Select Jenkins master flavor to use"        [cloudFlavors]="cloudFlavors">      </dinivas-cloud-flavor-radios>      <ng-template #loading_master_flavor>        <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master            instance</strong></p>      </ng-template>      <div class="slide-toggle-container">        <mat-slide-toggle formControlName="use_floating_ip" color="accent">          Use floating IP?        </mat-slide-toggle>        <mat-hint>A proxy will expose services to external network</mat-hint>      </div>      <div class="slide-toggle-container">        <mat-slide-toggle formControlName="link_to_keycloak" color="accent">          Link this Jenkins Master to project Keycloak?        </mat-slide-toggle>        <mat-hint>Jenkins authentication will be delegated to Keycloak</mat-hint>      </div>      <mat-form-field class="" appearance="outline" *ngIf="jenkinsForm?.value.link_to_keycloak">        <mat-label>Keycloak client id</mat-label>        <input type="text" matInput formControlName="keycloak_client_id"          [required]="jenkinsForm?.value.link_to_keycloak">        <mat-hint>Keycloak OIDC Client Id</mat-hint>      </mat-form-field>    </ng-container>    <!-- Existing Jenkins master -->    <ng-container *ngIf="jenkinsForm?.value.use_existing_master">      <div class="host-port-container">        <mat-form-field class="" appearance="outline">          <mat-label>Jenkins master scheme</mat-label>          <mat-select formControlName="existing_master_scheme" [required]="jenkinsForm?.value.use_existing_master">            <mat-option value="http">              HTTP            </mat-option>            <mat-option value="https">              HTTPS            </mat-option>          </mat-select>          <mat-hint>The master url Scheme</mat-hint>        </mat-form-field>        <mat-form-field class="" appearance="outline">          <mat-label>Jenkins master host/ip</mat-label>          <input type="text" matInput formControlName="existing_master_host"            [required]="jenkinsForm?.value.use_existing_master">          <mat-hint>The Host/Ip of the existing master</mat-hint>        </mat-form-field>        <mat-form-field class="" appearance="outline">          <mat-label>Jenkins master port</mat-label>          <input type="number" matInput formControlName="existing_master_port"            [required]="jenkinsForm?.value.use_existing_master">          <mat-hint>The port of the external master</mat-hint>        </mat-form-field>      </div>      <mat-form-field class="" appearance="outline">        <mat-label>External Jenkins master username</mat-label>        <input type="text" matInput formControlName="existing_master_username" autocomplete="username"          [required]="jenkinsForm?.value.use_existing_master">        <mat-hint>The external Jenkins username to use for remote access (API)</mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>External Jenkins master password</mat-label>        <input type="password" matInput formControlName="existing_master_password" autocomplete="current-password"          [required]="jenkinsForm?.value.use_existing_master">        <mat-hint>The external Jenkins password to use for remote access (API)</mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Description</mat-label>        <textarea matInput formControlName="description" rows="3"></textarea>      </mat-form-field>    </ng-container>    <div class="slide-toggle-container">      <mat-slide-toggle formControlName="manage_slave" color="accent">        Manage slaves for this Jenkins?      </mat-slide-toggle>      <mat-hint>Dinivas will manage Jenkins slave for you</mat-hint>    </div>    <!-- Jenkins slave configuration -->    <ng-container *ngIf="jenkinsForm?.value.manage_slave">      <h4>Slave groups <small          *ngIf="jenkinsForm.get(\'slave_groups\').controls.length > 0">({{ jenkinsForm.get(\'slave_groups\').controls.length }}          groups)</small></h4>      <!-- Do not show host:port fields because the internal master Ip will be used if needed -->      <div class="host-port-container" *ngIf="false">        <mat-form-field class="scheme" appearance="outline">          <mat-label>Jenkins master scheme</mat-label>          <mat-select formControlName="slave_api_scheme">            <mat-option value="http">              HTTP            </mat-option>            <mat-option value="https">              HTTPS            </mat-option>          </mat-select>          <mat-hint>Jenkins API Scheme</mat-hint>        </mat-form-field>        <mat-form-field class="host" appearance="outline">          <mat-label>Jenkins master host/ip</mat-label>          <input type="text" matInput formControlName="slave_api_host">          <mat-hint>Jenkins API Host/Ip</mat-hint>        </mat-form-field>        <mat-form-field class="port" appearance="outline">          <mat-label>Jenkins Api port</mat-label>          <input type="number" matInput formControlName="slave_api_port">          <mat-hint>Jenkins Api port</mat-hint>        </mat-form-field>      </div>      <mat-form-field class="" appearance="outline">        <mat-label>Jenkins username to use for slave creation</mat-label>        <input type="text" matInput formControlName="slave_api_username"          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="username">        <mat-hint>The Jenkins username used by API to create slave.</mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Jenkins user API token </mat-label>        <input type="text" matInput formControlName="slave_api_token"          [required]="!jenkinsForm?.value.use_existing_master" autocomplete="username">        <mat-hint>The Jenkins user API token used to create slave.</mat-hint>      </mat-form-field>      <div class="jenkins-slave-groups-container">        <div formArrayName="slave_groups" class="jenkins-slave-group-container mat-elevation-z4"          *ngFor="let slaveGroup of jenkinsForm.get(\'slave_groups\').controls; let slaveGroupIndex = index;">          <span class="slave-group-number">#{{ slaveGroupIndex + 1 }}</span>          <div [formGroupName]="slaveGroupIndex" class="" fxLayout="column">            <mat-form-field class="" appearance="outline">              <mat-label>Slave group name</mat-label>              <input type="text" matInput formControlName="code" required>              <span *ngIf="jenkinsForm?.value.code"                matPrefix>{{ project.code.toLowerCase() }}-{{ jenkinsForm?.value.code.toLowerCase() }}-</span>              <mat-hint>This is just an identification for this slave group</mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-chip-list #chipList aria-label="Slave labels" formControlName="labels">                <mat-chip *ngFor="let label of jenkinsForm?.value.slave_groups[slaveGroupIndex].labels"                  [selectable]="false" [removable]="true" color="accent" selected                  (removed)="removeSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], label)">                  {{label}}                  <mat-icon matChipRemove>cancel</mat-icon>                </mat-chip>                <input placeholder="Slave group labels" [matChipInputFor]="chipList"                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"                  (matChipInputTokenEnd)="addSlaveGroupLabel(jenkinsForm.value.slave_groups[slaveGroupIndex], $event)">              </mat-chip-list>              <mat-hint>Those label could be used to select target slave</mat-hint>            </mat-form-field>            <div class="slider-container">              <span>Select the number of slave instance</span>              <mat-slider class="" [class.cdk-focused]="true" formControlName="instance_count" [max]="10" [min]="1"                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">              </mat-slider>              {{ jenkinsForm?.value.slave_groups[slaveGroupIndex][\'instance_count\'] | json}}            </div>            <dinivas-cloud-image-radios *ngIf="slaveCloudImages?.length > 0" formControlName="slave_cloud_image"              label="Select Slave group image to use" [cloudImages]="slaveCloudImages">            </dinivas-cloud-image-radios>            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="slave_cloud_flavor"              label="Select Slave group flavor to use" [cloudFlavors]="cloudFlavors">            </dinivas-cloud-flavor-radios>            <div fxLayout="row" fxLayoutAlign="end">              <button type="button" mat-button color="warn" (click)="removeSlaveGroup(slaveGroupIndex)">                <mat-icon>delete</mat-icon>Delete this                slave group              </button>            </div>          </div>        </div>      </div>      <button type="button" class="add-jenkins-slave" mat-button color="accent" (click)="addJenkinsSlave()">        <mat-icon>add</mat-icon>        Add new Jenkins        slave        group      </button>    </ng-container>  </div>  <div class="actions">    <button mat-button [routerLink]="[\'/build\', \'jenkins\']" queryParamsHandling="merge" type="button">Cancel</button>    <button type="button" mat-button matStepperPrevious>Back</button>    <button type="button" mat-button class="ml-10" *ngIf="jenkins?.id && isFormValid()"      (click)="showJenkinsOutput(jenkinsForm.getRawValue())">Show jenkins      infra infos</button>    <button type="submit" mat-raised-button color="primary" class="ml-10"      [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan      Jenkins      resources</button>  </div></form></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'app-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'app-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'app-snack-alert-warning'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'JenkinsWizardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'JenkinsWizardComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

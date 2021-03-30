@@ -1,0 +1,1090 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>FilterBarComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/console/src/app/core/entity/filter-bar/filter-bar.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-filter-bar</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./filter-bar.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./filter-bar.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#globalFilterText">globalFilterText</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addEntity">addEntity</a>
+                            </li>
+                            <li>
+                                <a href="#customButtonClicked">customButtonClicked</a>
+                            </li>
+                            <li>
+                                <a href="#deleteSelection">deleteSelection</a>
+                            </li>
+                            <li>
+                                <a href="#filterChanged">filterChanged</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#refreshDatas">refreshDatas</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addButtonLabel">addButtonLabel</a>
+                            </li>
+                            <li>
+                                <a href="#customButtons">customButtons</a>
+                            </li>
+                            <li>
+                                <a href="#filterPlaceholder">filterPlaceholder</a>
+                            </li>
+                            <li>
+                                <a href="#filters">filters</a>
+                            </li>
+                            <li>
+                                <a href="#selection">selection</a>
+                            </li>
+                            <li>
+                                <a href="#showAddButton">showAddButton</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#onAddEntity">onAddEntity</a>
+                            </li>
+                            <li>
+                                <a href="#onCustomButtonClicked">onCustomButtonClicked</a>
+                            </li>
+                            <li>
+                                <a href="#onDeleteSelection">onDeleteSelection</a>
+                            </li>
+                            <li>
+                                <a href="#onFilterChanged">onFilterChanged</a>
+                            </li>
+                            <li>
+                                <a href="#onRefreshData">onRefreshData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addButtonLabel"></a>
+                        <b>addButtonLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Add&#x27;</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="customButtons"></a>
+                        <b>customButtons</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FilterBarCustomButton[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filterPlaceholder"></a>
+                        <b>filterPlaceholder</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filters"></a>
+                        <b>filters</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Filter.html" target="_self" >Filter[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selection"></a>
+                        <b>selection</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SelectionModel</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new SelectionModel&lt;any&gt;(true, [])</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showAddButton"></a>
+                        <b>showAddButton</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onAddEntity"></a>
+                        <b>onAddEntity</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onCustomButtonClicked"></a>
+                        <b>onCustomButtonClicked</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onDeleteSelection"></a>
+                        <b>onDeleteSelection</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onFilterChanged"></a>
+                        <b>onFilterChanged</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onRefreshData"></a>
+                        <b>onRefreshData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEntity"></a>
+                    <span class="name">
+                        <b>
+                            addEntity
+                        </b>
+                        <a href="#addEntity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addEntity(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="customButtonClicked"></a>
+                    <span class="name">
+                        <b>
+                            customButtonClicked
+                        </b>
+                        <a href="#customButtonClicked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>customButtonClicked(customButton: <a href="../classes/FilterBarCustomButton.html">FilterBarCustomButton</a>, event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>customButton</td>
+                                    <td>
+                                                <code><a href="../classes/FilterBarCustomButton.html" target="_self" >FilterBarCustomButton</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteSelection"></a>
+                    <span class="name">
+                        <b>
+                            deleteSelection
+                        </b>
+                        <a href="#deleteSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteSelection(event)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterChanged"></a>
+                    <span class="name">
+                        <b>
+                            filterChanged
+                        </b>
+                        <a href="#filterChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filterChanged(event)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshDatas"></a>
+                    <span class="name">
+                        <b>
+                            refreshDatas
+                        </b>
+                        <a href="#refreshDatas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>refreshDatas(event)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="globalFilterText"></a>
+                        <span class="name">
+                            <b>
+                            globalFilterText</b>
+                            <a href="#globalFilterText"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;&#x27;</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar class&#x3D;&quot;filter-bar-toolbar&quot;&gt;
+  &lt;mat-toolbar-row class&#x3D;&quot;filter-bar&quot; *ngIf&#x3D;&quot;selection.selected.length &#x3D;&#x3D; 0&quot;&gt;
+    &lt;div class&#x3D;&quot;left&quot;&gt;
+      &lt;button mat-button color&#x3D;&quot;primary&quot;  *ngIf&#x3D;&quot;showAddButton&quot; (click)&#x3D;&quot;addEntity($event)&quot;&gt;
+        &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+        {{ addButtonLabel }}
+      &lt;/button&gt;
+      &lt;button mat-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;customButtonClicked(customButton,$event)&quot; *ngFor&#x3D;&quot;let customButton of customButtons&quot;&gt;
+          &lt;mat-icon&gt;{{ customButton.matIcon }}&lt;/mat-icon&gt;
+          {{ customButton.label }}
+        &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;spacer&quot;&gt;&lt;/div&gt;
+    &lt;div class&#x3D;&quot;right&quot;&gt;
+      &lt;button mat-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;refreshDatas($event)&quot;&gt;
+        &lt;mat-icon&gt;refresh&lt;/mat-icon&gt;
+        Refresh
+      &lt;/button&gt;
+      &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;filterMenu&quot; matTooltip&#x3D;&quot;Filtres&quot; matTooltipPosition&#x3D;&quot;below&quot; [disabled]&#x3D;&quot;(filters | selectedFilter:false).length &#x3D;&#x3D; 0&quot;&gt;
+        &lt;mat-icon&gt;filter_list&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;mat-menu #filterMenu&#x3D;&quot;matMenu&quot; xPosition&#x3D;&quot;before&quot;&gt;
+        &lt;button mat-menu-item *ngFor&#x3D;&quot;let filter of (filters | selectedFilter:false)&quot; (click)&#x3D;&quot;filter.selected &#x3D; true&quot;&gt;
+          &lt;span&gt;{{ filter.label}}&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/mat-menu&gt;
+      &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;moreMenu&quot; matTooltip&#x3D;&quot;More...&quot; matTooltipPosition&#x3D;&quot;below&quot;&gt;
+        &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;mat-menu #moreMenu&#x3D;&quot;matMenu&quot; xPosition&#x3D;&quot;before&quot;&gt;
+        &lt;button mat-menu-item&gt;
+          &lt;mat-icon&gt;file_download&lt;/mat-icon&gt;
+          &lt;span&gt;Export&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;button mat-menu-item&gt;
+          &lt;mat-icon&gt;print&lt;/mat-icon&gt;
+          &lt;span&gt;Print&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/mat-menu&gt;
+    &lt;/div&gt;
+  &lt;/mat-toolbar-row&gt;
+  &lt;mat-toolbar-row class&#x3D;&quot;selected-row&quot; *ngIf&#x3D;&quot;selection.selected.length &gt; 0&quot;&gt;
+    &lt;span class&#x3D;&quot;has-text-info&quot;&gt;
+      {{ selection.selected.length }} line selected
+    &lt;/span&gt;
+    &lt;div class&#x3D;&quot;spacer&quot;&gt;&lt;/div&gt;
+    &lt;button mat-icon-button class&#x3D;&quot;&quot; (click)&#x3D;&quot;deleteSelection($event)&quot;&gt;
+      &lt;mat-icon&gt;delete&lt;/mat-icon&gt;
+    &lt;/button&gt;
+    &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;moreMenu&quot;&gt;
+      &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
+    &lt;/button&gt;
+    &lt;mat-menu #moreMenu&#x3D;&quot;matMenu&quot; xPosition&#x3D;&quot;before&quot;&gt;
+      &lt;button mat-menu-item disabled&gt;
+        &lt;mat-icon&gt;file_download&lt;/mat-icon&gt;
+        &lt;span&gt;Export selection&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;button mat-menu-item disabled&gt;
+        &lt;mat-icon&gt;print&lt;/mat-icon&gt;
+        &lt;span&gt;Print selection&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;button mat-menu-item disabled&gt;
+        &lt;mat-icon&gt;delete&lt;/mat-icon&gt;
+        &lt;span&gt;Delete selection&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/mat-menu&gt;
+  &lt;/mat-toolbar-row&gt;
+&lt;/mat-toolbar&gt;
+&lt;div class&#x3D;&quot;filter-bar&quot;&gt;
+  &lt;div class&#x3D;&quot;criteria&quot;&gt;
+    &lt;mat-form-field class&#x3D;&quot;global-fiter&quot;&gt;
+      &lt;input matInput class&#x3D;&quot;&quot; [(ngModel)]&#x3D;&quot;globalFilterText&quot; [placeholder]&#x3D;&quot;filterPlaceholder&quot; #filterInput [disabled]&#x3D;&quot;selection.selected.length &gt; 0&quot;&gt;
+      &lt;button mat-button *ngIf&#x3D;&quot;globalFilterText&quot; matSuffix mat-icon-button aria-label&#x3D;&quot;Clear&quot; (click)&#x3D;&quot;globalFilterText &#x3D;&#x27;&#x27;&quot;&gt;
+        &lt;mat-icon&gt;close&lt;/mat-icon&gt;
+      &lt;/button&gt;
+    &lt;/mat-form-field&gt;
+    &lt;dinivas-filter-criterion class&#x3D;&quot;is-hidden-touch&quot; [filter]&#x3D;&quot;filter&quot; [selection]&#x3D;&quot;selection&quot; (filterChanged)&#x3D;&quot;filterChanged(filter)&quot;
+      *ngFor&#x3D;&quot;let filter of (filters | selectedFilter:true)&quot;&gt;
+    &lt;/dinivas-filter-criterion&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./filter-bar.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;../../../../assets/styles/mixins&#x27;;
+
+@import &#x27;~@angular/material/theming&#x27;;
+
+@mixin entity-filter-bar-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .filter-bar {
+    padding: 0 16px;
+    display: flex; // flex-wrap: wrap;
+    .left {
+      button:not(first-child) {
+        margin-left: 10px;
+      }
+    }
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .criteria {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      .filter {
+        max-width: 250px;
+        &amp;.criterion {
+          padding: 0 1rem;
+          display: flex;
+          button.close {
+            top: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .mat-toolbar.filter-bar-toolbar {
+    font-size: inherit;
+    justify-content: space-between;
+    .mat-toolbar-row {
+      .spacer {
+        flex: 1 1 auto;
+      }
+      &amp;.selected-row {
+        background-color: darken($background-color, 10%);
+        @include transition(all 0.3s ease);
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .filter-bar {
+      .criteria {
+        width: 100%;
+        mat-form-field.global-fiter {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-toolbar class="filter-bar-toolbar">  <mat-toolbar-row class="filter-bar" *ngIf="selection.selected.length == 0">    <div class="left">      <button mat-button color="primary"  *ngIf="showAddButton" (click)="addEntity($event)">        <mat-icon>add</mat-icon>        {{ addButtonLabel }}      </button>      <button mat-button color="primary" (click)="customButtonClicked(customButton,$event)" *ngFor="let customButton of customButtons">          <mat-icon>{{ customButton.matIcon }}</mat-icon>          {{ customButton.label }}        </button>    </div>    <div class="spacer"></div>    <div class="right">      <button mat-button color="primary" (click)="refreshDatas($event)">        <mat-icon>refresh</mat-icon>        Refresh      </button>      <button mat-icon-button [matMenuTriggerFor]="filterMenu" matTooltip="Filtres" matTooltipPosition="below" [disabled]="(filters | selectedFilter:false).length == 0">        <mat-icon>filter_list</mat-icon>      </button>      <mat-menu #filterMenu="matMenu" xPosition="before">        <button mat-menu-item *ngFor="let filter of (filters | selectedFilter:false)" (click)="filter.selected = true">          <span>{{ filter.label}}</span>        </button>      </mat-menu>      <button mat-icon-button [matMenuTriggerFor]="moreMenu" matTooltip="More..." matTooltipPosition="below">        <mat-icon>more_vert</mat-icon>      </button>      <mat-menu #moreMenu="matMenu" xPosition="before">        <button mat-menu-item>          <mat-icon>file_download</mat-icon>          <span>Export</span>        </button>        <button mat-menu-item>          <mat-icon>print</mat-icon>          <span>Print</span>        </button>      </mat-menu>    </div>  </mat-toolbar-row>  <mat-toolbar-row class="selected-row" *ngIf="selection.selected.length > 0">    <span class="has-text-info">      {{ selection.selected.length }} line selected    </span>    <div class="spacer"></div>    <button mat-icon-button class="" (click)="deleteSelection($event)">      <mat-icon>delete</mat-icon>    </button>    <button mat-icon-button [matMenuTriggerFor]="moreMenu">      <mat-icon>more_vert</mat-icon>    </button>    <mat-menu #moreMenu="matMenu" xPosition="before">      <button mat-menu-item disabled>        <mat-icon>file_download</mat-icon>        <span>Export selection</span>      </button>      <button mat-menu-item disabled>        <mat-icon>print</mat-icon>        <span>Print selection</span>      </button>      <button mat-menu-item disabled>        <mat-icon>delete</mat-icon>        <span>Delete selection</span>      </button>    </mat-menu>  </mat-toolbar-row></mat-toolbar><div class="filter-bar">  <div class="criteria">    <mat-form-field class="global-fiter">      <input matInput class="" [(ngModel)]="globalFilterText" [placeholder]="filterPlaceholder" #filterInput [disabled]="selection.selected.length > 0">      <button mat-button *ngIf="globalFilterText" matSuffix mat-icon-button aria-label="Clear" (click)="globalFilterText =\'\'">        <mat-icon>close</mat-icon>      </button>    </mat-form-field>    <dinivas-filter-criterion class="is-hidden-touch" [filter]="filter" [selection]="selection" (filterChanged)="filterChanged(filter)"      *ngFor="let filter of (filters | selectedFilter:true)">    </dinivas-filter-criterion>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'app-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'app-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'app-snack-alert-warning'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'FilterBarComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'FilterBarComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

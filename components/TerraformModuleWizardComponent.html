@@ -1,0 +1,1788 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>TerraformModuleWizardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/console/src/app/shared/terraform/terraform-module-wizard/terraform-module-wizard.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-terraform-module-wizard</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./terraform-module-wizard.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./terraform-module-wizard.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#_wizardStepper">_wizardStepper</a>
+                            </li>
+                            <li>
+                                <a href="#applyInProgress">applyInProgress</a>
+                            </li>
+                            <li>
+                                <a href="#applyStepFinished">applyStepFinished</a>
+                            </li>
+                            <li>
+                                <a href="#architectureType">architectureType</a>
+                            </li>
+                            <li>
+                                <a href="#architectureTypeForm">architectureTypeForm</a>
+                            </li>
+                            <li>
+                                <a href="#architectureTypes">architectureTypes</a>
+                            </li>
+                            <li>
+                                <a href="#childConponentRef">childConponentRef</a>
+                            </li>
+                            <li>
+                                <a href="#cloudFlavors">cloudFlavors</a>
+                            </li>
+                            <li>
+                                <a href="#cloudImages">cloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#isLinear">isLinear</a>
+                            </li>
+                            <li>
+                                <a href="#moduleWizard">moduleWizard</a>
+                            </li>
+                            <li>
+                                <a href="#planInProgress">planInProgress</a>
+                            </li>
+                            <li>
+                                <a href="#planStepFinished">planStepFinished</a>
+                            </li>
+                            <li>
+                                <a href="#shouldShowSensitiveData">shouldShowSensitiveData</a>
+                            </li>
+                            <li>
+                                <a href="#showingDirectOutput">showingDirectOutput</a>
+                            </li>
+                            <li>
+                                <a href="#terraformApplyEvent">terraformApplyEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformModuleWizardVarsDirective">terraformModuleWizardVarsDirective</a>
+                            </li>
+                            <li>
+                                <a href="#terraformPlanEvent">terraformPlanEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformStateOutputs">terraformStateOutputs</a>
+                            </li>
+                            <li>
+                                <a href="#varsProvider">varsProvider</a>
+                            </li>
+                            <li>
+                                <a href="#wizardStepper">wizardStepper</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyPlan">applyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#initArchitectureTypeSelection">initArchitectureTypeSelection</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onApplyApplied">onApplyApplied</a>
+                            </li>
+                            <li>
+                                <a href="#onPlanApplied">onPlanApplied</a>
+                            </li>
+                            <li>
+                                <a href="#onSelectArchitectureType">onSelectArchitectureType</a>
+                            </li>
+                            <li>
+                                <a href="#onShowOutputApplied">onShowOutputApplied</a>
+                            </li>
+                            <li>
+                                <a href="#planModule">planModule</a>
+                            </li>
+                            <li>
+                                <a href="#shouldSelectArchitecture">shouldSelectArchitecture</a>
+                            </li>
+                            <li>
+                                <a href="#submitApplyPlan">submitApplyPlan</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#_wizardStepperRef">_wizardStepperRef</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(componentFactoryResolver: <a href="https://angular.io/api/core/ComponentFactoryResolver" target="_blank">ComponentFactoryResolver</a>, terraformWebSocket: <a href="../injectables/TerraformWebSocket.html">TerraformWebSocket</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, alertService: <a href="../injectables/AlertService.html">AlertService</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>)</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>componentFactoryResolver</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ComponentFactoryResolver" target="_blank" >ComponentFactoryResolver</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>terraformWebSocket</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TerraformWebSocket.html" target="_self" >TerraformWebSocket</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>alertService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AlertService.html" target="_self" >AlertService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyPlan"></a>
+                    <span class="name">
+                        <b>
+                            applyPlan
+                        </b>
+                        <a href="#applyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyPlan(moduleEntity: T)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initArchitectureTypeSelection"></a>
+                    <span class="name">
+                        <b>
+                            initArchitectureTypeSelection
+                        </b>
+                        <a href="#initArchitectureTypeSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initArchitectureTypeSelection()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onApplyApplied"></a>
+                    <span class="name">
+                        <b>
+                            onApplyApplied
+                        </b>
+                        <a href="#onApplyApplied"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onApplyApplied($event)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPlanApplied"></a>
+                    <span class="name">
+                        <b>
+                            onPlanApplied
+                        </b>
+                        <a href="#onPlanApplied"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onPlanApplied($event)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelectArchitectureType"></a>
+                    <span class="name">
+                        <b>
+                            onSelectArchitectureType
+                        </b>
+                        <a href="#onSelectArchitectureType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSelectArchitectureType($event, architectureTypeForm: <a href="https://angular.io/api/forms/NgForm" target="_blank">NgForm</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$event</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>architectureTypeForm</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/NgForm" target="_blank" >NgForm</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onShowOutputApplied"></a>
+                    <span class="name">
+                        <b>
+                            onShowOutputApplied
+                        </b>
+                        <a href="#onShowOutputApplied"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onShowOutputApplied(event)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="planModule"></a>
+                    <span class="name">
+                        <b>
+                            planModule
+                        </b>
+                        <a href="#planModule"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>planModule(moduleEntity: T)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldSelectArchitecture"></a>
+                    <span class="name">
+                        <b>
+                            shouldSelectArchitecture
+                        </b>
+                        <a href="#shouldSelectArchitecture"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>shouldSelectArchitecture()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitApplyPlan"></a>
+                    <span class="name">
+                        <b>
+                            submitApplyPlan
+                        </b>
+                        <a href="#submitApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitApplyPlan(moduleEntity: T)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_wizardStepper"></a>
+                        <span class="name">
+                            <b>
+                            _wizardStepper</b>
+                            <a href="#_wizardStepper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;MatVerticalStepper&gt;()</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="applyInProgress"></a>
+                        <span class="name">
+                            <b>
+                            applyInProgress</b>
+                            <a href="#applyInProgress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="applyStepFinished"></a>
+                        <span class="name">
+                            <b>
+                            applyStepFinished</b>
+                            <a href="#applyStepFinished"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="architectureType"></a>
+                        <span class="name">
+                            <b>
+                            architectureType</b>
+                            <a href="#architectureType"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="architectureTypeForm"></a>
+                        <span class="name">
+                            <b>
+                            architectureTypeForm</b>
+                            <a href="#architectureTypeForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="architectureTypes"></a>
+                        <span class="name">
+                            <b>
+                            architectureTypes</b>
+                            <a href="#architectureTypes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="childConponentRef"></a>
+                        <span class="name">
+                            <b>
+                            childConponentRef</b>
+                            <a href="#childConponentRef"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ComponentRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudFlavors"></a>
+                        <span class="name">
+                            <b>
+                            cloudFlavors</b>
+                            <a href="#cloudFlavors"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiFlavor[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudImages"></a>
+                        <span class="name">
+                            <b>
+                            cloudImages</b>
+                            <a href="#cloudImages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLinear"></a>
+                        <span class="name">
+                            <b>
+                            isLinear</b>
+                            <a href="#isLinear"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="moduleWizard"></a>
+                        <span class="name">
+                            <b>
+                            moduleWizard</b>
+                            <a href="#moduleWizard"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TerraformModuleWizard&lt;T&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="planInProgress"></a>
+                        <span class="name">
+                            <b>
+                            planInProgress</b>
+                            <a href="#planInProgress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="planStepFinished"></a>
+                        <span class="name">
+                            <b>
+                            planStepFinished</b>
+                            <a href="#planStepFinished"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shouldShowSensitiveData"></a>
+                        <span class="name">
+                            <b>
+                            shouldShowSensitiveData</b>
+                            <a href="#shouldShowSensitiveData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showingDirectOutput"></a>
+                        <span class="name">
+                            <b>
+                            showingDirectOutput</b>
+                            <a href="#showingDirectOutput"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformApplyEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformApplyEvent</b>
+                            <a href="#terraformApplyEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformApplyEvent.html" target="_self" >TerraformApplyEvent&lt;T&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformModuleWizardVarsDirective"></a>
+                        <span class="name">
+                            <b>
+                            terraformModuleWizardVarsDirective</b>
+                            <a href="#terraformModuleWizardVarsDirective"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TerraformModuleWizardVarsDirective</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(TerraformModuleWizardVarsDirective, {static: true})<br />
+                            </code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformPlanEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformPlanEvent</b>
+                            <a href="#terraformPlanEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformPlanEvent.html" target="_self" >TerraformPlanEvent&lt;T&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformStateOutputs"></a>
+                        <span class="name">
+                            <b>
+                            terraformStateOutputs</b>
+                            <a href="#terraformStateOutputs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="varsProvider"></a>
+                        <span class="name">
+                            <b>
+                            varsProvider</b>
+                            <a href="#varsProvider"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformModuleWizardVarsProvider.html" target="_self" >TerraformModuleWizardVarsProvider&lt;T&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="wizardStepper"></a>
+                        <span class="name">
+                            <b>
+                            wizardStepper</b>
+                            <a href="#wizardStepper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatVerticalStepper</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_wizardStepperRef"></a>
+                        <span class="name"><b>_wizardStepperRef</b><a href="#_wizardStepperRef"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>_wizardStepperRef(stepper)</code></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>stepper</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar class&#x3D;&quot;mat-toolbar header-toolbar&quot; *ngIf&#x3D;&quot;!moduleWizard.moduleEntity&quot;&gt;
+  &lt;button
+    mat-icon-button
+    color&#x3D;&quot;primary&quot;
+    [routerLink]&#x3D;&quot;moduleWizard.backButtonRouterLink&quot;
+    queryParamsHandling&#x3D;&quot;merge&quot;
+  &gt;
+    &lt;mat-icon&gt;arrow_back&lt;/mat-icon&gt;
+  &lt;/button&gt;
+  &lt;span class&#x3D;&quot;page-title&quot;&gt;{{
+    !moduleWizard.moduleEntity
+      ? &#x27;New &#x27; + moduleWizard.moduleEntityName + &#x27; creation wizard&#x27;
+      : &#x27;Edit &#x27; + moduleWizard.moduleEntityName + &#x27; &#x27; + moduleWizard.moduleEntity.code +&#x27; wizard&#x27;
+  }}&lt;/span&gt;
+&lt;/mat-toolbar&gt;
+
+&lt;mat-vertical-stepper [linear]&#x3D;&quot;isLinear&quot; #stepper&gt;
+  &lt;mat-step
+    *ngIf&#x3D;&quot;shouldSelectArchitecture()&quot;
+    [stepControl]&#x3D;&quot;architectureTypeForm&quot;
+  &gt;
+    &lt;ng-template matStepLabel&gt;Select your deploiement architecture&lt;/ng-template&gt;
+
+    &lt;div class&#x3D;&quot;form-container&quot;&gt;
+      &lt;form
+        [formGroup]&#x3D;&quot;architectureTypeForm&quot;
+        #architectureTypeFormElement&#x3D;&quot;ngForm&quot;
+      &gt;
+        &lt;dinivas-architecture-type-radios
+          formControlName&#x3D;&quot;architecture_type&quot;
+          (onSelect)&#x3D;&quot;onSelectArchitectureType($event)&quot;
+          [label]&#x3D;&quot;
+            &#x27;Select your &#x27; + moduleWizard.moduleEntityName + &#x27; deploiement type&#x27;
+          &quot;
+          [architectureTypes]&#x3D;&quot;architectureTypes&quot;
+        &gt;&lt;/dinivas-architecture-type-radios&gt;
+        &lt;div class&#x3D;&quot;actions&quot;&gt;
+          &lt;button
+            mat-button
+            [routerLink]&#x3D;&quot;moduleWizard.backButtonRouterLink&quot;
+            queryParamsHandling&#x3D;&quot;merge&quot;
+            type&#x3D;&quot;button&quot;
+          &gt;
+            Cancel
+          &lt;/button&gt;
+          &lt;button
+            mat-button
+            matStepperNext
+            color&#x3D;&quot;primary&quot;
+            [disabled]&#x3D;&quot;!architectureTypeForm?.valid&quot;
+          &gt;
+            Next
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+  &lt;mat-step [completed]&#x3D;&quot;planStepFinished&quot;&gt;
+    &lt;ng-template matStepLabel
+      &gt;{{ moduleWizard.moduleEntityName }} informations -
+      &lt;span class&#x3D;&quot;text-warn&quot;
+        &gt;This step will not create any resources&lt;/span
+      &gt;&lt;/ng-template
+    &gt;
+    &lt;div class&#x3D;&quot;form-container&quot;&gt;
+      &lt;div class&#x3D;&quot;spinner-container&quot; *ngIf&#x3D;&quot;planInProgress&quot;&gt;
+        &lt;mat-spinner&gt;&lt;/mat-spinner&gt;
+        &lt;span
+          &gt;We are planning your {{ moduleWizard.moduleEntityName }} resources
+          changes, wait a moment...&lt;/span
+        &gt;
+      &lt;/div&gt;
+      &lt;ng-template
+        dinivasTerraformModuleWizardVars
+        (planApplied)&#x3D;&quot;onPlanApplied($event)&quot;
+        (applyApplied)&#x3D;&quot;onApplyApplied($event)&quot;
+        (showOutputApplied)&#x3D;&quot;onShowOutputApplied($event)&quot;
+      &gt;&lt;/ng-template&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+  &lt;mat-step [completed]&#x3D;&quot;applyStepFinished&quot; [editable]&#x3D;&quot;!showingDirectOutput&quot;&gt;
+    &lt;div class&#x3D;&quot;apply-container&quot;&gt;
+      &lt;div class&#x3D;&quot;spinner-container&quot; *ngIf&#x3D;&quot;applyInProgress&quot;&gt;
+        &lt;mat-spinner&gt;&lt;/mat-spinner&gt;
+        &lt;span
+          &gt;We are applying {{ moduleWizard.moduleEntityName }} changes on your
+          infrastructure, wait a moment...&lt;/span
+        &gt;
+      &lt;/div&gt;
+      &lt;ng-template matStepLabel
+        &gt;Check and validate resources to be created -
+        &lt;span class&#x3D;&quot;text-warn&quot;&gt;This step will not create any resources&lt;/span&gt;
+      &lt;/ng-template&gt;
+      &lt;div class&#x3D;&quot;tf-plan-resources-container&quot;&gt;
+        &lt;dinivas-terraform-representation
+          [planRepresentation]&#x3D;&quot;terraformPlanEvent?.planResult&quot;
+        &gt;
+        &lt;/dinivas-terraform-representation&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;actions&quot;&gt;
+        &lt;button
+          mat-button
+          [routerLink]&#x3D;&quot;moduleWizard.backButtonRouterLink&quot;
+          queryParamsHandling&#x3D;&quot;merge&quot;
+          type&#x3D;&quot;button&quot;
+        &gt;
+          Cancel
+        &lt;/button&gt;
+        &lt;button mat-button matStepperPrevious class&#x3D;&quot;ml-10&quot;&gt;Back&lt;/button&gt;
+        &lt;button
+          mat-raised-button
+          color&#x3D;&quot;primary&quot;
+          (click)&#x3D;&quot;submitApplyPlan(moduleWizard.moduleEntity)&quot;
+          class&#x3D;&quot;ml-10&quot;
+        &gt;
+          {{ !moduleWizard.moduleEntity?.id ? &#x27;Save &amp; &#x27; : &#x27;Update &amp; &#x27; }} apply
+          resources changes
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+  &lt;mat-step&gt;
+    &lt;div&gt;
+      &lt;ng-template matStepLabel
+        &gt;View {{ moduleWizard.moduleEntityName }} infrastructure informations
+      &lt;/ng-template&gt;
+      &lt;mat-list *ngIf&#x3D;&quot;applyStepFinished&quot; dense&gt;
+        &lt;mat-list-item
+          *ngFor&#x3D;&quot;let output of (terraformStateOutputs | keyvalue)&quot;
+        &gt;
+          &lt;mat-icon
+            *ngIf&#x3D;&quot;
+              output.value.sensitive &amp;&amp; !shouldShowSensitiveData[output.key]
+            &quot;
+            (click)&#x3D;&quot;
+              shouldShowSensitiveData[output.key] &#x3D; !shouldShowSensitiveData[
+                output.key
+              ]
+            &quot;
+            &gt;visibility&lt;/mat-icon
+          &gt;
+          &lt;mat-icon
+            *ngIf&#x3D;&quot;
+              output.value.sensitive &amp;&amp; shouldShowSensitiveData[output.key]
+            &quot;
+            (click)&#x3D;&quot;
+              shouldShowSensitiveData[output.key] &#x3D; !shouldShowSensitiveData[
+                output.key
+              ]
+            &quot;
+            &gt;visibility_off
+          &lt;/mat-icon&gt;
+          &lt;mat-icon *ngIf&#x3D;&quot;!output.value.sensitive&quot;&gt;info&lt;/mat-icon&gt;
+          &lt;h3 matLine&gt;
+            {{ output.key }}:&lt;strong
+              class&#x3D;&quot;ml-10&quot;
+              *ngIf&#x3D;&quot;
+                !output.value.sensitive ||
+                (output.value.sensitive &amp;&amp; shouldShowSensitiveData[output.key])
+              &quot;
+              &gt;{{ output.value.value }}&lt;/strong
+            &gt;
+          &lt;/h3&gt;
+        &lt;/mat-list-item&gt;
+      &lt;/mat-list&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;actions&quot;&gt;
+      &lt;button
+        mat-raised-button
+        color&#x3D;&quot;primary&quot;
+        [routerLink]&#x3D;&quot;moduleWizard.backButtonRouterLink&quot;
+      &gt;
+        Done !
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/mat-step&gt;
+&lt;/mat-vertical-stepper&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./terraform-module-wizard.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;~@angular/material/theming&#x27;;
+
+@mixin terraform-module-wizard-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .mat-stepper-vertical {
+    background-color: $background-color;
+    max-width: 1400px;
+  }
+
+  .form-container {
+    margin: 20px 10px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
+    }
+    .no-data-checkbox {
+      font-size: 14px;
+      padding: 15px 10px;
+      margin: 20px 0px;
+      background-color: $background-color;
+      text-align: center;
+    }
+  }
+
+  .apply-container {
+    min-height: 300px;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    max-width: 90%;
+  }
+
+  .tf-plan-resources-container {
+    margin: 20px 10px;
+  }
+  dinivas-cloud-image-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+
+  dinivas-cloud-flavor-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+  dinivas-architecture-type-radios {
+    // max-width: 600px;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-toolbar class="mat-toolbar header-toolbar" *ngIf="!moduleWizard.moduleEntity">  <button    mat-icon-button    color="primary"    [routerLink]="moduleWizard.backButtonRouterLink"    queryParamsHandling="merge"  >    <mat-icon>arrow_back</mat-icon>  </button>  <span class="page-title">{{    !moduleWizard.moduleEntity      ? \'New \' + moduleWizard.moduleEntityName + \' creation wizard\'      : \'Edit \' + moduleWizard.moduleEntityName + \' \' + moduleWizard.moduleEntity.code +\' wizard\'  }}</span></mat-toolbar><mat-vertical-stepper [linear]="isLinear" #stepper>  <mat-step    *ngIf="shouldSelectArchitecture()"    [stepControl]="architectureTypeForm"  >    <ng-template matStepLabel>Select your deploiement architecture</ng-template>    <div class="form-container">      <form        [formGroup]="architectureTypeForm"        #architectureTypeFormElement="ngForm"      >        <dinivas-architecture-type-radios          formControlName="architecture_type"          (onSelect)="onSelectArchitectureType($event)"          [label]="            \'Select your \' + moduleWizard.moduleEntityName + \' deploiement type\'          "          [architectureTypes]="architectureTypes"        ></dinivas-architecture-type-radios>        <div class="actions">          <button            mat-button            [routerLink]="moduleWizard.backButtonRouterLink"            queryParamsHandling="merge"            type="button"          >            Cancel          </button>          <button            mat-button            matStepperNext            color="primary"            [disabled]="!architectureTypeForm?.valid"          >            Next          </button>        </div>      </form>    </div>  </mat-step>  <mat-step [completed]="planStepFinished">    <ng-template matStepLabel      >{{ moduleWizard.moduleEntityName }} informations -      <span class="text-warn"        >This step will not create any resources</span      ></ng-template    >    <div class="form-container">      <div class="spinner-container" *ngIf="planInProgress">        <mat-spinner></mat-spinner>        <span          >We are planning your {{ moduleWizard.moduleEntityName }} resources          changes, wait a moment...</span        >      </div>      <ng-template        dinivasTerraformModuleWizardVars        (planApplied)="onPlanApplied($event)"        (applyApplied)="onApplyApplied($event)"        (showOutputApplied)="onShowOutputApplied($event)"      ></ng-template>    </div>  </mat-step>  <mat-step [completed]="applyStepFinished" [editable]="!showingDirectOutput">    <div class="apply-container">      <div class="spinner-container" *ngIf="applyInProgress">        <mat-spinner></mat-spinner>        <span          >We are applying {{ moduleWizard.moduleEntityName }} changes on your          infrastructure, wait a moment...</span        >      </div>      <ng-template matStepLabel        >Check and validate resources to be created -        <span class="text-warn">This step will not create any resources</span>      </ng-template>      <div class="tf-plan-resources-container">        <dinivas-terraform-representation          [planRepresentation]="terraformPlanEvent?.planResult"        >        </dinivas-terraform-representation>      </div>      <div class="actions">        <button          mat-button          [routerLink]="moduleWizard.backButtonRouterLink"          queryParamsHandling="merge"          type="button"        >          Cancel        </button>        <button mat-button matStepperPrevious class="ml-10">Back</button>        <button          mat-raised-button          color="primary"          (click)="submitApplyPlan(moduleWizard.moduleEntity)"          class="ml-10"        >          {{ !moduleWizard.moduleEntity?.id ? \'Save & \' : \'Update & \' }} apply          resources changes        </button>      </div>    </div>  </mat-step>  <mat-step>    <div>      <ng-template matStepLabel        >View {{ moduleWizard.moduleEntityName }} infrastructure informations      </ng-template>      <mat-list *ngIf="applyStepFinished" dense>        <mat-list-item          *ngFor="let output of (terraformStateOutputs | keyvalue)"        >          <mat-icon            *ngIf="              output.value.sensitive && !shouldShowSensitiveData[output.key]            "            (click)="              shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[                output.key              ]            "            >visibility</mat-icon          >          <mat-icon            *ngIf="              output.value.sensitive && shouldShowSensitiveData[output.key]            "            (click)="              shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[                output.key              ]            "            >visibility_off          </mat-icon>          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>          <h3 matLine>            {{ output.key }}:<strong              class="ml-10"              *ngIf="                !output.value.sensitive ||                (output.value.sensitive && shouldShowSensitiveData[output.key])              "              >{{ output.value.value }}</strong            >          </h3>        </mat-list-item>      </mat-list>    </div>    <div class="actions">      <button        mat-raised-button        color="primary"        [routerLink]="moduleWizard.backButtonRouterLink"      >        Done !      </button>    </div>  </mat-step></mat-vertical-stepper></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'app-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'app-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'app-snack-alert-warning'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'TerraformModuleWizardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TerraformModuleWizardComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

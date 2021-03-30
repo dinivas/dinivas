@@ -1,0 +1,1928 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>RabbitmqWizardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/console/src/app/messaging/rabbitmq/rabbitmq-wizard/rabbitmq-wizard.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewChecked" target="_blank" >AfterViewChecked</a></code>
+                    <code><a href="../interfaces/TerraformModuleWizardVarsProvider.html" target="_self" >TerraformModuleWizardVarsProvider</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-rabbitmq-wizard</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./rabbitmq-wizard.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./rabbitmq-wizard.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyApplied">applyApplied</a>
+                            </li>
+                            <li>
+                                <a href="#architectureType">architectureType</a>
+                            </li>
+                            <li>
+                                <a href="#availableRabbitmqPlugins">availableRabbitmqPlugins</a>
+                            </li>
+                            <li>
+                                <a href="#cloudFlavors">cloudFlavors</a>
+                            </li>
+                            <li>
+                                <a href="#cloudImages">cloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#moduleWizardStepper">moduleWizardStepper</a>
+                            </li>
+                            <li>
+                                <a href="#onArchitectureTypeChanged">onArchitectureTypeChanged</a>
+                            </li>
+                            <li>
+                                <a href="#planApplied">planApplied</a>
+                            </li>
+                            <li>
+                                <a href="#preSelectedRabbitmqPlugins">preSelectedRabbitmqPlugins</a>
+                            </li>
+                            <li>
+                                <a href="#project">project</a>
+                            </li>
+                            <li>
+                                <a href="#projectKeypair">projectKeypair</a>
+                            </li>
+                            <li>
+                                <a href="#projectNetwork">projectNetwork</a>
+                            </li>
+                            <li>
+                                <a href="#projectNetworkSubnet">projectNetworkSubnet</a>
+                            </li>
+                            <li>
+                                <a href="#projectTfState">projectTfState</a>
+                            </li>
+                            <li>
+                                <a href="#projectTfStateSubject">projectTfStateSubject</a>
+                            </li>
+                            <li>
+                                <a href="#rabbitmq">rabbitmq</a>
+                            </li>
+                            <li>
+                                <a href="#rabbitmqForm">rabbitmqForm</a>
+                            </li>
+                            <li>
+                                <a href="#remainingAvailableRabbitmqPlugins">remainingAvailableRabbitmqPlugins</a>
+                            </li>
+                            <li>
+                                <a href="#selectedRabbitmqPlugins">selectedRabbitmqPlugins</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#separatorKeysCodes">separatorKeysCodes</a>
+                            </li>
+                            <li>
+                                <a href="#shouldShowSensitiveData">shouldShowSensitiveData</a>
+                            </li>
+                            <li>
+                                <a href="#showingDirectOutput">showingDirectOutput</a>
+                            </li>
+                            <li>
+                                <a href="#showOutputApplied">showOutputApplied</a>
+                            </li>
+                            <li>
+                                <a href="#terraformApplyEvent">terraformApplyEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformPlanEvent">terraformPlanEvent</a>
+                            </li>
+                            <li>
+                                <a href="#terraformStateOutputs">terraformStateOutputs</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addPluginToSelected">addPluginToSelected</a>
+                            </li>
+                            <li>
+                                <a href="#initRabbitMQForm">initRabbitMQForm</a>
+                            </li>
+                            <li>
+                                <a href="#isFormValid">isFormValid</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServiceApplyPlan">moduleServiceApplyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServicePlan">moduleServicePlan</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServiceTerraformState">moduleServiceTerraformState</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewChecked">ngAfterViewChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#prepareRabbitMQDTOBeforeSendToServer">prepareRabbitMQDTOBeforeSendToServer</a>
+                            </li>
+                            <li>
+                                <a href="#removePLugin">removePLugin</a>
+                            </li>
+                            <li>
+                                <a href="#submitApplyPlan">submitApplyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#submitPlanRabbitMQ">submitPlanRabbitMQ</a>
+                            </li>
+                            <li>
+                                <a href="#terraformWebsocketEventId">terraformWebsocketEventId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, rabbitmqService: <a href="../injectables/RabbitMQService.html">RabbitMQService</a>, confirmService: <a href="../injectables/ConfirmDialogService.html">ConfirmDialogService</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>rabbitmqService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RabbitMQService.html" target="_self" >RabbitMQService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>confirmService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfirmDialogService.html" target="_self" >ConfirmDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addPluginToSelected"></a>
+                    <span class="name">
+                        <b>
+                            addPluginToSelected
+                        </b>
+                        <a href="#addPluginToSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addPluginToSelected(event: MatAutocompleteSelectedEvent)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MatAutocompleteSelectedEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initRabbitMQForm"></a>
+                    <span class="name">
+                        <b>
+                            initRabbitMQForm
+                        </b>
+                        <a href="#initRabbitMQForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initRabbitMQForm()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFormValid"></a>
+                    <span class="name">
+                        <b>
+                            isFormValid
+                        </b>
+                        <a href="#isFormValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isFormValid()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServiceApplyPlan"></a>
+                    <span class="name">
+                        <b>
+                            moduleServiceApplyPlan
+                        </b>
+                        <a href="#moduleServiceApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServiceApplyPlan(moduleEntity: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>, terraformPlanEvent: <a href="../interfaces/TerraformPlanEvent.html">TerraformPlanEvent<RabbitMQDTO></a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>terraformPlanEvent</td>
+                                    <td>
+                                                <code><a href="../interfaces/TerraformPlanEvent.html" target="_self" >TerraformPlanEvent&lt;RabbitMQDTO&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServicePlan"></a>
+                    <span class="name">
+                        <b>
+                            moduleServicePlan
+                        </b>
+                        <a href="#moduleServicePlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServicePlan(moduleEntity: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServiceTerraformState"></a>
+                    <span class="name">
+                        <b>
+                            moduleServiceTerraformState
+                        </b>
+                        <a href="#moduleServiceTerraformState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServiceTerraformState(moduleEntity: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewChecked"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterViewChecked
+                        </b>
+                        <a href="#ngAfterViewChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewChecked()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareRabbitMQDTOBeforeSendToServer"></a>
+                    <span class="name">
+                        <b>
+                            prepareRabbitMQDTOBeforeSendToServer
+                        </b>
+                        <a href="#prepareRabbitMQDTOBeforeSendToServer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prepareRabbitMQDTOBeforeSendToServer(rabbitmq: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rabbitmq</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removePLugin"></a>
+                    <span class="name">
+                        <b>
+                            removePLugin
+                        </b>
+                        <a href="#removePLugin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removePLugin(plugin: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>plugin</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitApplyPlan"></a>
+                    <span class="name">
+                        <b>
+                            submitApplyPlan
+                        </b>
+                        <a href="#submitApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitApplyPlan(rabbitmq: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rabbitmq</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitPlanRabbitMQ"></a>
+                    <span class="name">
+                        <b>
+                            submitPlanRabbitMQ
+                        </b>
+                        <a href="#submitPlanRabbitMQ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitPlanRabbitMQ(rabbitmq: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rabbitmq</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="terraformWebsocketEventId"></a>
+                    <span class="name">
+                        <b>
+                            terraformWebsocketEventId
+                        </b>
+                        <a href="#terraformWebsocketEventId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>terraformWebsocketEventId(moduleEntity: <a href="../classes/RabbitMQDTO.html">RabbitMQDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="applyApplied"></a>
+                        <span class="name">
+                            <b>
+                            applyApplied</b>
+                            <a href="#applyApplied"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="architectureType"></a>
+                        <span class="name">
+                            <b>
+                            architectureType</b>
+                            <a href="#architectureType"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="availableRabbitmqPlugins"></a>
+                        <span class="name">
+                            <b>
+                            availableRabbitmqPlugins</b>
+                            <a href="#availableRabbitmqPlugins"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[
+    &#x27;rabbitmq_amqp1_0&#x27;,
+    &#x27;rabbitmq_federation&#x27;,
+    &#x27;rabbitmq_federation_management&#x27;,
+    &#x27;rabbitmq_mqtt&#x27;,
+    &#x27;rabbitmq_shovel&#x27;,
+    &#x27;rabbitmq_shovel_management&#x27;,
+    &#x27;rabbitmq_stomp&#x27;
+  ]</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudFlavors"></a>
+                        <span class="name">
+                            <b>
+                            cloudFlavors</b>
+                            <a href="#cloudFlavors"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiFlavor[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cloudImages"></a>
+                        <span class="name">
+                            <b>
+                            cloudImages</b>
+                            <a href="#cloudImages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="moduleWizardStepper"></a>
+                        <span class="name">
+                            <b>
+                            moduleWizardStepper</b>
+                            <a href="#moduleWizardStepper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;MatVerticalStepper&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onArchitectureTypeChanged"></a>
+                        <span class="name">
+                            <b>
+                            onArchitectureTypeChanged</b>
+                            <a href="#onArchitectureTypeChanged"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="planApplied"></a>
+                        <span class="name">
+                            <b>
+                            planApplied</b>
+                            <a href="#planApplied"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="preSelectedRabbitmqPlugins"></a>
+                        <span class="name">
+                            <b>
+                            preSelectedRabbitmqPlugins</b>
+                            <a href="#preSelectedRabbitmqPlugins"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[
+    &#x27;rabbitmq_management&#x27;,
+    &#x27;rabbitmq_management_agent&#x27;,
+    &#x27;rabbitmq_prometheus&#x27;,
+    &#x27;rabbitmq_peer_discovery_consul&#x27;
+  ]</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="project"></a>
+                        <span class="name">
+                            <b>
+                            project</b>
+                            <a href="#project"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectKeypair"></a>
+                        <span class="name">
+                            <b>
+                            projectKeypair</b>
+                            <a href="#projectKeypair"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectNetwork"></a>
+                        <span class="name">
+                            <b>
+                            projectNetwork</b>
+                            <a href="#projectNetwork"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectNetworkSubnet"></a>
+                        <span class="name">
+                            <b>
+                            projectNetworkSubnet</b>
+                            <a href="#projectNetworkSubnet"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectTfState"></a>
+                        <span class="name">
+                            <b>
+                            projectTfState</b>
+                            <a href="#projectTfState"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectTfStateSubject"></a>
+                        <span class="name">
+                            <b>
+                            projectTfStateSubject</b>
+                            <a href="#projectTfStateSubject"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;any&gt;()</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rabbitmq"></a>
+                        <span class="name">
+                            <b>
+                            rabbitmq</b>
+                            <a href="#rabbitmq"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/RabbitMQDTO.html" target="_self" >RabbitMQDTO</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rabbitmqForm"></a>
+                        <span class="name">
+                            <b>
+                            rabbitmqForm</b>
+                            <a href="#rabbitmqForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="remainingAvailableRabbitmqPlugins"></a>
+                        <span class="name">
+                            <b>
+                            remainingAvailableRabbitmqPlugins</b>
+                            <a href="#remainingAvailableRabbitmqPlugins"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Array.from(
+    this.availableRabbitmqPlugins
+  )</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedRabbitmqPlugins"></a>
+                        <span class="name">
+                            <b>
+                            selectedRabbitmqPlugins</b>
+                            <a href="#selectedRabbitmqPlugins"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Array.from(
+    this.preSelectedRabbitmqPlugins
+  )</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="separatorKeysCodes"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            separatorKeysCodes</b>
+                            <a href="#separatorKeysCodes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>number[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[ENTER, COMMA]</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shouldShowSensitiveData"></a>
+                        <span class="name">
+                            <b>
+                            shouldShowSensitiveData</b>
+                            <a href="#shouldShowSensitiveData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showingDirectOutput"></a>
+                        <span class="name">
+                            <b>
+                            showingDirectOutput</b>
+                            <a href="#showingDirectOutput"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showOutputApplied"></a>
+                        <span class="name">
+                            <b>
+                            showOutputApplied</b>
+                            <a href="#showOutputApplied"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformApplyEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformApplyEvent</b>
+                            <a href="#terraformApplyEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformApplyEvent.html" target="_self" >TerraformApplyEvent&lt;RabbitMQDTO&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformPlanEvent"></a>
+                        <span class="name">
+                            <b>
+                            terraformPlanEvent</b>
+                            <a href="#terraformPlanEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/TerraformPlanEvent.html" target="_self" >TerraformPlanEvent&lt;RabbitMQDTO&gt;</a></code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="terraformStateOutputs"></a>
+                        <span class="name">
+                            <b>
+                            terraformStateOutputs</b>
+                            <a href="#terraformStateOutputs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;form [formGroup]&#x3D;&quot;rabbitmqForm&quot; *ngIf&#x3D;&quot;rabbitmqForm&quot; (ngSubmit)&#x3D;&quot;submitPlanRabbitMQ(rabbitmqForm.getRawValue())&quot;
+  class&#x3D;&quot;rabbitmq-wizard-form&quot;&gt;
+  &lt;ng-template matStepLabel&gt;RabbitMQ informations - &lt;span class&#x3D;&quot;text-warn&quot;&gt;This step will not create any
+      resources&lt;/span&gt;&lt;/ng-template&gt;
+  &lt;div class&#x3D;&quot;mat-form-container&quot; fxLayout&#x3D;&quot;column&quot;&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;RabbitMQ cluster name&lt;/mat-label&gt;
+      &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;code&quot; required&gt;
+      &lt;span *ngIf&#x3D;&quot;!rabbitmq?.id&quot; matPrefix&gt;{{ project.code.toLowerCase() }}-&lt;/span&gt;
+      &lt;mat-hint&gt;The RabbitMQ cluster nameYou can&#x27;t change it after RabbitMQ
+        creation.&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Description&lt;/mat-label&gt;
+      &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;RabbitMQ network&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;network_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectNetwork&quot;&gt;
+          {{ projectNetwork }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;RabbitMQ will be added to project Network by default&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;RabbitMQ network subnet&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;network_subnet_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectNetworkSubnet&quot;&gt;
+          {{ projectNetworkSubnet }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;RabbitMQ will be added to project Subnet by default&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;RabbitMQ instances keypair&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;keypair_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectKeypair&quot;&gt;
+          {{ projectKeypair }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;This Keypair will be added to all instances crated&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;dinivas-cloud-image-radios *ngIf&#x3D;&quot;cloudImages?.length &gt; 0; else loading_nodes_image&quot;
+      formControlName&#x3D;&quot;_cluster_cloud_image&quot; label&#x3D;&quot;Select RabbitMQ node image to use&quot; [cloudImages]&#x3D;&quot;cloudImages&quot;&gt;
+    &lt;/dinivas-cloud-image-radios&gt;
+    &lt;ng-template #loading_nodes_image&gt;
+      &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;No image that match filter found.&lt;/p&gt;
+    &lt;/ng-template&gt;
+    &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0; else loading_nodes_flavor&quot;
+      formControlName&#x3D;&quot;_cluster_cloud_flavor&quot; label&#x3D;&quot;Select RabbitMQ node flavor to use&quot; [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+    &lt;/dinivas-cloud-flavor-radios&gt;
+    &lt;ng-template #loading_nodes_flavor&gt;
+      &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;Select a cloudprovider to display &lt;strong&gt;flavors&lt;/strong&gt; for &lt;strong&gt;Cluster
+          nodes&lt;/strong&gt;&lt;/p&gt;
+    &lt;/ng-template&gt;
+    &lt;div class&#x3D;&quot;slider-container&quot;&gt;
+      &lt;span&gt;Select the number of nodes for this cluster&lt;/span&gt;
+      &lt;mat-slider class&#x3D;&quot;&quot; [class.cdk-focused]&#x3D;&quot;true&quot; formControlName&#x3D;&quot;cluster_instance_count&quot; [max]&#x3D;&quot;10&quot; [min]&#x3D;&quot;1&quot;
+        [step]&#x3D;&quot;1&quot; [thumbLabel]&#x3D;&quot;true&quot; [tickInterval]&#x3D;&quot;0&quot; [vertical]&#x3D;&quot;false&quot;&gt;
+      &lt;/mat-slider&gt;
+      {{ rabbitmqForm?.value[&#x27;cluster_instance_count&#x27;] | json}}
+    &lt;/div&gt;
+    &lt;mat-form-field class&#x3D;&quot;plugin-list-container&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-chip-list #chipList aria-label&#x3D;&quot;RabbiMQ plugins&quot; formControlName&#x3D;&quot;_enabled_plugin_list&quot;&gt;
+        &lt;mat-chip *ngFor&#x3D;&quot;let plugin of selectedRabbitmqPlugins&quot; (removed)&#x3D;&quot;removePLugin(plugin)&quot;
+          [removable]&#x3D;&quot;availableRabbitmqPlugins.indexOf(plugin) &gt; -1&quot; color&#x3D;&quot;primary&quot; selected&gt;
+          {{ plugin }}
+          &lt;mat-icon matChipRemove *ngIf&#x3D;&quot;availableRabbitmqPlugins.indexOf(plugin) &gt; -1&quot;&gt;cancel&lt;/mat-icon&gt;
+        &lt;/mat-chip&gt;
+        &lt;input placeholder&#x3D;&quot;RabbitMQ plugins&quot; [matChipInputFor]&#x3D;&quot;chipList&quot; [matAutocomplete]&#x3D;&quot;autoPlugins&quot;
+          [matChipInputSeparatorKeyCodes]&#x3D;&quot;separatorKeysCodes&quot; [matChipInputAddOnBlur]&#x3D;&quot;true&quot;&gt;
+      &lt;/mat-chip-list&gt;
+      &lt;mat-autocomplete #autoPlugins&#x3D;&quot;matAutocomplete&quot; (optionSelected)&#x3D;&quot;addPluginToSelected($event)&quot;&gt;
+        &lt;mat-option *ngFor&#x3D;&quot;let plugin of remainingAvailableRabbitmqPlugins&quot; [value]&#x3D;&quot;plugin&quot;&gt;
+          {{ plugin }}
+        &lt;/mat-option&gt;
+      &lt;/mat-autocomplete&gt;
+      &lt;mat-hint&gt;The selected plugin will be enable on the cluster&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;actions&quot;&gt;
+    &lt;button mat-button [routerLink]&#x3D;&quot;[&#x27;/messaging&#x27;, &#x27;rabbitmq&#x27;]&quot; queryParamsHandling&#x3D;&quot;merge&quot;
+      type&#x3D;&quot;button&quot;&gt;Cancel&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; mat-button matStepperPrevious&gt;Back&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; mat-button class&#x3D;&quot;ml-10&quot; *ngIf&#x3D;&quot;rabbitmq?.id &amp;&amp; isFormValid()&quot;
+      (click)&#x3D;&quot;showRabbitMQOutput(rabbitmqForm.getRawValue())&quot;&gt;Show rabbitmq
+      infra infos&lt;/button&gt;
+    &lt;button type&#x3D;&quot;submit&quot; mat-raised-button color&#x3D;&quot;primary&quot; class&#x3D;&quot;ml-10&quot;
+      [disabled]&#x3D;&quot;!isFormValid() || (isFormValid() &amp;&amp; !rabbitmqForm.dirty)&quot;&gt;Plan
+      RabbitMQ
+      resources&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./rabbitmq-wizard.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.rabbitmq-wizard-form {
+  .plugin-list-container {
+    max-width: 100%;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><form [formGroup]="rabbitmqForm" *ngIf="rabbitmqForm" (ngSubmit)="submitPlanRabbitMQ(rabbitmqForm.getRawValue())"  class="rabbitmq-wizard-form">  <ng-template matStepLabel>RabbitMQ informations - <span class="text-warn">This step will not create any      resources</span></ng-template>  <div class="mat-form-container" fxLayout="column">    <mat-form-field class="" appearance="outline">      <mat-label>RabbitMQ cluster name</mat-label>      <input type="text" matInput formControlName="code" required>      <span *ngIf="!rabbitmq?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>      <mat-hint>The RabbitMQ cluster nameYou can\'t change it after RabbitMQ        creation.</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Description</mat-label>      <textarea matInput formControlName="description" rows="3"></textarea>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>RabbitMQ network</mat-label>      <mat-select formControlName="network_name" required>        <mat-option [value]="projectNetwork">          {{ projectNetwork }}        </mat-option>      </mat-select>      <mat-hint>RabbitMQ will be added to project Network by default</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>RabbitMQ network subnet</mat-label>      <mat-select formControlName="network_subnet_name" required>        <mat-option [value]="projectNetworkSubnet">          {{ projectNetworkSubnet }}        </mat-option>      </mat-select>      <mat-hint>RabbitMQ will be added to project Subnet by default</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>RabbitMQ instances keypair</mat-label>      <mat-select formControlName="keypair_name" required>        <mat-option [value]="projectKeypair">          {{ projectKeypair }}        </mat-option>      </mat-select>      <mat-hint>This Keypair will be added to all instances crated</mat-hint>    </mat-form-field>    <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_nodes_image"      formControlName="_cluster_cloud_image" label="Select RabbitMQ node image to use" [cloudImages]="cloudImages">    </dinivas-cloud-image-radios>    <ng-template #loading_nodes_image>      <p class="no-data-checkbox">No image that match filter found.</p>    </ng-template>    <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_nodes_flavor"      formControlName="_cluster_cloud_flavor" label="Select RabbitMQ node flavor to use" [cloudFlavors]="cloudFlavors">    </dinivas-cloud-flavor-radios>    <ng-template #loading_nodes_flavor>      <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Cluster          nodes</strong></p>    </ng-template>    <div class="slider-container">      <span>Select the number of nodes for this cluster</span>      <mat-slider class="" [class.cdk-focused]="true" formControlName="cluster_instance_count" [max]="10" [min]="1"        [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">      </mat-slider>      {{ rabbitmqForm?.value[\'cluster_instance_count\'] | json}}    </div>    <mat-form-field class="plugin-list-container" appearance="outline">      <mat-chip-list #chipList aria-label="RabbiMQ plugins" formControlName="_enabled_plugin_list">        <mat-chip *ngFor="let plugin of selectedRabbitmqPlugins" (removed)="removePLugin(plugin)"          [removable]="availableRabbitmqPlugins.indexOf(plugin) > -1" color="primary" selected>          {{ plugin }}          <mat-icon matChipRemove *ngIf="availableRabbitmqPlugins.indexOf(plugin) > -1">cancel</mat-icon>        </mat-chip>        <input placeholder="RabbitMQ plugins" [matChipInputFor]="chipList" [matAutocomplete]="autoPlugins"          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">      </mat-chip-list>      <mat-autocomplete #autoPlugins="matAutocomplete" (optionSelected)="addPluginToSelected($event)">        <mat-option *ngFor="let plugin of remainingAvailableRabbitmqPlugins" [value]="plugin">          {{ plugin }}        </mat-option>      </mat-autocomplete>      <mat-hint>The selected plugin will be enable on the cluster</mat-hint>    </mat-form-field>  </div>  <div class="actions">    <button mat-button [routerLink]="[\'/messaging\', \'rabbitmq\']" queryParamsHandling="merge"      type="button">Cancel</button>    <button type="button" mat-button matStepperPrevious>Back</button>    <button type="button" mat-button class="ml-10" *ngIf="rabbitmq?.id && isFormValid()"      (click)="showRabbitMQOutput(rabbitmqForm.getRawValue())">Show rabbitmq      infra infos</button>    <button type="submit" mat-raised-button color="primary" class="ml-10"      [disabled]="!isFormValid() || (isFormValid() && !rabbitmqForm.dirty)">Plan      RabbitMQ      resources</button>  </div></form></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'app-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'app-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'app-snack-alert-warning'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'RabbitmqWizardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'RabbitmqWizardComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
