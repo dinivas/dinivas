@@ -74,7 +74,7 @@
     "angular-pipes": "^9.0.2",
     "await-to-js": "^2.1.1",
     "body-parser": "^1.19.0",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "config": "^3.2.2",
     "core-js": "^2.5.4",
     "git-repo-info": "^2.1.0",
