@@ -85,7 +85,7 @@
     "keycloak-angular": "^6.1.0",
     "keycloak-connect": "^6.0.1",
     "keycloak-request-token": "^0.1.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "material-icons": "^0.3.1",
     "ncp": "^2.0.0",
     "nest-status-monitor": "^0.1.1",
