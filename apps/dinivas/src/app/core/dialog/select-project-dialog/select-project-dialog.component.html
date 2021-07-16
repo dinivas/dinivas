@@ -1,0 +1,44 @@
+<div class="component-container select-project-dialog">
+  <mat-card class="info-card mat-elevation-z10">
+    <mat-card-header>
+      <mat-card-title>
+        {{ projects.length > 0 ? 'Please select a project before continue': 'Minimum setup is required to continue' }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngIf="cloudproviders.length === 0">
+        Many feature of Dinivas need at least one Cloud provider configuration. A cloud provider configuration indicate
+        the infrastructure to manage (Openstack, AWS, GCP, DigitalOcean...). Please create the Cloud provider configuration to
+        continue.
+      </p>
+      <p *ngIf="projects.length === 0 && cloudproviders.length > 0">
+        You must create at least one project to unlock some features because they are related to a given project. A
+        project is just a namespace to organise your resources (network for exemple).
+      </p>
+      <mat-nav-list dense *ngIf="projects.length > 0">
+        <a mat-list-item [routerLink]="[nextState ? nextState: '/']" [queryParams]="{project: project.id}"
+          (click)="onCancelClick(project)" *ngFor="let project of projects">
+          <mat-icon matListIcon>group_work</mat-icon>
+          <h3 matLine>{{ project.code }} - {{ project.name }}</h3>
+        </a>
+      </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" *ngIf="projects.length === 0 && cloudproviders.length > 0"
+        [routerLink]="['/projects/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
+        <!-- No project found  -->
+        Create the first project
+      </button>
+      <button mat-raised-button color="primary"
+        *ngIf="projects.length === 0 && cloudproviders.length === 0"
+        [routerLink]="['/admin/cloudproviders/new']" (click)="close()" [queryParams]="{ appInitialisation: true}">
+        <!-- No cloud provider found  -->
+        Create the first Cloudprovider
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- <div mat-dialog-actions class="" align="end">
+  <button type="button" mat-button (click)="onCancelClick()" >Cancel</button>
+</div> -->

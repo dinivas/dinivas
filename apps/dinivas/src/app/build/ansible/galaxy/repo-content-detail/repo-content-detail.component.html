@@ -1,0 +1,126 @@
+<div class="container ansible-repo-detail">
+  <mat-card class="global">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+namespace.avatar_url+')'"
+        [style.background-size]="'cover'"></div>
+      <mat-card-title>{{ repository.name }}<mat-icon class="ml-10" [matBadge]="repoContent?.download_count"
+          matBadgeColor="primary">cloud_download
+        </mat-icon>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <div class="subtitle-container">
+          <a mat-button color="accent" target="_blank"
+            [href]="repository.external_url">{{ repository.external_url }}</a>
+          <div class="right">
+            <span class="" [matBadge]="repoContent?.content_score | number:'1.0-1'" matBadgeColor="accent"
+              matBadgeOverlap="false" matBadgeSize="medium">Content score</span>
+            <span class="" [matBadge]="repoContent?.metadata_score | number:'1.0-1'" matBadgeColor="accent"
+              matBadgeOverlap="false" matBadgeSize="medium">Metadata score</span>
+            <span class="" [matBadge]="repoContent?.quality_score | number:'1.0-1'" matBadgeColor="accent"
+              matBadgeOverlap="false" matBadgeSize="medium">Quality score</span>
+          </div>
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Details" *ngIf="repoContent" isActive="true">
+          <div class="details-content">
+            <div class="" fxLayout="row">
+              <p> {{ repoContent.description }}</p>
+            </div>
+            <div class="" fxLayout="row">
+              <mat-chip-list aria-label="tags" selectable="false">
+                <mat-chip *ngFor="let tag of repoContent.summary_fields.tags" color="primary" disabled>
+                  {{ tag }}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+            <div class="small-cards" fxLayout="row" fxLayoutGap="30px">
+              <mat-card class="mat-elevation-z1" *ngIf="repoContent.summary_fields.platforms.length > 0">
+                <mat-card-header>
+                  <mat-card-title>Platforms</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list dense *ngIf="repoContent.summary_fields.platforms.length > 0">
+                    <mat-list-item *ngFor="let platform of repoContent.summary_fields.platforms">
+                      <div class="list-content" fxLayout="row" fxLayoutAlign="space-between">
+                        <span class="name">{{ platform.name }}</span>
+                        <span class="release">{{ platform.release }}</span>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-elevation-z1" *ngIf="repoContent.summary_fields.versions.length > 0">
+                <mat-card-header>
+                  <mat-card-title>Versions</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list dense *ngIf="repoContent.summary_fields.versions.length > 0">
+                    <mat-list-item *ngFor="let version of repoContent.summary_fields.versions">
+                      <div class="list-content" fxLayout="row" fxLayoutAlign="space-between">
+                        <span class="version">{{ version.version }}</span>
+                        <span class="commit-date">{{ version.commit_date | date: 'medium' }}</span>
+                      </div>
+
+                    </mat-list-item>
+                  </mat-list>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-elevation-z1" *ngIf="repoContent.summary_fields.task_messages.length > 0">
+                <mat-card-header>
+                  <mat-card-title>Last tasks messages</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list dense *ngIf="repoContent.summary_fields.task_messages.length > 0">
+                    <mat-list-item *ngFor="let task_message of repoContent.summary_fields.task_messages">
+                      <div class="list-content" fxLayout="row" fxLayoutAlign="space-between">
+                        <span class="message-type">{{ task_message.message_type }}</span>
+                        <span class="message-text">{{ task_message.message_text  }}</span>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Readme" *ngIf="hasReadme">
+          <div class="readme" [innerHtml]="repoContent.readme_html"></div>
+        </mat-tab>
+        <mat-tab label="Import history">
+          <div class="history" *ngIf="repositoryImports">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let repositoryImport of repositoryImports | async">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span class="mr-10">{{ repositoryImport.state }}</span>
+                    on <strong
+                      class="ml-5">{{ repositoryImport.summary_fields.repository.import_branch | uppercase}}</strong>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <span *ngIf="repositoryImport.finished">{{ repositoryImport.finished | timeAgo }}</span>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list dense>
+                  <mat-list-item *ngFor="let taskMessage of repositoryImport.summary_fields.task_messages">
+                    <span [class.success]="taskMessage.message_type ==='SUCCESS'"
+                      [class.warning]="taskMessage.message_type ==='WARNING'"
+                      class="mr-10 message-type">{{ taskMessage.message_type }}</span>
+                    <span [class.success]="taskMessage.message_type ==='SUCCESS'"
+                      [class.warning]="taskMessage.message_type ==='WARNING'">{{ taskMessage.message_text }}</span>
+                  </mat-list-item>
+                </mat-list>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <!-- <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button> -->
+    </mat-card-actions>
+  </mat-card>
+</div>

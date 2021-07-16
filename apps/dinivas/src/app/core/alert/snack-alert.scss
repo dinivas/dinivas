@@ -1,0 +1,16 @@
+
+@import '../../../assets/styles/variables';
+
+.snack-alert {
+  font-weight: 400;
+  font-size: 16px;
+  &.success {
+    color: $dinivas-green;
+  }
+  &.danger {
+    color: $dinivas-red;
+  }
+  &.warning {
+    color: $dinivas-orange;
+  }
+}

@@ -1,0 +1,22 @@
+<div class="flavors-container">
+  <span class="label" *ngIf="label">{{ label }}</span>
+  <div class="flavors">
+    <div class="flavor" *ngFor="let flavor of cloudFlavors" [class.selected]="cloudFlavor?.name === flavor.name"
+      [class.disabled]="disabled" (click)="select(flavor)">
+      <span class="name">{{ flavor.name }}</span>
+      <div class="cpu">
+        <span>{{ flavor.vcpus }}<small>vcpu</small></span>
+      </div>
+      <div class="ram">
+        <mat-icon class="" svgIcon="ram"></mat-icon>
+        <span>{{ flavor.ram | bytes: 0 : 'MB' }}</span>
+      </div>
+      <div class="disk">
+        <mat-icon class="" svgIcon="hard_drive"></mat-icon>
+        <span>{{ flavor.disk | bytes: 0 : 'GB' }}</span>
+      </div>
+      <div class="checkmark-overlay"></div>
+      <mat-icon class="checkmark">check</mat-icon>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Jest",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@angular/cli/bin/ng",
+      "args": [
+        "test",
+        "cars",
+        "--codeCoverage=false",
+        "--testNamePattern=ABC",
+        "--testFile=${workspaceFolder}/libs/cars/src/lib/abc.spec.ts"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    },
+    {
+      "name": "Debug Dinivas Node App",
+      "type": "node",
+      "request": "attach",
+      "port": 7777
+    }
+  ]
+}

@@ -1,133 +1,153 @@
-/*
-   * Remove template code below
-   */
-:host {
-  display: block;
-  font-family: sans-serif;
-  min-width: 300px;
-  max-width: 600px;
-  margin: 50px auto;
-}
+@import '../assets/styles/mixins';
+@import '~@angular/material/theming';
 
-.gutter-left {
-  margin-left: 9px;
-}
+@mixin app-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  $toolbar-height: 48px;
 
-.col-span-2 {
-  grid-column: span 2;
-}
+  .app-container {
 
-.flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    *{
+      //@include transition(color 0.3s ease);
+      //@include transition(background-color 0.3s ease);
+    }
 
-header {
-  background-color: #143055;
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-}
+    height: 100%;
+    & > mat-toolbar {
+      position: -webkit-sticky;
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      height: $toolbar-height;
 
-main {
-  padding: 0 36px;
-}
+      .left {
+        a.logo {
+          font-size: 18px;
+        }
+      }
 
-p {
-  text-align: center;
-}
+      .right {
+        span.username {
+          font-size: 16px;
+        }
+      }
+    }
+    & > mat-sidenav-container.global {
+      padding-top: $toolbar-height;
+      height: 100%;
+      z-index: 99;
 
-h1 {
-  text-align: center;
-  margin-left: 18px;
-  font-size: 24px;
-}
+      .mat-sidenav.menu {
+        padding: $toolbar-height 0px 0px;
+        @media screen and (min-width: 961px) {
+          margin-bottom: $toolbar-height;
+        }
+        border-bottom: 1px solid mat-color($foreground, divider);
 
-h2 {
-  text-align: center;
-  font-size: 20px;
-  margin: 40px 0 10px 0;
-}
+        .mat-nav-list {
+          .mat-list-item {
+            button.mat-icon-button {
+              opacity: 0;
+              @include transition(opacity 0.3s ease);
+            }
+            &:hover,
+            &.pinned {
+              button.mat-icon-button {
+                opacity: 1;
+              }
+            }
+            &.pinned {
+              button.mat-icon-button {
+                color: $accent-color;
+              }
+            }
+          }
+          &.available-items-nav-list {
+            .mat-list-item {
+              &.active {
+                color: #fff;
+                background-color: rgba($primary-color, 0.7);
+                &.pinned {
+                  button.mat-icon-button {
+                    color: #fff;
+                  }
+                }
+              }
+            }
+          }
+          &.always-menu-list {
+            padding-bottom: 10px;
+            .mat-list-item {
+              &.active {
+                color: $primary-color;
+              }
+            }
+          }
+          &.pinned-menu-list {
+            position: sticky;
+            display: block;
+            top: 0px;
+            z-index: 2;
+            background-color: $background-color;
+            .mat-list-item {
+              &.active {
+                color: $primary-color;
+              }
+            }
+          }
+        }
+        .mat-list-base .mat-list-item .mat-list-text > * {
+          font-weight: 400;
+          font-size: 15px;
+        }
+        .mat-list-base .mat-list-item .mat-list-icon {
+          width: 18px;
+          height: 18px;
+          font-size: 18px;
+        }
+        a.mat-list-item {
+          height: 40px;
+        }
 
-.resources {
-  text-align: center;
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-gap: 9px;
-  grid-template-columns: 1fr 1fr;
-}
+        .mat-drawer-inner-container {
+          overflow-y: auto;
 
-.resource {
-  color: #0094ba;
-  height: 36px;
-  background-color: rgba(0, 0, 0, 0);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-  padding: 3px 9px;
-  text-decoration: none;
-}
+          .available-items-nav-list {
+            // overflow: auto;
+            // height: 100%;
+          }
+        }
+      }
+      .mat-sidenav.contextual {
+        padding: $toolbar-height 0px 0px;
+      }
+      .mat-sidenav-content {
+        // background: #fff;
+      }
 
-.resource:hover {
-  background-color: rgba(68, 138, 255, 0.04);
-}
+      .main-container {
+        margin: 5px 5px 52px;
+        overflow-x: hidden;
+        height: 100%;
+        overflow-y: auto;
+      }
 
-pre {
-  padding: 9px;
-  border-radius: 4px;
-  background-color: black;
-  color: #eee;
-}
-
-details {
-  border-radius: 4px;
-  color: #333;
-  background-color: rgba(0, 0, 0, 0);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  padding: 3px 9px;
-  margin-bottom: 9px;
-}
-
-summary {
-  cursor: pointer;
-  outline: none;
-  height: 36px;
-  line-height: 36px;
-}
-
-.github-star-container {
-  margin-top: 12px;
-  line-height: 20px;
-}
-
-.github-star-container a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #333;
-}
-
-.github-star-badge {
-  color: #24292e;
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  padding: 3px 10px;
-  border: 1px solid rgba(27, 31, 35, 0.2);
-  border-radius: 3px;
-  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
-  margin-left: 4px;
-  font-weight: 600;
-}
-
-.github-star-badge:hover {
-  background-image: linear-gradient(-180deg, #f0f3f6, #e6ebf1 90%);
-  border-color: rgba(27, 31, 35, 0.35);
-  background-position: -0.5em;
-}
-.github-star-badge .material-icons {
-  height: 16px;
-  width: 16px;
-  margin-right: 4px;
+      eco-fab-speed-dial {
+        position: fixed;
+        bottom: 29px;
+        right: 80px;
+        z-index: 10;
+        @include transition(all 0.3s ease);
+        &.sidenavopen {
+        }
+      }
+    }
+  }
 }

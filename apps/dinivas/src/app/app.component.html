@@ -1,9 +1,123 @@
-<div style="text-align: center">
-  <h1>Welcome to dinivas!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-    alt="Nx - Smart, Extensible Build Framework"
-  />
+<div class="app-container">
+  <div class="spinner-container" *ngIf="isPageLoading | async">
+    <mat-spinner></mat-spinner>
+    <span>Loading please wait a moment...</span>
+  </div>
+  <mat-toolbar class="app-toolbar mat-elevation-z6" fxLayout="row" fxLayoutAlign="space-between center" color="primary">
+    <div class="left">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav(true)">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <a mat-button routerLink="/" class="logo" fxHide fxShow.gt-xs>
+        <span>Dinivas CE</span>
+      </a>
+      <button mat-button [matMenuTriggerFor]="project_selection_menu" *ngIf="projects.length > 0"
+        [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"
+        matTooltipPosition="below">
+        <mat-icon *ngIf="currentProject">group_work</mat-icon>
+        {{ currentProject ? currentProject?.name  : 'Select project' }}
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #project_selection_menu="matMenu" class="project-selection">
+        <button mat-menu-item *ngFor="let project of projects" class="project-selection-item"
+          [class.selected]="project.id === currentProject?.id" (click)="switchCurrentProject(project)">
+          <mat-icon *ngIf="project.id === currentProject?.id">check</mat-icon>
+          {{ project?.name }} ({{ project?.code }}) on {{ project?.cloud_provider?.name }}
+        </button>
+      </mat-menu>
+    </div>
+    <div class="right">
+      <button mat-icon-button class="mr-15" color="accent" (click)="toggleDarkTheme()"
+        [matTooltip]="(isDarkTheme | async) ? 'Switch console to ligth theme' : 'Switch console to dark theme'"
+        aria-label="Switch console theme color">
+        <mat-icon>{{ (isDarkTheme | async) ? 'wb_sunny' : 'brightness_3' }}</mat-icon>
+      </button>
+      <!-- <mat-slide-toggle class="mr-15" matTooltip="Switch console theme color" [checked]="isDarkTheme | async"
+        (change)="toggleDarkTheme($event.checked)">
+      </mat-slide-toggle> -->
+      <span class="username" *ngIf="userDetails" [matTooltip]="userDetails.email">{{ userDetails.firstName }}</span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item class="" (click)="profileManagement()">
+          Profile
+        </button>
+        <button mat-menu-item class="" (click)="logout()">
+          Logout
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container class="global">
+    <mat-sidenav class="menu" #sidenav [mode]="sideNavMode" [(opened)]="sideNavOpened" style="overflow: hidden;">
+      <mat-nav-list class="always-menu-list">
+        <h3 mat-subheader>Admin</h3>
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/admin']" (click)="toggleSideNav()">
+          <mat-icon matListIcon>settings</mat-icon>
+          <h4 mat-line>Admin settings</h4>
+        </a>
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['/projects']" (click)="toggleSideNav()">
+          <mat-icon matListIcon>group_work</mat-icon>
+          <h4 mat-line>Projects</h4>
+        </a>
+      </mat-nav-list>
+      <mat-nav-list class="pinned-menu-list mat-elevation-z7">
+        <a mat-list-item [routerLinkActive]="['active']" [routerLink]="['']"
+          [routerLinkActiveOptions]="routerLinkActiveOptionsExact" (click)="toggleSideNav()">
+          <mat-icon matListIcon>home</mat-icon>
+          <h4 mat-line>Home</h4>
+        </a>
+        <ng-container *ngFor="let pinnedMenu of pinnedMenus">
+          <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="pinnedMenu.isPinned"
+            [routerLink]="pinnedMenu.routerLink" (click)="toggleSideNav()">
+            <mat-icon matListIcon [svgIcon]="pinnedMenu.svgIcon">{{ pinnedMenu.icon }}</mat-icon>
+            <h4 mat-line>{{ pinnedMenu.label }}</h4>
+          </a>
+        </ng-container>
+      </mat-nav-list>
+      <mat-nav-list class="available-items-nav-list">
+        <ng-container *ngFor="let menuGroup of availableMenuGroups">
+          <h3 mat-subheader>{{ menuGroup.group }}</h3>
+          <ng-container *ngFor="let menu of menuGroup.menus">
+            <a mat-list-item [routerLinkActive]="['active']" [class.pinned]="menu.isPinned"
+              [routerLink]="menu.routerLink" (click)="toggleSideNav()">
+              <mat-icon matListIcon [svgIcon]="menu.svgIcon">{{ menu.icon }}</mat-icon>
+              <h4 mat-line>{{ menu.label }}</h4>
+              <button mat-icon-button (click)="togglePin(menu);$event.preventDefault();$event.stopPropagation();">
+                <mat-icon [matTooltip]="menu.isPinned ? 'Unpin': 'Pin'" svgIcon="pin"></mat-icon>
+              </button>
+            </a>
+          </ng-container>
+        </ng-container>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav class="contextual" #contextualSidenav [mode]="'over'" position="end">
+      <!-- <ng-container *ngComponentOutlet="contextualMenuComponent; injector:createSideNavInjector(contextualMenuData)"></ng-container> -->
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main-container">
+        <router-outlet></router-outlet>
+      </div>
+      <dinivas-footer></dinivas-footer>
+      <!-- <eco-fab-speed-dial [class.sidenavopen]="sideNavOpened">
+        <eco-fab-speed-dial-trigger [spin]="true" class="">
+          <button mat-fab>
+            <mat-icon class="spin180">add</mat-icon>
+          </button>
+        </eco-fab-speed-dial-trigger>
+        <eco-fab-speed-dial-actions>
+          <button mat-mini-fab>
+            <mat-icon matTooltip="New instance" matTooltipPosition="right">computer</mat-icon>
+          </button>
+          <button mat-mini-fab>
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab>
+            <mat-icon>search</mat-icon>
+          </button>
+        </eco-fab-speed-dial-actions>
+      </eco-fab-speed-dial> -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
-<div>Message: {{ hello$ | async | json }}</div>

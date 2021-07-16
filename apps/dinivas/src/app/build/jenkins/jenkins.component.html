@@ -1,0 +1,120 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <mat-icon matListIcon svgIcon="jenkins"></mat-icon>
+  <span class="page-title">Jenkins</span>
+</mat-toolbar>
+
+<mat-card class="empty-item-card info-card" *ngIf="jenkinsList.length === 0">
+  <mat-card-header>
+    <div mat-card-avatar class="jenkins-logo"></div>
+    <mat-card-title>Jenkins server</mat-card-title>
+    <mat-card-subtitle>CI/CD tools (managed)</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      Jenkins is a well known CI/CD tools uses by many project. Dinivas can create a Jenkins server (Master + slaves)
+      for you
+    </p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button color="primary" [routerLink]="['/build', 'jenkins', 'new']" queryParamsHandling="merge">Create
+      Jenkins instance</button>
+  </mat-card-actions>
+</mat-card>
+<div class="container" [class.hide]="jenkinsList.length === 0">
+  <mat-card class="entity-table-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
+        [showAddButton]="showAddButton" addButtonLabel="Add new jenkins" (onFilterChanged)="filterChanged($event)"
+        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addJenkins()"
+        (onDeleteSelection)="deleteEntity($event)">
+      </dinivas-filter-bar>
+      <div class="spinner-container" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table #table class="responsive full-width-table" [dataSource]="dataSource" matSort matSortActive="id"
+        matSortDirection="desc" matSortDisableClear>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="select-cell">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="select-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Datas -->
+        <!-- Id Column -->
+        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container> -->
+
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" [routerLink]="['/build','jenkins', row.id, 'status']"
+              queryParamsHandling="merge">
+              {{row.code }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <a mat-button [href]="'http://' + row.code + '.' + row.project.root_domain" target="_blank" *ngIf="row.project.root_domain && !row.use_existing_master">
+              {{row.code + '.' + row.project.root_domain }}
+              <mat-icon>open_in_new</mat-icon>
+          </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="managed_master">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Is Master managed?</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [matTooltip]="row.use_existing_master ? 'This Jenkins master is not managed by Dinivas': 'This Jenkins master is managed by Dinivas'"
+              [disabled]="true" [checked]="!row.use_existing_master">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+        <!-- Worker Column -->
+        <ng-container matColumnDef="slave_groups">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Slaves</th>
+          <td mat-cell *matCellDef="let row">{{row.slave_groups.length}} managed slave group(s)</td>
+        </ng-container>
+        <!-- Actions -->
+        <ng-container matColumnDef="row-actions">
+          <th mat-header-cell *matHeaderCellDef class="action-cell ">
+          </th>
+          <td mat-cell *matCellDef="let entity" class="row-action edit-action">
+            <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
+              [routerLink]="['/build','jenkins', entity.id , 'edit']" queryParamsHandling="merge">
+              <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
+            </a>
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
+              (click)="deleteEntity(entity)">
+              <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      </table>
+      <mat-paginator [length]="totalEntitiesCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

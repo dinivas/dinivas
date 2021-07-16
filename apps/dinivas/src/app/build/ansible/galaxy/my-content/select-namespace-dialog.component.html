@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Namespace selection ...</h1>
+<div mat-dialog-content>
+    <mat-form-field style="width: 100%;" *ngIf="providerSourcesGroup.length > 0">
+        <mat-label>Select your reference namespace</mat-label>
+        <mat-select [(ngModel)]="selectedProviderSource">
+            <mat-option>-- None --</mat-option>
+            <mat-optgroup *ngFor="let group of providerSourcesGroup | keyvalue" [label]="group.value[0].provider_name"
+                [disabled]="group.disabled">
+                <mat-option *ngFor="let providerSource of group.value" [value]="providerSource">
+                    {{ providerSource.name }}
+                </mat-option>
+            </mat-optgroup>
+        </mat-select>
+        <mat-hint>This is usually your user namespace</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" *ngIf="providerSourcesGroup.length === 0" style="width: 100%;">
+        <input matInput [value]="selectedProviderSource.name" disabled>
+        <mat-hint>Your account is already linked to the provider {{ selectedProviderSource.provider_name}}</mat-hint>
+    </mat-form-field>
+    <h4 *ngIf="providerSources?.length > 0">Select provider namespace to link</h4>
+    <mat-selection-list #pnsSelectionList dense>
+        <mat-list-option *ngFor="let providerSource of providerSources" [value]="providerSource">
+            {{ providerSource.name }}
+        </mat-list-option>
+    </mat-selection-list>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button color="primary"
+        (click)="onSelect(selectedProviderSource, pnsSelectionList.selectedOptions.selected)" cdkFocusInitial
+        [disabled]="!selectedProviderSource ||  (selectedProviderSource && pnsSelectionList.selectedOptions.selected.length === 0)">Ok</button>
+</div>

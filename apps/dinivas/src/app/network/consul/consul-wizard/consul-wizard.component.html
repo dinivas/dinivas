@@ -1,0 +1,109 @@
+<form [formGroup]="consulForm" *ngIf="consulForm" (ngSubmit)="submitPlanConsul(consulForm.getRawValue())"
+  class="consul-wizard-form">
+  <ng-template matStepLabel>Consul informations - <span class="text-warn">This step will not create any
+      resources</span></ng-template>
+  <div class="mat-form-container" fxLayout="column">
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Consul code</mat-label>
+      <input type="text" matInput formControlName="code" required>
+      <span *ngIf="!consul?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
+      <mat-hint>The Consul code will be used to suffix most components. You can't change it after Consul
+        creation.</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Consul cluster domain</mat-label>
+      <input type="text" matInput formControlName="cluster_domain" required>
+      <mat-hint>The Consul cluster domain</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Consul network</mat-label>
+      <mat-select formControlName="network_name" required>
+        <mat-option [value]="projectNetwork">
+          {{ projectNetwork }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Consul will be added to project Network by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Consul network subnet</mat-label>
+      <mat-select formControlName="network_subnet_name" required>
+        <mat-option [value]="projectNetworkSubnet">
+          {{ projectNetworkSubnet }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Consul will be added to project Network by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Consul instances keypair</mat-label>
+      <mat-select formControlName="keypair_name" required>
+        <mat-option [value]="projectKeypair">
+          {{ projectKeypair }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>This Keypair will be added to all instances crated</mat-hint>
+    </mat-form-field>
+    <!-- Consul Server configuration -->
+    <h4>Consul Servers</h4>
+    <div class="slider-container">
+      <span>Select the number of Consul server instances</span>
+      <mat-slider class="" [class.cdk-focused]="true" formControlName="server_instance_count" [max]="10" [min]="1"
+        [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+      </mat-slider>
+      {{ consulForm?.value['server_instance_count'] | json}}
+    </div>
+    <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_server_image"
+      formControlName="_server_image" label="Select Consul server image to use" [cloudImages]="cloudImages">
+    </dinivas-cloud-image-radios>
+    <ng-template #loading_server_image>
+      <p class="no-data-checkbox">No image that match filter found.</p>
+    </ng-template>
+    <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_server_flavor"
+      formControlName="_server_flavor" label="Select Consul master flavor to use" [cloudFlavors]="cloudFlavors">
+    </dinivas-cloud-flavor-radios>
+    <ng-template #loading_server_flavor>
+      <p class="no-data-checkbox">No flavor that match filter found.</p>
+    </ng-template>
+    <!-- Consul Client configuration -->
+    <h4>Consul Clients</h4>
+    <div class="slider-container">
+      <span>Select the number of Consul server instances</span>
+      <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="1"
+        [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+      </mat-slider>
+      {{ consulForm?.value['client_instance_count'] | json}}
+    </div>
+    <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_client_image"
+      formControlName="_client_image" label="Select Consul client image to use" [cloudImages]="cloudImages">
+    </dinivas-cloud-image-radios>
+    <ng-template #loading_client_image>
+      <p class="no-data-checkbox">No image that match filter found.</p>
+    </ng-template>
+    <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_client_flavor"
+      formControlName="_client_flavor" label="Select Consul master flavor to use" [cloudFlavors]="cloudFlavors">
+    </dinivas-cloud-flavor-radios>
+    <ng-template #loading_client_flavor>
+      <p class="no-data-checkbox">No flavor that match filter found.</p>
+    </ng-template>
+    <div class="slide-toggle-container">
+      <mat-slide-toggle formControlName="use_floating_ip" color="accent">
+        Use floating IP?
+      </mat-slide-toggle>
+      <mat-hint>Consul UI will be expose throught floanting IP</mat-hint>
+    </div>
+  </div>
+  <div class="actions">
+    <button mat-button [routerLink]="['/build', 'consul']" queryParamsHandling="merge" type="button">Cancel</button>
+    <button type="button" mat-button matStepperPrevious>Back</button>
+    <button type="button" mat-button class="ml-10" *ngIf="consul?.id && isFormValid()"
+      (click)="showConsulOutput(consulForm.getRawValue())">Show consul
+      infra infos</button>
+    <button type="submit" mat-raised-button color="primary" class="ml-10"
+      [disabled]="!isFormValid() || (isFormValid() && !consulForm.dirty)">Plan
+      Consul
+      resources</button>
+  </div>
+</form>

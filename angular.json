@@ -8,12 +8,16 @@
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -38,12 +42,16 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/api/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/api/**/*.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/api"],
+          "outputs": [
+            "coverage/apps/api"
+          ],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
@@ -59,7 +67,36 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/api-interfaces/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/api-interfaces/**/*.ts"
+            ]
+          }
+        }
+      }
+    },
+    "common-ui": {
+      "projectType": "library",
+      "root": "libs/common-ui",
+      "sourceRoot": "libs/common-ui/src",
+      "prefix": "dinivas",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/common-ui"
+          ],
+          "options": {
+            "jestConfig": "libs/common-ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/common-ui/src/**/*.ts",
+              "libs/common-ui/src/**/*.html"
+            ]
           }
         }
       }
@@ -72,7 +109,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/dinivas",
             "index": "apps/dinivas/src/index.html",
@@ -82,10 +121,15 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/dinivas/src/favicon.ico",
-              "apps/dinivas/src/assets"
+              "apps/dinivas/src/assets",
+              "apps/dinivas/src/manifest.json"
             ],
-            "styles": ["apps/dinivas/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "apps/dinivas/src/styles.scss"
+            ],
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "apps/dinivas/ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -152,7 +196,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/dinivas"],
+          "outputs": [
+            "coverage/apps/dinivas"
+          ],
           "options": {
             "jestConfig": "apps/dinivas/jest.config.js",
             "passWithNoTests": true
@@ -181,7 +227,36 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/dinivas-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/dinivas-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "ng-material": {
+      "projectType": "library",
+      "root": "libs/ng-material",
+      "sourceRoot": "libs/ng-material/src",
+      "prefix": "dinivas",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/ng-material"
+          ],
+          "options": {
+            "jestConfig": "libs/ng-material/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ng-material/src/**/*.ts",
+              "libs/ng-material/src/**/*.html"
+            ]
           }
         }
       }

@@ -1,0 +1,14 @@
+@import '../../core/entity/mat-crud/mat-crud.scss';
+.mat-card-header {
+  .jenkins-logo {
+    background-image: url('../../../assets/icons/jenkins.svg');
+    background-size: cover;
+  }
+}
+.full-width-table {
+  width: 100%;
+}
+
+.hide{
+  display: none;
+}

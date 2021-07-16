@@ -1,0 +1,86 @@
+<div class="ansible-my-content">
+  <mat-toolbar class="mat-toolbar header-toolbar">
+    <div class="container">
+      <span></span>
+      <button mat-button color="primary" (click)="addNamespace()">Add Namespace</button>
+    </div>
+  </mat-toolbar>
+  <div class="container">
+    <ng-container *ngFor="let namespace of namespaces">
+      <div class="namespace-header">
+        <mat-icon [svgIcon]="'github'" class="mr-10"></mat-icon>
+        <h4 class="namespace-name-title">{{ namespace.name }}</h4>
+      </div>
+      <mat-accordion *ngIf="namespace?.summary_fields?.provider_namespaces?.length > 0" multi="true">
+        <mat-expansion-panel *ngFor="let pns of namespace.summary_fields.provider_namespaces" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{ pns.name | uppercase }}</span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span>{{ pns.description || pns.html_url || ' ' }}</span>
+              <img [src]="pns.avatar_url" alt="" class="avatar">
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <button mat-button color="primary" (click)="addRepoSources(pns)">Import repo from {{ pns.name }}</button>
+          <mat-divider></mat-divider>
+          <div class="entity-table-card">
+            <table mat-table *ngIf="repositoryByNamespaceAndPns && repositoryByNamespaceAndPns[namespace.name]"
+              [dataSource]="repositoryByNamespaceAndPns[namespace.name][pns.name]" class="full-width-table">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row"> <a mat-button color="accent"
+                    [routerLink]="['/build', 'ansible', 'galaxy', namespace.name, row.name]"
+                    queryParamsHandling="merge">{{ row.name }}</a> </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let row"> <span
+                    class="status">{{ row.summary_fields.latest_import.state }}</span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="score">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row"> <span class="score">{{ row.quality_score }}</span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="import-infos">
+                    {{ (row.summary_fields.latest_import.created || row.summary_fields.latest_import.modified) | timeAgo}}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="row-actions">
+                <th mat-header-cell *matHeaderCellDef class="action-cell ">
+                </th>
+                <td mat-cell *matCellDef="let row" class="row-action edit-action">
+                  <button mat-icon-button (click)="importRepository(row)">
+                    <mat-icon>refresh</mat-icon>
+                  </button>
+                  <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item class="" (click)="deleteRepository(row)">
+                      Delete
+                    </button>
+                    <button mat-menu-item class="" (click)="deprecateRepository(row, true)">
+                      Deprecated
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-container>
+    <mat-card class="mt-15 p-20 text-center" *ngIf="namespaces.length === 0">
+      No namespace found for you :( !!!
+    </mat-card>
+  </div>
+</div>

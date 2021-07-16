@@ -1,0 +1,176 @@
+@import '../../../assets/styles/mixins';
+@import '~@angular/material/theming';
+
+@mixin project-wizard-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .mat-stepper-vertical {
+    background-color: $background-color;
+    max-width: 1400px;
+  }
+
+  .form-container {
+    margin: 20px 10px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
+    }
+    h4 {
+      color: rgba(mat-color($primary),.7);
+    }
+    .no-data-checkbox {
+      font-size: 14px;
+      padding: 15px 10px;
+      margin: 20px 0px;
+      background-color: mat-color($background, background);
+      text-align: center;
+    }
+    .slider-container {
+      margin: 10px 5px;
+      span {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+    }
+    .subnet-info {
+      max-width: 600px;
+      .mat-form-field {
+        &:not(:first-child) {
+          margin-left: 15px;
+        }
+        width: 31.5%;
+      }
+    }
+    .mat-form-field,
+    .subnet-info {
+      margin: 2px 0px;
+    }
+  }
+  .apply-container {
+    min-height: 300px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    max-width: 90%;
+  }
+
+  .logging-stack {
+    margin-bottom: 15px;
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
+    .stack-container {
+      display: flex;
+      //justify-content: space-between;
+      .mat-card {
+        flex: 1;
+        margin: 10px 15px;
+        height: 100px;
+        padding: 10px 20px;
+        cursor: pointer;
+        max-width: 300px;
+        @include transition(all 0.3s ease);
+        .mat-card-header {
+          justify-content: center;
+          .mat-card-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 0px;
+          }
+        }
+        &[disabled] {
+          cursor: not-allowed;
+          opacity: 0.7;
+        }
+        .mat-card-content {
+          padding: 5px 5px 5px 60px;
+          position: relative;
+          margin-bottom: 0px;
+        }
+        .mat-icon {
+          position: absolute;
+          right: 15px;
+          top: 5px;
+          color: green;
+          font-size: 30px;
+          opacity: 0;
+          @include transition(opacity 0.5 ease);
+        }
+        .checkmark-overlay {
+          display: inline-block;
+          border-top: 40px solid $primary-color;
+          border-left: 40px solid $background-color;
+          width: 40px;
+          height: 40px;
+          opacity: 0;
+          position: absolute;
+          top: -1px !important;
+          right: -1px;
+          transition: all 0.2s ease-in;
+        }
+        .checkmark {
+          display: block;
+          position: absolute;
+          top: -1px !important;
+          right: 5px;
+          width: 20px;
+          height: 20px;
+          color: $background-color;
+          opacity: 0;
+          transition: all 0.2s ease-in;
+        }
+        &.selected,
+        &:not(&[disabled]):hover {
+          @include box-shadow(3);
+        }
+        &.selected {
+          .checkmark,
+          .checkmark-overlay {
+            opacity: 1;
+          }
+          .mat-icon {
+            opacity: 1;
+          }
+        }
+        .graylog,
+        .kibana {
+          width: 48px;
+          height: 48px;
+          position: absolute;
+          left: 5px;
+        }
+        .graylog {
+          background: url(./../../../assets/icons/graylog.svg) center no-repeat;
+          background-size: contain;
+        }
+        .kibana {
+          background: url(./../../../assets/icons/kibana.svg) center no-repeat;
+          background-size: contain;
+        }
+      }
+    }
+  }
+
+  .tf-plan-resources-container {
+    margin: 20px 10px;
+  }
+  dinivas-cloud-image-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+
+  dinivas-cloud-flavor-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+}

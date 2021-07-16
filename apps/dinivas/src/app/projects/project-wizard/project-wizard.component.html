@@ -1,0 +1,313 @@
+<mat-toolbar class="mat-toolbar header-toolbar" *ngIf="!project">
+  <button mat-icon-button color="primary" [routerLink]="['/projects']" queryParamsHandling="merge">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="page-title">{{ !project ? 'New project creation wizard' : 'Edit project wizard' }}</span>
+  <span class="ml-15">{{ projectForm?.value.name | uppercase }}</span>
+</mat-toolbar>
+
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [completed]="projectPlanStepFinished">
+    <div class="form-container">
+      <div class="spinner-container" *ngIf="projectPlanInProgress">
+        <mat-spinner></mat-spinner>
+        <span>We are planning your project resources, wait a moment...</span>
+      </div>
+      <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.getRawValue(), projectForm.getRawValue()._consul)">
+        <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
+            resources</span></ng-template>
+        <div class="mat-form-container" fxLayout="column">
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Cloud provider configuration</mat-label>
+            <mat-select formControlName="cloud_provider" [compareWith]="compareFn"
+              (selectionChange)="onCloudProviderChanges()" required>
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let cp of cloudproviders" [value]="cp">
+                {{ cp.name }} ({{ cp.cloud }})
+              </mat-option>
+            </mat-select>
+            <mat-hint>The existing cloud provider configuration (created by admin)</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Project name</mat-label>
+            <input type="text" matInput formControlName="name" required>
+            <mat-hint>This is the display project name</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Project code</mat-label>
+            <input type="text" matInput formControlName="code" required>
+            <mat-hint>The project code will be used to suffix most components. You can't change it after project
+              creation.</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="3"></textarea>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Availability zone</mat-label>
+            <input type="text" placeholder="Select availability zone" aria-label="Availability zone" matInput
+              formControlName="availability_zone" [matAutocomplete]="auto_availability_zone" required>
+            <mat-autocomplete #auto_availability_zone="matAutocomplete">
+              <mat-option *ngFor="let az of availabilityZones" [value]="az.zoneName">
+                {{ az.zoneName }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-hint>The cloudprovider availability zone to deploy, for Openstack it could be in form <strong>nova:node03</strong> for example</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline" *ngIf="'openstack' ===projectForm?.value.cloud_provider?.cloud">
+            <mat-label>Public router name</mat-label>
+            <mat-select formControlName="public_router" required>
+              <mat-option *ngFor="let router of availableRouters;trackBy:trackById" [value]="router.name">
+                {{ router.name }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>The name of the router to use as an external gateway</mat-hint>
+          </mat-form-field>
+          <div class="subnet-info">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Subnet cidr</mat-label>
+              <input type="text" matInput formControlName="management_subnet_cidr" required>
+              <mat-hint>The main subnet cidr.</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Dhcp allocation start</mat-label>
+              <input type="text" matInput formControlName="management_subnet_dhcp_allocation_start" required>
+              <mat-hint>The start ip for DHCP allocation</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Dhcp allocation end</mat-label>
+              <input type="text" matInput formControlName="management_subnet_dhcp_allocation_end" required>
+              <mat-hint>The end ip for DHCP allocation</mat-hint>
+            </mat-form-field>
+          </div>
+          <mat-form-field class="" appearance="outline" *ngIf="'openstack' ===projectForm?.value.cloud_provider?.cloud">
+            <mat-label>Floating Ip pool</mat-label>
+            <mat-select formControlName="floating_ip_pool" required>
+              <mat-option *ngFor="let floatingIpPool of availableFloatingIpPools;trackBy:trackById" [value]="floatingIpPool.name">
+                {{ floatingIpPool.name }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
+          </mat-form-field>
+          <h4>Consul</h4>
+          <ng-container formGroupName="_consul">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Consul domain</mat-label>
+              <input type="text" matInput formControlName="cluster_domain" required>
+              <mat-hint>The domain name used for consul cluster, default to <strong>consul</strong></mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Consul datacenter</mat-label>
+              <input type="text" matInput formControlName="cluster_datacenter" required>
+              <mat-hint>The datacenter name used for consul cluster, default to <strong>availability zone</strong></mat-hint>
+            </mat-form-field>
+            <div class="slider-container">
+              <span>Choose the number of consul server</span>
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="server_instance_count" [max]="10" [min]="1"
+                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+              </mat-slider>
+              {{ projectForm?.value._consul.server_instance_count | json}}
+            </div>
+            <div class="slider-container">
+              <span>Choose the number of consul client</span>
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="0"
+                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+              </mat-slider>
+              {{ projectForm?.value._consul.client_instance_count | json}}
+            </div>
+          </ng-container>
+          <h4>Bastion</h4>
+          <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"
+            formControlName="_bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
+          </dinivas-cloud-image-radios>
+          <ng-template #loading_bastion_image>
+            <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Bastion
+                instance</strong></p>
+          </ng-template>
+          <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_bastion_flavor"
+            formControlName="_bastion_cloud_flavor" label="Select bastion flavor to use" [cloudFlavors]="cloudFlavors">
+          </dinivas-cloud-flavor-radios>
+          <ng-template #loading_bastion_flavor>
+            <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
+                instance</strong></p>
+          </ng-template>
+          <h4>Project proxy</h4>
+          <!-- <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->
+          <div class="slide-toggle-container">
+            <mat-slide-toggle formControlName="enable_proxy" color="accent">
+              Enable proxy instance?
+            </mat-slide-toggle>
+            <mat-hint>A proxy will expose services to external network. This will preserve your public (or floating) Ips
+            </mat-hint>
+          </div>
+          <mat-form-field class="" appearance="outline" *ngIf="projectForm?.value.enable_proxy">
+            <mat-label>Allocated Floating IP to assign to the proxy instance, Select NONE for new floating IP</mat-label>
+            <mat-select formControlName="proxy_prefered_floating_ip">
+              <mat-option value="">None</mat-option>
+              <mat-option *ngFor="let floatingIp of availableFloatingIps;trackBy:trackById" [value]="floatingIp.ip">
+                {{ floatingIp.ip }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>This floating IP should be already allocate to the Cloud Provider project/tenant and not in use.</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline" *ngIf="projectForm?.value.enable_proxy">
+            <mat-label>Project root domain (DNS)</mat-label>
+            <input type="text" matInput formControlName="root_domain" required>
+            <mat-hint>This is the root domain used for all components</mat-hint>
+          </mat-form-field>
+          <ng-container *ngIf="projectForm?.value.enable_proxy">
+            <dinivas-cloud-image-radios *ngIf="proxyCloudImages?.length > 0; else loading_proxy_image"
+              formControlName="_proxy_cloud_image" label="Select proxy image to use" [cloudImages]="proxyCloudImages">
+            </dinivas-cloud-image-radios>
+            <ng-template #loading_proxy_image>
+              <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Proxy
+                  instance</strong></p>
+            </ng-template>
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_proxy_flavor"
+              formControlName="_proxy_cloud_flavor" label="Select proxy flavor to use" [cloudFlavors]="cloudFlavors">
+            </dinivas-cloud-flavor-radios>
+            <ng-template #loading_proxy_flavor>
+              <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Proxy
+                  instance</strong></p>
+            </ng-template>
+          </ng-container>
+          <h4>Keycloak (SSO)</h4>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Keycloak Host</mat-label>
+            <input type="text" matInput formControlName="keycloak_host" required>
+            <mat-hint>Keycloak host in the form <strong>Host</strong>:<strong>Port</strong></mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Keycloak Client id</mat-label>
+            <input type="text" matInput formControlName="keycloak_client_id" required>
+            <mat-hint>Keycloak Client ID used to create Project Realm and client</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Keycloak Client secret</mat-label>
+            <input type="text" matInput formControlName="keycloak_client_secret" required>
+            <mat-hint>Keycloak Client Secret used to create Project Realm and client</mat-hint>
+          </mat-form-field>
+          <div class="slide-toggle-container">
+            <mat-slide-toggle formControlName="monitoring" color="accent">
+              Enable project monitoring?
+            </mat-slide-toggle>
+            <mat-hint>Prometheus will be installed at project level</mat-hint>
+          </div>
+          <dinivas-cloud-flavor-radios
+            *ngIf="(projectForm?.value.monitoring && cloudFlavors?.length > 0); else loading_prometheus_flavor"
+            formControlName="_prometheus_cloud_flavor" label="Select prometheus flavor to use"
+            [cloudFlavors]="cloudFlavors"></dinivas-cloud-flavor-radios>
+          <ng-template #loading_prometheus_flavor>
+            <p class="no-data-checkbox" *ngIf="projectForm?.value.monitoring">Select a cloudprovider to display
+              <strong>flavors</strong> for
+              <strong>Prometheus instance</strong></p>
+          </ng-template>
+          <div class="slide-toggle-container">
+            <mat-slide-toggle formControlName="logging" color="accent">
+              Enable project logging?
+            </mat-slide-toggle>
+            <mat-hint>When enabled, you'll have to select the Logging stack to install</mat-hint>
+          </div>
+          <div class="logging-stack" *ngIf="projectForm?.value.logging">
+            <h4>Select logging stack bellow</h4>
+            <div class="stack-container">
+              <mat-card (click)="loggingStack = 'graylog'" [class.selected]="loggingStack === 'graylog'">
+                <mat-card-header>
+                  <mat-card-title>Graylog</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="graylog"></div>
+                  <p>Project logs will be forward to Graylog</p>
+                </mat-card-content>
+                <div class="checkmark-overlay"></div>
+                <mat-icon class="checkmark">check</mat-icon>
+              </mat-card>
+              <mat-card class="" (click)="false && loggingStack = 'kibana'" [class.selected]="loggingStack === 'kibana'" disabled>
+                <mat-card-header>
+                  <mat-card-title>Kibana</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="kibana"></div>
+                  <p>This will install Kibana stack</p>
+                </mat-card-content>
+                <div class="checkmark-overlay"></div>
+                <mat-icon class="checkmark">check</mat-icon>
+              </mat-card>
+            </div>
+          </div>
+
+        </div>
+        <div class="actions">
+          <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
+          <button type="button" mat-button matStepperNext class="ml-10" *ngIf="project?.id && isFormValid()"
+            (click)="showProjectOutput()">Show project
+            infra infos</button>
+          <button type="submit" mat-button matStepperNext color="primary" class="ml-10"
+            [disabled]="!isFormValid() || (isFormValid() && !projectForm.dirty)">Plan
+            project
+            resources</button>
+        </div>
+      </form>
+    </div>
+  </mat-step>
+  <mat-step [completed]="projectApplyStepFinished" [editable]="!showingDirectOutput">
+    <div class="apply-container">
+      <div class="spinner-container" *ngIf="projectApplyInProgress">
+        <mat-spinner></mat-spinner>
+        <span>We are creating your project resources, wait a moment...</span>
+      </div>
+      <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
+          not create any resources</span>
+      </ng-template>
+      <div class="tf-plan-resources-container">
+        <dinivas-terraform-representation [planRepresentation]="terraformPlanEvent?.planResult">
+        </dinivas-terraform-representation>
+      </div>
+      <div class="actions">
+        <button mat-button [routerLink]="['/projects']" queryParamsHandling="merge" type="button">Cancel</button>
+        <button mat-button matStepperPrevious class="ml-10">Back</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="submitApplyProjectPlan(projectForm.getRawValue(), projectForm.getRawValue()._consul)"
+          class="ml-10">{{ !project?.id ? 'Save & ': 'Update & ' }} apply resources changes</button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <div>
+      <ng-template matStepLabel>View project infrastructure informations
+      </ng-template>
+      <mat-list *ngIf="projectApplyStepFinished" dense>
+        <mat-list-item *ngFor="let output of terraformStateOutputs | keyvalue">
+          <mat-icon *ngIf="output.value.sensitive && !shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility</mat-icon>
+          <mat-icon *ngIf="output.value.sensitive && shouldShowSensitiveData[output.key]"
+            (click)="shouldShowSensitiveData[output.key] = !shouldShowSensitiveData[output.key]">visibility_off
+          </mat-icon>
+          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+          <h3 matLine> {{ output.key }}:<strong class="ml-10"
+              *ngIf="!output.value.sensitive || (output.value.sensitive && shouldShowSensitiveData[output.key])">{{output.value.value}}</strong>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" [routerLink]="['/projects']">Done !</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+
+
+
+
+
+<!-- <form [formGroup]="projectForm" (ngSubmit)="submit(projectForm.value)">
+  <div mat-dialog-content>
+
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()" type="button">Cancel</button>
+    <button mat-button color="primary" type="submit" [disabled]="!isFormValid()">
+      {{ project ? "Update" : "Create" }}
+    </button>
+  </div>
+</form> -->

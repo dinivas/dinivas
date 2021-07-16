@@ -1,0 +1,25 @@
+<div class="filter criterion">
+  <button mat-icon-button class="close" color="warn" matTooltip="Supprimer le filtre {{ filter.label }}" matTooltipPosition="above"
+    (click)="removeFilter()" [hidden]="selection.selected.length > 0" *ngIf="filter.removable">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-form-field *ngIf="filter.type == 0">
+    <mat-select [placeholder]="filter.label" [(ngModel)]="filter.value" (ngModelChange)="modelChanged($event)" name="food" multiple>
+      <mat-option *ngFor="let data of filter['datas']" [value]="data">{{ data }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="" *ngIf="filter.type == 1">
+    <!-- (blur)="modelChanged($event)" -->
+    <input matInput [placeholder]="filter.label" [(ngModel)]="filter.value" (keyup.enter)="modelChanged($event)" [disabled]="selection.selected.length > 0">
+  </mat-form-field>
+  <mat-form-field *ngIf="filter.type == 2">
+    <input matInput [matDatepicker]="picker" [(ngModel)]="filter.value" (ngModelChange)="modelChanged($event)" [placeholder]="filter.label"
+      >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false"></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class="" *ngIf="filter.type == 5">
+    <!-- (blur)="modelChanged($event)" -->
+    <input matInput type="number" [placeholder]="filter.label" [(ngModel)]="filter.value" (keyup.enter)="modelChanged($event)" [disabled]="selection.selected.length > 0">
+  </mat-form-field>
+</div>

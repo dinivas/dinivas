@@ -1,0 +1,112 @@
+@import '~@angular/material/theming';
+
+@mixin dinivas-global-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+  $foreground-divider-color: mat-color($foreground, divider);
+
+  body {
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  mat-toolbar {
+    &.header-toolbar {
+      height: 48px;
+      margin-left: -5px;
+      margin-right: -5px;
+      border-bottom: 1px solid $foreground-divider-color;
+      max-height: 64px;
+      -webkit-box-sizing: content-box;
+      box-sizing: content-box;
+      background: transparent;
+      .page-title {
+        margin-left: 15px;
+        font-weight: 400;
+        small {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .mat-menu-panel.project-selection {
+    button.project-selection-item {
+      font-size: 90%;
+      &.selected {
+        color: $primary-color;
+        .mat-icon{
+          margin-right: 5px;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .mat-list-base .mat-list-item {
+    font-size: 14px;
+  }
+  .mat-list-base .mat-list-item .mat-list-icon {
+    font-size: 18px;
+  }
+  .mat-list-base .mat-list-item .mat-list-text > *,
+  .mat-list-base .mat-list-option .mat-list-text > * {
+    font-size: 15px;
+    font-weight: 400 !important;
+  }
+
+  .mat-card {
+    &.empty-item-card {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      .mat-card-header {
+        border-bottom: 1px solid #d3d3d3;
+      }
+      .mat-card-content {
+        p {
+          margin: 15px;
+        }
+      }
+    }
+  }
+
+  .form-container {
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+      max-width: 90%;
+    }
+    .slide-toggle-container {
+      width: 100%;
+      display: inline-block;
+      position: relative;
+      text-align: left;
+      margin: 10px 0px;
+      .mat-hint {
+        font-size: 70%;
+        padding: 0 1em;
+        display: block;
+        padding: 10px 1em;
+      }
+    }
+  }
+
+  .full-width-table {
+    width: 100%;
+  }
+}

@@ -1,0 +1,36 @@
+export class Repository {
+    id: number;
+    name: string;
+    original_name: string;
+    description: string;
+    format: string;
+    is_enabled: boolean;
+    provider_namespace: any;
+    url: string;
+    external_url: string;
+    import_branch: string;
+    commit: string;
+    commit_message: string;
+    commit_url: string;
+    commit_created: string;
+    stargazers_count: number;
+    watchers_count: number;
+    forks_count: number;
+    open_issues_count: number;
+    clone_url: string;
+    issue_tracker_url: string;
+    summary_fields: any;
+    related: any;
+    last_import: string;
+    last_commit: string;
+    last_import_state: string;
+    download_count: number;
+    readme: string;
+    readme_html: string;
+    deprecated: boolean;
+    community_score: number;
+    quality_score: number;
+    quality_score_date: string;
+    travis_build_url: string;
+    travis_status_url: string;
+}

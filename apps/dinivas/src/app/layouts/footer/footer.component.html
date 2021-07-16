@@ -1,0 +1,36 @@
+<footer class="app-footer">
+  <div class="container">
+    <div class="resources-container">
+      <div class="provider openstack" *ngIf="ramQuota" fxHide fxShow.gt-lg></div>
+      <div class="quota ram" *ngIf="ramQuota">
+        <span class="type">Ram:</span>
+        <span class="in-use">{{ ramQuota.in_use * 1024 * 1024 | bytes}}</span>
+        <span>/</span>
+        <span class="limit">{{ ramQuota.limit *  1024 * 1024 | bytes}}</span>
+        <small class="ml-5">used</small>
+      </div>
+      <div class="quota cores" *ngIf="coresQuota">
+        <span class="type">Cores:</span>
+        <span class="in-use">{{ coresQuota.in_use }}</span>
+        <span>/</span>
+        <span class="limit">{{ coresQuota.limit }}</span>
+        <small class="ml-5">used</small>
+      </div>
+      <div class="quota instances" *ngIf="instancesQuota">
+        <span class="type">Instances:</span>
+        <span class="in-use">{{ instancesQuota.in_use }}</span>
+        <span>/</span>
+        <span class="limit">{{ instancesQuota.limit }}</span>
+        <small class="ml-5">used</small>
+      </div>
+      <div class="quota ips" *ngIf="floatIpQuota">
+        <span class="type">Ips:</span>
+        <span class="in-use">{{ floatIpQuota.in_use }}</span>
+        <span>/</span>
+        <span class="limit">{{ floatIpQuota.limit }}</span>
+        <small class="ml-5">used</small>
+      </div>
+    </div>
+    <span class="copyright">Dinivas@2018</span>
+  </div>
+</footer>

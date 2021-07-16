@@ -1,0 +1,94 @@
+<form [formGroup]="rabbitmqForm" *ngIf="rabbitmqForm" (ngSubmit)="submitPlanRabbitMQ(rabbitmqForm.getRawValue())"
+  class="rabbitmq-wizard-form">
+  <ng-template matStepLabel>RabbitMQ informations - <span class="text-warn">This step will not create any
+      resources</span></ng-template>
+  <div class="mat-form-container" fxLayout="column">
+    <mat-form-field class="" appearance="outline">
+      <mat-label>RabbitMQ cluster name</mat-label>
+      <input type="text" matInput formControlName="code" required>
+      <span *ngIf="!rabbitmq?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
+      <mat-hint>The RabbitMQ cluster nameYou can't change it after RabbitMQ
+        creation.</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>RabbitMQ network</mat-label>
+      <mat-select formControlName="network_name" required>
+        <mat-option [value]="projectNetwork">
+          {{ projectNetwork }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>RabbitMQ will be added to project Network by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>RabbitMQ network subnet</mat-label>
+      <mat-select formControlName="network_subnet_name" required>
+        <mat-option [value]="projectNetworkSubnet">
+          {{ projectNetworkSubnet }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>RabbitMQ will be added to project Subnet by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>RabbitMQ instances keypair</mat-label>
+      <mat-select formControlName="keypair_name" required>
+        <mat-option [value]="projectKeypair">
+          {{ projectKeypair }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>This Keypair will be added to all instances crated</mat-hint>
+    </mat-form-field>
+    <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_nodes_image"
+      formControlName="_cluster_cloud_image" label="Select RabbitMQ node image to use" [cloudImages]="cloudImages">
+    </dinivas-cloud-image-radios>
+    <ng-template #loading_nodes_image>
+      <p class="no-data-checkbox">No image that match filter found.</p>
+    </ng-template>
+    <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_nodes_flavor"
+      formControlName="_cluster_cloud_flavor" label="Select RabbitMQ node flavor to use" [cloudFlavors]="cloudFlavors">
+    </dinivas-cloud-flavor-radios>
+    <ng-template #loading_nodes_flavor>
+      <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Cluster
+          nodes</strong></p>
+    </ng-template>
+    <div class="slider-container">
+      <span>Select the number of nodes for this cluster</span>
+      <mat-slider class="" [class.cdk-focused]="true" formControlName="cluster_instance_count" [max]="10" [min]="1"
+        [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+      </mat-slider>
+      {{ rabbitmqForm?.value['cluster_instance_count'] | json}}
+    </div>
+    <mat-form-field class="plugin-list-container" appearance="outline">
+      <mat-chip-list #chipList aria-label="RabbiMQ plugins" formControlName="_enabled_plugin_list">
+        <mat-chip *ngFor="let plugin of selectedRabbitmqPlugins" (removed)="removePLugin(plugin)"
+          [removable]="availableRabbitmqPlugins.indexOf(plugin) > -1" color="primary" selected>
+          {{ plugin }}
+          <mat-icon matChipRemove *ngIf="availableRabbitmqPlugins.indexOf(plugin) > -1">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="RabbitMQ plugins" [matChipInputFor]="chipList" [matAutocomplete]="autoPlugins"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+      </mat-chip-list>
+      <mat-autocomplete #autoPlugins="matAutocomplete" (optionSelected)="addPluginToSelected($event)">
+        <mat-option *ngFor="let plugin of remainingAvailableRabbitmqPlugins" [value]="plugin">
+          {{ plugin }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>The selected plugin will be enable on the cluster</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="actions">
+    <button mat-button [routerLink]="['/messaging', 'rabbitmq']" queryParamsHandling="merge"
+      type="button">Cancel</button>
+    <button type="button" mat-button matStepperPrevious>Back</button>
+    <button type="button" mat-button class="ml-10" *ngIf="rabbitmq?.id && isFormValid()"
+      (click)="showRabbitMQOutput(rabbitmqForm.getRawValue())">Show rabbitmq
+      infra infos</button>
+    <button type="submit" mat-raised-button color="primary" class="ml-10"
+      [disabled]="!isFormValid() || (isFormValid() && !rabbitmqForm.dirty)">Plan
+      RabbitMQ
+      resources</button>
+  </div>
+</form>

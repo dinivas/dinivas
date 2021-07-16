@@ -1,0 +1,64 @@
+<h1 mat-dialog-title>Dinivas Image Builder</h1>
+<form [formGroup]="imageToBuildForm" class="form-container"
+    (ngSubmit)="submitImageToBuild(imageToBuildForm.getRawValue())">
+    <div mat-dialog-content>
+        <div class="mat-form-container" fxLayout="column">
+            <mat-form-field class="" appearance="outline">
+                <mat-label>Dinivas module</mat-label>
+                <mat-select formControlName="module_name" required>
+                    <mat-option [value]="moduleImage" *ngFor="let moduleImage of availableModuleImages">
+                        {{ moduleImage }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>The Dinivas module image.</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+                <mat-label>Image name</mat-label>
+                <input type="text" matInput formControlName="image_name" required>
+                <mat-hint>The built image name.</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+                <mat-label>SSH username</mat-label>
+                <input type="text" matInput formControlName="source_ssh_user" required>
+                <mat-hint>The user to use for ssh connection.</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+                <mat-label>Network to attach instance on</mat-label>
+                <mat-select formControlName="network" required>
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let network of projectNetworks" [value]="network.id">
+                        {{ network.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>This instance will be attached to this network</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+                <mat-label>Floating ip network</mat-label>
+                <mat-select formControlName="floating_ip_network" required>
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let network of projectNetworks" [value]="network.label">
+                        {{ network.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>This instance will be attached to this network</mat-hint>
+            </mat-form-field>
+            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0" formControlName="_source_cloud_image"
+                label="Select the source image to use" [cloudImages]="cloudImages">
+            </dinivas-cloud-image-radios>
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="_source_cloud_flavor"
+                label="Select source flavor to use" [cloudFlavors]="cloudFlavors">
+            </dinivas-cloud-flavor-radios>
+            <div class="slide-toggle-container">
+                <mat-slide-toggle formControlName="override_image_if_exist" color="accent">
+                    Override image if already exist?
+                </mat-slide-toggle>
+                <mat-hint>If an image withe the same name already exist it will be deleted</mat-hint>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button type="button" mat-button (click)="cancel()">Cancel</button>
+        <button type="submit" mat-button color="primary" cdkFocusInitial [disabled]="!imageToBuildForm.valid">Build
+            image</button>
+    </div>
+</form>

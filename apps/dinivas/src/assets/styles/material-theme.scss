@@ -1,0 +1,122 @@
+@import '~@angular/material/theming';
+@import 'variables';
+@import 'typography';
+@import 'components';
+@import 'dinivas';
+
+@include mat-core();
+
+$dinivas-light-theme-background: (
+  status-bar: map_get($mat-grey, 300),
+  app-bar: map_get($mat-grey, 100),
+  background: map_get($mat-grey, 50),
+  hover: rgba(black, 0.04),
+  // TODO(kara): check style with Material Design UX card: white,
+  card: white,
+  dialog: white,
+  disabled-button: rgba(black, 0.12),
+  raised-button: white,
+  focused-button: $dark-focused,
+  selected-button: map_get($mat-grey, 300),
+  selected-disabled-button: map_get($mat-grey, 400),
+  disabled-button-toggle: map_get($mat-grey, 200),
+  unselected-chip: map_get($mat-grey, 300),
+  disabled-list-option: map_get($mat-grey, 200)
+);
+
+$dinivas-light-theme-foreground: (
+  base: black,
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: rgba(black, 0.26),
+  disabled-text: $dark-disabled-text,
+  elevation: black,
+  hint-text: $dark-disabled-text,
+  secondary-text: $dark-secondary-text,
+  icon: rgba(black, 0.54),
+  icons: rgba(black, 0.54),
+  text: rgba(black, 0.65),
+  slider-min: rgba(black, 0.87),
+  slider-off: rgba(black, 0.26),
+  slider-off-active: rgba(black, 0.38)
+);
+
+$dinivas-light-theme: (
+  primary: $dinivas-light-primary,
+  accent: $dinivas-light-accent,
+  warn: $dinivas-light-warn,
+  is-dark: false,
+  foreground: $dinivas-light-theme-foreground,
+  background: $dinivas-light-theme-background
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+
+@include angular-material-theme($dinivas-light-theme);
+@include typography-theme($dinivas-light-theme);
+@include components-theme($dinivas-light-theme);
+@include dinivas-global-theme($dinivas-light-theme);
+
+.dark-theme {
+  color: $light-primary-text;
+  $dark-primary: mat-palette($mat-pink, A200, A100, A400);
+  $dark-accent: mat-palette($mat-teal, A400, A200, A700);
+  $dark-warn: mat-palette($mat-red, A200, A100, A400);
+  $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+  // Background palette for light themes.
+  $dinivas-dark-theme-background: (
+    status-bar: black,
+    app-bar: map_get($mat-grey, 900),
+    background: #303030,
+    hover: rgba(white, 0.04),
+    // TODO(kara): check style with Material Design UX card: map_get($mat-grey, 800),
+    card: map_get($mat-grey, 800),
+    dialog: map_get($mat-grey, 800),
+    disabled-button: rgba(white, 0.12),
+    raised-button: map-get($mat-grey, 800),
+    focused-button: $light-focused,
+    selected-button: map_get($mat-grey, 900),
+    selected-disabled-button: map_get($mat-grey, 800),
+    disabled-button-toggle: black,
+    unselected-chip: map_get($mat-grey, 700),
+    disabled-list-option: black
+  );
+
+  // Foreground palette for light themes.
+  $dinivas-dark-theme-foreground: (
+    base: white,
+    divider: $light-dividers,
+    dividers: $light-dividers,
+    disabled: $light-disabled-text,
+    disabled-button: rgba(white, 0.3),
+    disabled-text: $light-disabled-text,
+    elevation: black,
+    hint-text: $light-disabled-text,
+    secondary-text: $light-secondary-text,
+    icon: white,
+    icons: white,
+    text: white,
+    slider-min: white,
+    slider-off: rgba(white, 0.3),
+    slider-off-active: rgba(white, 0.3)
+  );
+
+  $dinivas-dark-theme: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+    warn: $dark-warn,
+    is-dark: true,
+    foreground: $dinivas-dark-theme-foreground,
+    background: $dinivas-dark-theme-background
+  );
+
+  @include angular-material-theme($dinivas-dark-theme);
+  @include typography-theme($dinivas-dark-theme);
+  @include components-theme($dinivas-dark-theme);
+  @include app-global-toolbar-theme($dinivas-dark-theme);
+  @include dinivas-global-theme($dinivas-dark-theme);
+}

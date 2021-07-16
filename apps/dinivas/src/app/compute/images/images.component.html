@@ -1,0 +1,102 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <mat-icon matListIcon svgIcon="disc"></mat-icon>
+  <span class="page-title">Images</span>
+</mat-toolbar>
+<div class="container">
+  <mat-card class="entity-table-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
+        [showAddButton]="showAddButton" (onFilterChanged)="filterChanged($event)" (onRefreshData)="refreshDatas()"
+        (onAddEntity)="addImage()" (onDeleteSelection)="deleteEntity($event)" [customButtons]="filterBarCustomButtons"
+        (onCustomButtonClicked)="handleCustomButtonClicked($event)"></dinivas-filter-bar>
+      <div class="spinner-container" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table #table class="responsive full-width-table" [dataSource]="dataSource" matSort matSortActive="id"
+        matSortDirection="desc" matSortDisableClear>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="select-cell">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="select-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Datas -->
+        <!-- Id Column -->
+        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container> -->
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let row"><span>{{row.name}}</span>
+            <p class="image-id">{{row.id}}</p>
+          </td>
+        </ng-container>
+        <!-- Dinivas image Column -->
+        <ng-container matColumnDef="dinivasImage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon class="text-accent" *ngIf="row.tags.indexOf('dinivas') !== -1" matTooltip="Dinivas Image"
+              matTooltipPosition="left">star</mat-icon>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let row">{{row.status}}</td>
+        </ng-container>
+
+        <!-- Owner Column -->
+        <ng-container matColumnDef="owner">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner</th>
+          <td mat-cell *matCellDef="let row">{{row.owner}}</td>
+        </ng-container>
+        <!-- Visibility Column -->
+        <ng-container matColumnDef="visibility">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Visibility</th>
+          <td mat-cell *matCellDef="let row">{{row.visibility}}</td>
+        </ng-container>
+        <!-- Image size Column -->
+        <ng-container matColumnDef="size">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Image size</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.size | bytes }}</td>
+        </ng-container>
+        <!-- Min disk Column -->
+        <ng-container matColumnDef="min_disk">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Min disk</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.min_disk | bytes }}</td>
+        </ng-container>
+        <!-- Actions -->
+        <ng-container matColumnDef="row-actions">
+          <th mat-header-cell *matHeaderCellDef class="action-cell ">
+          </th>
+          <td mat-cell *matCellDef="let entity" class="row-action edit-action">
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
+              (click)="deleteEntity(entity)">
+              <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      </table>
+      <mat-paginator [length]="totalEntitiesCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

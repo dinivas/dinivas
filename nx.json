@@ -33,12 +33,18 @@
     "api-interfaces": {
       "tags": []
     },
+    "common-ui": {
+      "tags": []
+    },
     "dinivas": {
       "tags": []
     },
     "dinivas-e2e": {
       "tags": [],
       "implicitDependencies": ["dinivas"]
+    },
+    "ng-material": {
+      "tags": []
     }
   }
 }

@@ -1,0 +1,69 @@
+@import '../../../../core/entity/mat-crud/mat-crud.scss';
+
+@import '~@angular/material/theming';
+
+@mixin ansible-my-content-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .ansible-my-content {
+    .mat-toolbar.header-toolbar {
+      margin-top: 10px;
+      border-bottom: none;
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .mat-expansion-panel-header-description {
+      justify-content: space-between;
+      align-items: center;
+      img.avatar {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .namespace-header {
+      position: relative;
+      .mat-icon {
+        position: absolute;
+        left: -15px;
+        top: -3px;
+      }
+      .namespace-name-title {
+        margin: 10px 15px 10px;
+        color: #afafaf;
+        text-transform: uppercase;
+      }
+    }
+    .repo-info {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      a {
+      }
+      .status {
+      }
+      .import-infos {
+      }
+      .actions {
+      }
+    }
+
+    .mat-list {
+      margin-top: 10px;
+    }
+
+    .mat-list-item {
+      font-size: 13px !important;
+    }
+    .mat-divider {
+      margin: 5px 0px;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+@import '../../../../assets/styles/mixins';
+
+@import '~@angular/material/theming';
+
+@mixin entity-filter-bar-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .filter-bar {
+    padding: 0 16px;
+    display: flex; // flex-wrap: wrap;
+    .left {
+      button:not(first-child) {
+        margin-left: 10px;
+      }
+    }
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .criteria {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      .filter {
+        max-width: 250px;
+        &.criterion {
+          padding: 0 1rem;
+          display: flex;
+          button.close {
+            top: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .mat-toolbar.filter-bar-toolbar {
+    font-size: inherit;
+    justify-content: space-between;
+    .mat-toolbar-row {
+      .spacer {
+        flex: 1 1 auto;
+      }
+      &.selected-row {
+        background-color: darken($background-color, 10%);
+        @include transition(all 0.3s ease);
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .filter-bar {
+      .criteria {
+        width: 100%;
+        mat-form-field.global-fiter {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

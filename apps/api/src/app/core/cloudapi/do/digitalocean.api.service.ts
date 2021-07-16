@@ -1,0 +1,373 @@
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  ICloudApi,
+  ICloudApiInfo,
+  ICloudApiConfig,
+  ICloudApiInstance,
+  ICloudApiImage,
+  ICloudApiDisk,
+  ICloudApiProjectQuota,
+  ICloudApiProjectFloatingIpPool,
+  ICloudApiProjectRouter,
+  ICloudApiFlavor,
+  ICloudApiAvailabilityZone,
+  ICloudApiNetwork,
+  ICloudApiProjectFloatingIp,
+} from '@dinivas/api-interfaces';
+import DigitalOcean from 'do-wrapper';
+import VPCs from './vpcs';
+import RequestHelper from 'do-wrapper/dist/request-helper';
+import { ConfigurationService } from '../../../core/config/configuration.service';
+
+@Injectable()
+export class DigitalOceanApiService implements ICloudApi {
+  private readonly logger = new Logger(DigitalOceanApiService.name);
+
+  constructor(private configService: ConfigurationService) {}
+
+  getAllAvailabilityZones(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiAvailabilityZone[]> {
+    return new Promise<ICloudApiAvailabilityZone[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .regions.getAll('')
+        .then((data) => {
+          this.logger.debug('DO regions datas', data);
+          resolve(
+            data.regions.map(
+              (region: {
+                slug: unknown;
+                name: unknown;
+                available: unknown;
+                sizes: [];
+                features: [];
+              }) => {
+                return {
+                  hosts: region.slug,
+                  zoneName: region.name,
+                  zoneState: {
+                    available: region.available,
+                  },
+                };
+              }
+            )
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+  getProjectInfo(cloudConfig: ICloudApiConfig): Promise<ICloudApiInfo> {
+    return new Promise<ICloudApiInfo>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .projects.getById(cloudConfig.project_id)
+        .then((data) => {
+          this.logger.debug('Project info datas:', data);
+          resolve({
+            project_name: '',
+            user_name: '',
+          });
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getProjectQuota(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectQuota> {
+    return new Promise<ICloudApiProjectQuota>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .floatingIPs.getAll('')
+        .then((data) => {
+          this.logger.debug('Project Quoto datas', data);
+          resolve(
+            data.floating_ips.map((floatingIp) => {
+              return {
+                id: floatingIp.id,
+                fixed_ip: floatingIp.fixed_ip,
+                instance_id: floatingIp.instance_id,
+                ip: floatingIp.ip,
+                pool: floatingIp.pool,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getProjectFloatingIpPools(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectFloatingIpPool[]> {
+    return new Promise<ICloudApiProjectFloatingIpPool[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .floatingIPs.getAll('')
+        .then((data) => {
+          this.logger.debug('Floating Ips datas', data);
+          resolve(
+            data.floating_ips.map((floatingIp) => {
+              return {
+                id: floatingIp.id,
+                fixed_ip: floatingIp.fixed_ip,
+                instance_id: floatingIp.instance_id,
+                ip: floatingIp.ip,
+                pool: floatingIp.pool,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getProjectFloatingIps(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectFloatingIp[]> {
+    return new Promise<ICloudApiProjectFloatingIp[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .floatingIPs.getAll('')
+        .then((data) => {
+          this.logger.debug('Floating Ips datas', data);
+          resolve(
+            data.floating_ips.map((floatingIp) => {
+              return {
+                id: floatingIp.id,
+                fixed_ip: floatingIp.fixed_ip,
+                instance_id: floatingIp.instance_id,
+                ip: floatingIp.ip,
+                pool: floatingIp.pool,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getProjectNetworks(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiNetwork[]> {
+    return new Promise<ICloudApiNetwork[]>((resolve, reject) => {
+      const requestHelper = new RequestHelper(cloudConfig.password);
+      const vpcs = new VPCs(10, requestHelper);
+      vpcs
+        .getAll('')
+        .then((data) => {
+          this.logger.debug('Project VPCs datas', data);
+          console.log(data);
+          resolve(
+            data.vpcs.map(
+              (vpc: { id: string; ip_range: string; name: string }) => {
+                return {
+                  id: vpc.id,
+                  cidr: vpc.ip_range,
+                  label: vpc.name,
+                } as ICloudApiNetwork;
+              }
+            )
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getProjectRouters(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiProjectRouter[]> {
+    return new Promise<ICloudApiProjectRouter[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .floatingIPs.getAll('')
+        .then((data) => {
+          this.logger.debug('Project Router datas', data);
+          resolve(
+            data.floating_ips.map((floatingIp) => {
+              return {
+                id: floatingIp.id,
+                fixed_ip: floatingIp.fixed_ip,
+                instance_id: floatingIp.instance_id,
+                ip: floatingIp.ip,
+                pool: floatingIp.pool,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]> {
+    return new Promise<ICloudApiInstance[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .droplets.getAll('')
+        .then((data) => {
+          this.logger.debug('Project Droplet datas', data);
+          resolve(
+            data.droplets.map((droplet) => {
+              return {
+                id: droplet.id,
+                fixed_ip: droplet.fixed_ip,
+                instance_id: droplet.instance_id,
+                ip: droplet.ip,
+                pool: droplet.pool,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]> {
+    return new Promise<ICloudApiFlavor[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .sizes.get('')
+        .then((data) => {
+          this.logger.debug('Project flavors datas:', data);
+          resolve(
+            data.sizes.map((flavor) => {
+              return {
+                id: flavor.id,
+                name: flavor.slug,
+                description: flavor.description,
+                vcpus: flavor.vcpus,
+                ram: flavor.memory,
+                disk: flavor.disk,
+                swap: flavor.swap,
+                is_public: flavor.available,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]> {
+    return new Promise<ICloudApiImage[]>((resolve, reject) => {
+      if (
+        this.configService.getOrElse(
+          'cloud_providers.digitalocean.api_uses_snapshots',
+          true
+        )
+      ) {
+        this.getDOInstance(cloudConfig)
+          .snapshots.get('')
+          .then((data) => {
+            this.logger.debug('Project snapshots datas:', data);
+            console.log(data);
+            resolve(
+              data.snapshots.map((snapshot) => {
+                return {
+                  id: snapshot.id,
+                  name: snapshot.name,
+                  container_format: snapshot.container_format,
+                  owner: snapshot.owner_user_name,
+                  size: snapshot.size_gigabytes * 1024 * 1024 * 1024,
+                  status: snapshot.status,
+                  min_disk: snapshot.min_disk_size
+                    ? snapshot.min_disk_size * 1024 * 1024 * 1024
+                    : 0, //min disk on openstack always in GB, but api must return bytes
+                  visibility: snapshot.public ? 'public' : 'private',
+                  date: snapshot.created_at,
+                  tags: snapshot.tags,
+                };
+              })
+            );
+          })
+          .catch((err) => {
+            this.logger.error(err);
+            reject(err);
+          });
+      } else {
+        this.getDOInstance(cloudConfig)
+          .images.getAll('')
+          .then((data) => {
+            this.logger.debug('Project images datas:', data);
+            console.log(data);
+            resolve(
+              data.images.map((img) => {
+                return {
+                  id: img.id,
+                  name: img.slug,
+                  container_format: img.container_format,
+                  owner: img.owner_user_name,
+                  size: img.size,
+                  status: img.status,
+                  min_disk: img.min_disk_size
+                    ? img.min_disk_size * 1024 * 1024 * 1024
+                    : 0, //min disk on openstack always in GB, but apimust return bytes
+                  min_ram: img.min_ram,
+                  visibility: img.public ? 'public' : 'private',
+                  date: img.created_at,
+                  tags: img.tags,
+                };
+              })
+            );
+          })
+          .catch((err) => {
+            this.logger.error(err);
+            reject(err);
+          });
+      }
+    });
+  }
+
+  getAllDisks(cloudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]> {
+    return new Promise<ICloudApiDisk[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .volumes.getAll('')
+        .then((data) => {
+          this.logger.debug('Project volumes datas:', data);
+          console.log(data);
+          resolve(
+            data.volumes.map((volume) => {
+              return {
+                id: volume.id,
+                name: volume.name,
+                description: volume.container_format,
+                size: volume.size,
+                status: volume.status,
+                volumeType: volume.visibility,
+                date: volume.updated_at,
+                metedata: volume.tags,
+              };
+            })
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  private getDOInstance(cloudConfig: ICloudApiConfig) {
+    return new DigitalOcean(cloudConfig.password);
+  }
+}

@@ -1,0 +1,109 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <mat-icon svgIcon="rabbitmq"></mat-icon>
+  <span class="page-title">RabbitMQ</span>
+</mat-toolbar>
+<mat-card class="empty-item-card info-card" *ngIf="rabbitmqList.length === 0">
+  <mat-card-header>
+    <mat-icon svgIcon="rabbitmq" mat-card-avatar color="primary"></mat-icon>
+    <mat-card-title>RabbitMQ</mat-card-title>
+    <mat-card-subtitle>AMQP broker (managed)</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      RabbitMQ is an AMQP rmessaging broker used by many project . Dinivas can create a AMQP cluster and managed it
+      for you
+    </p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button color="primary" [routerLink]="['/messaging', 'rabbitmq', 'new']" queryParamsHandling="merge">Create RabbitMQ cluster</button>
+  </mat-card-actions>
+</mat-card>
+<div class="container" [class.hide]="rabbitmqList.length === 0">
+  <mat-card class="entity-table-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
+        [showAddButton]="showAddButton" addButtonLabel="Add new Cluster" (onFilterChanged)="filterChanged($event)"
+        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addRabbitMQCluster()"
+        (onDeleteSelection)="deleteEntity($event)">
+      </dinivas-filter-bar>
+      <div class="spinner-container" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table #table class="responsive full-width-table" [dataSource]="dataSource" matSort matSortActive="id"
+        matSortDirection="desc" matSortDisableClear>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="select-cell">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="select-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Datas -->
+        <!-- Id Column -->
+        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container> -->
+
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" [routerLink]="['/messaging','rabbitmq', row.id, 'status']"
+              queryParamsHandling="merge">
+              {{row.code }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <a mat-button [href]="'http://' + row.code + '-dashboard.' + row.project.root_domain" target="_blank" *ngIf="row.project.root_domain">
+              {{row.code + '-dashboard.' + row.project.root_domain }}
+              <mat-icon>open_in_new</mat-icon>
+          </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="cluster_availability_zone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Availability zone</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.cluster_availability_zone }}
+          </td>
+        </ng-container>
+        <!-- Node count-->
+        <ng-container matColumnDef="node_count">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nb Nodes</th>
+          <td mat-cell *matCellDef="let row">{{ row.cluster_instance_count }}</td>
+        </ng-container>
+        <!-- Actions -->
+        <ng-container matColumnDef="row-actions">
+          <th mat-header-cell *matHeaderCellDef class="action-cell ">
+          </th>
+          <td mat-cell *matCellDef="let entity" class="row-action edit-action">
+            <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
+              [routerLink]="['/messaging','rabbitmq', entity.id , 'edit']" queryParamsHandling="merge">
+              <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
+            </a>
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
+              (click)="deleteEntity(entity)">
+              <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      </table>
+      <mat-paginator [length]="totalEntitiesCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

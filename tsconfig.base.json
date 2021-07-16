@@ -10,12 +10,17 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
+    "noImplicitAny": false,
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@dinivas/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@dinivas/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@dinivas/common-ui": ["libs/common-ui/src/index.ts"],
+      "@dinivas/ng-material": ["libs/ng-material/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

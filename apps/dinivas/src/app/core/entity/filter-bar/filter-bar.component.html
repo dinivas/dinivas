@@ -1,0 +1,81 @@
+<mat-toolbar class="filter-bar-toolbar">
+  <mat-toolbar-row class="filter-bar" *ngIf="selection.selected.length == 0">
+    <div class="left">
+      <button mat-button color="primary"  *ngIf="showAddButton" (click)="addEntity($event)">
+        <mat-icon>add</mat-icon>
+        {{ addButtonLabel }}
+      </button>
+      <button mat-button color="primary" (click)="customButtonClicked(customButton,$event)" *ngFor="let customButton of customButtons">
+          <mat-icon>{{ customButton.matIcon }}</mat-icon>
+          {{ customButton.label }}
+        </button>
+    </div>
+    <div class="spacer"></div>
+    <div class="right">
+      <button mat-button color="primary" (click)="refreshDatas($event)">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="filterMenu" matTooltip="Filtres" matTooltipPosition="below" [disabled]="(filters | selectedFilter:false).length == 0">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      <mat-menu #filterMenu="matMenu" xPosition="before">
+        <button mat-menu-item *ngFor="let filter of (filters | selectedFilter:false)" (click)="filter.selected = true">
+          <span>{{ filter.label}}</span>
+        </button>
+      </mat-menu>
+      <button mat-icon-button [matMenuTriggerFor]="moreMenu" matTooltip="More..." matTooltipPosition="below">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #moreMenu="matMenu" xPosition="before">
+        <button mat-menu-item>
+          <mat-icon>file_download</mat-icon>
+          <span>Export</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>print</mat-icon>
+          <span>Print</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+  <mat-toolbar-row class="selected-row" *ngIf="selection.selected.length > 0">
+    <span class="has-text-info">
+      {{ selection.selected.length }} line selected
+    </span>
+    <div class="spacer"></div>
+    <button mat-icon-button class="" (click)="deleteSelection($event)">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="moreMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #moreMenu="matMenu" xPosition="before">
+      <button mat-menu-item disabled>
+        <mat-icon>file_download</mat-icon>
+        <span>Export selection</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>print</mat-icon>
+        <span>Print selection</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>delete</mat-icon>
+        <span>Delete selection</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="filter-bar">
+  <div class="criteria">
+    <mat-form-field class="global-fiter">
+      <input matInput class="" [(ngModel)]="globalFilterText" [placeholder]="filterPlaceholder" #filterInput [disabled]="selection.selected.length > 0">
+      <button mat-button *ngIf="globalFilterText" matSuffix mat-icon-button aria-label="Clear" (click)="globalFilterText =''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <dinivas-filter-criterion class="is-hidden-touch" [filter]="filter" [selection]="selection" (filterChanged)="filterChanged(filter)"
+      *ngFor="let filter of (filters | selectedFilter:true)">
+    </dinivas-filter-criterion>
+  </div>
+</div>

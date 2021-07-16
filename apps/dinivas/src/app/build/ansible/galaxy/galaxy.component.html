@@ -1,0 +1,20 @@
+<mat-toolbar class="mat-toolbar header-toolbar galaxy-nav">
+  <mat-icon matListIcon svgIcon="ansible"></mat-icon>
+  <span class="page-title">Ansible Galaxy</span>
+  <span class="fill-remaining-space"></span>
+</mat-toolbar>
+<nav mat-tab-nav-bar class="galaxy-nav">
+  <a mat-tab-link routerLinkActive #rlaSearch="routerLinkActive" [active]="rlaSearch.isActive"
+    routerLink="search">Search</a>
+  <a mat-tab-link routerLinkActive #rlaMyContent="routerLinkActive" [active]="rlaMyContent.isActive"
+    routerLink="my-content">My content</a>
+  <a mat-tab-link routerLinkActive #rlaMyImport="routerLinkActive" [active]="rlaMyImport.isActive"
+    routerLink="my-import">My import</a>
+  <!-- <a mat-tab-link routerLinkActive #rlaSettings="routerLinkActive" [active]="rlaSettings.isActive"
+    routerLink="my-settings">My settings</a> -->
+  <a mat-tab-link routerLinkActive #rlaProviderSettings="routerLinkActive" [active]="rlaProviderSettings.isActive"
+    routerLink="providers">Repo provider settings</a>
+</nav>
+<div class="">
+  <router-outlet></router-outlet>
+</div>

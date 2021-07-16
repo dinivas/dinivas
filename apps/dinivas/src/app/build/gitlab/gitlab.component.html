@@ -1,0 +1,22 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <mat-icon matListIcon svgIcon="gitlab"></mat-icon>
+  <span class="page-title">Gitlab</span>
+</mat-toolbar>
+<mat-card class="empty-item-card info-card">
+  <mat-card-header>
+    <div mat-card-avatar class="gitlab-logo"></div>
+    <mat-card-title>Gitlab server</mat-card-title>
+    <mat-card-subtitle>CI/CD tools (managed)</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      Gitlab is a complete DEVOPS tools used by many project (Ideas to production). Dinivas can create a Gitlab server
+      (Master + runners) and managed them
+      for you
+    </p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button color="primary" [routerLink]="['/build', 'gitlab', 'new']">Create Gitlab instance</button>
+  </mat-card-actions>
+</mat-card>
+<dinivas-need-your-contribution moduleName="gitlab"></dinivas-need-your-contribution>

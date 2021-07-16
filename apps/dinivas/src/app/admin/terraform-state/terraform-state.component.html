@@ -1,0 +1,93 @@
+<mat-toolbar class="mat-toolbar header-toolbar">
+  <span class="page-title">Terraform state</span>
+</mat-toolbar>
+<div class="container">
+  <mat-card class="entity-table-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
+        [showAddButton]="false" (onFilterChanged)="filterChanged($event)" (onRefreshData)="refreshDatas()">
+      </dinivas-filter-bar>
+      <div class="spinner-container" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table #table class="responsive full-width-table" [dataSource]="dataSource" matSort matSortActive="id"
+        matSortDirection="desc" matSortDisableClear>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="select-cell">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="select-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Datas -->
+        <!-- Id Column -->
+        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container> -->
+
+        <!-- StateId Column -->
+        <ng-container matColumnDef="stateId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>State Id</th>
+          <td mat-cell *matCellDef="let row">{{row.stateId}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="lockState">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon class="" *ngIf="row?.lockId" matTooltip="This state is locked" matTooltipPosition="right">lock
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <!-- Module Column -->
+        <ng-container matColumnDef="module">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TF module</th>
+          <td mat-cell *matCellDef="let row">{{row.module}}</td>
+        </ng-container>
+
+        <!-- Lock Id Column -->
+        <ng-container matColumnDef="lockId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Lock id</th>
+          <td mat-cell *matCellDef="let row">{{row.lockId}}</td>
+        </ng-container>
+        <!-- Lock Date Column -->
+        <ng-container matColumnDef="lockDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Lock date</th>
+          <td mat-cell *matCellDef="let row">{{row.lockDate}}</td>
+        </ng-container>
+        <!-- Actions -->
+        <ng-container matColumnDef="row-actions">
+          <th mat-header-cell *matHeaderCellDef class="action-cell ">
+          </th>
+          <td mat-cell *matCellDef="let entity" class="row-action edit-action">
+            <a class="show-state" mat-icon-button class="has-text-grey-light" (click)="showState(entity)">
+              <mat-icon matTooltip="unlock" matTooltipPosition="left">visibility</mat-icon>
+            </a>
+            <a class="unlock" mat-icon-button class="has-text-grey-light edit" *ngIf="entity?.lockId"
+              (click)="unlockState(entity)">
+              <mat-icon matTooltip="Force release lock" matTooltipPosition="left">lock_open</mat-icon>
+            </a>
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="canDeleteTfState(entity)"
+              (click)="deleteEntity(entity)">
+              <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      </table>
+      <mat-paginator [length]="totalEntitiesCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

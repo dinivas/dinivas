@@ -1,0 +1,141 @@
+@import 'variables';
+
+
+// media queries
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+@mixin for-tablet-portrait {
+  @media (min-width: 600px) and (max-width: 899px) {
+    @content;
+  }
+}
+@mixin for-tablet-portrait-up {
+  @media (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin for-tablet-landscape {
+  @media (min-width: 900px) and (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin for-tablet-landscape-up {
+  @media (min-width: 900px) {
+    @content;
+  }
+}
+
+@mixin for-desktop-down {
+  @media (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+
+@mixin for-ultra-desktop-up {
+  @media (min-width: 2520px) {
+    @content;
+  }
+}
+
+/*
+Usage:
+@include screen('tablet') {
+    width: 90%;
+  }
+
+  @include screen('desktop') {
+    width: 85%;
+  }
+*/
+@mixin screen($size) {
+  $desktop: '(min-width: 1024px)';
+  $tablet: '(min-width: 768px) and (max-width: 1023px)';
+  $mobile: '(max-width: 767px)';
+  @if $size == desktop {
+    @media only screen and #{$desktop} {
+      @content;
+    }
+  } @else if $size == tablet {
+    @media only screen and #{$tablet} {
+      @content;
+    }
+  } @else if $size == mobile {
+    @media only screen and #{$mobile} {
+      @content;
+    }
+  } @else {
+    @media only screen and #{$size} {
+      @content;
+    }
+  }
+}
+
+/*
+Usage:
+.wrapper {
+  @include center-block;
+}
+*/
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+// box shadow 
+@mixin box-shadow ($level) {
+
+  @if $level==1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+
+  @else if $level==2 {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  @else if $level==3 {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  @else if $level==4 {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+
+  @else if $level==5 {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+
+}
+
+@mixin border-radius($args...) {
+  -moz-border-radius: $args;
+  -webkit-border-radius: $args;
+  border-radius: $args;
+}

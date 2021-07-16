@@ -24,7 +24,11 @@
             "prefix": "dinivas",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@angular-eslint/no-empty-lifecycle-method": "off",
+        "@typescript-eslint/no-empty-function": "off"
       }
     },
     {

@@ -1,0 +1,41 @@
+@import '~@angular/material/theming';
+
+@mixin need-your-contribution-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .mat-card.need-your-contribution {
+    background-image: url(./../../../../assets/images/we-need-you.png);
+    background-position: center top;
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 20px;
+    .mat-card-content {
+      background-color: mat-color($background, card);
+      opacity: 0.9;
+      h2 {
+      }
+      h3 {
+      }
+      a.git-repo {
+        font-size: 15px;
+        font-weight: 400;
+        color: $accent-color;
+      }
+      p {
+        padding: 10px;
+        line-height: 1.5;
+        background-color: mat-color($background, background);
+      }
+      .mat-divider {
+        display: none;
+      }
+    }
+  }
+}

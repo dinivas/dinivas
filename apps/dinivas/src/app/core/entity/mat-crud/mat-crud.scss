@@ -1,0 +1,194 @@
+@import '~@angular/material/theming';
+@import '../../../../assets/styles/mixins';
+
+@mixin entity-table-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .entity-table-card {
+    padding: 0px !important;
+    .filter-bar {
+      padding: 0 16px;
+      display: flex; // flex-wrap: wrap;
+      .spacer {
+        flex: 1 1 auto;
+      }
+      .criteria {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        .filter {
+          max-width: 250px;
+          &.criterion {
+            padding: 0 1rem;
+            display: flex;
+            button.close {
+              top: 5px;
+            }
+          }
+        }
+      }
+    }
+    mat-card-content {
+      .mat-table {
+        padding: 0px 5px;
+      }
+    }
+
+    .mat-toolbar {
+      font-size: inherit;
+      background: $background-color;
+      justify-content: space-between;
+      .mat-toolbar-row {
+        .spacer {
+          flex: 1 1 auto;
+        }
+        &.selected-row {
+          //background-color: #e8f0fe;
+          //@include transition(all 1s ease);
+        }
+      }
+    }
+    .spinner-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.15);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mat-table {
+      max-height: 70vh;
+      overflow-y: auto;
+      mat-header-cell,
+      mat-cell {
+        //flex: 0 0 200px;
+        &.mat-column-action-approved,
+        &.mat-column-action-reject,
+        &.mat-column-action-edit,
+        &.mat-column-action-delete,
+        &.mat-column-select {
+          flex: 0 0 40px;
+        }
+        &.mat-column-select {
+          flex: 0 0 80px;
+        }
+        &:last-child {
+          padding-right: 0px;
+          margin-right: 24px;
+        }
+      }
+      .mat-header-cell.select-cell,
+      .mat-cell.select-cell {
+        overflow: visible; //flex: 0 0 50px;
+      }
+      .mat-header-cell.mat-sort-header-sorted {
+        color: black;
+      }
+      .mat-header-cell {
+        &.action-cell {
+          max-width: 160px;
+        }
+      }
+      .mat-cell {
+        &.row-action {
+          max-width: 100px;
+          justify-content: flex-end;
+          text-align: right;
+          @media (max-width: 600px) {
+            max-width: inherit;
+          }
+        }
+        &.edit-action {
+          a {
+            color: mat-color($foreground, disabled);
+            &.edit {
+              &:hover {
+                mat-icon {
+                  color: mat-color($foreground, text);
+                }
+              }
+            }
+            &.approve {
+              &:hover {
+                mat-icon {
+                  color: #00e676;
+                }
+              }
+            }
+            &.reject {
+              &:hover {
+                mat-icon {
+                  color: #ff1744;
+                }
+              }
+            }
+            &.delete-entity {
+              &:hover {
+                mat-icon {
+                  color: #ff1744;
+                }
+              }
+            }
+          }
+        }
+      }
+      .mat-header-row {
+        position: sticky;
+        top: 0;
+        background: $background-color;
+        z-index: 1;
+      }
+      .mat-row {
+        @include transition(all 0.2s ease);
+        &:hover{
+          background-color: darken($background-color, 5%);
+          // @include box-shadow(4);
+        }
+      }
+      .mat-row.selected {
+        background-color: darken($background-color, 8%);
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .mat-table {
+      @include mat-elevation(4);
+    }
+    .mat-row {
+      margin: 9px 9px;
+      @include mat-elevation(1);
+    }
+  }
+
+  mat-table {
+    mat-cell {
+      .client-logo-table {
+        display: flex;
+        img.logo-in-table {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+        span,
+        a {
+          padding-left: 5px;
+          line-height: 3;
+        }
+        span {
+          color: hsl(0, 0%, 48%);
+        }
+      }
+    }
+  }
+}

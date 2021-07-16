@@ -1,0 +1,142 @@
+@import '~@angular/material/theming';
+
+@mixin architecture-type-radios-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $accent-color: mat-color($accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .architecture-type-container {
+    position: relative;
+    padding: 20px 20px 0px;
+    margin: 10px 0px;
+    border: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
+    border-radius: 5px;
+    //max-width: 600px;
+
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    span.label {
+      position: absolute;
+      top: -10px;
+      left: -20px;
+      margin: 0px;
+      background-color: $background-color;
+      transform: scale(0.75);
+      padding: 0px 10px;
+    }
+    .architecture-types {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 0px 10px 15px;
+      .type {
+        border: 1px solid rgba(mat-color($foreground, secondary-text), 0.1);
+        border-radius: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        vertical-align: top;
+        padding: 10px 15px 5px !important;
+        margin: 0px 10px 5px 0px;
+        background-color: $background-color;
+        // min-width: 250px;
+        width: 300px;
+        cursor: pointer;
+        transition: border-color 0.2s ease-in;
+        .name {
+          font-weight: 500;
+          font-size: 15px;
+          z-index: 2;
+          color: $accent-color;
+        }
+        .architecture-type-icon {
+          width: 100px;
+          height: 100px;
+          margin: 10px auto;
+          background-size: contain;
+          background-repeat: no-repeat;
+          &.singletier {
+            background-image: url(../../../../assets/icons/animal_castor.svg);
+          }
+          &.multitier {
+            background-image: url(../../../../assets/icons/animal_cat.svg);
+          }
+          &.docker {
+            background-image: url(../../../../assets/icons/animal_dog.svg);
+          }
+          &.kubernetes {
+            background-image: url(../../../../assets/icons/animal_duck.svg);
+          }
+        }
+        p.description {
+          margin: 10px auto 5px;
+          font-size: 13px;
+          color: mat-color($foreground, secondary-text);
+          line-height: 1.7;
+          text-align: center;
+        }
+        .checkmark-overlay {
+          display: inline-block;
+          border-top: 36px solid $accent-color;
+          border-left: 36px solid $background-color;
+          width: 36px;
+          height: 36px;
+          opacity: 0;
+          position: absolute;
+          top: -1px !important;
+          right: -1px;
+          z-index: 1;
+          //transition: all 0.2s ease-in;
+        }
+        .checkmark {
+          display: block;
+          position: absolute;
+          top: -1px !important;
+          right: 1px;
+          width: 20px;
+          height: 20px;
+          color: $background-color;
+          opacity: 0;
+          z-index: 2;
+          transition: all 0.2s ease-in;
+        }
+        &:hover {
+          border-color: rgba(mat-color($foreground, secondary-text), 0.2);
+        }
+        &.selected {
+          border-color: transparent;
+          @include mat-elevation(2);
+          .checkmark,
+          .checkmark-overlay {
+            opacity: 1;
+          }
+          mat-icon.main-icon {
+            color: rgba($primary-color, 0.9);
+          }
+        }
+        &.disabled {
+          cursor: not-allowed;
+          color: mat-color($foreground, disabled);
+          &:hover {
+            border-color: rgba(mat-color($foreground, secondary-text), 0.1);
+          }
+          .architecture-type-icon {
+            opacity: 0.3;
+          }
+          .name,
+          p.description {
+            color: mat-color($foreground, disabled);
+          }
+        }
+      }
+    }
+  }
+}

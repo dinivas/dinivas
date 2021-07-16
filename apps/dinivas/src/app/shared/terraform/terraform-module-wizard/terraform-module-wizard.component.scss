@@ -1,0 +1,71 @@
+@import '~@angular/material/theming';
+
+@mixin terraform-module-wizard-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+
+  .stepper-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+
+    .left{
+      flex: 1;
+    }
+
+    .right{
+      flex: 1;
+    }
+  }
+  .mat-stepper-vertical {
+    background-color: $background-color;
+    max-width: 1400px;
+  }
+
+  .form-container {
+    margin: 20px 10px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+      max-width: 600px;
+    }
+    .no-data-checkbox {
+      font-size: 14px;
+      padding: 15px 10px;
+      margin: 20px 0px;
+      background-color: $background-color;
+      text-align: center;
+    }
+  }
+
+  .apply-container {
+    min-height: 300px;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    max-width: 90%;
+  }
+
+  .tf-plan-resources-container {
+    margin: 20px 10px;
+  }
+  dinivas-cloud-image-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+
+  dinivas-cloud-flavor-radios {
+    // width: 200%;
+    margin: 10px 0px;
+  }
+  dinivas-architecture-type-radios {
+    // max-width: 600px;
+  }
+}
