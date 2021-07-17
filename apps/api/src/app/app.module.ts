@@ -25,6 +25,7 @@ import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { AuthzGuard } from './auth/authz.guard';
 import { environment } from './../environments/environment';
 import { InfoController } from './info.controller';
+import { BullModule } from '@nestjs/bull';
 import {
   Module,
   NestModule,
@@ -48,11 +49,13 @@ import * as httpProxy from 'http-proxy-middleware';
 import { json } from 'body-parser';
 import { RabbitMQ } from './messaging/rabbitmq/rabbitmq.entity';
 import configConfiguration from './config.configuration';
+import { TerraformService } from './terraform/terraform.service';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../config/';
 }
 
 const ORM_CONFIG_ROOT_KEY = 'dinivas.orm.config';
+const TASKS_REDIS_CONFIG_ROOT_KEY = 'dinivas.tasks.redis';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -119,6 +122,22 @@ const ORM_CONFIG_ROOT_KEY = 'dinivas.orm.config';
       ignoreEnvFile: true,
       load: [configConfiguration],
     }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          host: configService.get<string>(
+            `${TASKS_REDIS_CONFIG_ROOT_KEY}.host`,
+            'localhost'
+          ),
+          port: configService.get<number>(
+            `${TASKS_REDIS_CONFIG_ROOT_KEY}.port`,
+            6379
+          ),
+        },
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [InfoController],
   providers: [
@@ -128,6 +147,7 @@ const ORM_CONFIG_ROOT_KEY = 'dinivas.orm.config';
       useClass: AuthzGuard,
     },
     TerraformGateway,
+    TerraformService
   ],
 })
 export class AppModule implements NestModule {

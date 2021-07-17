@@ -45,6 +45,9 @@
     },
     "ng-material": {
       "tags": []
+    },
+    "terraform-worker": {
+      "tags": []
     }
   }
 }

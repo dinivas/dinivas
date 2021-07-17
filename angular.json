@@ -260,6 +260,64 @@
           }
         }
       }
+    },
+    "terraform-worker": {
+      "root": "apps/terraform-worker",
+      "sourceRoot": "apps/terraform-worker/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/terraform-worker",
+            "main": "apps/terraform-worker/src/main.ts",
+            "tsConfig": "apps/terraform-worker/tsconfig.app.json",
+            "assets": [
+              "apps/terraform-worker/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/terraform-worker/src/environments/environment.ts",
+                  "with": "apps/terraform-worker/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "terraform-worker:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/terraform-worker/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/terraform-worker"
+          ],
+          "options": {
+            "jestConfig": "apps/terraform-worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

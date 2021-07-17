@@ -10,6 +10,10 @@ dinivas:
       database: dinivas
       synchronize: true
       logging: false
+  tasks:
+    redis:
+      host: localhost
+      port: 6379
   cloud_providers:
     digitalocean:
       api_uses_snapshots: true

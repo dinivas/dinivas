@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsController } from './projects.controller';
 import { ProjectsService } from './projects.service';
 import { CqrsModule } from '@nestjs/cqrs';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import { CqrsModule } from '@nestjs/cqrs';
     CqrsModule,
     TerraformModule,
     TerraformStateModule,
+    BullModule.registerQueue({
+      name: 'terraform-module',
+    }),
     ConsulModule
   ],
   controllers: [ProjectsController],

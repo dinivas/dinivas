@@ -21,6 +21,15 @@
       "type": "node",
       "request": "attach",
       "port": 7777
-    }
+    },
+    {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "skipFiles": [
+          "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+  },
   ]
 }

@@ -1,0 +1,108 @@
+version: '3'
+
+volumes:
+  postgres_keycloak_data:
+    driver: local
+  postgres_dinivas_data:
+    driver: local
+  postgres_galaxy_data:
+    driver: local
+
+services:
+  # KEYCLOAK
+  postgres_keycloak:
+    image: postgres
+    volumes:
+      - postgres_keycloak_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+  keycloak:
+    image: jboss/keycloak:9.0.0
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres_keycloak
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    ports:
+      - 8085:8080
+    volumes:
+      - ./singlefile-realms.json:/tmp/singlefile-realms.json
+    command: 
+      - |
+        -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile
+        -Dkeycloak.migration.file=/tmp/singlefile-realms.json -Dkeycloak.profile.feature.upload_scripts=enabled
+        -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+    depends_on:
+      - postgres_keycloak
+  postgres_dinivas:
+    image: postgres
+    volumes:
+      - postgres_dinivas_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: dinivas
+      POSTGRES_USER: dinivas
+      POSTGRES_PASSWORD: Pa55W0rd
+    ports:
+      - 5433:5432
+  # Galaxy
+  postgres_galaxy:
+    image: postgres
+    volumes:
+      - postgres_galaxy_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: galaxy
+      POSTGRES_USER: galaxy
+      POSTGRES_PASSWORD: galaxy
+    ports:
+      - 5434:5432
+  galaxy_influxdb:
+    image: influxdb:latest
+    ports:
+      - '8086:8086'
+    environment:
+      - INFLUXDB_REPORTING_DISABLED=true
+      - INFLUXDB_DB=galaxy
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+      - INFLUXDB_WRITE_USER=galaxy
+      - INFLUXDB_WRITE_USER_PASSWORD=galaxy
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=galaxy
+      - RABBITMQ_DEFAULT_PASS=galaxy
+      - RABBITMQ_DEFAULT_VHOST=galaxy
+
+  galaxy_redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+  # DINIVAS
+  # dinivas_api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dinivas-api
+  # dinivas_console:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dinivas-console
+
+  # keycloak_gatekeeper:
+  #   image: quay.io/keycloak/keycloak-gatekeeper
+  #   environment:
+  #     PROXY_CONFIG_FILE: /opt/gatekeeper.yml
+  #   volumes:
+  #     - ./.docker/gatekeeper.yml:/opt/gatekeeper.yml
+  #   ports:
+  #     - 3001:3000

@@ -13,7 +13,7 @@ import {
   ICloudApiFlavor,
   ConsulDTO,
   ProjectDefinitionDTO,
-  CloudproviderDTO
+  CloudproviderDTO,
 } from '@dinivas/api-interfaces';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -29,12 +29,15 @@ import {
   Post,
   Query,
   Logger,
-  HttpCode
+  HttpCode,
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApplyProjectCommand } from './commands/impl/apply-project.command';
 
-const YAML = require('js-yaml');
+import YAML = require('js-yaml');
+import { TerraformService } from '../terraform/terraform.service';
+import { Queue } from 'bull';
+import { InjectQueue } from '@nestjs/bull';
 
 @ApiTags('Projects')
 @Controller('projects')
@@ -47,6 +50,9 @@ export class ProjectsController {
     private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
+    private readonly terraformService: TerraformService,
+    @InjectQueue('terraform-module')
+    private readonly terraformModuleQueue: Queue,
     private readonly commandBus: CommandBus
   ) {}
 
@@ -61,7 +67,7 @@ export class ProjectsController {
       page,
       limit,
       sort,
-      route: 'http://cats.com/cats'
+      route: 'http://cats.com/cats',
     });
   }
 
@@ -122,10 +128,28 @@ export class ProjectsController {
     @Body() projectDefinition: ProjectDefinitionDTO
   ): Promise<ProjectDTO> {
     const project = projectDefinition.project;
-    const cloudprovider: CloudproviderDTO = await this.cloudproviderService.findOne(
-      project.cloud_provider.id,
-      true
+    const cloudprovider: CloudproviderDTO =
+      await this.cloudproviderService.findOne(project.cloud_provider.id, true);
+    const cloudConfig = YAML.load(cloudprovider.config);
+    this.terraformService.plan<ProjectDTO>(
+      {
+        projectCode: project.code,
+        cloudprovider: cloudprovider.cloud,
+        moduleName: 'project_base',
+        cloudConfig,
+      },
+      project
     );
+    const planJob = await this.terraformModuleQueue.add('plan', {
+      options: {
+        projectCode: project.code,
+        cloudprovider: cloudprovider.cloud,
+        moduleName: 'project_base',
+        cloudConfig,
+      },
+      data: project,
+    });
+    this.logger.debug('Plan Job Id', JSON.stringify(planJob));
     return this.commandBus.execute(
       new PlanProjectCommand(
         cloudprovider.cloud,
@@ -138,7 +162,7 @@ export class ProjectsController {
         project.monitoring,
         project.logging,
         project.logging_stack,
-        YAML.safeLoad(cloudprovider.config),
+        cloudConfig,
         projectDefinition.consul
       )
     );
@@ -167,9 +191,7 @@ export class ProjectsController {
     @Body() projectDefinition: ProjectDefinitionDTO
   ): Promise<ProjectDefinitionDTO> {
     this.logger.debug(
-      `Updating project ${projectDefinition.project.id} ${
-        projectDefinition.project.name
-      }`
+      `Updating project ${projectDefinition.project.id} ${projectDefinition.project.name}`
     );
     return await this.projectsService.update(projectDefinition);
   }
@@ -192,7 +214,7 @@ export class ProjectsController {
           cloudprovider.cloud,
           project,
           consul,
-          YAML.safeLoad(cloudprovider.config)
+          YAML.load(cloudprovider.config)
         )
       );
     }
