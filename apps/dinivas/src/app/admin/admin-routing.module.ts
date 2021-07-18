@@ -1,10 +1,9 @@
 import { ServerMonitorStatusComponent } from './server-monitor-status/server-monitor-status.component';
-import { MandatorySelectedProjectGuard } from './../core/guards/mandatory-selected-project/mandatory-selected-project.guard';
 import { ServerInfoComponent } from './server-info/server-info.component';
 import { AdminComponent } from './admin.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BullDashboardComponent } from './bull-dashboard/bull-dashboard.component';
 
 const routes: Routes = [
   {
@@ -13,34 +12,42 @@ const routes: Routes = [
     children: [
       {
         path: 'server-info',
-        component: ServerInfoComponent
+        component: ServerInfoComponent,
       },
       {
         path: 'server-monitor-status',
-        component: ServerMonitorStatusComponent
+        component: ServerMonitorStatusComponent,
+      },
+      {
+        path: 'bull-dashboard',
+        component: BullDashboardComponent,
       },
       {
         path: 'cloudproviders',
-        loadChildren:
-          './cloudproviders/cloudproviders.module#CloudprovidersModule'
+        loadChildren: () =>
+          import('./cloudproviders/cloudproviders.module').then(
+            (m) => m.CloudprovidersModule
+          ),
       },
       {
         path: 'admin-iam',
-        loadChildren:
-          './admin-iam/admin-iam.module#AdminIamModule'
+        loadChildren: () =>
+          import('./admin-iam/admin-iam.module').then((m) => m.AdminIamModule),
       },
       {
         path: 'terraform-state',
-        loadChildren:
-          './terraform-state/terraform-state.module#TerraformStateModule'
+        loadChildren: () =>
+          import('./terraform-state/terraform-state.module').then(
+            (m) => m.TerraformStateModule
+          ),
       },
-      { path: '', redirectTo: 'server-monitor-status' }
-    ]
-  }
+      { path: '', redirectTo: 'server-monitor-status' },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AdminRoutingModule {}

@@ -1,14 +1,15 @@
 import { AuthzGuard } from './../../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { ApplyConsulCommand } from './commands/impl/apply-consul.command';
-import { PlanConsulCommand } from './commands/impl/plan-consul.command';
 import {
   ConsulDTO,
   Pagination,
   ProjectDTO,
-  ApplyModuleDTO
+  ApplyModuleDTO,
+  DestroyConsulCommand,
+  PlanConsulCommand,
+  ApplyConsulCommand,
+  BULL_TERRAFORM_MODULE_QUEUE,
 } from '@dinivas/api-interfaces';
-import { DestroyConsulCommand } from './commands/impl/destroy-consul.command';
 import { Permissions } from './../../auth/permissions.decorator';
 import { TerraformStateService } from './../../terraform/terraform-state/terraform-state.service';
 import { CloudproviderService } from './../../cloudprovider/cloudprovider.service';
@@ -25,11 +26,12 @@ import {
   Req,
   HttpCode,
   Put,
-  Logger
+  Logger,
 } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
 import { Request } from 'express';
-const YAML = require('js-yaml');
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import YAML = require('js-yaml');
 
 @ApiTags('Consul')
 @Controller('consul')
@@ -42,7 +44,8 @@ export class ConsulController {
     private consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly commandBus: CommandBus
+    @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
+    private readonly terraformModuleQueue: Queue
   ) {}
 
   @Get()
@@ -56,7 +59,7 @@ export class ConsulController {
       page,
       limit,
       sort,
-      route: 'http://dinivas/consul'
+      route: 'http://dinivas/consul',
     });
   }
 
@@ -101,29 +104,35 @@ export class ConsulController {
   async planproject(
     @Req() request: Request,
     @Body() consul: ConsulDTO
-  ): Promise<ConsulDTO> {
+  ): Promise<{ planJobId: number | string }> {
     const project = request['project'] as ProjectDTO;
     consul.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
       project.cloud_provider.id,
       true
     );
-    return this.commandBus.execute(
+    const planJob = await this.terraformModuleQueue.add(
+      'plan',
       new PlanConsulCommand(
         cloudprovider.cloud,
         consul,
-        YAML.safeLoad(cloudprovider.config)
+        YAML.load(cloudprovider.config)
       )
     );
+    this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
+    return { planJobId: planJob.id };
   }
 
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('consul:create')
   async applyProject(@Body() applyProject: ApplyModuleDTO<ConsulDTO>) {
-    this.commandBus.execute(
+    const applyJob = await this.terraformModuleQueue.add(
+      'apply',
       new ApplyConsulCommand(applyProject.source, applyProject.workingDir)
     );
+    this.logger.debug(`Apply Job Id with datas: ${JSON.stringify(applyJob)}`);
+    return { applyJobId: applyJob.id };
   }
 
   @Get(':id/terraform_state')
@@ -153,13 +162,18 @@ export class ConsulController {
         project.cloud_provider.id,
         true
       );
-      this.commandBus.execute(
+      const destroyJob = await this.terraformModuleQueue.add(
+        'destroy',
         new DestroyConsulCommand(
           cloudprovider.cloud,
           consul,
-          YAML.safeLoad(cloudprovider.config)
+          YAML.load(cloudprovider.config)
         )
       );
+      this.logger.debug(
+        `Destroy Job Id with datas: ${JSON.stringify(destroyJob)}`
+      );
+      return { destroyJobId: destroyJob.id };
     }
   }
 }

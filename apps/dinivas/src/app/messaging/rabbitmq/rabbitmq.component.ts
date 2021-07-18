@@ -4,9 +4,9 @@ import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.componen
 import { ConfirmDialogService } from './../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { ColumnDef } from './../../core/entity/mat-crud/column-def';
 import { HttpParams } from '@angular/common/http';
-import { Observable, Observer } from 'rxjs/';
-import { Component, OnInit } from '@angular/core';
-import { RabbitMQDTO, Pagination } from '@dinivas/api-interfaces';
+import { Observable, Observer } from 'rxjs';
+import { Component } from '@angular/core';
+import { RabbitMQDTO } from '@dinivas/api-interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { RabbitMQService } from '../../shared/rabbitmq/rabbitmq.service';
@@ -14,19 +14,19 @@ import { RabbitMQService } from '../../shared/rabbitmq/rabbitmq.service';
 @Component({
   selector: 'dinivas-rabbitmq',
   templateUrl: './rabbitmq.component.html',
-  styleUrls: ['./rabbitmq.component.scss']
+  styleUrls: ['./rabbitmq.component.scss'],
 })
-export class RabbitmqComponent extends MatCrudComponent
-  implements DataProvider<RabbitMQDTO> {
+export class RabbitmqComponent
+  extends MatCrudComponent
+  implements DataProvider<RabbitMQDTO>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
   rabbitmqList: RabbitMQDTO[] = [];
-  deleteConfirmQuestion: Function = entity =>
-    `Delete rabbitmq ${
-      entity.code
-    } ? This will also destroy all attached resources.`;
-
   columnDefs: Array<ColumnDef>;
+  deleteConfirmQuestion = (entity) =>
+    `Delete rabbitmq ${entity.code} ? This will also destroy all attached resources.`;
+
   constructor(
     public dialog: MatDialog,
     private readonly rabbitmqService: RabbitMQService,
@@ -36,12 +36,7 @@ export class RabbitmqComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     activatedRoute.data
-      .pipe(
-        map(
-          (data) =>
-            data.rabbitMQPage.items
-        )
-      )
+      .pipe(map((data) => data.rabbitMQPage.items))
       .subscribe((rabbitmq: RabbitMQDTO[]) => (this.rabbitmqList = rabbitmq));
     this.columnDefs = [
       //new ColumnDef('id', 'Id', false, false, false),
@@ -52,7 +47,7 @@ export class RabbitmqComponent extends MatCrudComponent
         'cluster_availability_zone',
         false
       ),
-      new ColumnDef('node_count', 'node_count', false)
+      new ColumnDef('node_count', 'node_count', false),
     ];
   }
 
@@ -66,14 +61,14 @@ export class RabbitmqComponent extends MatCrudComponent
     return this.rabbitmqService.get(newHttpParams);
   }
 
-  dataChanged(rabbitmq: RabbitMQDTO[]) {
-    this.rabbitmqList = rabbitmq;
+  dataChanged(rabbitmqs: any) {
+    this.rabbitmqList = rabbitmqs as RabbitMQDTO[];
   }
 
   addRabbitMQCluster() {
     this.router.navigate(['/messaging/rabbitmq/new'], {
-    queryParamsHandling: 'preserve'
-});
+      queryParamsHandling: 'preserve',
+    });
   }
 
   deleteSelected(selection: any[]): Observable<any> {

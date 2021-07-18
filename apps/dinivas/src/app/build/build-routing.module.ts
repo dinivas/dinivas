@@ -5,27 +5,42 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'jenkins',
-    loadChildren: './jenkins/jenkins.module#JenkinsModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./jenkins/jenkins.module').then((m) => m.JenkinsModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'gitlab',
-    loadChildren: './gitlab/gitlab.module#GitlabModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./gitlab/gitlab.module').then((m) => m.GitlabModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'droneci',
-    loadChildren: './droneci/droneci.module#DroneciModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./droneci/droneci.module').then((m) => m.DroneciModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
-  { path: 'ansible', loadChildren: './ansible/ansible.module#AnsibleModule' },
-  { path: 'harbor', loadChildren: './harbor/harbor.module#HarborModule' },
-  { path: 'nexus', loadChildren: './nexus/nexus.module#NexusModule' },
-  { path: '', redirectTo: 'jenkins', pathMatch: 'prefix' }
+  {
+    path: 'ansible',
+    loadChildren: () =>
+      import('./ansible/ansible.module').then((m) => m.AnsibleModule),
+  },
+  {
+    path: 'harbor',
+    loadChildren: () =>
+      import('./harbor/harbor.module').then((m) => m.HarborModule),
+  },
+  {
+    path: 'nexus',
+    loadChildren: () =>
+      import('./nexus/nexus.module').then((m) => m.NexusModule),
+  },
+  { path: '', redirectTo: 'jenkins', pathMatch: 'prefix' },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class BuildRoutingModule {}

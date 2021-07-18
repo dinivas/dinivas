@@ -1,7 +1,5 @@
 import { ConsulModule } from './../../network/consul/consul.module';
 import { TerraformModule } from './../../terraform/terraform.module';
-import { CommandHandlers } from './commands/handlers/index';
-import { CqrsModule } from '@nestjs/cqrs';
 import { CloudproviderModule } from './../../cloudprovider/cloudprovider.module';
 import { TerraformStateModule } from './../../terraform/terraform-state/terraform-state.module';
 import { CoreModule } from './../../core/core.module';
@@ -15,14 +13,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forFeature([Jenkins]),
     CoreModule,
-    CqrsModule,
     TerraformModule,
     TerraformStateModule,
     CloudproviderModule,
-    ConsulModule
+    ConsulModule,
   ],
   controllers: [JenkinsController],
-  providers: [JenkinsService, ...CommandHandlers],
-  exports: [JenkinsService]
+  providers: [JenkinsService],
+  exports: [JenkinsService],
 })
 export class JenkinsModule {}

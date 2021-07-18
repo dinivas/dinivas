@@ -1,5 +1,5 @@
 import { PostgresqlService } from './../../../shared/postgresql/postgresql.service';
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { PostgresqlDTO, TerraformPlanEvent } from '@dinivas/api-interfaces';

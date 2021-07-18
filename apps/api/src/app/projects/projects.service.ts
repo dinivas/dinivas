@@ -1,5 +1,4 @@
 import { ConsulService } from './../network/consul/consul.service';
-import { Consul } from './../network/consul/consul.entity';
 import { CloudApiFactory } from './../core/cloudapi/cloudapi.factory';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
 import { InjectRepository } from '@nestjs/typeorm';

@@ -9,13 +9,15 @@ import { AdminComponent } from './admin.component';
 import { ServerInfoComponent } from './server-info/server-info.component';
 import { ServerMonitorStatusComponent } from './server-monitor-status/server-monitor-status.component';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
+import { BullDashboardComponent } from './bull-dashboard/bull-dashboard.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     AdminComponent,
     ServerInfoComponent,
-    ServerMonitorStatusComponent
+    ServerMonitorStatusComponent,
+    BullDashboardComponent
   ],
   imports: [CommonModule, CoreModule, CommonUiModule, AdminRoutingModule, AdminIamModule]
 })

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Filter, FilterType } from './../filter-bar/filter';

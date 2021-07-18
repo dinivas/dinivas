@@ -55,5 +55,4 @@ export class MembersComponent extends MatCrudComponent
   }
 
   addMember() {}
-  entityCanEdit = (userRepresentation: UserRepresentation) => true;
 }

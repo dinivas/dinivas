@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { TerraformModuleEntityInfo } from './../../shared/terraform/terraform-module-entity-info';
 import { CloudproviderService } from './../../shared/cloudprovider/cloudprovider.service';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -9,7 +10,11 @@ import { FilterType } from './../../core/entity/filter-bar/filter';
 import { ImagesService } from './../../shared/compute/images.service';
 import { ConfirmDialogService } from './../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { ColumnDef } from './../../core/entity/mat-crud/column-def';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -19,7 +24,7 @@ import {
   CONSTANT,
   ModuleImageToBuildDTO,
   ICloudApiNetwork,
-  ProjectDTO
+  ProjectDTO,
 } from '@dinivas/api-interfaces';
 import { FilterBarCustomButton } from '../../core/entity/filter-bar/filter-bar.component';
 import { ActivatedRoute } from '@angular/router';
@@ -28,16 +33,19 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'dinivas-images',
   templateUrl: './images.component.html',
-  styleUrls: ['./images.component.scss']
+  styleUrls: ['./images.component.scss'],
 })
-export class ImagesComponent extends MatCrudComponent
-  implements DataProvider<ICloudApiImage>, OnInit {
+export class ImagesComponent
+  extends MatCrudComponent
+  implements DataProvider<ICloudApiImage>, OnInit
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
-  deleteConfirmQuestion: Function = entity => `Delete image ${entity.name} ?`;
-
   columnDefs: Array<ColumnDef>;
   filterBarCustomButtons: FilterBarCustomButton[] = [];
+  deleteConfirmQuestion = (entity: { name: string }) =>
+    `Delete image ${entity.name} ?`;
+
   project: ProjectDTO;
 
   constructor(
@@ -55,21 +63,17 @@ export class ImagesComponent extends MatCrudComponent
       new ColumnDef('owner', 'Owner', false),
       new ColumnDef('visibility', 'Visibility', false),
       new ColumnDef('size', 'Image size', false),
-      new ColumnDef('min_disk', 'Min disk', false)
+      new ColumnDef('min_disk', 'Min disk', false),
     ];
   }
   ngOnInit() {
     super.ngOnInit();
     this.filterBarCustomButtons.push({
       label: 'Build and publish Dinivas image',
-      matIcon: 'build'
+      matIcon: 'build',
     });
     this.activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentProjectInfo
-        )
-      )
+      .pipe(map((data) => data.currentProjectInfo))
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo.entity;
       });
@@ -100,8 +104,8 @@ export class ImagesComponent extends MatCrudComponent
       {
         width: '600px',
         data: {
-          project: this.project
-        }
+          project: this.project,
+        },
       }
     );
   }
@@ -111,13 +115,18 @@ export class ImagesComponent extends MatCrudComponent
 }
 
 @Component({
-  templateUrl: './image-to-build-dialog.component.html'
+  templateUrl: './image-to-build-dialog.component.html',
 })
 export class ImageToBuildDialogComponent implements OnInit {
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
   projectNetworks: ICloudApiNetwork[];
-  availableModuleImages: string[] = ['base_image', 'proxy', 'jenkins', 'rabbitmq'];
+  availableModuleImages: string[] = [
+    'base_image',
+    'proxy',
+    'jenkins',
+    'rabbitmq',
+  ];
   imageToBuildForm: FormGroup;
 
   constructor(
@@ -133,15 +142,15 @@ export class ImageToBuildDialogComponent implements OnInit {
   ngOnInit() {
     this.imagesService
       .getImages(new HttpParams())
-      .subscribe(imgs => (this.cloudImages = imgs));
+      .subscribe((imgs) => (this.cloudImages = imgs));
     this.projectService
       .getProjectFlavors(
         this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY)
       )
-      .subscribe(flavors => (this.cloudFlavors = flavors));
+      .subscribe((flavors) => (this.cloudFlavors = flavors));
     this.cloudproviderService
       .getCloudProviderNetworks(this.data.project.cloud_provider.id)
-      .subscribe(networks => (this.projectNetworks = networks));
+      .subscribe((networks) => (this.projectNetworks = networks));
     this.imageToBuildForm = this.formBuilder.group({
       module_name: [null, Validators.required],
       image_name: [null, Validators.required],
@@ -151,7 +160,7 @@ export class ImageToBuildDialogComponent implements OnInit {
       _source_cloud_image: [null, Validators.required],
       _source_cloud_flavor: [null, Validators.required],
       image_tags: [[]],
-      override_image_if_exist: [false, null]
+      override_image_if_exist: [false, null],
     });
   }
 
@@ -162,7 +171,7 @@ export class ImageToBuildDialogComponent implements OnInit {
     delete data._source_cloud_flavor;
     this.imagesService
       .buildImage(data as ModuleImageToBuildDTO)
-      .subscribe(res => {
+      .subscribe((res) => {
         console.log(res);
       });
   }

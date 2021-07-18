@@ -1,5 +1,5 @@
 import { ProjectsService } from './../../shared/project/projects.service';
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ProjectDTO, ICloudApiProjectQuotaDetail } from '@dinivas/api-interfaces';
 

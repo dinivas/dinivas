@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { AlertService } from '../../core/alert/alert.service';
 import { FilterType } from '../../core/entity/filter-bar/filter';
-import { Observable, Observer } from 'rxjs/';
+import { Observable, Observer } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { ConfirmDialogService } from '../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { DataProvider } from '../../core/entity/mat-crud/data-provider';
@@ -14,16 +14,18 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'dinivas-cloudproviders',
   templateUrl: './cloudproviders.component.html',
-  styleUrls: ['./cloudproviders.component.scss']
+  styleUrls: ['./cloudproviders.component.scss'],
 })
-export class CloudprovidersComponent extends MatCrudComponent
-  implements DataProvider<CloudproviderDTO> {
+export class CloudprovidersComponent
+  extends MatCrudComponent
+  implements DataProvider<CloudproviderDTO>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
-  deleteConfirmQuestion: Function = entity =>
-    `Delete Cloud provider ${entity.name} (${entity.cloud}) ?`;
-
   columnDefs: Array<ColumnDef>;
+
+  deleteConfirmQuestion = (entity) =>
+    `Delete Cloud provider ${entity.name} (${entity.cloud}) ?`;
 
   constructor(
     private readonly cloudproviderService: CloudproviderService,
@@ -42,9 +44,9 @@ export class CloudprovidersComponent extends MatCrudComponent
         true,
         false,
         FilterType.ARRAY,
-        ['openstack', 'digitalocean','aws', 'gcp', 'azure']
+        ['openstack', 'digitalocean', 'aws', 'gcp', 'azure']
       ),
-      new ColumnDef('description', 'Description', false)
+      new ColumnDef('description', 'Description', false),
     ];
   }
 
@@ -60,8 +62,8 @@ export class CloudprovidersComponent extends MatCrudComponent
 
   addCloudProvider() {
     this.router.navigate(['/admin/cloudproviders/new'], {
-    queryParamsHandling: 'preserve'
-});
+      queryParamsHandling: 'preserve',
+    });
   }
 
   deleteSelected(selection: any[]): Observable<any> {
@@ -78,11 +80,9 @@ export class CloudprovidersComponent extends MatCrudComponent
   checkConnection(cloudproviderDTO: CloudproviderDTO) {
     this.cloudproviderService
       .checkCloudproviderConnection(cloudproviderDTO)
-      .subscribe(response =>
+      .subscribe((response) =>
         this.alertService.success(
-          `Config validated for user ${response.user_name} and project ${
-            response.project_name
-          }.`
+          `Config validated for user ${response.user_name} and project ${response.project_name}.`
         )
       );
   }

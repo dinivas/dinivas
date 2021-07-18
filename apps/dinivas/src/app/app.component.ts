@@ -1,5 +1,5 @@
 import { SideMenu } from './side-menu';
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { ConfirmDialogService } from './core/dialog/confirm-dialog/confirm-dialog.service';
 import { ComponentType } from '@angular/cdk/portal';
 import { ContextualMenuService } from './core/contextual-menu/contextual-menu.service';

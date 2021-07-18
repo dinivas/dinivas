@@ -16,7 +16,7 @@
         <mat-label>Cloud type</mat-label>
         <mat-select formControlName="cloud" required>
           <mat-option *ngFor="let cloudType of cloudTypes" [value]="cloudType.code"
-            [disabled]="cloudType.code != 'openstack' && cloudType.code != 'digitalocean'">
+            [disabled]="cloudType.code !== 'openstack' && cloudType.code !== 'digitalocean'">
             {{ cloudType.label }}
           </mat-option>
         </mat-select>

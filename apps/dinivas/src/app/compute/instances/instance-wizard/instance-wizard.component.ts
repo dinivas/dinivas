@@ -1,7 +1,7 @@
 import { TerraformModuleEntityInfo } from './../../../shared/terraform/terraform-module-entity-info';
 import { InstancesService } from './../../../shared/compute/instances.service';
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
-import { Observable, Subject, forkJoin } from 'rxjs/';
+import { Observable, Subject, forkJoin } from 'rxjs';
 import { MatVerticalStepper } from '@angular/material/stepper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
@@ -104,7 +104,7 @@ export class InstanceWizardComponent
         this.projectKeypair = this.projectTfState.outputs[
           'project_keypair_name'
         ].value;
-        this.projectTfStateSubject.next();
+        this.projectTfStateSubject.next(undefined);
       });
   }
 
@@ -234,4 +234,6 @@ export class InstanceWizardComponent
   moduleServiceTerraformState(moduleEntity: InstanceDTO): Observable<any> {
     return this.instancesService.getTerraformState(moduleEntity.id);
   }
+
+  showInstanceOutput(instance: any){}
 }

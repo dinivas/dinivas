@@ -1,26 +1,60 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+  ApplyProjectCommand,
+  BULL_TERRAFORM_MODULE_QUEUE,
+  DestroyProjectCommand,
+  PlanProjectCommand,
+} from '@dinivas/api-interfaces';
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
+import { PlanProjectHandler } from '../projects/plan-project.handler';
 import { Job } from 'bull';
+import { ApplyProjectHandler } from '../projects/apply-project.handler';
+import { DestroyProjectHandler } from '../projects/destroy-project.handler';
 
-@Processor('terraform-module')
+@Processor(BULL_TERRAFORM_MODULE_QUEUE)
 export class TerraformProcessor {
   private readonly logger = new Logger(TerraformProcessor.name);
 
-  constructor() {}
+  constructor(
+    private readonly planProjectHandler: PlanProjectHandler,
+    private readonly applyProjectHandler: ApplyProjectHandler,
+    private readonly destroyProjectHandler: DestroyProjectHandler
+  ) {}
 
-  @Process('plan')
-  async handleTerraformPlan(planJob: Job) {
-    this.logger.debug('Receive Plan Job', JSON.stringify(planJob));
+  @Process('plan-project')
+  async handleTerraformPlan(planJob: Job<PlanProjectCommand>) {
+    this.logger.debug(
+      `Receive Plan Job [${planJob.id}] with datas: ${JSON.stringify(
+        planJob.data as PlanProjectCommand
+      )}`
+    );
+    return this.planProjectHandler.execute(
+      planJob,
+      PlanProjectCommand.from(planJob.data)
+    );
   }
 
-  @Process('apply')
-  async handleTerraformApply(applyJob: Job) {
-    this.logger.debug('Receive Apply Job', JSON.stringify(applyJob));
+  @Process('apply-project')
+  async handleTerraformApply(applyJob: Job<ApplyProjectCommand>) {
+    this.logger.debug(
+      `Receive Apply Job [${applyJob.id}]  with datas: ${JSON.stringify(
+        applyJob
+      )}`
+    );
+    return this.applyProjectHandler.execute(
+      applyJob,
+      ApplyProjectCommand.from(applyJob.data)
+    );
   }
 
-  @Process('destroy')
-  async handleTerraformDestroy(destroyJob: Job) {
-    this.logger.debug('Receive Destroy Job', JSON.stringify(destroyJob));
+  @Process('destroy-project')
+  async handleTerraformDestroy(destroyJob: Job<DestroyProjectCommand>) {
+    this.logger.debug(
+      `Receive Destroy Job with datas: ${JSON.stringify(destroyJob)}`
+    );
+    return this.destroyProjectHandler.execute(
+      destroyJob,
+      DestroyProjectCommand.from(destroyJob.data)
+    );
   }
 }

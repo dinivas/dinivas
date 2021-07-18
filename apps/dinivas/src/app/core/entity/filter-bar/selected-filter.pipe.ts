@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SelectedFilterPipe implements PipeTransform {
 
   transform(value: Filter[], selected: boolean): Filter[] {
-    let response: Filter[] =[];
+    const response: Filter[] =[];
     value.forEach(filter =>{
       if(filter.selected == selected){
         response.push(filter);

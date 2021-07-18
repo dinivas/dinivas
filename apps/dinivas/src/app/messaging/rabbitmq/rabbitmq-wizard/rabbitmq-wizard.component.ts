@@ -1,9 +1,7 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { RabbitMQService } from './../../../shared/rabbitmq/rabbitmq.service';
-import { Observable, Subject, forkJoin } from 'rxjs/';
-import {
-  MatVerticalStepper,
-} from '@angular/material/stepper';
+import { Observable, Subject, forkJoin } from 'rxjs';
+import { MatVerticalStepper } from '@angular/material/stepper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {
   RabbitMQDTO,
@@ -12,7 +10,7 @@ import {
   TerraformPlanEvent,
   TerraformApplyEvent,
   ProjectDTO,
-  ApplyModuleDTO
+  ApplyModuleDTO,
 } from '@dinivas/api-interfaces';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import {
@@ -20,7 +18,7 @@ import {
   OnInit,
   EventEmitter,
   ChangeDetectorRef,
-  AfterViewChecked
+  AfterViewChecked,
 } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { ActivatedRoute } from '@angular/router';
@@ -31,13 +29,14 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'dinivas-rabbitmq-wizard',
   templateUrl: './rabbitmq-wizard.component.html',
-  styleUrls: ['./rabbitmq-wizard.component.scss']
+  styleUrls: ['./rabbitmq-wizard.component.scss'],
 })
 export class RabbitmqWizardComponent
   implements
     OnInit,
     AfterViewChecked,
-    TerraformModuleWizardVarsProvider<RabbitMQDTO> {
+    TerraformModuleWizardVarsProvider<RabbitMQDTO>
+{
   rabbitmq: RabbitMQDTO;
   rabbitmqForm: FormGroup;
 
@@ -72,13 +71,13 @@ export class RabbitmqWizardComponent
     'rabbitmq_mqtt',
     'rabbitmq_shovel',
     'rabbitmq_shovel_management',
-    'rabbitmq_stomp'
+    'rabbitmq_stomp',
   ];
   preSelectedRabbitmqPlugins: string[] = [
     'rabbitmq_management',
     'rabbitmq_management_agent',
     'rabbitmq_prometheus',
-    'rabbitmq_peer_discovery_consul'
+    'rabbitmq_peer_discovery_consul',
   ];
 
   selectedRabbitmqPlugins: string[] = Array.from(
@@ -96,9 +95,7 @@ export class RabbitmqWizardComponent
     private cdRef: ChangeDetectorRef
   ) {
     activatedRoute.data
-      .pipe(
-        map((data) => data.cloudFlavors)
-      )
+      .pipe(map((data) => data.cloudFlavors))
       .subscribe(
         (cloudFlavors: ICloudApiFlavor[]) => (this.cloudFlavors = cloudFlavors)
       );
@@ -106,15 +103,11 @@ export class RabbitmqWizardComponent
       .pipe(map((data) => data.cloudImages))
       .subscribe((cloudImages: ICloudApiImage[]) => {
         this.cloudImages = cloudImages.filter(
-          img => img.tags.indexOf('rabbitmq') > -1
+          (img) => img.tags.indexOf('rabbitmq') > -1
         );
       });
     activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentProjectInfo
-        )
-      )
+      .pipe(map((data) => data.currentProjectInfo))
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo.entity;
         this.projectTfState = projectInfo.entityState;
@@ -126,18 +119,17 @@ export class RabbitmqWizardComponent
         ]
           ? this.projectTfState.outputs['mgmt_subnet_names'].value[0]
           : this.rabbitmq.network_subnet_name;
-        this.projectKeypair = this.projectTfState.outputs[
-          'project_keypair_name'
-        ].value;
-        this.projectTfStateSubject.next();
+        this.projectKeypair =
+          this.projectTfState.outputs['project_keypair_name'].value;
+        this.projectTfStateSubject.next(undefined);
       });
   }
 
   ngOnInit() {
     this.activatedRoute.data
       .pipe(
-        map(
-          (data) => data.moduleEntity ?  data.moduleEntity.entity : undefined
+        map((data) =>
+          data.moduleEntity ? data.moduleEntity.entity : undefined
         )
       )
       .subscribe((rabbitmq: RabbitMQDTO) => {
@@ -148,7 +140,7 @@ export class RabbitmqWizardComponent
     this.onArchitectureTypeChanged.subscribe(
       (architectureType: string) => (this.architectureType = architectureType)
     );
-    this.moduleWizardStepper.subscribe(stepper => {
+    this.moduleWizardStepper.subscribe((stepper) => {
       if (this.rabbitmq && this.rabbitmq.architecture_type) {
         //setTimeout(() => (stepper.selectedIndex = 1), 1);
       }
@@ -184,40 +176,40 @@ export class RabbitmqWizardComponent
       description: [this.rabbitmq ? this.rabbitmq.description : null, null],
       network_name: [
         this.rabbitmq ? this.rabbitmq.network_name : this.projectNetwork,
-        Validators.required
+        Validators.required,
       ],
       network_subnet_name: [
         this.rabbitmq
           ? this.rabbitmq.network_subnet_name
           : this.projectNetworkSubnet,
-        Validators.required
+        Validators.required,
       ],
       keypair_name: [
         this.rabbitmq ? this.rabbitmq.keypair_name : this.projectKeypair,
-        Validators.required
+        Validators.required,
       ],
       _cluster_cloud_image: [
         this.rabbitmq ? this.rabbitmq.cluster_cloud_image : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       _cluster_cloud_flavor: [
         this.rabbitmq ? this.rabbitmq.cluster_cloud_flavor : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       use_floating_ip: [
         this.rabbitmq ? this.rabbitmq.use_floating_ip : false,
-        null
+        null,
       ],
       cluster_instance_count: [
         this.rabbitmq ? this.rabbitmq.cluster_instance_count : 1,
-        Validators.required
+        Validators.required,
       ],
       _enabled_plugin_list: [
         this.rabbitmq
           ? this.rabbitmq.enabled_plugin_list.split(',')
           : this.selectedRabbitmqPlugins,
-        Validators.required
-      ]
+        Validators.required,
+      ],
     });
     if (this.rabbitmq && this.rabbitmq.code) {
       this.rabbitmqForm.get('code').disable();
@@ -278,15 +270,15 @@ export class RabbitmqWizardComponent
       rabbitmq.code = `${this.project.code.toLowerCase()}-${rabbitmq.code.toLowerCase()}`;
     }
     if (rabbitmq && this.rabbitmqForm.get('_cluster_cloud_image').value) {
-      rabbitmq.cluster_cloud_image = (this.rabbitmqForm.get(
-        '_cluster_cloud_image'
-      ).value as ICloudApiImage).name;
+      rabbitmq.cluster_cloud_image = (
+        this.rabbitmqForm.get('_cluster_cloud_image').value as ICloudApiImage
+      ).name;
       delete rabbitmq['_cluster_cloud_image'];
     }
     if (rabbitmq && this.rabbitmqForm.get('_cluster_cloud_flavor').value) {
-      rabbitmq.cluster_cloud_flavor = (this.rabbitmqForm.get(
-        '_cluster_cloud_flavor'
-      ).value as ICloudApiFlavor).name;
+      rabbitmq.cluster_cloud_flavor = (
+        this.rabbitmqForm.get('_cluster_cloud_flavor').value as ICloudApiFlavor
+      ).name;
       delete rabbitmq['_cluster_cloud_flavor'];
     }
     if (this.rabbitmq) {
@@ -299,4 +291,6 @@ export class RabbitmqWizardComponent
     delete rabbitmq['_enabled_plugin_list'];
     rabbitmq.cluster_availability_zone = this.project.availability_zone;
   }
+
+  showRabbitMQOutput(event: any) {}
 }

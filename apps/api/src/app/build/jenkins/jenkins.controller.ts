@@ -1,11 +1,7 @@
 import { ConsulService } from './../../network/consul/consul.service';
-import { DestroyJenkinsCommand } from './commands/impl/destroy-jenkins.command';
-import { ApplyJenkinsCommand } from './commands/impl/apply-jenkins.command';
-import { PlanJenkinsCommand } from './commands/impl/plan-jenkins.command';
 import { CloudproviderService } from './../../cloudprovider/cloudprovider.service';
 import { TerraformStateService } from './../../terraform/terraform-state/terraform-state.service';
 import { Permissions } from './../../auth/permissions.decorator';
-import { CommandBus } from '@nestjs/cqrs';
 import { JenkinsService } from './jenkins.service';
 import { AuthzGuard } from './../../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -29,9 +25,15 @@ import {
   ProjectDTO,
   ApplyModuleDTO,
   ConsulDTO,
+  PlanJenkinsCommand,
+  ApplyJenkinsCommand,
+  DestroyJenkinsCommand,
+  BULL_TERRAFORM_MODULE_QUEUE,
 } from '@dinivas/api-interfaces';
 import { Request } from 'express';
 import YAML = require('js-yaml');
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @ApiTags('Jenkins')
 @Controller('jenkins')
@@ -45,7 +47,8 @@ export class JenkinsController {
     private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly commandBus: CommandBus
+    @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
+    private readonly terraformModuleQueue: Queue
   ) {}
 
   @Get()
@@ -98,7 +101,7 @@ export class JenkinsController {
   async planproject(
     @Req() request: Request,
     @Body() jenkins: JenkinsDTO
-  ): Promise<JenkinsDTO> {
+  ): Promise<{ planJobId: number | string }> {
     const project = request['project'] as ProjectDTO;
     jenkins.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
@@ -108,7 +111,8 @@ export class JenkinsController {
     const consul: ConsulDTO = await this.consulService.findOneByCode(
       project.code
     );
-    return this.commandBus.execute(
+    const planJob = await this.terraformModuleQueue.add(
+      'plan',
       new PlanJenkinsCommand(
         cloudprovider.cloud,
         jenkins,
@@ -116,19 +120,24 @@ export class JenkinsController {
         YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
       )
     );
+    this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
+    return { planJobId: planJob.id };
   }
 
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('jenkins:create')
   async applyProject(@Body() applyProject: ApplyModuleDTO<JenkinsDTO>) {
-    this.commandBus.execute(
+    const applyJob = await this.terraformModuleQueue.add(
+      'apply',
       new ApplyJenkinsCommand(
         applyProject.source.project.cloud_provider.cloud,
         applyProject.source,
         applyProject.workingDir
       )
     );
+    this.logger.debug('Apply Job Id', JSON.stringify(applyJob));
+    return { applyJobId: applyJob.id };
   }
 
   @Get(':id/terraform_state')
@@ -161,7 +170,8 @@ export class JenkinsController {
       const consul: ConsulDTO = await this.consulService.findOneByCode(
         project.code
       );
-      this.commandBus.execute(
+      const destroyJob = await this.terraformModuleQueue.add(
+        'destroy',
         new DestroyJenkinsCommand(
           cloudprovider.cloud,
           jenkins,
@@ -169,6 +179,8 @@ export class JenkinsController {
           YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
         )
       );
+      this.logger.debug(`Destroy Job Id with data: ${JSON.stringify(destroyJob)}`);
+      return { planJobId: destroyJob.id };
     }
   }
 }

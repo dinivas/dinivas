@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { GitlabDTO, TerraformPlanEvent } from '@dinivas/api-interfaces';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { Component, OnInit } from '@angular/core';

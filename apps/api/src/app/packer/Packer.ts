@@ -3,7 +3,7 @@
 import { Logger } from '@nestjs/common';
 import { ConfigurationService } from './../core/config/configuration.service';
 import { ModuleImageToBuildDTO } from '@dinivas/api-interfaces';
-import { Base, ExecuteOptions } from '../terraform/core/Base';
+import { Base, ExecuteOptions } from './base';
 
 import fs = require('fs');
 import path = require('path');
@@ -76,7 +76,7 @@ export class Packer extends Base {
       source_image_id: imageToBuild.source_cloud_image,
       flavor: imageToBuild.source_cloud_flavor,
       network_id: imageToBuild.network,
-      floating_ip_network: imageToBuild.floating_ip_network
+      floating_ip_network: imageToBuild.floating_ip_network,
     };
     const varFileName = `${projectCode.toLowerCase()}-${
       imageToBuild.module_name
@@ -111,17 +111,17 @@ export class Packer extends Base {
         OS_REGION_NAME: cloudConfig.clouds.openstack.region_name,
         OS_USER_DOMAIN_NAME: cloudConfig.clouds.openstack.auth.user_domain_name,
         OS_IDENTITY_API_VERSION:
-          cloudConfig.clouds.openstack.identity_api_version
+          cloudConfig.clouds.openstack.identity_api_version,
       };
       await this.executeSync(
         path,
         commandToExecute,
         {
-          silent: options.silent
+          silent: options.silent,
         },
         {
           ...processEnv,
-          ...openstackEnvVar
+          ...openstackEnvVar,
         }
       );
     } catch (e) {

@@ -17,6 +17,7 @@ export interface ICloudApiProjectQuotaDetail {
   in_use: number;
   limit: number;
   reserved: number;
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApiProjectQuota {
@@ -33,6 +34,7 @@ export interface ICloudApiInstanceAdress {
   addr: string;
   type: string;
   version: string;
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApiInstance {
@@ -44,7 +46,10 @@ export interface ICloudApiInstance {
   created_date: string;
   updated_date: string;
   metadata: any;
+  cloudprovider: AvailableCloudProvider;
 }
+
+type AvailableCloudProvider = 'openstack' | 'digitalocean' | 'aws' | 'gcp';
 
 export interface ICloudApiImage {
   id: string;
@@ -58,6 +63,7 @@ export interface ICloudApiImage {
   visibility: string;
   date: string;
   tags: string[];
+  cloudprovider: AvailableCloudProvider;
 }
 
 // Flavors
@@ -71,6 +77,7 @@ export interface ICloudApiFlavor {
   disk: number;
   swap: number;
   is_public: boolean;
+  cloudprovider: AvailableCloudProvider;
 }
 
 // Disks
@@ -83,10 +90,12 @@ export interface ICloudApiDisk {
   volumeType: string;
   date: string;
   metedata: unknown;
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApiProjectFloatingIpPool {
   name: string;
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApiProjectFloatingIp {
@@ -95,6 +104,7 @@ export interface ICloudApiProjectFloatingIp {
   instance_id: string;
   ip: string;
   pool: string;
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApiProjectRouter {
@@ -103,6 +113,7 @@ export interface ICloudApiProjectRouter {
   description: string;
   status: string;
   tags: string[];
+  cloudprovider: AvailableCloudProvider;
 }
 
 // AvailabilityZone
@@ -113,12 +124,14 @@ export interface ICloudApiAvailabilityZone {
   zoneState: {
     available: boolean;
   };
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApiNetwork {
   id: string;
   cidr: string;
   label: string;
+  cloudprovider: AvailableCloudProvider;
 }
 
 export interface ICloudApi {

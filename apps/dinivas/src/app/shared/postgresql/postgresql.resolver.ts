@@ -1,5 +1,5 @@
 import { PostgresqlService } from './postgresql.service';
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

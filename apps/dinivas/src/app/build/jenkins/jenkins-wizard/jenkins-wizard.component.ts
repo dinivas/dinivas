@@ -110,7 +110,7 @@ export class JenkinsWizardComponent
           : this.jenkins.network_subnet_name;
         this.projectKeypair =
           this.projectTfState.outputs['project_keypair_name'].value;
-        this.projectTfStateSubject.next();
+        this.projectTfStateSubject.next(undefined);
       });
   }
 

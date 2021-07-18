@@ -46,7 +46,7 @@ export class JenkinsViewComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { currentJenkinsInfo: TerraformModuleEntityInfo<JenkinsDTO> }) => data.currentJenkinsInfo))
+      .pipe(map((data) => data.currentJenkinsInfo))
       .subscribe((currentJenkinsInfo: TerraformModuleEntityInfo<JenkinsDTO> ) => (this.jenkins = currentJenkinsInfo.entity));
   }
 }

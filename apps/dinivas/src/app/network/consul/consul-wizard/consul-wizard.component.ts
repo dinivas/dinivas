@@ -1,7 +1,7 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { ConsulService } from './../../../shared/consul/consul.service';
 import { MatVerticalStepper } from '@angular/material/stepper';
-import { Observable, Subject, forkJoin, of } from 'rxjs/';
+import { Observable, Subject, forkJoin, of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import {

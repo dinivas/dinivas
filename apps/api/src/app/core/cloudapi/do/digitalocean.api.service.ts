@@ -19,6 +19,7 @@ import VPCs from './vpcs';
 import RequestHelper from 'do-wrapper/dist/request-helper';
 import { ConfigurationService } from '../../../core/config/configuration.service';
 
+const CLOUD_PROVIDER_NAME = 'digitalocean';
 @Injectable()
 export class DigitalOceanApiService implements ICloudApi {
   private readonly logger = new Logger(DigitalOceanApiService.name);
@@ -32,7 +33,7 @@ export class DigitalOceanApiService implements ICloudApi {
       this.getDOInstance(cloudConfig)
         .regions.getAll('')
         .then((data) => {
-          this.logger.debug('DO regions datas', data);
+          this.logger.debug(`DO regions datas: ${JSON.stringify(data)}`);
           resolve(
             data.regions.map(
               (region: {
@@ -43,11 +44,12 @@ export class DigitalOceanApiService implements ICloudApi {
                 features: [];
               }) => {
                 return {
-                  hosts: region.slug,
-                  zoneName: region.name,
+                  hosts: region.name,
+                  zoneName: region.slug,
                   zoneState: {
                     available: region.available,
                   },
+                  cloudprovider: CLOUD_PROVIDER_NAME
                 };
               }
             )
@@ -67,7 +69,7 @@ export class DigitalOceanApiService implements ICloudApi {
           this.logger.debug('Project info datas:', data);
           resolve({
             project_name: '',
-            user_name: '',
+            user_name: ''
           });
         })
         .catch((err) => {
@@ -120,6 +122,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
                 pool: floatingIp.pool,
+                cloudprovider: CLOUD_PROVIDER_NAME
               };
             })
           );
@@ -147,6 +150,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
                 pool: floatingIp.pool,
+                cloudprovider: CLOUD_PROVIDER_NAME
               };
             })
           );
@@ -167,8 +171,7 @@ export class DigitalOceanApiService implements ICloudApi {
       vpcs
         .getAll('')
         .then((data) => {
-          this.logger.debug('Project VPCs datas', data);
-          console.log(data);
+          this.logger.debug(`Project VPCs datas: ${JSON.stringify(data)}`);
           resolve(
             data.vpcs.map(
               (vpc: { id: string; ip_range: string; name: string }) => {
@@ -176,6 +179,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   id: vpc.id,
                   cidr: vpc.ip_range,
                   label: vpc.name,
+                  cloudprovider: CLOUD_PROVIDER_NAME
                 } as ICloudApiNetwork;
               }
             )
@@ -204,6 +208,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
                 pool: floatingIp.pool,
+                cloudprovider: CLOUD_PROVIDER_NAME
               };
             })
           );
@@ -229,6 +234,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: droplet.instance_id,
                 ip: droplet.ip,
                 pool: droplet.pool,
+                cloudprovider: CLOUD_PROVIDER_NAME
               };
             })
           );
@@ -245,7 +251,7 @@ export class DigitalOceanApiService implements ICloudApi {
       this.getDOInstance(cloudConfig)
         .sizes.get('')
         .then((data) => {
-          this.logger.debug('Project flavors datas:', data);
+          this.logger.debug(`Project flavors datas: ${JSON.stringify(data)}`);
           resolve(
             data.sizes.map((flavor) => {
               return {
@@ -257,6 +263,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 disk: flavor.disk,
                 swap: flavor.swap,
                 is_public: flavor.available,
+                cloudprovider: CLOUD_PROVIDER_NAME
               };
             })
           );
@@ -279,8 +286,9 @@ export class DigitalOceanApiService implements ICloudApi {
         this.getDOInstance(cloudConfig)
           .snapshots.get('')
           .then((data) => {
-            this.logger.debug('Project snapshots datas:', data);
-            console.log(data);
+            this.logger.debug(
+              `Project snapshots datas: ${JSON.stringify(data)}`
+            );
             resolve(
               data.snapshots.map((snapshot) => {
                 return {
@@ -296,6 +304,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   visibility: snapshot.public ? 'public' : 'private',
                   date: snapshot.created_at,
                   tags: snapshot.tags,
+                  cloudprovider: CLOUD_PROVIDER_NAME
                 };
               })
             );
@@ -308,8 +317,7 @@ export class DigitalOceanApiService implements ICloudApi {
         this.getDOInstance(cloudConfig)
           .images.getAll('')
           .then((data) => {
-            this.logger.debug('Project images datas:', data);
-            console.log(data);
+            this.logger.debug(`Project images datas: ${JSON.stringify(data)}`);
             resolve(
               data.images.map((img) => {
                 return {
@@ -326,6 +334,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   visibility: img.public ? 'public' : 'private',
                   date: img.created_at,
                   tags: img.tags,
+                  cloudprovider: CLOUD_PROVIDER_NAME
                 };
               })
             );
@@ -343,8 +352,10 @@ export class DigitalOceanApiService implements ICloudApi {
       this.getDOInstance(cloudConfig)
         .volumes.getAll('')
         .then((data) => {
-          this.logger.debug('Project volumes datas:', data);
-          console.log(data);
+          this.logger.debug(
+            `Project volumes datas: ${JSON.stringify(data)}`,
+            data
+          );
           resolve(
             data.volumes.map((volume) => {
               return {
@@ -356,6 +367,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 volumeType: volume.visibility,
                 date: volume.updated_at,
                 metedata: volume.tags,
+                cloudprovider: CLOUD_PROVIDER_NAME
               };
             })
           );

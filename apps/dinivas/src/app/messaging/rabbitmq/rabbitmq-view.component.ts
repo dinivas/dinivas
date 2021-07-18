@@ -2,7 +2,6 @@ import { RabbitMQDTO } from '@dinivas/api-interfaces';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { TerraformModuleEntityInfo } from '../../shared/terraform/terraform-module-entity-info';
 
 @Component({
   selector: 'dinivas-rabbitmq-view',
@@ -48,9 +47,7 @@ export class RabbitMQViewComponent implements OnInit {
     this.activatedRoute.data
       .pipe(
         map(
-          (data: {
-            currentRabbitmqInfo: TerraformModuleEntityInfo<RabbitMQDTO>;
-          }) => data.currentRabbitmqInfo.entity
+          (data) => data.currentRabbitmqInfo.entity
         )
       )
       .subscribe((rabbitmq: RabbitMQDTO) => (this.rabbitmq = rabbitmq));

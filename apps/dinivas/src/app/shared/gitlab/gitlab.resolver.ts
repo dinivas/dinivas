@@ -1,5 +1,5 @@
 import { GitlabService } from './gitlab.service';
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

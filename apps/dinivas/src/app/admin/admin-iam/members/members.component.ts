@@ -88,5 +88,4 @@ export class AdminIAMMemberComponent
       userRepresentation
     );
   }
-  entityCanEdit = (userRepresentation: UserRepresentation) => true;
 }

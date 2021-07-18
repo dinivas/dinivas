@@ -8,12 +8,12 @@
         <mat-list-item
           *ngFor="let output of (rabbitMQInfo.entityState.outputs | keyvalue)"
         >
-          <mat-icon *ngIf="!output.value.sensitive">info</mat-icon>
+          <mat-icon *ngIf="!output.value['sensitive']">info</mat-icon>
           <h3 matLine>
             {{ output.key }}:<strong
               class="ml-10"
-              *ngIf="!output.value.sensitive"
-              >{{ output.value.value }}</strong
+              *ngIf="!output.value['sensitive']"
+              >{{ output.value['value'] }}</strong
             >
           </h3>
         </mat-list-item>

@@ -48,9 +48,7 @@ export class InstanceViewComponent implements OnInit {
     this.activatedRoute.data
       .pipe(
         map(
-          (data: {
-            currentInstanceInfo: TerraformModuleEntityInfo<InstanceDTO>;
-          }) => data.currentInstanceInfo.entity
+          (data) => data.currentInstanceInfo.entity
         )
       )
       .subscribe((instance: InstanceDTO) => (this.instance = instance));

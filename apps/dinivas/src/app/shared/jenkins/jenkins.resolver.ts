@@ -1,6 +1,6 @@
 import { JenkinsService } from './jenkins.service';
 import { ProjectsService } from '../project/projects.service';
-import { Observable, forkJoin } from 'rxjs/';
+import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

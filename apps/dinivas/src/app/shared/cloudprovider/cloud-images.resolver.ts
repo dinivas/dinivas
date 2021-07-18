@@ -27,7 +27,12 @@ export class CloudImagesResolver implements Resolve<ICloudApiImage[]> {
     return firstValueFrom(
       this.projectService.getProjectImages(projectId).pipe(
         flatMap((t) => t),
-        filter((img) => img.tags.indexOf('dinivas') > -1),
+        filter(
+          (img) =>
+            ('openstack' === img.cloudprovider &&
+              img.tags.indexOf('dinivas') > -1) ||
+            'digitalocean' === img.cloudprovider
+        ),
         toArray()
       )
     );

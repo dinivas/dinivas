@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';

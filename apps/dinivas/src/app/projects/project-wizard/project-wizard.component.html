@@ -17,6 +17,7 @@
         <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
             resources</span></ng-template>
         <div class="mat-form-container" fxLayout="column">
+          <h2>Project info</h2>
           <mat-form-field class="" appearance="outline">
             <mat-label>Cloud provider configuration</mat-label>
             <mat-select formControlName="cloud_provider" [compareWith]="compareFn"
@@ -30,12 +31,12 @@
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Project name</mat-label>
-            <input type="text" matInput formControlName="name" required>
+            <input id="project-name" type="text" matInput formControlName="name" required>
             <mat-hint>This is the display project name</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Project code</mat-label>
-            <input type="text" matInput formControlName="code" required>
+            <input id="project-code" type="text" matInput formControlName="code" required>
             <mat-hint>The project code will be used to suffix most components. You can't change it after project
               creation.</mat-hint>
           </mat-form-field>
@@ -49,7 +50,7 @@
               formControlName="availability_zone" [matAutocomplete]="auto_availability_zone" required>
             <mat-autocomplete #auto_availability_zone="matAutocomplete">
               <mat-option *ngFor="let az of availabilityZones" [value]="az.zoneName">
-                {{ az.zoneName }}
+                {{ az.zoneName }} - {{ az.hosts }}
               </mat-option>
             </mat-autocomplete>
             <mat-hint>The cloudprovider availability zone to deploy, for Openstack it could be in form <strong>nova:node03</strong> for example</mat-hint>
@@ -89,7 +90,7 @@
             </mat-select>
             <mat-hint>The floating ip pool where to retrieve floating IP</mat-hint>
           </mat-form-field>
-          <h4>Consul</h4>
+          <h2>Consul</h2>
           <ng-container formGroupName="_consul">
             <mat-form-field class="" appearance="outline">
               <mat-label>Consul domain</mat-label>
@@ -98,9 +99,10 @@
             </mat-form-field>
             <mat-form-field class="" appearance="outline">
               <mat-label>Consul datacenter</mat-label>
-              <input type="text" matInput formControlName="cluster_datacenter" required>
+              <input id="project-consul-datacenter" type="text" matInput formControlName="cluster_datacenter" required>
               <mat-hint>The datacenter name used for consul cluster, default to <strong>availability zone</strong></mat-hint>
             </mat-form-field>
+            <h3>Consul Servers</h3>
             <div class="slider-container">
               <span>Choose the number of consul server</span>
               <mat-slider class="" [class.cdk-focused]="true" formControlName="server_instance_count" [max]="10" [min]="1"
@@ -108,6 +110,21 @@
               </mat-slider>
               {{ projectForm?.value._consul.server_instance_count | json}}
             </div>
+            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_consul_server_image"
+              formControlName="_consul_server_cloud_image" label="Select consul server image to use" [cloudImages]="cloudImages">
+            </dinivas-cloud-image-radios>
+            <ng-template #loading_consul_server_image>
+              <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Consul servers
+                  instance</strong></p>
+            </ng-template>
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_consul_server_flavor"
+              formControlName="_consul_server_cloud_flavor" label="Select consul server flavor to use" [cloudFlavors]="cloudFlavors">
+            </dinivas-cloud-flavor-radios>
+            <ng-template #loading_consul_server_flavor>
+              <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Consul servers
+                  instance</strong></p>
+            </ng-template>
+            <h3>Consul Clients</h3>
             <div class="slider-container">
               <span>Choose the number of consul client</span>
               <mat-slider class="" [class.cdk-focused]="true" formControlName="client_instance_count" [max]="10" [min]="0"
@@ -115,8 +132,24 @@
               </mat-slider>
               {{ projectForm?.value._consul.client_instance_count | json}}
             </div>
+            <ng-container *ngIf="projectForm?.value._consul?.client_instance_count > 0">
+              <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_consul_client_image"
+                formControlName="_consul_client_cloud_image" label="Select consul client image to use" [cloudImages]="cloudImages">
+              </dinivas-cloud-image-radios>
+              <ng-template #loading_consul_client_image>
+                <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Consul clients
+                    instance</strong></p>
+              </ng-template>
+              <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_consul_client_flavor"
+                formControlName="_consul_client_cloud_flavor" label="Select consul client flavor to use" [cloudFlavors]="cloudFlavors">
+              </dinivas-cloud-flavor-radios>
+              <ng-template #loading_consul_client_flavor>
+                <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Consul clients
+                    instance</strong></p>
+              </ng-template>
+            </ng-container>
           </ng-container>
-          <h4>Bastion</h4>
+          <h2>Bastion</h2>
           <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_bastion_image"
             formControlName="_bastion_cloud_image" label="Select bastion image to use" [cloudImages]="cloudImages">
           </dinivas-cloud-image-radios>
@@ -131,7 +164,7 @@
             <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
                 instance</strong></p>
           </ng-template>
-          <h4>Project proxy</h4>
+          <h2>Project proxy</h2>
           <!-- <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->
           <div class="slide-toggle-container">
             <mat-slide-toggle formControlName="enable_proxy" color="accent">
@@ -156,8 +189,8 @@
             <mat-hint>This is the root domain used for all components</mat-hint>
           </mat-form-field>
           <ng-container *ngIf="projectForm?.value.enable_proxy">
-            <dinivas-cloud-image-radios *ngIf="proxyCloudImages?.length > 0; else loading_proxy_image"
-              formControlName="_proxy_cloud_image" label="Select proxy image to use" [cloudImages]="proxyCloudImages">
+            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_proxy_image"
+              formControlName="_proxy_cloud_image" label="Select proxy image to use" [cloudImages]="cloudImages">
             </dinivas-cloud-image-radios>
             <ng-template #loading_proxy_image>
               <p class="no-data-checkbox">Select a cloudprovider to display <strong>images</strong> for <strong>Proxy
@@ -171,20 +204,20 @@
                   instance</strong></p>
             </ng-template>
           </ng-container>
-          <h4>Keycloak (SSO)</h4>
+          <h2>Keycloak (SSO)</h2>
           <mat-form-field class="" appearance="outline">
             <mat-label>Keycloak Host</mat-label>
-            <input type="text" matInput formControlName="keycloak_host" required>
-            <mat-hint>Keycloak host in the form <strong>Host</strong>:<strong>Port</strong></mat-hint>
+            <input id="keycloak-host"type="text" matInput formControlName="keycloak_host" required>
+            <mat-hint>Keycloak host in the form <strong>Host</strong>:<strong>Port</strong> or Domain name without scheme</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Keycloak Client id</mat-label>
-            <input type="text" matInput formControlName="keycloak_client_id" required>
+            <input id="keycloak-client-id" type="text" matInput formControlName="keycloak_client_id" required>
             <mat-hint>Keycloak Client ID used to create Project Realm and client</mat-hint>
           </mat-form-field>
           <mat-form-field class="" appearance="outline">
             <mat-label>Keycloak Client secret</mat-label>
-            <input type="text" matInput formControlName="keycloak_client_secret" required>
+            <input id="keycloak-client-secret" type="text" matInput formControlName="keycloak_client_secret" required>
             <mat-hint>Keycloak Client Secret used to create Project Realm and client</mat-hint>
           </mat-form-field>
           <div class="slide-toggle-container">
@@ -209,7 +242,7 @@
             <mat-hint>When enabled, you'll have to select the Logging stack to install</mat-hint>
           </div>
           <div class="logging-stack" *ngIf="projectForm?.value.logging">
-            <h4>Select logging stack bellow</h4>
+            <h2>Select logging stack bellow</h2>
             <div class="stack-container">
               <mat-card (click)="loggingStack = 'graylog'" [class.selected]="loggingStack === 'graylog'">
                 <mat-card-header>

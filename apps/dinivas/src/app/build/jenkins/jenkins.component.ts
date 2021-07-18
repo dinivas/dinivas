@@ -8,26 +8,26 @@ import { JenkinsService } from './../../shared/jenkins/jenkins.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ColumnDef } from './../../core/entity/mat-crud/column-def';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
-import { JenkinsDTO, Pagination } from '@dinivas/api-interfaces';
+import { JenkinsDTO } from '@dinivas/api-interfaces';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'dinivas-jenkins',
   templateUrl: './jenkins.component.html',
-  styleUrls: ['./jenkins.component.scss']
+  styleUrls: ['./jenkins.component.scss'],
 })
-export class JenkinsComponent extends MatCrudComponent
-  implements DataProvider<JenkinsDTO> {
+export class JenkinsComponent
+  extends MatCrudComponent
+  implements DataProvider<JenkinsDTO>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
   jenkinsList: JenkinsDTO[] = [];
-  deleteConfirmQuestion: Function = entity =>
-    `Delete jenkins ${
-      entity.code
-    } ? This will also destroy all attached resources.`;
-
   columnDefs: Array<ColumnDef>;
+  deleteConfirmQuestion = (entity) =>
+    `Delete jenkins ${entity.code} ? This will also destroy all attached resources.`;
+
   constructor(
     public dialog: MatDialog,
     private readonly jenkinsService: JenkinsService,
@@ -37,12 +37,7 @@ export class JenkinsComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     activatedRoute.data
-      .pipe(
-        map(
-          (data) =>
-            data.jenkinsPage.items
-        )
-      )
+      .pipe(map((data) => data.jenkinsPage.items))
       .subscribe((jenkins: JenkinsDTO[]) => (this.jenkinsList = jenkins));
     this.columnDefs = [
       //new ColumnDef('id', 'Id', false, false, false),
@@ -50,7 +45,7 @@ export class JenkinsComponent extends MatCrudComponent
       new ColumnDef('url', '?', false),
       new ColumnDef('managed_master', 'Is Master managed?', false),
       new ColumnDef('description', 'Description', false),
-      new ColumnDef('slave_groups', 'Slaves', false)
+      new ColumnDef('slave_groups', 'Slaves', false),
     ];
   }
 
@@ -64,12 +59,14 @@ export class JenkinsComponent extends MatCrudComponent
     return this.jenkinsService.get(newHttpParams);
   }
 
-  dataChanged(jenkins: JenkinsDTO[]) {
-    this.jenkinsList = jenkins;
+  dataChanged(jenkins: any) {
+    this.jenkinsList = jenkins as JenkinsDTO[];
   }
 
   addJenkins() {
-    this.router.navigate(['/build/jenkins/new'], { queryParamsHandling: 'preserve' });
+    this.router.navigate(['/build/jenkins/new'], {
+      queryParamsHandling: 'preserve',
+    });
   }
 
   deleteSelected(selection: any[]): Observable<any> {

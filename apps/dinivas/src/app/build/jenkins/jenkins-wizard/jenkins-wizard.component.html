@@ -151,7 +151,7 @@
     <!-- Jenkins slave configuration -->
     <ng-container *ngIf="jenkinsForm?.value.manage_slave">
       <h4>Slave groups <small
-          *ngIf="jenkinsForm.get('slave_groups').controls.length > 0">({{ jenkinsForm.get('slave_groups').controls.length }}
+          *ngIf="jenkinsForm.get('slave_groups')['controls'].length > 0">({{ jenkinsForm.get('slave_groups')['controls'].length }}
           groups)</small></h4>
       <!-- Do not show host:port fields because the internal master Ip will be used if needed -->
       <div class="host-port-container" *ngIf="false">
@@ -192,7 +192,7 @@
       </mat-form-field>
       <div class="jenkins-slave-groups-container">
         <div formArrayName="slave_groups" class="jenkins-slave-group-container mat-elevation-z4"
-          *ngFor="let slaveGroup of jenkinsForm.get('slave_groups').controls; let slaveGroupIndex = index;">
+          *ngFor="let slaveGroup of jenkinsForm.get('slave_groups')['controls']; let slaveGroupIndex = index;">
           <span class="slave-group-number">#{{ slaveGroupIndex + 1 }}</span>
           <div [formGroupName]="slaveGroupIndex" class="" fxLayout="column">
             <mat-form-field class="" appearance="outline">
@@ -239,7 +239,7 @@
         </div>
       </div>
 
-      <button type="button" class="add-jenkins-slave" mat-button color="accent" (click)="addJenkinsSlave()">
+      <button type="button" class="add-jenkins-slave" mat-button color="accent" (click)="addJenkinsSlave(null)">
         <mat-icon>add</mat-icon>
         Add new Jenkins
         slave
@@ -250,11 +250,11 @@
   <div class="actions">
     <button mat-button [routerLink]="['/build', 'jenkins']" queryParamsHandling="merge" type="button">Cancel</button>
     <button type="button" mat-button matStepperPrevious>Back</button>
-    <button type="button" mat-button class="ml-10" *ngIf="jenkins?.id && isFormValid()"
+    <button type="button" mat-button class="ml-10" *ngIf="(jenkins?.id && isFormValid())"
       (click)="showJenkinsOutput(jenkinsForm.getRawValue())">Show jenkins
       infra infos</button>
     <button type="submit" mat-raised-button color="primary" class="ml-10"
-      [disabled]="!isFormValid() || (isFormValid() && !jenkinsForm.dirty)">Plan
+      [disabled]="!isFormValid() || isFormValid() && !jenkinsForm.dirty">Plan
       Jenkins
       resources</button>
   </div>

@@ -1,0 +1,81 @@
+dinivas:
+  production: false
+  api:
+    url: 'http://localhost:3333/api/v1'
+  tasks:
+    redis:
+      host: localhost
+      port: 6379
+  cloud_providers:
+    digitalocean:
+      api_uses_snapshots: true
+  terraform:
+    min_required_version: '0.12.2'
+    debug_command_outputs: false
+    state:
+      http_address: 'http://localhost:3333/api/v1/terraform/state'
+      username: dinivas
+      password: Pa55w0rd!
+      http_timeout: 5000
+      http_max_redirects: 5
+    init:
+      log_silent: true
+    plan:
+      log_silent: true
+    apply:
+      log_silent: true
+    destroy:
+      log_silent: true
+    modules:
+      - name: project_base
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-project-base.git
+      - name: project_instance
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-project-instance.git
+      - name: jenkins
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-jenkins.git
+      - name: consul
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-consul.git
+      - name: keypair
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-keypair.git
+      - name: rabbitmq
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-rabbitmq.git
+      - name: flavor
+        type: git
+        provider: openstack
+        url: https://github.com/dinivas/terraform-openstack-flavor.git
+      - name: project_base
+        type: git
+        provider: digitalocean
+        url: https://github.com/dinivas/terraform-digitalocean-project-base.git
+      - name: project_instance
+        type: git
+        provider: digitalocean
+        url: https://github.com/dinivas/terraform-digitalocean-project-instance.git
+      # - name: jenkins
+      #   type: git
+      #   provider: digitalocean
+      #   url: https://github.com/dinivas/terraform-digitalocean-jenkins.git
+      # - name: consul
+      #   type: git
+      #   provider: digitalocean
+      #   url: https://github.com/dinivas/terraform-digitalocean-consul.git
+      - name: keypair
+        type: git
+        provider: digitalocean
+        url: https://github.com/dinivas/terraform-digitalocean-keypair.git
+      # - name: rabbitmq
+      #   type: git
+      #   provider: digitalocean
+      #   url: https://github.com/dinivas/terraform-digitalocean-rabbitmq.git

@@ -7,7 +7,11 @@ import {
 import { Client, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 
-@WebSocketGateway({ namespace: 'terraform-worker', cors: true })
+@WebSocketGateway({
+  namespace: 'terraform-worker',
+  cors: true,
+  allowEIO3: true,
+})
 export class WSGateway implements OnGatewayInit {
   private readonly nestLogger = new Logger(WSGateway.name);
 

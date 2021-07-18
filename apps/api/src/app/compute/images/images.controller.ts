@@ -23,7 +23,7 @@ import {
 } from '@dinivas/api-interfaces';
 import { CommandBus } from '@nestjs/cqrs';
 
-const YAML = require('js-yaml');
+import YAML = require('js-yaml');
 
 @ApiTags('Compute images')
 @Controller('compute/images')
@@ -74,7 +74,7 @@ export class ImagesController {
       new BuildModuleImageCommand(
         project.code,
         moduleImageToBuild,
-        YAML.safeLoad(cloudprovider.config)
+        YAML.load(cloudprovider.config)
       )
     );
   }

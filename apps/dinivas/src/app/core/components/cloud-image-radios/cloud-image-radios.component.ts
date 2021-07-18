@@ -60,7 +60,11 @@ export class CloudImageRadiosComponent
 
   writeValue(imageName: string): void {
     this.image = this.cloudImages
-      ? this.cloudImages.find((img) => img.name === imageName)
+      ? this.cloudImages.find(
+          (img) =>
+            ('openstack' === img.cloudprovider && img.name === imageName) ||
+            ('digitalocean' === img.cloudprovider && img.id === imageName)
+        )
       : null;
   }
   registerOnChange(fn: any): void {

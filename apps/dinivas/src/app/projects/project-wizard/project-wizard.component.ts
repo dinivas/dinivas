@@ -1,4 +1,3 @@
-import { environment } from './../../../environments/environment';
 import { TerraformModuleEntityInfo } from './../../shared/terraform/terraform-module-entity-info';
 import { ConsulService } from './../../shared/consul/consul.service';
 import { AlertService } from './../../core/alert/alert.service';
@@ -12,7 +11,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  AbstractControl
+  AbstractControl,
 } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
@@ -28,7 +27,7 @@ import {
   ICloudApiAvailabilityZone,
   ConsulDTO,
   ProjectDefinitionDTO,
-  ICloudApiProjectFloatingIp
+  ICloudApiProjectFloatingIp,
 } from '@dinivas/api-interfaces';
 import { TerraformWebSocket } from '../../shared/terraform/terraform-websocket.service';
 import { MatVerticalStepper } from '@angular/material/stepper';
@@ -37,7 +36,7 @@ import { filter, flatMap, toArray, map } from 'rxjs/operators';
 @Component({
   selector: 'dinivas-project-wizard',
   templateUrl: './project-wizard.component.html',
-  styleUrls: ['./project-wizard.component.scss']
+  styleUrls: ['./project-wizard.component.scss'],
 })
 export class ProjectWizardComponent implements OnInit {
   project: ProjectDTO;
@@ -77,9 +76,7 @@ export class ProjectWizardComponent implements OnInit {
     private alertService: AlertService
   ) {
     activatedRoute.data
-      .pipe(
-        map((data) => data.cloudFlavors)
-      )
+      .pipe(map((data) => data.cloudFlavors))
       .subscribe(
         (cloudFlavors: ICloudApiFlavor[]) => (this.cloudFlavors = cloudFlavors)
       );
@@ -89,17 +86,12 @@ export class ProjectWizardComponent implements OnInit {
         this.cloudImages = cloudImages;
         if (cloudImages) {
           this.proxyCloudImages = cloudImages.filter(
-            img => img.tags.indexOf('proxy') > -1
+            (img) => img.tags.indexOf('proxy') > -1
           );
         }
       });
     activatedRoute.data
-      .pipe(
-        map(
-          (data) =>
-            data.availabilityZones
-        )
-      )
+      .pipe(map((data) => data.availabilityZones))
       .subscribe(
         (availabilityZones: ICloudApiAvailabilityZone[]) =>
           (this.availabilityZones = availabilityZones)
@@ -108,11 +100,7 @@ export class ProjectWizardComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentProjectInfo
-        )
-      )
+      .pipe(map((data) => data.currentProjectInfo))
       .subscribe(async (projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo ? projectInfo.entity : undefined;
         if (this.project) {
@@ -136,70 +124,70 @@ export class ProjectWizardComponent implements OnInit {
       code: [this.project ? this.project.code : null, Validators.required],
       cloud_provider: [
         this.project ? this.project.cloud_provider : null,
-        Validators.required
+        Validators.required,
       ],
       root_domain: [this.project ? this.project.root_domain : null, null],
       description: [this.project ? this.project.description : null, null],
       availability_zone: [
         this.project ? this.project.availability_zone : null,
-        Validators.required
+        Validators.required,
       ],
       public_router: [this.project ? this.project.public_router : null, null],
       management_subnet_cidr: [
-        this.project ? this.project.management_subnet_cidr : '10.10.11.0/24',
-        null
+        this.project ? this.project.management_subnet_cidr : '10.10.15.0/24',
+        null,
       ],
       management_subnet_dhcp_allocation_start: [
         this.project
           ? this.project.management_subnet_dhcp_allocation_start
-          : '10.10.11.2'
+          : '10.10.15.2',
       ],
       management_subnet_dhcp_allocation_end: [
         this.project
           ? this.project.management_subnet_dhcp_allocation_end
-          : '10.10.11.254'
+          : '10.10.15.254',
       ],
       floating_ip_pool: [
         this.project ? this.project.floating_ip_pool : null,
-        null
+        null,
       ],
       monitoring: [this.project ? this.project.monitoring : false, null],
       logging: [this.project ? this.project.logging : false, null],
       _bastion_cloud_image: [
         this.project ? this.project.bastion_cloud_image : null,
-        Validators.required
+        Validators.required,
       ],
       _bastion_cloud_flavor: [
         this.project ? this.project.bastion_cloud_flavor : null,
-        Validators.required
+        Validators.required,
       ],
       enable_proxy: [this.project ? this.project.enable_proxy : false, null],
       proxy_prefered_floating_ip: [
         this.project ? this.project.proxy_prefered_floating_ip : '',
-        null
+        null,
       ],
       _proxy_cloud_image: [
         this.project ? this.project.proxy_cloud_image : null,
-        null
+        null,
       ],
       _proxy_cloud_flavor: [
         this.project ? this.project.proxy_cloud_flavor : null,
-        null
+        null,
       ],
       keycloak_host: [
         this.project ? this.project.keycloak_host : null,
-        Validators.required
+        Validators.required,
       ],
       keycloak_client_id: [
         this.project ? this.project.keycloak_client_id : null,
-        Validators.required
+        Validators.required,
       ],
       keycloak_client_secret: [
         this.project ? this.project.keycloak_client_secret : null,
-        Validators.required
+        Validators.required,
       ],
       _prometheus_cloud_flavor: [
-        this.project ? this.project.prometheus_cloud_flavor : null
+        this.project ? this.project.prometheus_cloud_flavor : null,
       ],
       // _graylog_cloud_flavor: [
       //   this.project ? this.project.graylog_compute_flavour_name : null
@@ -207,21 +195,37 @@ export class ProjectWizardComponent implements OnInit {
       _consul: this.formBuilder.group({
         cluster_domain: [
           this.consul ? this.consul.cluster_domain : 'consul',
-          Validators.required
+          Validators.required,
         ],
         cluster_datacenter: [
           this.consul ? this.consul.cluster_datacenter : null,
-          Validators.required
+          Validators.required,
         ],
         server_instance_count: [
           this.consul ? this.consul.server_instance_count : 1,
-          Validators.required
+          Validators.required,
+        ],
+        _consul_server_cloud_image: [
+          this.project ? this.consul.server_image : null,
+          Validators.required,
+        ],
+        _consul_server_cloud_flavor: [
+          this.project ? this.consul.server_flavor : null,
+          Validators.required,
         ],
         client_instance_count: [
           this.consul ? this.consul.client_instance_count : 0,
-          Validators.required
-        ]
-      })
+          Validators.required,
+        ],
+        _consul_client_cloud_image: [
+          this.project ? this.consul.client_image : null,
+          Validators.required,
+        ],
+        _consul_client_cloud_flavor: [
+          this.project ? this.consul.client_flavor : null,
+          Validators.required,
+        ],
+      }),
     });
     if (this.project && this.project.code) {
       this.projectForm.get('code').disable();
@@ -253,38 +257,41 @@ export class ProjectWizardComponent implements OnInit {
   ) {
     // Set bastion image name
     if (project && this.projectForm.get('_bastion_cloud_image').value) {
-      project.bastion_cloud_image = (this.projectForm.get(
-        '_bastion_cloud_image'
-      ).value as ICloudApiImage).name;
+      project.bastion_cloud_image = this.toCloudProviderImageId(
+        this.projectForm.get('_bastion_cloud_image').value as ICloudApiImage
+      );
       delete project['_bastion_cloud_image'];
     }
     // Set bastion image name
     if (project && this.projectForm.get('_bastion_cloud_flavor').value) {
-      project.bastion_cloud_flavor = (this.projectForm.get(
-        '_bastion_cloud_flavor'
-      ).value as ICloudApiFlavor).name;
+      project.bastion_cloud_flavor = (
+        this.projectForm.get('_bastion_cloud_flavor').value as ICloudApiFlavor
+      ).name;
       delete project['_bastion_cloud_flavor'];
     }
 
     // Set proxy image name
     if (project && this.projectForm.get('_proxy_cloud_image').value) {
-      project.proxy_cloud_image = (this.projectForm.get('_proxy_cloud_image')
-        .value as ICloudApiImage).name;
+      project.proxy_cloud_image = this.toCloudProviderImageId(
+        this.projectForm.get('_proxy_cloud_image').value as ICloudApiImage
+      );
       delete project['_proxy_cloud_image'];
     }
 
     // Set proxy flavor name
     if (project && this.projectForm.get('_proxy_cloud_flavor').value) {
-      project.proxy_cloud_flavor = (this.projectForm.get('_proxy_cloud_flavor')
-        .value as ICloudApiFlavor).name;
+      project.proxy_cloud_flavor = (
+        this.projectForm.get('_proxy_cloud_flavor').value as ICloudApiFlavor
+      ).name;
       delete project['_proxy_cloud_flavor'];
     }
 
     // Set prometheus flavor name
     if (project && this.projectForm.get('_prometheus_cloud_flavor').value) {
-      project.bastion_cloud_flavor = (this.projectForm.get(
-        '_prometheus_cloud_flavor'
-      ).value as ICloudApiFlavor).name;
+      project.bastion_cloud_flavor = (
+        this.projectForm.get('_prometheus_cloud_flavor')
+          .value as ICloudApiFlavor
+      ).name;
       delete project['_prometheus_cloud_flavor'];
     }
     consul.code = project.code.toLowerCase();
@@ -293,10 +300,22 @@ export class ProjectWizardComponent implements OnInit {
     consul.network_name = `${project.code.toLowerCase()}-mgmt`;
     consul.network_subnet_name = `${project.code.toLowerCase()}-mgmt-subnet`;
     consul.architecture_type = 'singletier';
-    consul.server_image = 'Dinivas Base';
-    consul.server_flavor = 'dinivas.medium';
-    consul.client_image = 'Dinivas Base';
-    consul.client_flavor = 'dinivas.medium';
+    consul.server_image = this.toCloudProviderImageId(
+      this.projectForm.get('_consul').get('_consul_server_cloud_image')
+        .value as ICloudApiImage
+    );
+    consul.server_flavor = (
+      this.projectForm.get('_consul').get('_consul_server_cloud_flavor')
+        .value as ICloudApiFlavor
+    ).name;
+    consul.client_image = this.toCloudProviderImageId(
+      this.projectForm.get('_consul').get('_consul_client_cloud_image')
+        .value as ICloudApiImage
+    );
+    consul.client_flavor = (
+      this.projectForm.get('_consul').get('_consul_client_cloud_flavor')
+        .value as ICloudApiFlavor
+    ).name;
     consul.use_floating_ip = false;
     delete project['_consul'];
   }
@@ -309,7 +328,7 @@ export class ProjectWizardComponent implements OnInit {
       // Set code because formbuilder has exclude it
       project.code = this.project.code;
     }
-    project.logging_stack = this.loggingStack;
+    project.logging_stack = this.loggingStack || 'graylog';
     if (!this.project) {
       this.planProject(project, consul);
     } else {
@@ -341,7 +360,7 @@ export class ProjectWizardComponent implements OnInit {
             this.projectPlanStepFinished = false;
           });
       },
-      error => {
+      (error) => {
         this.projectPlanInProgress = false;
         this.projectPlanStepFinished = false;
       }
@@ -393,7 +412,8 @@ export class ProjectWizardComponent implements OnInit {
               console.log('Receive TerraformApplyEvent from Terrform WS', data);
               projectApplyEventSubscription.unsubscribe();
               this.terraformApplyEvent = data;
-              this.terraformStateOutputs = this.terraformApplyEvent.stateResult.values.outputs;
+              this.terraformStateOutputs =
+                this.terraformApplyEvent.stateResult.values.outputs;
               for (const [key, value] of Object.entries(
                 this.terraformApplyEvent.stateResult.values.outputs
               )) {
@@ -418,7 +438,7 @@ export class ProjectWizardComponent implements OnInit {
               this.projectPlanStepFinished = false;
             });
         },
-        error => {
+        (error) => {
           this.projectApplyInProgress = false;
           this.projectApplyStepFinished = false;
         }
@@ -431,7 +451,7 @@ export class ProjectWizardComponent implements OnInit {
     this.showingDirectOutput = true;
     this.projectService
       .getProjectTerraformState(this.project.id)
-      .subscribe(state => (this.terraformStateOutputs = state.outputs));
+      .subscribe((state) => (this.terraformStateOutputs = state.outputs));
     setTimeout(() => (this.projectWizardStepper.selectedIndex = 2), 1);
   }
 
@@ -476,15 +496,13 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   setRoutingValidators() {
-    const publicRouterControl: AbstractControl = this.projectForm.get(
-      'public_router'
-    );
-    const floatingIpPoolControl: AbstractControl = this.projectForm.get(
-      'floating_ip_pool'
-    );
+    const publicRouterControl: AbstractControl =
+      this.projectForm.get('public_router');
+    const floatingIpPoolControl: AbstractControl =
+      this.projectForm.get('floating_ip_pool');
     this.projectForm
       .get('cloud_provider')
-      .valueChanges.subscribe((cloudprovider: CloudproviderDTO)  => {
+      .valueChanges.subscribe((cloudprovider: CloudproviderDTO) => {
         if (cloudprovider != undefined && 'openstack' === cloudprovider.cloud) {
           publicRouterControl.setValidators([Validators.required]);
           floatingIpPoolControl.setValidators([Validators.required]);
@@ -498,9 +516,8 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   setProxyValidators() {
-    const proxyImage: AbstractControl = this.projectForm.get(
-      '_proxy_cloud_image'
-    );
+    const proxyImage: AbstractControl =
+      this.projectForm.get('_proxy_cloud_image');
     const proxyFlavor: AbstractControl = this.projectForm.get(
       '_proxy_cloud_flavor'
     );
@@ -541,7 +558,7 @@ export class ProjectWizardComponent implements OnInit {
           // Retrieve availability zones from cloud provider
           this.cloudproviderService
             .getCloudProviderAvailabilityZones(cloudprovider.id)
-            .subscribe(availabilityZones => {
+            .subscribe((availabilityZones) => {
               this.availabilityZones = availabilityZones;
               if (this.project && this.project.availability_zone) {
                 this.projectForm.controls['availability_zone'].patchValue(
@@ -566,7 +583,7 @@ export class ProjectWizardComponent implements OnInit {
           // Retrieve floating ip pools from cloud provider
           this.cloudproviderService
             .getCloudProviderFloatingIpPools(cloudprovider.id)
-            .subscribe(floatingIpPools => {
+            .subscribe((floatingIpPools) => {
               this.availableFloatingIpPools = floatingIpPools;
               if (this.project && this.project.floating_ip_pool) {
                 this.projectForm.controls['floating_ip_pool'].patchValue(
@@ -582,9 +599,9 @@ export class ProjectWizardComponent implements OnInit {
           // Retrieve available floating ips from cloud provider
           this.cloudproviderService
             .getCloudProviderFloatingIps(cloudprovider.id)
-            .subscribe(floatingIps => {
+            .subscribe((floatingIps) => {
               this.availableFloatingIps = floatingIps.filter(
-                floatingIp =>
+                (floatingIp) =>
                   !floatingIp.fixed_ip ||
                   (this.project &&
                     floatingIp.fixed_ip &&
@@ -617,7 +634,7 @@ export class ProjectWizardComponent implements OnInit {
           // Retrieve routers from cloud provider
           this.cloudproviderService
             .getCloudProviderRouters(cloudprovider.id)
-            .subscribe(routers => {
+            .subscribe((routers) => {
               this.availableRouters = routers;
               if (this.project && this.project.public_router) {
                 this.projectForm.controls['public_router'].patchValue(
@@ -634,16 +651,21 @@ export class ProjectWizardComponent implements OnInit {
             this.cloudproviderService
               .getCloudProviderFlavors(cloudprovider.id)
               .pipe(
-                flatMap(t => t),
-                filter(flavor => environment.production ? flavor.name.indexOf('dinivas') > -1: true),
+                flatMap((t) => t),
+                filter(
+                  (flavor) =>
+                    ('openstack' === flavor.cloudprovider &&
+                      flavor.name.indexOf('dinivas') > -1) ||
+                    'digitalocean' === flavor.cloudprovider
+                ),
                 toArray(),
-                map(items =>
+                map((items) =>
                   items.sort((a, b) => {
                     return a.vcpus - b.vcpus;
                   })
                 )
               )
-              .subscribe(cloudFlavors => {
+              .subscribe((cloudFlavors) => {
                 this.cloudFlavors = cloudFlavors;
               });
           }
@@ -652,15 +674,23 @@ export class ProjectWizardComponent implements OnInit {
             this.cloudproviderService
               .getCloudProviderImages(cloudprovider.id)
               .pipe(
-                flatMap(t => t),
-                filter(img => environment.production ? img.tags.indexOf('dinivas') > -1 : true),
+                flatMap((t) => t),
+                filter(
+                  (img) =>
+                    ('openstack' === img.cloudprovider &&
+                      img.tags.indexOf('dinivas') > -1) ||
+                    'digitalocean' === img.cloudprovider
+                ),
                 toArray()
               )
-              .subscribe(cloudImages => {
+              .subscribe((cloudImages) => {
                 this.cloudImages = cloudImages;
                 if (cloudImages) {
                   this.proxyCloudImages = cloudImages.filter(
-                    img => environment.production ? img.tags.indexOf('proxy') > -1 : true
+                    (img) =>
+                      ('openstack' === img.cloudprovider &&
+                        img.tags.indexOf('dinivas') > -1) ||
+                      'digitalocean' === img.cloudprovider
                   );
                 }
                 // this.projectForm
@@ -704,7 +734,20 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   // TrackBy
-  trackById(index:number, element:any): any {
+  trackById(index: number, element: any): any {
     return element.id;
+  }
+
+  toCloudProviderImageId(image: ICloudApiImage) {
+    const cloudProvider = this.projectForm.controls['cloud_provider']
+      .value as CloudproviderDTO;
+    switch (cloudProvider.cloud) {
+      case 'openstack':
+        return image.name;
+      case 'digitalocean':
+        return image.id;
+      default:
+        return image.name;
+    }
   }
 }

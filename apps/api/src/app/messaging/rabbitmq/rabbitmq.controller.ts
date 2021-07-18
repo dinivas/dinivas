@@ -1,11 +1,7 @@
 import { ConsulService } from '../../network/consul/consul.service';
-import { DestroyRabbitMQCommand } from './commands/impl/destroy-rabbitmq.command';
-import { ApplyRabbitMQCommand } from './commands/impl/apply-rabbitmq.command';
-import { PlanRabbitMQCommand } from './commands/impl/plan-rabbitmq.command';
 import { CloudproviderService } from '../../cloudprovider/cloudprovider.service';
 import { TerraformStateService } from '../../terraform/terraform-state/terraform-state.service';
 import { Permissions } from '../../auth/permissions.decorator';
-import { CommandBus } from '@nestjs/cqrs';
 import { RabbitMQService } from './rabbitmq.service';
 import { AuthzGuard } from '../../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -21,17 +17,23 @@ import {
   Req,
   HttpCode,
   Put,
-  Logger
+  Logger,
 } from '@nestjs/common';
 import {
   Pagination,
   RabbitMQDTO,
   ProjectDTO,
   ApplyModuleDTO,
-  ConsulDTO
+  ConsulDTO,
+  PlanRabbitMQCommand,
+  DestroyRabbitMQCommand,
+  ApplyRabbitMQCommand,
+  BULL_TERRAFORM_MODULE_QUEUE,
 } from '@dinivas/api-interfaces';
 import { Request } from 'express';
-const YAML = require('js-yaml');
+import YAML = require('js-yaml');
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @ApiTags('RabbitMQ')
 @Controller('rabbitmq')
@@ -45,7 +47,8 @@ export class RabbitMQController {
     private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly commandBus: CommandBus
+    @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
+    private readonly terraformModuleQueue: Queue
   ) {}
 
   @Get()
@@ -59,7 +62,7 @@ export class RabbitMQController {
       page,
       limit,
       sort,
-      route: 'http://cats.com/cats'
+      route: 'http://cats.com/cats',
     });
   }
 
@@ -98,7 +101,7 @@ export class RabbitMQController {
   async planproject(
     @Req() request: Request,
     @Body() rabbitmq: RabbitMQDTO
-  ): Promise<RabbitMQDTO> {
+  ): Promise<{ planJobId: number | string }> {
     const project = request['project'] as ProjectDTO;
     rabbitmq.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
@@ -108,27 +111,33 @@ export class RabbitMQController {
     const consul: ConsulDTO = await this.consulService.findOneByCode(
       project.code
     );
-    return this.commandBus.execute(
+    const planJob = await this.terraformModuleQueue.add(
+      'plan',
       new PlanRabbitMQCommand(
         cloudprovider.cloud,
         rabbitmq,
         consul,
-        YAML.safeLoad(cloudprovider.config)
+        YAML.load(cloudprovider.config)
       )
     );
+    this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
+    return { planJobId: planJob.id };
   }
 
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('rabbitmq:create')
   async applyProject(@Body() applyProject: ApplyModuleDTO<RabbitMQDTO>) {
-    this.commandBus.execute(
+    const applyJob = await this.terraformModuleQueue.add(
+      'apply',
       new ApplyRabbitMQCommand(
         applyProject.source.project.cloud_provider.cloud,
         applyProject.source,
         applyProject.workingDir
       )
     );
+    this.logger.debug('Apply Job Id', JSON.stringify(applyJob));
+    return { applyJobId: applyJob.id };
   }
 
   @Get(':id/terraform_state')
@@ -161,14 +170,17 @@ export class RabbitMQController {
       const consul: ConsulDTO = await this.consulService.findOneByCode(
         project.code
       );
-      this.commandBus.execute(
+      const destroyJob = await this.terraformModuleQueue.add(
+        'destroy',
         new DestroyRabbitMQCommand(
           cloudprovider.cloud,
           rabbitmq,
           consul,
-          YAML.safeLoad(cloudprovider.config)
+          YAML.load(cloudprovider.config)
         )
       );
+      this.logger.debug(`Destroy Job Id with data: ${JSON.stringify(destroyJob)}`);
+      return { planJobId: destroyJob.id };
     }
   }
 }

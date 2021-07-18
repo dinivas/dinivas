@@ -1,7 +1,3 @@
-import { DestroyInstanceCommand } from './commands/impl/destroy-instance.command';
-import { ApplyInstanceCommand } from './commands/impl/apply-instance.command';
-import { PlanInstanceCommand } from './commands/impl/plan-instance.command';
-import { CommandBus } from '@nestjs/cqrs';
 import { ConsulService } from './../../network/consul/consul.service';
 import { CloudproviderService } from './../../cloudprovider/cloudprovider.service';
 import { TerraformStateService } from './../../terraform/terraform-state/terraform-state.service';
@@ -19,31 +15,40 @@ import {
   Req,
   Post,
   HttpCode,
-  Query
+  Query,
+  Logger,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import {
-  ICloudApiInstance,
   ProjectDTO,
   InstanceDTO,
   ConsulDTO,
   ApplyModuleDTO,
-  Pagination
+  Pagination,
+  DestroyInstanceCommand,
+  ApplyInstanceCommand,
+  PlanInstanceCommand,
+  BULL_TERRAFORM_MODULE_QUEUE,
+  ICloudApiInstance,
 } from '@dinivas/api-interfaces';
 import { Request } from 'express';
-const YAML = require('js-yaml');
+import YAML = require('js-yaml');
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @ApiTags('Compute instances')
 @Controller('compute/instances')
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
 export class InstancesController {
+  private readonly logger = new Logger(InstancesController.name);
   constructor(
     private readonly instancesService: InstancesService,
     private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly commandBus: CommandBus
+    @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
+    private readonly terraformModuleQueue: Queue
   ) {}
 
   @Get()
@@ -53,15 +58,12 @@ export class InstancesController {
     @Query('page') page: number = 0,
     @Query('limit') limit: number = 10,
     @Query('sort') sort: string = 'id,desc'
-  ): Promise<Pagination<InstanceDTO>> {
+  ): Promise<Pagination<ICloudApiInstance>> {
     const project = request['project'] as ProjectDTO;
-    return this.instancesService.findAll({
-      page,
-      limit,
-      sort,
-      route: 'http://cats.com/cats'
-    });
-    // this.instancesService.getInstances(project.cloud_provider.id);
+    const instances = await this.instancesService.getInstances(
+      project.cloud_provider.id
+    );
+    return new Pagination(instances, instances.length, instances.length, page);
   }
 
   @Post()
@@ -80,7 +82,7 @@ export class InstancesController {
   async planproject(
     @Req() request: Request,
     @Body() instance: InstanceDTO
-  ): Promise<InstanceDTO> {
+  ): Promise<{ planJobId: number | string }> {
     const project = request['project'] as ProjectDTO;
     instance.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
@@ -90,23 +92,33 @@ export class InstancesController {
     const consul: ConsulDTO = await this.consulService.findOneByCode(
       project.code
     );
-    return this.commandBus.execute(
+    const planJob = await this.terraformModuleQueue.add(
+      'plan',
       new PlanInstanceCommand(
         cloudprovider.cloud,
         instance,
         consul,
-        YAML.safeLoad(cloudprovider.config)
+        YAML.load(cloudprovider.config)
       )
     );
+    this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
+    return { planJobId: planJob.id };
   }
 
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('compute.instances:create')
   async applyProject(@Body() applyProject: ApplyModuleDTO<InstanceDTO>) {
-    this.commandBus.execute(
-      new ApplyInstanceCommand(applyProject.source.project.cloud_provider.cloud, applyProject.source, applyProject.workingDir)
+    const applyJob = await this.terraformModuleQueue.add(
+      'apply',
+      new ApplyInstanceCommand(
+        applyProject.source.project.cloud_provider.cloud,
+        applyProject.source,
+        applyProject.workingDir
+      )
     );
+    this.logger.debug(`Apply Job Id with datas: ${JSON.stringify(applyJob)}`);
+    return { applyJobId: applyJob.id };
   }
 
   @Get(':id')
@@ -133,14 +145,19 @@ export class InstancesController {
       const consul: ConsulDTO = await this.consulService.findOneByCode(
         project.code
       );
-      this.commandBus.execute(
+      const destroyJob = await this.terraformModuleQueue.add(
+        'destroy',
         new DestroyInstanceCommand(
           cloudprovider.cloud,
           instance,
           consul,
-          YAML.safeLoad(cloudprovider.config)
+          YAML.load(cloudprovider.config)
         )
       );
+      this.logger.debug(
+        `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
+      );
+      return { destroyJobId: destroyJob.id };
     }
   }
 

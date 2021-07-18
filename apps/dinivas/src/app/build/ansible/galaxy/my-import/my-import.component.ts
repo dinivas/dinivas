@@ -1,5 +1,5 @@
 import { ImportsService } from './../resources/imports/imports.service';
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { PagedResponse } from './../resources/paged-response';
 import { Namespace } from './../resources/namespaces/namespace';
 import { Component, OnInit } from '@angular/core';

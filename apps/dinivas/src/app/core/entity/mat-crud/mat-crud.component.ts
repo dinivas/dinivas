@@ -1,9 +1,20 @@
-import { OnInit, ViewContainerRef, Input, Type, ElementRef, EventEmitter, Output, ViewChild, Directive } from '@angular/core';
+/* eslint-disable @angular-eslint/no-output-on-prefix */
+import {
+  OnInit,
+  ViewContainerRef,
+  Input,
+  Type,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+  Directive,
+} from '@angular/core';
 import {
   Filter,
   FilterType,
   FilterArray,
-  FilterText
+  FilterText,
 } from '../filter-bar/filter';
 import { DataProvider } from './data-provider';
 import { ColumnDef } from './column-def';
@@ -44,17 +55,9 @@ export class MatCrudComponent implements OnInit {
   @Input() public showAddButton = true;
 
   totalEntitiesCount: number;
-
-  @Input() public entityName: string;
-  @Input() public deleteConfirmQuestion: Function = () =>
-    'Voulez vous vraiment supprimer la selection ?';
   @Input() public entityDelete: boolean = true;
 
-  @Input() public entityCanEdit: Function = () => true;
-  @Input() public entityCanDelete: Function = () => true;
-  @Input() public entityCanApprove: Function = () => false;
-  @Input() public entityCanReject: Function = () => false;
-
+  @Input() public entityName: string;
   @Input() public pageSize: number = 20;
 
   @Input() public pageSizeOptions = [10, 20, 50];
@@ -76,8 +79,14 @@ export class MatCrudComponent implements OnInit {
   @Output() onEditEntity: EventEmitter<any> = new EventEmitter();
 
   @Output() onApprovetEntity: EventEmitter<any> = new EventEmitter();
-
   @Output() onRejectEntity: EventEmitter<any> = new EventEmitter();
+
+  @Input() entityCanEdit = (entity?: any) => true;
+  @Input() entityCanDelete = (entity?: any) => true;
+  @Input() public entityCanApprove = () => false;
+  @Input() public entityCanReject = () => false;
+  @Input() public deleteConfirmQuestion = (entity?: any) =>
+    'Voulez vous vraiment supprimer la selection ?';
 
   constructor(public confirmDialog: ConfirmDialogService) {}
 
@@ -118,7 +127,7 @@ export class MatCrudComponent implements OnInit {
           //this.filterInput.nativeElement.value
           return this.dataProvider.getDatas(httpParams);
         }),
-        map(data => {
+        map((data) => {
           // Flip flag to show that loading has finished.
           this.selection.clear();
           this.isLoadingResults = false;
@@ -131,7 +140,7 @@ export class MatCrudComponent implements OnInit {
           return of([]);
         })
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.dataSource.data = data;
         if (this.onDataChanged) {
           this.onDataChanged.emit(data);
@@ -159,7 +168,7 @@ export class MatCrudComponent implements OnInit {
     } else {
       this.dataProvider
         .deleteSelected(this.selection.selected)
-        .subscribe(response => {
+        .subscribe(() => {
           this.refreshDatas();
         });
     }
@@ -167,9 +176,11 @@ export class MatCrudComponent implements OnInit {
 
   deleteEntity(entity) {
     this.confirmDialog.doOnConfirm(this.deleteConfirmQuestion(entity), () => {
-      return this.dataProvider.delete(entity).subscribe(response => {
+      const deleteConfirm = this.dataProvider.delete(entity);
+      deleteConfirm.subscribe(() => {
         this.refreshDatas();
       });
+      return deleteConfirm;
     });
   }
 
@@ -181,7 +192,7 @@ export class MatCrudComponent implements OnInit {
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach(row => this.selection.select(row));
+      : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
   selectFilter(filter: Filter) {
@@ -189,7 +200,7 @@ export class MatCrudComponent implements OnInit {
   }
 
   initDisplayedColumns() {
-    this.columnDefs.forEach(col => {
+    this.columnDefs.forEach((col) => {
       this.displayedColumns.push(col.id);
       if (col.filter) {
         switch (col.filterType) {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Resolve
+  Resolve,
 } from '@angular/router';
 import { ICloudApiFlavor, CONSTANT } from '@dinivas/api-interfaces';
 import { filter, flatMap, map, toArray } from 'rxjs/operators';
@@ -25,10 +25,15 @@ export class CloudFlavorsResolver implements Resolve<ICloudApiFlavor[]> {
     return this.projectService
       .getProjectFlavors(projectId)
       .pipe(
-        flatMap(t => t),
-        filter(flavor => flavor.name.indexOf('dinivas') > -1),
+        flatMap((t) => t),
+        filter(
+          (flavor) =>
+            ('openstack' === flavor.cloudprovider &&
+              flavor.name.indexOf('dinivas') > -1) ||
+            'digitalocean' === flavor.cloudprovider
+        ),
         toArray(),
-        map(items =>
+        map((items) =>
           items.sort((a, b) => {
             return a.vcpus - b.vcpus + (a.ram - b.ram) + (a.disk - b.disk);
           })

@@ -27,6 +27,7 @@ export class GenericQuerySave<
             objectUrl = this.append_to_url(this.url, urlExtras);
         }
 
+        // eslint-disable-next-line @typescript-eslint/ban-types
         let httpResult: Observable<Object>;
         if (object.id) {
             httpResult = this.http.put<ServiceType>(

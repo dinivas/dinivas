@@ -8,26 +8,26 @@ import { ConsulService } from './../../shared/consul/consul.service';
 import { ColumnDef } from './../../core/entity/mat-crud/column-def';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
-import { ConsulDTO, Pagination } from '@dinivas/api-interfaces';
-import { Component, OnInit } from '@angular/core';
+import { ConsulDTO } from '@dinivas/api-interfaces';
+import { Component } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'dinivas-consul',
   templateUrl: './consul.component.html',
-  styleUrls: ['./consul.component.scss']
+  styleUrls: ['./consul.component.scss'],
 })
-export class ConsulComponent extends MatCrudComponent
-  implements DataProvider<ConsulDTO> {
+export class ConsulComponent
+  extends MatCrudComponent
+  implements DataProvider<ConsulDTO>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
   consulList: ConsulDTO[] = [];
-  deleteConfirmQuestion: Function = entity =>
-    `Delete consul ${
-      entity.code
-    } ? This will also destroy all attached resources.`;
-
   columnDefs: Array<ColumnDef>;
+  deleteConfirmQuestion = (entity) =>
+    `Delete consul ${entity.code} ? This will also destroy all attached resources.`;
+
   constructor(
     public dialog: MatDialog,
     private readonly consulService: ConsulService,
@@ -37,11 +37,7 @@ export class ConsulComponent extends MatCrudComponent
   ) {
     super(confirmDialog);
     activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.consulPage.items
-        )
-      )
+      .pipe(map((data) => data.consulPage.items))
       .subscribe((consul: ConsulDTO[]) => (this.consulList = consul));
     this.columnDefs = [
       //new ColumnDef('id', 'Id', false, false, false),
@@ -51,7 +47,7 @@ export class ConsulComponent extends MatCrudComponent
       new ColumnDef('domain', 'Domain', false),
       new ColumnDef('datacenter', 'Datacenter', false),
       new ColumnDef('servers', 'Nb servers', false),
-      new ColumnDef('clients', 'Nb clients', false)
+      new ColumnDef('clients', 'Nb clients', false),
     ];
   }
 
@@ -70,8 +66,8 @@ export class ConsulComponent extends MatCrudComponent
 
   addConsul() {
     this.router.navigate(['/network/consul/new'], {
-    queryParamsHandling: 'preserve'
-});
+      queryParamsHandling: 'preserve',
+    });
   }
 
   deleteSelected(selection: any[]): Observable<any> {

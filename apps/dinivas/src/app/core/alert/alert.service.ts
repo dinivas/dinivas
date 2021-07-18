@@ -31,7 +31,7 @@ export class AlertService {
 }
 
 @Component({
-  selector: 'app-snack-alert-success',
+  selector: 'dinivas-snack-alert-success',
   template: `
     <span class="snack-alert success">{{ data }}</span>
   `,
@@ -44,7 +44,7 @@ export class SnackAlertSuccessComponent {
 }
 
 @Component({
-  selector: 'app-snack-alert-danger',
+  selector: 'dinivas-snack-alert-danger',
   template: `
     <span class="snack-alert danger">{{ data }}</span>
   `,
@@ -57,7 +57,7 @@ export class SnackAlertDangerComponent {
 }
 
 @Component({
-  selector: 'app-snack-alert-warning',
+  selector: 'dinivas-snack-alert-warning',
   styleUrls: ['./snack-alert.scss'],
   template: `
     <span class="snack-alert warning">{{ data }}</span>

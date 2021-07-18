@@ -17,7 +17,6 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { NgMathPipesModule } from 'angular-pipes';
 
 @NgModule({
-  declarations: [AppComponent, ConfirmationDialogComponent, FooterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -31,6 +30,7 @@ import { NgMathPipesModule } from 'angular-pipes';
       enabled: environment.production,
     }),
   ],
+  declarations: [AppComponent, ConfirmationDialogComponent, FooterComponent],
   entryComponents: [ConfirmationDialogComponent],
   providers: [ApiInfoService, CloudproviderService],
   bootstrap: [AppComponent],

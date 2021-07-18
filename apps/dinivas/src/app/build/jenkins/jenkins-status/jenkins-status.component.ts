@@ -20,9 +20,7 @@ export class JenkinsStatusComponent implements OnInit {
     this.activatedRoute.data
       .pipe(
         map(
-          (data: {
-            currentJenkinsInfo: TerraformModuleEntityInfo<JenkinsDTO>;
-          }) => data.currentJenkinsInfo
+          (data) => data.currentJenkinsInfo
         )
       )
       .subscribe(
@@ -38,9 +36,7 @@ export class JenkinsStatusComponent implements OnInit {
     this.activatedRoute.data
       .pipe(
         map(
-          (data: {
-            currentProjectInfo: TerraformModuleEntityInfo<ProjectDTO>;
-          }) => data.currentProjectInfo
+          (data) => data.currentProjectInfo
         )
       )
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {

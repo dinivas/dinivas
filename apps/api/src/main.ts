@@ -1,9 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { API_PREFFIX } from './app/constants';
 import { AllExceptionsFilter } from './app/core/all-exceptions.filter';
 import { setupSwagger } from './swagger';
-import { CONSTANT } from '@dinivas/api-interfaces';
+import { API_PREFFIX, CONSTANT } from '@dinivas/api-interfaces';
 import { AppModule } from './app/app.module';
 
 

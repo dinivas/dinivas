@@ -13,9 +13,11 @@ import {
   ICloudApiFlavor,
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
-  ICloudApiProjectFloatingIp
+  ICloudApiProjectFloatingIp,
 } from '@dinivas/api-interfaces';
 import OSWrap = require('openstack-wrapper');
+
+const CLOUD_PROVIDER_NAME = 'openstack';
 
 @Injectable()
 export class OpenstackApiService implements ICloudApi {
@@ -36,7 +38,7 @@ export class OpenstackApiService implements ICloudApi {
     return this.doOnProject(cloudConfig, (project, resolve, reject) => {
       resolve({
         user_name: project.project_token.user.name,
-        project_name: project.project_token.project.name
+        project_name: project.project_token.project.name,
       });
     });
   }
@@ -56,7 +58,7 @@ export class OpenstackApiService implements ICloudApi {
               instances: quota_set.instances,
               cores: quota_set.cores,
               ram: quota_set.ram,
-              floating_ips: quota_set.floating_ips
+              floating_ips: quota_set.floating_ips,
             });
           }
         }
@@ -73,9 +75,10 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            floating_ip_pools.map(floatingIpPool => {
+            floating_ip_pools.map((floatingIpPool) => {
               return {
-                name: floatingIpPool.name
+                name: floatingIpPool.name,
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -93,13 +96,14 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            floating_ips.map(floatingIp => {
+            floating_ips.map((floatingIp) => {
               return {
                 id: floatingIp.id,
                 fixed_ip: floatingIp.fixed_ip,
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
-                pool: floatingIp.pool
+                pool: floatingIp.pool,
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -116,9 +120,7 @@ export class OpenstackApiService implements ICloudApi {
         if (error) {
           reject(error);
         } else {
-          resolve(
-            network_array as ICloudApiNetwork[]
-          );
+          resolve(network_array as ICloudApiNetwork[]);
         }
       });
     });
@@ -133,13 +135,14 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            routers_array.map(router => {
+            routers_array.map((router) => {
               return {
                 id: router.id,
                 name: router.name,
                 description: router.description,
                 status: router.status,
-                tags: router.tags
+                tags: router.tags,
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -155,14 +158,15 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            servers_array.map(srv => {
+            servers_array.map((srv) => {
               const currentSrvAdresses: ICloudApiInstanceAdress[] = [];
-              Object.keys(srv.addresses).forEach(function(key) {
-                srv.addresses[key].forEach(addr => {
+              Object.keys(srv.addresses).forEach(function (key) {
+                srv.addresses[key].forEach((addr) => {
                   currentSrvAdresses.push({
                     addr: addr.addr,
                     type: addr['OS-EXT-IPS:type'],
-                    version: addr.version
+                    version: addr.version,
+                    cloudprovider: CLOUD_PROVIDER_NAME,
                   });
                 });
               });
@@ -174,7 +178,7 @@ export class OpenstackApiService implements ICloudApi {
                 adresses: currentSrvAdresses,
                 created_date: srv.created,
                 updated_date: srv.updated,
-                metadata: srv.metadata
+                metadata: srv.metadata,
               } as ICloudApiInstance;
             })
           );
@@ -190,7 +194,7 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            flavors_array.map(flavor => {
+            flavors_array.map((flavor) => {
               return {
                 id: flavor.id,
                 name: flavor.name,
@@ -199,7 +203,8 @@ export class OpenstackApiService implements ICloudApi {
                 ram: flavor.ram,
                 disk: flavor.disk,
                 swap: flavor.swap,
-                is_public: flavor['os-flavor-access:is_public']
+                is_public: flavor['os-flavor-access:is_public'],
+                cloudprovider: CLOUD_PROVIDER_NAME,
               } as ICloudApiFlavor;
             })
           );
@@ -215,7 +220,7 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            images_array.map(img => {
+            images_array.map((img) => {
               return {
                 id: img.id,
                 name: img.name,
@@ -227,7 +232,8 @@ export class OpenstackApiService implements ICloudApi {
                 min_ram: img.min_ram,
                 visibility: img.visibility,
                 date: img.updated_at,
-                tags: img.tags
+                tags: img.tags,
+                cloudprovider: CLOUD_PROVIDER_NAME,
               } as ICloudApiImage;
             })
           );
@@ -243,7 +249,7 @@ export class OpenstackApiService implements ICloudApi {
           reject(error);
         } else {
           resolve(
-            volumes_array.map(volume => {
+            volumes_array.map((volume) => {
               return {
                 id: volume.id,
                 name: volume.name,
@@ -252,7 +258,8 @@ export class OpenstackApiService implements ICloudApi {
                 status: volume.status,
                 volumeType: volume.visibility,
                 date: volume.updated_at,
-                metedata: volume.tags
+                metedata: volume.tags,
+                cloudprovider: CLOUD_PROVIDER_NAME,
               } as ICloudApiDisk;
             })
           );
@@ -275,7 +282,7 @@ export class OpenstackApiService implements ICloudApi {
         cloudConfig.password,
         cloudConfig.project_id,
         cloudConfig.auth_url,
-        function(error, project) {
+        function (error, project) {
           if (error) {
             reject(error);
           } else {

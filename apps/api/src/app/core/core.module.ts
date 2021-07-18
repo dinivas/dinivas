@@ -15,14 +15,14 @@ import { ConfigurationService } from './config/configuration.service';
     CloudApiFactory,
     KeycloakAdmin,
     ConfigurationService,
-    GitService
+    GitService,
   ],
   exports: [
     OpenstackApiService,
     DigitalOceanApiService,
     CloudApiFactory,
     KeycloakAdmin,
-    ConfigurationService
-  ]
+    ConfigurationService,
+  ],
 })
 export class CoreModule {}

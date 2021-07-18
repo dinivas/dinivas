@@ -45,7 +45,7 @@ export class GitlabViewComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data: { gitlab: GitlabDTO }) => data.gitlab))
+      .pipe(map((data) => data.gitlab))
       .subscribe((gitlab: GitlabDTO) => (this.gitlab = gitlab));
   }
 }

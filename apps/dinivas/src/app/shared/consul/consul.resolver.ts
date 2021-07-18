@@ -1,5 +1,5 @@
 import { ConsulService } from './consul.service';
-import { Observable, forkJoin } from 'rxjs/';
+import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

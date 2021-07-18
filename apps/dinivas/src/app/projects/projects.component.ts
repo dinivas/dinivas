@@ -1,5 +1,4 @@
-import { ProjectWizardComponent } from './project-wizard/project-wizard.component';
-import { Observer } from 'rxjs/';
+import { Observer } from 'rxjs';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { ConfirmDialogService } from './../core/dialog/confirm-dialog/confirm-dialog.service';
@@ -16,18 +15,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'dinivas-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
 })
-export class ProjectsComponent extends MatCrudComponent
-  implements DataProvider<ProjectDTO> {
+export class ProjectsComponent
+  extends MatCrudComponent
+  implements DataProvider<ProjectDTO>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
-  deleteConfirmQuestion: Function = entity =>
-    `Delete project ${entity.name} (${
-      entity.code
-    }) ? This will also destroy all project resources.`;
-
   columnDefs: Array<ColumnDef>;
+  deleteConfirmQuestion = (entity) =>
+    `Delete project ${entity.name} (${entity.code}) ? This will also destroy all project resources.`;
 
   constructor(
     public dialog: MatDialog,
@@ -44,7 +42,7 @@ export class ProjectsComponent extends MatCrudComponent
       new ColumnDef('availability_zone', 'Availability zone', false),
       new ColumnDef('cloud_provider', 'Cloud config', false),
       new ColumnDef('monitoring', 'Monitoring', false),
-      new ColumnDef('logging', 'Logging', false)
+      new ColumnDef('logging', 'Logging', false),
     ];
   }
 
@@ -59,7 +57,9 @@ export class ProjectsComponent extends MatCrudComponent
   }
 
   addProject() {
-    this.router.navigate(['/projects/new'], { queryParamsHandling: 'preserve' });
+    this.router.navigate(['/projects/new'], {
+      queryParamsHandling: 'preserve',
+    });
     // const addEntityDialogRef = this.dialog.open(ProjectWizardComponent, {
     //   maxWidth: '90vw',
     //   width: '80vw',

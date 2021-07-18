@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { Pipe, Injectable, PipeTransform } from '@angular/core';
 
 @Pipe({

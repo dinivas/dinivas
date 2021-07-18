@@ -1,8 +1,6 @@
 import { ConsulService } from './../network/consul/consul.service';
 import { TerraformStateService } from './../terraform/terraform-state/terraform-state.service';
-import { DestroyProjectCommand } from './commands/impl/destroy-project.command';
 import { CloudproviderService } from './../cloudprovider/cloudprovider.service';
-import { PlanProjectCommand } from './commands/impl/plan-project.command';
 import { Permissions } from './../auth/permissions.decorator';
 import {
   Pagination,
@@ -14,6 +12,10 @@ import {
   ConsulDTO,
   ProjectDefinitionDTO,
   CloudproviderDTO,
+  PlanProjectCommand,
+  ApplyProjectCommand,
+  DestroyProjectCommand,
+  BULL_TERRAFORM_MODULE_QUEUE,
 } from '@dinivas/api-interfaces';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -31,11 +33,8 @@ import {
   Logger,
   HttpCode,
 } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
-import { ApplyProjectCommand } from './commands/impl/apply-project.command';
 
 import YAML = require('js-yaml');
-import { TerraformService } from '../terraform/terraform.service';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
 
@@ -50,10 +49,8 @@ export class ProjectsController {
     private readonly consulService: ConsulService,
     private readonly terraformStateService: TerraformStateService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly terraformService: TerraformService,
-    @InjectQueue('terraform-module')
-    private readonly terraformModuleQueue: Queue,
-    private readonly commandBus: CommandBus
+    @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
+    private readonly terraformModuleQueue: Queue
   ) {}
 
   @Get()
@@ -126,31 +123,13 @@ export class ProjectsController {
   @Permissions('projects:create')
   async planproject(
     @Body() projectDefinition: ProjectDefinitionDTO
-  ): Promise<ProjectDTO> {
+  ): Promise<{ planJobId: number | string }> {
     const project = projectDefinition.project;
     const cloudprovider: CloudproviderDTO =
       await this.cloudproviderService.findOne(project.cloud_provider.id, true);
     const cloudConfig = YAML.load(cloudprovider.config);
-    this.terraformService.plan<ProjectDTO>(
-      {
-        projectCode: project.code,
-        cloudprovider: cloudprovider.cloud,
-        moduleName: 'project_base',
-        cloudConfig,
-      },
-      project
-    );
-    const planJob = await this.terraformModuleQueue.add('plan', {
-      options: {
-        projectCode: project.code,
-        cloudprovider: cloudprovider.cloud,
-        moduleName: 'project_base',
-        cloudConfig,
-      },
-      data: project,
-    });
-    this.logger.debug('Plan Job Id', JSON.stringify(planJob));
-    return this.commandBus.execute(
+    const planJob = await this.terraformModuleQueue.add(
+      'plan-project',
       new PlanProjectCommand(
         cloudprovider.cloud,
         project,
@@ -166,6 +145,8 @@ export class ProjectsController {
         projectDefinition.consul
       )
     );
+    this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
+    return { planJobId: planJob.id };
   }
 
   @Post('apply-plan')
@@ -174,7 +155,8 @@ export class ProjectsController {
   async applyProject(
     @Body() applyProjectDefinition: ApplyModuleDTO<ProjectDefinitionDTO>
   ) {
-    this.commandBus.execute(
+    const applyJob = await this.terraformModuleQueue.add(
+      'apply-project',
       new ApplyProjectCommand(
         applyProjectDefinition.source.project.cloud_provider.cloud,
         applyProjectDefinition.source.project,
@@ -182,6 +164,8 @@ export class ProjectsController {
         applyProjectDefinition.workingDir
       )
     );
+    this.logger.debug(`Apply Job Id with data: ${JSON.stringify(applyJob)}`);
+    return { applyJobId: applyJob.id };
   }
 
   @Put(':id')
@@ -209,7 +193,8 @@ export class ProjectsController {
       const consul: ConsulDTO = await this.consulService.findOneByCode(
         project.code
       );
-      this.commandBus.execute(
+      const destroyJob = await this.terraformModuleQueue.add(
+        'destroy-project',
         new DestroyProjectCommand(
           cloudprovider.cloud,
           project,
@@ -217,6 +202,8 @@ export class ProjectsController {
           YAML.load(cloudprovider.config)
         )
       );
+      this.logger.debug(`Destroy Job Id with data: ${JSON.stringify(destroyJob)}`);
+      return { destroyJobId: destroyJob.id };
     }
   }
 }

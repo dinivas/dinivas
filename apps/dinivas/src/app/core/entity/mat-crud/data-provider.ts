@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/';
+import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 export interface DataProvider<T> {
     getDatas(httpParams?: HttpParams): Observable<T>;

@@ -73,7 +73,7 @@ export class InstancesService {
   }
 
   async getInstances(cloudProviderId: number) {
-    let cloudprovider = await this.cloudproviderRepository.findOne(
+    const cloudprovider = await this.cloudproviderRepository.findOne(
       cloudProviderId
     );
     const cloudApi = this.cloudApiFactory.getCloudApiService(

@@ -14,8 +14,8 @@ export class InstancesService extends TerraformModuleResourceServiceBase<
     super(http, 'compute/instances');
   }
 
-  getInstances(httpParams: HttpParams): Observable<InstanceDTO[]> {
-    return this.http.get<InstanceDTO[]>(
+  getInstances(httpParams: HttpParams): Observable<ICloudApiInstance[]> {
+    return this.http.get<ICloudApiInstance[]>(
       `${environment.apiUrl}/compute/instances`,
       {
         params: httpParams

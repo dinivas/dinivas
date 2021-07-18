@@ -6,7 +6,6 @@ import { NetworkModule } from './network/network.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Jenkins, JenkinsSlaveGroup } from './build/jenkins/jenkins.entity';
 import { BuildModule } from './build/build.module';
-import { API_PREFFIX } from './constants';
 import { TerraformGateway } from './terraform/terraform.gateway';
 import { statusMonitorConfig } from './utils/status-monitor';
 import { CoreModule } from './core/core.module';
@@ -25,7 +24,10 @@ import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { AuthzGuard } from './auth/authz.guard';
 import { environment } from './../environments/environment';
 import { InfoController } from './info.controller';
-import { BullModule } from '@nestjs/bull';
+import { BullModule, InjectQueue } from '@nestjs/bull';
+import { ExpressAdapter } from '@bull-board/express';
+import { createBullBoard } from '@bull-board/api';
+import { BullAdapter } from '@bull-board/api/bullAdapter';
 import {
   Module,
   NestModule,
@@ -49,7 +51,11 @@ import * as httpProxy from 'http-proxy-middleware';
 import { json } from 'body-parser';
 import { RabbitMQ } from './messaging/rabbitmq/rabbitmq.entity';
 import configConfiguration from './config.configuration';
-import { TerraformService } from './terraform/terraform.service';
+import {
+  API_PREFFIX,
+  BULL_TERRAFORM_MODULE_QUEUE,
+} from '@dinivas/api-interfaces';
+import { Queue } from 'bull';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../config/';
 }
@@ -147,11 +153,14 @@ const TASKS_REDIS_CONFIG_ROOT_KEY = 'dinivas.tasks.redis';
       useClass: AuthzGuard,
     },
     TerraformGateway,
-    TerraformService
   ],
 })
 export class AppModule implements NestModule {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
+    private terraformModuleQueue: Queue
+  ) {}
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
     // Ansible Galaxy proxy, must be before body-parser
     consumer
@@ -165,6 +174,19 @@ export class AppModule implements NestModule {
         })
       )
       .forRoutes('ansible-galaxy/*');
+    // Bull Board routes configuration
+    const bullExpressServerAdapter = new ExpressAdapter();
+    bullExpressServerAdapter.setBasePath('/bull/queues');
+    const { setQueues, replaceQueues } = createBullBoard({
+      queues: [
+        new BullAdapter(this.terraformModuleQueue, { readOnlyMode: false }),
+      ],
+      serverAdapter: bullExpressServerAdapter,
+    });
+    bullExpressServerAdapter.setBasePath(`/${API_PREFFIX}/bull/queues`);
+    consumer
+      .apply(bullExpressServerAdapter.getRouter())
+      .forRoutes(`/bull/queues`);
     // Add manually body-parser because we disabled it in main.ts
     const jsonParseMiddleware = json({ limit: '10mb' });
     consumer

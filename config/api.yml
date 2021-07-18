@@ -1,0 +1,59 @@
+dinivas:
+  production: false
+  orm:
+    config:
+      type: postgres
+      host: localhost
+      port: 5433
+      username: dinivas
+      password: Pa55W0rd
+      database: dinivas
+      synchronize: true
+      logging: false
+  tasks:
+    redis:
+      host: localhost
+      port: 6379
+  cloud_providers:
+    digitalocean:
+      api_uses_snapshots: true
+  terraform:
+    state:
+      username: dinivas
+      password: Pa55w0rd!
+      http_timeout: 5000
+      http_max_redirects: 5
+  packer:
+    modules:
+      - name: base_image
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-base-image.git
+      - name: proxy
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-proxy.git
+      - name: jenkins
+        type: git
+        url: https://github.com/dinivas/packer-jenkins.git
+      - name: docker
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-docker.git
+      - name: rabbitmq
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-rabbitmq.git
+  ansible_galaxy:
+    url: http://localhost:8089
+  keycloak:
+    config:
+      realm: 'dinivas'
+      bearer-only: true
+      auth-server-url: 'http://localhost:8085/auth'
+      ssl-required: 'external'
+      resource: 'dinivas-api'
+      verify-token-audience: true
+      credentials:
+        secret: 'c7629cf6-cd8a-465f-8f08-97af5781bb7f'
+      confidential-port: 0
+      policy-enforcer:
+    admin:
+      username: admin
+      password: password
