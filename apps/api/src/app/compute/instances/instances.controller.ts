@@ -56,8 +56,8 @@ export class InstancesController {
   async findAll(
     @Req() request: Request,
     @Query('page') page: number = 0,
-    @Query('limit') limit: number = 10,
-    @Query('sort') sort: string = 'id,desc'
+    @Query('limit') limit = 10,
+    @Query('sort') sort = 'id,desc'
   ): Promise<Pagination<ICloudApiInstance>> {
     const project = request['project'] as ProjectDTO;
     const instances = await this.instancesService.getInstances(

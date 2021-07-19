@@ -1,4 +1,7 @@
 export interface ModuleImageToBuildDTO {
+  cloudproviderId: number;
+  cloudprovider: string;
+  availability_zone: string;
   module_name: string;
   image_name: string;
   source_ssh_user: string;

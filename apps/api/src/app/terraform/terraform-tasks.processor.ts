@@ -1,15 +1,19 @@
 import {
   BULL_TERRAFORM_MODULE_QUEUE,
-  ConsulDTO,
-  ProjectDTO,
   TerraformApplyEvent,
   TerraformDestroyEvent,
   TerraformPlanEvent,
 } from '@dinivas/api-interfaces';
-import { InjectQueue, OnGlobalQueueCompleted, Processor } from '@nestjs/bull';
+import {
+  InjectQueue,
+  OnGlobalQueueActive,
+  OnGlobalQueueCompleted,
+  OnGlobalQueueFailed,
+  Processor,
+} from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { TerraformGateway } from '../terraform/terraform.gateway';
-import { Queue } from 'bull';
+import { CoreWebSocketGateway } from '../core/core-websocket.gateway';
+import { Job, Queue } from 'bull';
 
 @Processor(BULL_TERRAFORM_MODULE_QUEUE)
 export class TerraformTasksProcessor {
@@ -17,7 +21,7 @@ export class TerraformTasksProcessor {
   constructor(
     @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
     private readonly terraformModuleQueue: Queue,
-    private readonly terraformGateway: TerraformGateway
+    private readonly coreWebSocketGateway: CoreWebSocketGateway
   ) {}
 
   @OnGlobalQueueCompleted()
@@ -31,7 +35,7 @@ export class TerraformTasksProcessor {
       this.logger.debug(
         `[PLAN] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result workingDir=[${planEvent.workingDir}], source [${planEvent.source}], planResult: ( Nb resources changed: [${planEvent.planResult.resource_changes.length}], Planned Values: [${planEvent.planResult.planned_values.outputs}])`
       );
-      this.terraformGateway.emit(result.eventCode, planEvent);
+      this.coreWebSocketGateway.emit(result.eventCode, planEvent);
     }
     if (result.eventCode.startsWith('applyEvent-')) {
       const applyEvent = result.event as TerraformApplyEvent<any>;
@@ -39,7 +43,7 @@ export class TerraformTasksProcessor {
       this.logger.debug(
         `[APPLY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result  source [${applyEvent.source}], planResult: ( Plan Values: [${applyEvent.stateResult.values.outputs}])`
       );
-      this.terraformGateway.emit(result.eventCode, applyEvent);
+      this.coreWebSocketGateway.emit(result.eventCode, applyEvent);
     }
     if (result.eventCode.startsWith('destroyEvent-')) {
       const destroyEvent = result.event as TerraformDestroyEvent<any>;
@@ -47,25 +51,27 @@ export class TerraformTasksProcessor {
       this.logger.debug(
         `[DESTROY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result  source [${destroyEvent.source}]`
       );
-      // switch (result.module) {
-      //   case 'project':
-      //     await this.consulService.delete(
-      //       (
-      //         destroyEvent.source as {
-      //           project: ProjectDTO;
-      //           consul: ConsulDTO;
-      //         }
-      //       ).consul.id
-      //     );
-      //     await this.projectService.delete(
-      //       (destroyEvent.source as ProjectDTO).id
-      //     );
-      //     break;
-
-      //   default:
-      //     break;
-      // }
-      this.terraformGateway.emit(result.eventCode, destroyEvent);
+      this.coreWebSocketGateway.emit(result.eventCode, destroyEvent);
     }
+    this.coreWebSocketGateway.emit('background-job-completed', {
+      jobId,
+      event: receivedResult,
+    });
+  }
+
+  @OnGlobalQueueActive()
+  async onGlobalQueueActive(job: Job) {
+    this.logger.debug(`A job has started => ${JSON.stringify(job)}`);
+    this.coreWebSocketGateway.emit('background-job-start', job);
+  }
+  @OnGlobalQueueFailed()
+  async onGlobalQueueFailed(job: Job, err: Error) {
+    this.logger.debug(
+      `A job has failed => ${JSON.stringify(job)} wit Error: ${err}`
+    );
+    this.coreWebSocketGateway.emit('background-job-failed', {
+      jobId: job.id,
+      event: err,
+    });
   }
 }

@@ -1,0 +1,27 @@
+dinivas:
+  production: false
+  api:
+    url: 'http://localhost:3333/api/v1'
+  tasks:
+    redis:
+      host: localhost
+      port: 6379
+  packer:
+    build:
+      log_silent: false
+    modules:
+      - name: base_image
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-base-image.git
+      - name: proxy
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-proxy.git
+      - name: jenkins
+        type: git
+        url: https://github.com/dinivas/packer-jenkins.git
+      - name: docker
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-docker.git
+      - name: rabbitmq
+        type: git
+        url: https://github.com/dinivas/packer-dinivas-rabbitmq.git

@@ -4,16 +4,19 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImagesService {
   constructor(private http: HttpClient) {}
 
-  getImages(httpParams: HttpParams): Observable<ICloudApiImage[]> {
+  getImages(
+    cloudProviderId: number,
+    httpParams: HttpParams
+  ): Observable<ICloudApiImage[]> {
     return this.http.get<ICloudApiImage[]>(
-      `${environment.apiUrl}/compute/images`,
+      `${environment.apiUrl}/compute/images/by_cloudprovider/${cloudProviderId}`,
       {
-        params: httpParams
+        params: httpParams,
       }
     );
   }

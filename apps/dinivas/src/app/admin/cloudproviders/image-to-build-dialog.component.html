@@ -24,9 +24,9 @@
             </mat-form-field>
             <mat-form-field class="" appearance="outline">
                 <mat-label>Network to attach instance on</mat-label>
-                <mat-select formControlName="network" required>
+                <mat-select formControlName="_network" required>
                     <mat-option>None</mat-option>
-                    <mat-option *ngFor="let network of projectNetworks" [value]="network.id">
+                    <mat-option *ngFor="let network of projectNetworks" [value]="network">
                         {{ network.label }}
                     </mat-option>
                 </mat-select>
@@ -42,12 +42,26 @@
                 </mat-select>
                 <mat-hint>This instance will be attached to this network</mat-hint>
             </mat-form-field>
-            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0" formControlName="_source_cloud_image"
-                label="Select the source image to use" [cloudImages]="cloudImages">
+            <dinivas-cloud-image-radios *ngIf="cloudImages?.length > 0; else loading_source_cloud_image"
+                formControlName="_source_cloud_image" label="Select the source image to use"
+                [cloudImages]="cloudImages">
             </dinivas-cloud-image-radios>
-            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="_source_cloud_flavor"
-                label="Select source flavor to use" [cloudFlavors]="cloudFlavors">
+            <ng-template #loading_source_cloud_image>
+                <div class="center-local-spinner">
+                    <mat-spinner></mat-spinner>
+                    <p>Loading available Sources images...</p>
+                </div>
+            </ng-template>
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_source_cloud_flavor"
+                formControlName="_source_cloud_flavor" label="Select source flavor to use"
+                [cloudFlavors]="cloudFlavors">
             </dinivas-cloud-flavor-radios>
+            <ng-template #loading_source_cloud_flavor>
+                <div class="center-local-spinner">
+                    <mat-spinner></mat-spinner>
+                    <p>Loading available Flavors</p>
+                </div>
+            </ng-template>
             <div class="slide-toggle-container">
                 <mat-slide-toggle formControlName="override_image_if_exist" color="accent">
                     Override image if already exist?

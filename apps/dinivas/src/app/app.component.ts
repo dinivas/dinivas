@@ -1,5 +1,5 @@
 import { SideMenu } from './side-menu';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ConfirmDialogService } from './core/dialog/confirm-dialog/confirm-dialog.service';
 import { ComponentType } from '@angular/cdk/portal';
 import { ContextualMenuService } from './core/contextual-menu/contextual-menu.service';
@@ -33,6 +33,8 @@ import { ThemeService } from './core/services/theme.service';
 import { PageLoadingService } from './core/services/page-loading.service';
 import { countBy, findIndex } from 'lodash';
 import { SshTerminalComponent } from './core/components/ssh-terminal/ssh-terminal.component';
+import { SharedWebSocket } from './shared/shared-websocket.service';
+import { AlertService } from './core/alert/alert.service';
 
 export class SideNavMenuGroup {
   group!: string;
@@ -70,6 +72,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   availableMenuGroups = SideMenu;
   pinnedMenus: SideNavMenu[] = [];
   contextualMenuData: any;
+  sharedWebSocketSubscription: Subscription;
+  currentBackgroundJobsCount = 0;
 
   constructor(
     private readonly keycloakService: KeycloakService,
@@ -82,9 +86,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private contextualMenuService: ContextualMenuService,
     private breakpointObserver: BreakpointObserver,
     private themeService: ThemeService,
+    private sharedWebSocket: SharedWebSocket,
     private pageLoadingService: PageLoadingService,
     private renderer: Renderer2,
-    private inj: Injector
+    private inj: Injector,
+    private alertService: AlertService
   ) {
     this.contextualMenuInjector = ReflectiveInjector.resolveAndCreate([
       {
@@ -162,6 +168,30 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.contextualSidenav.open();
       }
     );
+    this.sharedWebSocketSubscription = this.sharedWebSocket
+      .receiveBackgroundJobStartEvent()
+      .subscribe((jobEvent) => {
+        this.currentBackgroundJobsCount++;
+        this.alertService.success(
+          `A job has started => ${JSON.stringify(jobEvent)}`
+        );
+      });
+    this.sharedWebSocket
+      .receiveBackgroundJobCompletedEvent()
+      .subscribe((jobEvent) => {
+        this.currentBackgroundJobsCount--;
+        this.alertService.success(
+          `A job has completed => ${JSON.stringify(jobEvent)}`
+        );
+      });
+    this.sharedWebSocket
+      .receiveBackgroundJobFailedEvent()
+      .subscribe((jobEvent) => {
+        this.currentBackgroundJobsCount--;
+        this.alertService.error(
+          `A baclground job has failed => ${JSON.stringify(jobEvent)}`
+        );
+      });
   }
 
   openSSHTerminal(currentProject) {

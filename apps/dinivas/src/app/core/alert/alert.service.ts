@@ -33,7 +33,7 @@ export class AlertService {
 @Component({
   selector: 'dinivas-snack-alert-success',
   template: `
-    <span class="snack-alert success">{{ data }}</span>
+    <span class="snack-alert success">{{ data | truncate: 300: '...': true }}</span>
   `,
   styleUrls: ['./snack-alert.scss']
 })
@@ -46,7 +46,7 @@ export class SnackAlertSuccessComponent {
 @Component({
   selector: 'dinivas-snack-alert-danger',
   template: `
-    <span class="snack-alert danger">{{ data }}</span>
+    <span class="snack-alert danger">{{ data | truncate: 300: '...': true }}</span>
   `,
   styleUrls: ['./snack-alert.scss']
 })
@@ -60,7 +60,7 @@ export class SnackAlertDangerComponent {
   selector: 'dinivas-snack-alert-warning',
   styleUrls: ['./snack-alert.scss'],
   template: `
-    <span class="snack-alert warning">{{ data }}</span>
+    <span class="snack-alert warning">{{ data | truncate: 300: '...': true }}</span>
   `
 })
 export class SnackAlertWarningComponent {

@@ -1,10 +1,10 @@
-import { GitService } from './git/git.service';
 import { KeycloakAdmin } from './keycloak/keycloak-admin';
 import { CloudApiFactory } from './cloudapi/cloudapi.factory';
 import { OpenstackApiService } from './cloudapi/openstack.api.service';
 import { DigitalOceanApiService } from './cloudapi/do/digitalocean.api.service';
 import { Module } from '@nestjs/common';
 import { ConfigurationService } from './config/configuration.service';
+import { CoreWebSocketGateway } from '../core/core-websocket.gateway';
 
 @Module({
   imports: [],
@@ -15,7 +15,7 @@ import { ConfigurationService } from './config/configuration.service';
     CloudApiFactory,
     KeycloakAdmin,
     ConfigurationService,
-    GitService,
+    CoreWebSocketGateway
   ],
   exports: [
     OpenstackApiService,
@@ -23,6 +23,7 @@ import { ConfigurationService } from './config/configuration.service';
     CloudApiFactory,
     KeycloakAdmin,
     ConfigurationService,
+    CoreWebSocketGateway
   ],
 })
 export class CoreModule {}

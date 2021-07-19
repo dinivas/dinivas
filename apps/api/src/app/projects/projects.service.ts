@@ -14,6 +14,7 @@ import { Project } from './project.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import crypto = require('crypto');
+import { ConfigurationService } from '../core/config/configuration.service';
 
 @Injectable()
 export class ProjectsService {
@@ -59,7 +60,8 @@ export class ProjectsService {
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
     private readonly consulService: ConsulService,
-    private cloudApiFactory: CloudApiFactory
+    private cloudApiFactory: CloudApiFactory,
+    private readonly configurationService: ConfigurationService
   ) {}
 
   async findAll(
@@ -130,8 +132,8 @@ export class ProjectsService {
 
   generateProjectGuacamoleToken(projectState: any, cloudProvider: string) {
     const clientOptions = {
-      cypher: 'AES-256-CBC',
-      key: 'MySuperSecretKeyForParamsToken12',
+      cypher: this.configurationService.get('guacamole.guacd.cypher'),
+      key: this.configurationService.get('guacamole.guacd.key'),
     };
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(

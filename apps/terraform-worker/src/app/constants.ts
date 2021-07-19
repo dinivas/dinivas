@@ -1,1 +1,0 @@
-export const API_PREFFIX = 'api/v1';

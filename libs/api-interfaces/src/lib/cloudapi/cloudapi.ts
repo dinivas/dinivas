@@ -132,6 +132,7 @@ export interface ICloudApiNetwork {
   cidr: string;
   label: string;
   cloudprovider: AvailableCloudProvider;
+  region: string;
 }
 
 export interface ICloudApi {
@@ -152,7 +153,7 @@ export interface ICloudApi {
   //Compute infos
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
   getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]>;
-  getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]>;
+  getAllImages(cloudConfig: ICloudApiConfig, context: Record<string, unknown>): Promise<ICloudApiImage[]>;
   getAllDisks(cloudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
   getAllAvailabilityZones(
     cloudConfig: ICloudApiConfig

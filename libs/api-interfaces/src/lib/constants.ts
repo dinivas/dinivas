@@ -8,4 +8,4 @@ export const CONSTANT = {
 };
 export const API_PREFFIX = 'api/v1';
 export const BULL_TERRAFORM_MODULE_QUEUE = 'terraform-module';
-export const BULL_TERRAFORM_TASKS_QUEUE = 'terraform-tasks';
+export const BULL_PACKER_BUILD_QUEUE = 'packer-build';

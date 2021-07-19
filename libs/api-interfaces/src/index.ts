@@ -5,6 +5,7 @@ export * from './lib/pagination';
 export * from './lib/project';
 export * from './lib/jenkins';
 export * from './lib/instance';
+export * from './lib/image';
 export * from './lib/rabbitmq';
 export * from './lib/consul';
 export * from './lib/gitlab/gitlab.dto';

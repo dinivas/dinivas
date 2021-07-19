@@ -13,7 +13,7 @@ import { ConfigurationService } from './configuration.service';
 import { GitService } from './git/git.service';
 import { TerraformStateService } from './terraform-state.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import { BULL_TERRAFORM_MODULE_QUEUE, BULL_TERRAFORM_TASKS_QUEUE } from '@dinivas/api-interfaces';
+import { BULL_TERRAFORM_MODULE_QUEUE } from '@dinivas/api-interfaces';
 import { WSGateway } from './wsgateway';
 import { TerraformProcessor } from './terraform/terraform.processor';
 
@@ -61,9 +61,6 @@ const TF_STATE_CONFIG_ROOT_KEY = 'dinivas.terraform.state';
     BullModule.registerQueue(
       {
         name: BULL_TERRAFORM_MODULE_QUEUE,
-      },
-      {
-        name: BULL_TERRAFORM_TASKS_QUEUE,
       }
     ),
     CqrsModule,

@@ -12,8 +12,8 @@ export class ImagesService {
     private cloudApiFactory: CloudApiFactory
   ) {}
 
-  async getImages(cloudProviderId: number) {
-    let cloudprovider = await this.cloudproviderRepository.findOne(
+  async getImages(cloudProviderId: number, context?: Record<string, unknown>) {
+    const cloudprovider = await this.cloudproviderRepository.findOne(
       cloudProviderId
     );
     const cloudApi = this.cloudApiFactory.getCloudApiService(
@@ -23,7 +23,8 @@ export class ImagesService {
       this.cloudApiFactory.getCloudApiConfig(
         cloudprovider.cloud,
         cloudprovider.config
-      )
+      ),
+      context
     );
   }
 }

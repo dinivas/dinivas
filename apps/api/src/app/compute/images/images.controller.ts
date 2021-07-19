@@ -1,4 +1,3 @@
-import { BuildModuleImageCommand } from './commands/impl/build-image.command';
 import { CloudproviderService } from './../../cloudprovider/cloudprovider.service';
 import { Permissions } from './../../auth/permissions.decorator';
 import { ImagesService } from './images.service';
@@ -14,33 +13,45 @@ import {
   Delete,
   Body,
   Req,
-  Post
+  Post,
+  Query,
+  Logger,
 } from '@nestjs/common';
 import {
   ICloudApiImage,
   ProjectDTO,
-  ModuleImageToBuildDTO
+  ModuleImageToBuildDTO,
+  BuildModuleImageCommand,
+  BULL_PACKER_BUILD_QUEUE,
 } from '@dinivas/api-interfaces';
-import { CommandBus } from '@nestjs/cqrs';
 
 import YAML = require('js-yaml');
+import { Queue } from 'bull';
+import { InjectQueue } from '@nestjs/bull';
 
 @ApiTags('Compute images')
 @Controller('compute/images')
 @ApiBearerAuth()
 @UseGuards(AuthzGuard)
 export class ImagesController {
+  private readonly logger = new Logger(ImagesController.name);
+
   constructor(
     private readonly imagesService: ImagesService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly commandBus: CommandBus
+    @InjectQueue(BULL_PACKER_BUILD_QUEUE)
+    private readonly packerBuildQueue: Queue
   ) {}
 
-  @Get()
+  @Get('by_cloudprovider/:cloudProviderId')
   @Permissions('compute.images:list')
-  async findAll(@Req() request: Request): Promise<ICloudApiImage[]> {
-    const project = request['project'] as ProjectDTO;
-    return this.imagesService.getImages(project.cloud_provider.id);
+  async findAll(
+    @Param('cloudProviderId') cloudProviderId: string,
+    @Query('loadAll') loadAll = false
+  ): Promise<ICloudApiImage[]> {
+    return this.imagesService.getImages(parseInt(cloudProviderId), {
+      loadAll: loadAll,
+    });
   }
 
   @Get(':id')
@@ -63,19 +74,23 @@ export class ImagesController {
   @Post('build')
   @Permissions('compute.images:edit')
   async buildImage(
-    @Req() request: Request,
     @Body() moduleImageToBuild: ModuleImageToBuildDTO
-  ): Promise<ModuleImageToBuildDTO> {
-    const project = request['project'] as ProjectDTO;
+  ): Promise<{ buildImageJobId: number | string }> {
     const cloudprovider = await this.cloudproviderService.findOne(
-      project.cloud_provider.id, true
+      moduleImageToBuild.cloudproviderId,
+      true
     );
-    return this.commandBus.execute(
+    const buildImageJob = await this.packerBuildQueue.add(
+      'build',
       new BuildModuleImageCommand(
-        project.code,
+        cloudprovider.cloud,
         moduleImageToBuild,
         YAML.load(cloudprovider.config)
       )
     );
+    this.logger.debug(
+      `Build Image Job Id with datas: ${JSON.stringify(buildImageJob)}`
+    );
+    return { buildImageJobId: buildImageJob.id };
   }
 }

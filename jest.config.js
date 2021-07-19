@@ -5,5 +5,6 @@ module.exports = {
     '<rootDir>/libs/ng-material',
     '<rootDir>/libs/common-ui',
     '<rootDir>/apps/terraform-worker',
+    '<rootDir>/apps/packer-worker',
   ],
 };

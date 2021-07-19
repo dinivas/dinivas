@@ -29,9 +29,9 @@ import {
   ProjectDefinitionDTO,
   ICloudApiProjectFloatingIp,
 } from '@dinivas/api-interfaces';
-import { TerraformWebSocket } from '../../shared/terraform/terraform-websocket.service';
 import { MatVerticalStepper } from '@angular/material/stepper';
 import { filter, flatMap, toArray, map } from 'rxjs/operators';
+import { SharedWebSocket } from '../../shared/shared-websocket.service';
 
 @Component({
   selector: 'dinivas-project-wizard',
@@ -70,7 +70,7 @@ export class ProjectWizardComponent implements OnInit {
     private projectService: ProjectsService,
     private consulService: ConsulService,
     private readonly cloudproviderService: CloudproviderService,
-    private readonly terraformWebSocket: TerraformWebSocket,
+    private readonly terraformWebSocket: SharedWebSocket,
     private activatedRoute: ActivatedRoute,
     private contextualMenuService: ContextualMenuService,
     private alertService: AlertService

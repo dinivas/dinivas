@@ -31,6 +31,7 @@ import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { NeedYourContributionComponent } from './components/need-your-contribution/need-your-contribution.component';
 import { BytesPipe } from '../core/pipes/bytes.pipe';
 import { SshTerminalComponent } from './components/ssh-terminal/ssh-terminal.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { SshTerminalComponent } from './components/ssh-terminal/ssh-terminal.com
     ArchitectureTypeRadiosComponent,
     TimeAgoPipe,
     FilterByPipe,
+    TruncatePipe,
     NeedYourContributionComponent,
     SshTerminalComponent,
   ],
@@ -71,6 +73,7 @@ import { SshTerminalComponent } from './components/ssh-terminal/ssh-terminal.com
     TimeAgoPipe,
     JsonPrettyPipe,
     FilterByPipe,
+    TruncatePipe,
     NeedYourContributionComponent,
     AdminIAMMemberEditComponent,
     SshTerminalComponent,

@@ -1,4 +1,4 @@
-import { ConfigurationService } from './../config/configuration.service';
+import { ConfigurationService } from '../configuration.service';
 import { Injectable, Logger } from '@nestjs/common';
 import * as simplegit from 'simple-git/promise';
 import fs = require('fs');

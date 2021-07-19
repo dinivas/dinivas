@@ -1,22 +1,27 @@
 import { CloudproviderModule } from './../../cloudprovider/cloudprovider.module';
-import { CqrsModule } from '@nestjs/cqrs';
 import { CoreModule } from './../../core/core.module';
 import { Cloudprovider } from './../../cloudprovider/cloudprovider.entity';
 import { Module } from '@nestjs/common';
 import { ImagesController } from './images.controller';
 import { ImagesService } from './images.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BuildImageCommandHandler } from './commands/handlers/build-image.handler';
+import { ImagesPackerTasksProcessor } from './images-packer-tasks.processor';
+import { BULL_PACKER_BUILD_QUEUE } from '@dinivas/api-interfaces';
+import { BullModule } from '@nestjs/bull';
+
+const packerBuildQueue = BullModule.registerQueue({
+  name: BULL_PACKER_BUILD_QUEUE,
+});
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Cloudprovider]),
     CoreModule,
-    CqrsModule,
-    CloudproviderModule
+    CloudproviderModule,
+    packerBuildQueue,
   ],
   controllers: [ImagesController],
-  providers: [ImagesService, BuildImageCommandHandler],
-  exports: [ImagesService]
+  providers: [ImagesService, ImagesPackerTasksProcessor],
+  exports: [ImagesService, packerBuildQueue],
 })
 export class ImagesModule {}

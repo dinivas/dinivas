@@ -1,4 +1,3 @@
-import { API_PREFFIX } from './../../constants';
 import { Logger } from '@nestjs/common';
 import { ConfigurationService } from '../../configuration.service';
 import {

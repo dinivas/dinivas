@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-useless-catch */
 import { Logger } from '@nestjs/common';
-import { ConfigurationService } from './../core/config/configuration.service';
 import { ModuleImageToBuildDTO } from '@dinivas/api-interfaces';
 import { Base, ExecuteOptions } from './base';
 
@@ -9,6 +8,7 @@ import fs = require('fs');
 import path = require('path');
 import os = require('os');
 import ncpModule = require('ncp');
+import { ConfigurationService } from '../configuration.service';
 const ncp = ncpModule.ncp;
 
 export class Packer extends Base {
@@ -18,7 +18,6 @@ export class Packer extends Base {
     super(configService.getPackerExecutable(), '-auto-approve');
   }
   executeInPackerModuleDir(
-    projectCode: string,
     imageModule: ModuleImageToBuildDTO,
     cloudConfig: any,
     doInsideWorkingDirCallback?: (
@@ -28,12 +27,7 @@ export class Packer extends Base {
     onInitErrorCallback?: (error) => void
   ) {
     fs.mkdtemp(
-      path.join(
-        os.tmpdir(),
-        `project-${projectCode.toLocaleLowerCase()}-packer-${
-          imageModule.module_name
-        }-`
-      ),
+      path.join(os.tmpdir(), `packer-${imageModule.module_name}-`),
       (err: any, tempFolder: string) => {
         if (err) throw err;
         ncp(
@@ -48,11 +42,7 @@ export class Packer extends Base {
             }
             this.nestLogger.debug(`Working Packer folder: ${tempFolder}`);
             // Add provider config
-            const varFileName = this.addPackerVarFile(
-              projectCode,
-              imageModule,
-              tempFolder
-            );
+            const varFileName = this.addPackerVarFile(imageModule, tempFolder);
             try {
               if (doInsideWorkingDirCallback)
                 doInsideWorkingDirCallback(tempFolder, varFileName);
@@ -66,7 +56,6 @@ export class Packer extends Base {
   }
 
   addPackerVarFile(
-    projectCode: string,
     imageToBuild: ModuleImageToBuildDTO,
     destinationFolder: string
   ): string {
@@ -74,13 +63,13 @@ export class Packer extends Base {
       image_name: imageToBuild.image_name,
       ssh_user: imageToBuild.source_ssh_user,
       source_image_id: imageToBuild.source_cloud_image,
+      source_image_name: imageToBuild.source_cloud_image,
       flavor: imageToBuild.source_cloud_flavor,
       network_id: imageToBuild.network,
       floating_ip_network: imageToBuild.floating_ip_network,
+      region: imageToBuild.availability_zone,
     };
-    const varFileName = `${projectCode.toLowerCase()}-${
-      imageToBuild.module_name
-    }.json`;
+    const varFileName = `${imageToBuild.module_name}.json`;
     try {
       fs.writeFileSync(
         path.join(destinationFolder, varFileName),
@@ -93,6 +82,7 @@ export class Packer extends Base {
   }
 
   public async build(
+    cloudprovider: string,
     path: string,
     commandLineArgs: string[],
     options: ExecuteOptions = { silent: true },
@@ -102,17 +92,31 @@ export class Packer extends Base {
     this.nestLogger.debug(commandToExecute);
     try {
       const processEnv: {} = Object.assign({}, process.env);
-      const openstackEnvVar = {
-        OS_USERNAME: cloudConfig.clouds.openstack.auth.username,
-        OS_PROJECT_ID: cloudConfig.clouds.openstack.auth.project_id,
-        OS_PROJECT_NAME: cloudConfig.clouds.openstack.auth.project_name,
-        OS_PASSWORD: cloudConfig.clouds.openstack.auth.password,
-        OS_AUTH_URL: cloudConfig.clouds.openstack.auth.auth_url,
-        OS_REGION_NAME: cloudConfig.clouds.openstack.region_name,
-        OS_USER_DOMAIN_NAME: cloudConfig.clouds.openstack.auth.user_domain_name,
-        OS_IDENTITY_API_VERSION:
-          cloudConfig.clouds.openstack.identity_api_version,
-      };
+      let cloudProviderEnvVars = undefined;
+      switch (cloudprovider) {
+        case 'openstack':
+          cloudProviderEnvVars = {
+            OS_USERNAME: cloudConfig.clouds.openstack.auth.username,
+            OS_PROJECT_ID: cloudConfig.clouds.openstack.auth.project_id,
+            OS_PROJECT_NAME: cloudConfig.clouds.openstack.auth.project_name,
+            OS_PASSWORD: cloudConfig.clouds.openstack.auth.password,
+            OS_AUTH_URL: cloudConfig.clouds.openstack.auth.auth_url,
+            OS_REGION_NAME: cloudConfig.clouds.openstack.region_name,
+            OS_USER_DOMAIN_NAME:
+              cloudConfig.clouds.openstack.auth.user_domain_name,
+            OS_IDENTITY_API_VERSION:
+              cloudConfig.clouds.openstack.identity_api_version,
+          };
+          break;
+        case 'digitalocean':
+          cloudProviderEnvVars = {
+            DIGITALOCEAN_API_TOKEN: cloudConfig.access_token,
+          };
+          break;
+
+        default:
+          break;
+      }
       await this.executeSync(
         path,
         commandToExecute,
@@ -121,7 +125,7 @@ export class Packer extends Base {
         },
         {
           ...processEnv,
-          ...openstackEnvVar,
+          ...cloudProviderEnvVars,
         }
       );
     } catch (e) {

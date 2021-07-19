@@ -4,7 +4,7 @@ import { TerraformModuleWizardVarsDirective } from './terraform/terraform-module
 import { TerraformModuleWizardComponent } from './terraform/terraform-module-wizard/terraform-module-wizard.component';
 import { CommonUiModule } from '@dinivas/common-ui';
 import { SocketIoModule } from 'ngx-socket-io';
-import { TerraformWebSocket } from './terraform/terraform-websocket.service';
+import { SharedWebSocket } from './shared-websocket.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TerraformRepresentationComponent } from './terraform/terraform-representation/terraform-representation.component';
@@ -13,20 +13,20 @@ import { TerraformRepresentationComponent } from './terraform/terraform-represen
   declarations: [
     TerraformRepresentationComponent,
     TerraformModuleWizardComponent,
-    TerraformModuleWizardVarsDirective
+    TerraformModuleWizardVarsDirective,
   ],
   imports: [
     CommonModule,
     CommonUiModule,
     RouterModule,
     CoreModule,
-    SocketIoModule
+    SocketIoModule,
   ],
-  providers: [TerraformWebSocket],
+  providers: [SharedWebSocket],
   exports: [
     TerraformRepresentationComponent,
     TerraformModuleWizardComponent,
-    TerraformModuleWizardVarsDirective
-  ]
+    TerraformModuleWizardVarsDirective,
+  ],
 })
 export class SharedModule {}

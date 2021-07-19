@@ -1,9 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import {
-  ITerraformModuleInfo,
-  IPackerModuleInfo,
-} from '@dinivas/api-interfaces';
+import { ITerraformModuleInfo } from '@dinivas/api-interfaces';
 import { ConfigService } from '@nestjs/config';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../config/';
@@ -47,15 +44,13 @@ export class ConfigurationService {
 
   private checkRequiredPath() {
     const fs = fileSystem;
-    [
-      this.getWorkspaceRootPath(),
-      this.getTerraformModulesRootPath(),
-      this.getPackerModulesRootPath(),
-    ].forEach((_path) => {
-      if (!fs.existsSync(_path)) {
-        fs.mkdirSync(_path);
+    [this.getWorkspaceRootPath(), this.getTerraformModulesRootPath()].forEach(
+      (_path) => {
+        if (!fs.existsSync(_path)) {
+          fs.mkdirSync(_path);
+        }
       }
-    });
+    );
   }
 
   getTerraformExecutable(): string {
@@ -68,17 +63,5 @@ export class ConfigurationService {
 
   getTerraformModulesRootPath() {
     return `${path.join(this.getWorkspaceRootPath(), 'terraform_modules')}`;
-  }
-
-  getPackerModules() {
-    return this.get('packer.modules') as IPackerModuleInfo[];
-  }
-
-  getPackerExecutable(): string {
-    return this.getOrElse('packer.executable', 'packer') as string;
-  }
-
-  getPackerModulesRootPath() {
-    return `${path.join(this.getWorkspaceRootPath(), 'packer_modules')}`;
   }
 }

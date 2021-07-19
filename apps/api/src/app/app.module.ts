@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Instance } from './compute/instances/instance.entity';
 import { MessagingModule } from './messaging/messaging.module';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
@@ -6,7 +7,6 @@ import { NetworkModule } from './network/network.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Jenkins, JenkinsSlaveGroup } from './build/jenkins/jenkins.entity';
 import { BuildModule } from './build/build.module';
-import { TerraformGateway } from './terraform/terraform.gateway';
 import { statusMonitorConfig } from './utils/status-monitor';
 import { CoreModule } from './core/core.module';
 import { StatusMonitorModule } from 'nest-status-monitor';
@@ -55,8 +55,11 @@ import GuacamoleLite = require('guacamole-lite');
 import {
   API_PREFFIX,
   BULL_TERRAFORM_MODULE_QUEUE,
+  BULL_PACKER_BUILD_QUEUE,
 } from '@dinivas/api-interfaces';
 import { Queue } from 'bull';
+import { ImagesModule } from './compute/images/images.module';
+import { CoreWebSocketGateway } from './core/core-websocket.gateway';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../../config/';
 }
@@ -116,6 +119,7 @@ const TASKS_REDIS_CONFIG_ROOT_KEY = 'dinivas.tasks.redis';
     ComputeModule,
     CloudproviderModule,
     ProjectsModule,
+    ImagesModule,
     AdminIamModule,
     IamModule,
     TerraformModule,
@@ -153,14 +157,16 @@ const TASKS_REDIS_CONFIG_ROOT_KEY = 'dinivas.tasks.redis';
       provide: APP_GUARD,
       useClass: AuthzGuard,
     },
-    TerraformGateway,
+    CoreWebSocketGateway,
   ],
 })
 export class AppModule implements NestModule {
   constructor(
     private configService: ConfigService,
     @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
-    private terraformModuleQueue: Queue
+    private terraformModuleQueue: Queue,
+    @InjectQueue(BULL_PACKER_BUILD_QUEUE)
+    private packerModuleQueue: Queue
   ) {}
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
     // Ansible Galaxy proxy, must be before body-parser
@@ -182,6 +188,7 @@ export class AppModule implements NestModule {
     const { setQueues, replaceQueues } = createBullBoard({
       queues: [
         new BullAdapter(this.terraformModuleQueue, { readOnlyMode: false }),
+        new BullAdapter(this.packerModuleQueue, { readOnlyMode: false }),
       ],
       serverAdapter: bullExpressServerAdapter,
     });
@@ -192,23 +199,27 @@ export class AppModule implements NestModule {
 
     // ===========================================
     // Guacamole-lite
-    const guacdOptions = {
-      host: this.configService.get<string>('dinivas.guacamole.guacd.host'),
-      port: this.configService.get<number>('dinivas.guacamole.guacd.port'), // port of guacd
-    };
+    if (this.configService.get<boolean>('dinivas.guacamole.enable', true)) {
+      const guacdOptions = {
+        host: this.configService.get<string>('dinivas.guacamole.guacd.host'),
+        port: this.configService.get<number>('dinivas.guacamole.guacd.port'), // port of guacd
+      };
 
-    const clientOptions = {
-      crypt: {
-        cypher: this.configService.get<string>('dinivas.guacamole.guacd.cypher'),
-        key: this.configService.get<string>('dinivas.guacamole.guacd.key'),
-      },
-    };
-    const guacamolePort = process.env.GUACAMOLE_PORT || 3336;
-    const guacServer = new GuacamoleLite(
-      { port: guacamolePort },
-      guacdOptions,
-      clientOptions
-    );
+      const clientOptions = {
+        crypt: {
+          cypher: this.configService.get<string>(
+            'dinivas.guacamole.guacd.cypher'
+          ),
+          key: this.configService.get<string>('dinivas.guacamole.guacd.key'),
+        },
+      };
+      const guacamolePort = process.env.GUACAMOLE_PORT || 3336;
+      const guacServer = new GuacamoleLite(
+        { port: guacamolePort },
+        guacdOptions,
+        clientOptions
+      );
+    }
 
     // Add manually body-parser because we disabled it in main.ts
     const jsonParseMiddleware = json({ limit: '10mb' });

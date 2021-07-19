@@ -174,12 +174,13 @@ export class DigitalOceanApiService implements ICloudApi {
           this.logger.debug(`Project VPCs datas: ${JSON.stringify(data)}`);
           resolve(
             data.vpcs.map(
-              (vpc: { id: string; ip_range: string; name: string }) => {
+              (vpc: { id: string; ip_range: string; name: string, region: string }) => {
                 return {
                   id: vpc.id,
                   cidr: vpc.ip_range,
                   label: vpc.name,
                   cloudprovider: CLOUD_PROVIDER_NAME,
+                  region: vpc.region
                 } as ICloudApiNetwork;
               }
             )
@@ -227,26 +228,35 @@ export class DigitalOceanApiService implements ICloudApi {
         .then((data) => {
           this.logger.debug('Project Droplet datas', data);
           resolve(
-            data.droplets.map((droplet: { id: any; name: any; status: any; created_at: any; networks: { v4: any[]; }; tags: any[]; }) => {
-              return {
-                id: droplet.id,
-                name: droplet.name,
-                status: droplet.status,
-                created_date: droplet.created_at,
-                adresses: droplet.networks.v4.map((t) => {
-                  return {
-                    addr: t.ip_address,
-                    cloudprovider: CLOUD_PROVIDER_NAME,
-                    type: t.type,
-                    version: 'IPV4',
-                  };
-                }),
-                metadata: {
-                  tags: droplet.tags.join(','),
-                },
-                cloudprovider: CLOUD_PROVIDER_NAME,
-              } as ICloudApiInstance;
-            })
+            data.droplets.map(
+              (droplet: {
+                id: any;
+                name: any;
+                status: any;
+                created_at: any;
+                networks: { v4: any[] };
+                tags: any[];
+              }) => {
+                return {
+                  id: droplet.id,
+                  name: droplet.name,
+                  status: droplet.status,
+                  created_date: droplet.created_at,
+                  adresses: droplet.networks.v4.map((t) => {
+                    return {
+                      addr: t.ip_address,
+                      cloudprovider: CLOUD_PROVIDER_NAME,
+                      type: t.type,
+                      version: 'IPV4',
+                    };
+                  }),
+                  metadata: {
+                    tags: droplet.tags.join(','),
+                  },
+                  cloudprovider: CLOUD_PROVIDER_NAME,
+                } as ICloudApiInstance;
+              }
+            )
           );
         })
         .catch((err) => {
@@ -285,7 +295,10 @@ export class DigitalOceanApiService implements ICloudApi {
     });
   }
 
-  getAllImages(cloudConfig: ICloudApiConfig): Promise<ICloudApiImage[]> {
+  getAllImages(
+    cloudConfig: ICloudApiConfig,
+    context?: Record<string, unknown>
+  ): Promise<ICloudApiImage[]> {
     return new Promise<ICloudApiImage[]>((resolve, reject) => {
       if (
         this.configService.getOrElse(
@@ -295,29 +308,54 @@ export class DigitalOceanApiService implements ICloudApi {
       ) {
         this.getDOInstance(cloudConfig)
           .snapshots.get('')
-          .then((data) => {
+          .then(async (data) => {
             this.logger.debug(
               `Project snapshots datas: ${JSON.stringify(data)}`
             );
-            resolve(
-              data.snapshots.map((snapshot) => {
-                return {
-                  id: snapshot.id,
-                  name: snapshot.name,
-                  container_format: snapshot.container_format,
-                  owner: snapshot.owner_user_name,
-                  size: snapshot.size_gigabytes * 1024 * 1024 * 1024,
-                  status: snapshot.status,
-                  min_disk: snapshot.min_disk_size
-                    ? snapshot.min_disk_size * 1024 * 1024 * 1024
-                    : 0, //min disk on openstack always in GB, but api must return bytes
-                  visibility: snapshot.public ? 'public' : 'private',
-                  date: snapshot.created_at,
-                  tags: snapshot.tags,
-                  cloudprovider: CLOUD_PROVIDER_NAME,
-                };
-              })
-            );
+            let snapshots: any[] = data.snapshots.map((snapshot) => {
+              return {
+                id: snapshot.id,
+                name: snapshot.name,
+                container_format: snapshot.container_format,
+                owner: snapshot.owner_user_name,
+                size: snapshot.size_gigabytes * 1024 * 1024 * 1024,
+                status: snapshot.status,
+                min_disk: snapshot.min_disk_size
+                  ? snapshot.min_disk_size * 1024 * 1024 * 1024
+                  : 0, //min disk on openstack always in GB, but api must return bytes
+                visibility: snapshot.public ? 'public' : 'private',
+                date: snapshot.created_at,
+                tags: snapshot.tags,
+                cloudprovider: CLOUD_PROVIDER_NAME,
+              };
+            });
+            if (context.loadAll) {
+              const imagesData = await this.getDOInstance(
+                cloudConfig
+              ).images.getAll('');
+
+              snapshots = snapshots.concat(
+                imagesData.images.map((img) => {
+                  return {
+                    id: img.id,
+                    name: img.slug,
+                    container_format: img.container_format,
+                    owner: img.owner_user_name,
+                    size: img.size,
+                    status: img.status,
+                    min_disk: img.min_disk_size
+                      ? img.min_disk_size * 1024 * 1024 * 1024
+                      : 0, //min disk on openstack always in GB, but apimust return bytes
+                    min_ram: img.min_ram,
+                    visibility: img.public ? 'public' : 'private',
+                    date: img.created_at,
+                    tags: img.tags,
+                    cloudprovider: CLOUD_PROVIDER_NAME,
+                  };
+                })
+              );
+            }
+            resolve(snapshots);
           })
           .catch((err) => {
             this.logger.error(err);

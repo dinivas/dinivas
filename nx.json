@@ -46,6 +46,9 @@
     "ng-material": {
       "tags": []
     },
+    "packer-worker": {
+      "tags": []
+    },
     "terraform-worker": {
       "tags": []
     }

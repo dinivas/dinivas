@@ -29,16 +29,27 @@ body {
   }
 }
 
-
-
 .mat-form-field-appearance-outline .mat-form-field-prefix {
   top: inherit !important;
 }
 
+.center-local-spinner {
+  width: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 15px 0px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.15);
 
-
-
-
+  .mat-spinner {
+    margin-left: 45%;
+  }
+  p {
+    margin-top: 10px;
+    margin-left: 40%;
+  }
+}
 
 // // ==================
 

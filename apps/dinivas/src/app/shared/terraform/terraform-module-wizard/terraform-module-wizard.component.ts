@@ -2,31 +2,35 @@ import { AlertService } from './../../../core/alert/alert.service';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { TerraformModuleWizardVarsDirective } from './terraform-module-wizard-vars.directive';
 import { ActivatedRoute } from '@angular/router';
-import { TerraformWebSocket } from '../terraform-websocket.service';
+import { SharedWebSocket } from '../../shared-websocket.service';
 import {
   Component,
   OnInit,
   ViewChild,
   ComponentFactoryResolver,
-  ElementRef,
-  ComponentRef
+  ComponentRef,
 } from '@angular/core';
 import { MatVerticalStepper } from '@angular/material/stepper';
 import {
   TerraformApplyEvent,
   TerraformPlanEvent,
   ICloudApiImage,
-  ICloudApiFlavor
+  ICloudApiFlavor,
 } from '@dinivas/api-interfaces';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { TerraformModuleType, TerraformModuleWizard } from './terraform-module-wizard';
+import { Observable, Subject } from 'rxjs';
+import {
+  TerraformModuleType,
+  TerraformModuleWizard,
+} from './terraform-module-wizard';
 
 @Component({
   selector: 'dinivas-terraform-module-wizard',
   templateUrl: './terraform-module-wizard.component.html',
-  styleUrls: ['./terraform-module-wizard.component.scss']
+  styleUrls: ['./terraform-module-wizard.component.scss'],
 })
-export class TerraformModuleWizardComponent<T extends TerraformModuleType> implements OnInit {
+export class TerraformModuleWizardComponent<T extends TerraformModuleType>
+  implements OnInit
+{
   // Variables that contains all input datas
   moduleWizard!: TerraformModuleWizard<T>;
 
@@ -69,43 +73,39 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private readonly terraformWebSocket: TerraformWebSocket,
+    private readonly sharedWebSocket: SharedWebSocket,
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe(data => {
+    this.activatedRoute.data.subscribe((data) => {
       this.moduleWizard = data.moduleWizard;
       this.moduleWizard.moduleEntity = data.moduleEntity
         ? data.moduleEntity.entity
         : undefined;
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-        this.moduleWizard.component
-      );
+      const componentFactory =
+        this.componentFactoryResolver.resolveComponentFactory(
+          this.moduleWizard.component
+        );
 
-      const viewContainerRef = this.terraformModuleWizardVarsDirective
-        .viewContainerRef;
+      const viewContainerRef =
+        this.terraformModuleWizardVarsDirective.viewContainerRef;
       viewContainerRef.clear();
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
-      (<any>(
-        componentRef.instance
-      )).planApplied = this.terraformModuleWizardVarsDirective.planApplied;
-      (<any>(
-        componentRef.instance
-      )).showOutputApplied = this.terraformModuleWizardVarsDirective.showOutputApplied;
-      (<any>(
-        componentRef.instance
-      )).applyApplied = this.terraformModuleWizardVarsDirective.applyApplied;
-      (<any>(
-        componentRef.instance
-      )).onArchitectureTypeChanged = this.terraformModuleWizardVarsDirective.onArchitectureTypeChanged;
+      (<any>componentRef.instance).planApplied =
+        this.terraformModuleWizardVarsDirective.planApplied;
+      (<any>componentRef.instance).showOutputApplied =
+        this.terraformModuleWizardVarsDirective.showOutputApplied;
+      (<any>componentRef.instance).applyApplied =
+        this.terraformModuleWizardVarsDirective.applyApplied;
+      (<any>componentRef.instance).onArchitectureTypeChanged =
+        this.terraformModuleWizardVarsDirective.onArchitectureTypeChanged;
       this.childConponentRef = componentRef;
-      (<any>(
-        this.childConponentRef.instance
-      )).moduleWizardStepper = this._wizardStepper.asObservable();
+      (<any>this.childConponentRef.instance).moduleWizardStepper =
+        this._wizardStepper.asObservable();
       this.varsProvider = <any>componentRef.instance;
       this.initArchitectureTypeSelection();
     });
@@ -116,32 +116,32 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
         code: 'singletier',
         label: 'Single-Tier',
         disabled: !this.moduleWizard.supportSingleTier,
-        description: 'Simple architecture based on only one instance, NO HA'
+        description: 'Simple architecture based on only one instance, NO HA',
       });
       this.architectureTypes.push({
         code: 'multitier',
         label: 'Multi-Tier',
         disabled: !this.moduleWizard.supportMultiTier,
         description:
-          'High Availability architecture based on multiple instance with load balancing'
+          'High Availability architecture based on multiple instance with load balancing',
       });
       this.architectureTypes.push({
         code: 'docker',
         label: 'Docker Container',
         disabled: !this.moduleWizard.supportDocker,
-        description: 'Deploy a docker container on one Instance'
+        description: 'Deploy a docker container on one Instance',
       });
       this.architectureTypes.push({
         code: 'kubernetes',
         label: 'Kubernetes',
         disabled: !this.moduleWizard.supportKubernetes,
-        description: 'Deploy on existing Kubernetes cluster using Helm chart'
+        description: 'Deploy on existing Kubernetes cluster using Helm chart',
       });
       this.architectureTypeForm = this.formBuilder.group({
         architecture_type: [
           this.architectureType ? this.architectureType : null,
-          Validators.required
-        ]
+          Validators.required,
+        ],
       });
       this.architectureTypeForm
         .get('architecture_type')
@@ -182,7 +182,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
     this.moduleWizard.moduleEntity = moduleEntity;
     this.varsProvider.moduleServicePlan(moduleEntity).subscribe(
       () => {
-        const planEventSuSubscription = this.terraformWebSocket
+        const planEventSuSubscription = this.sharedWebSocket
           .receivePlanEvent<TerraformPlanEvent<T>>(
             this.varsProvider.terraformWebsocketEventId(moduleEntity)
           )
@@ -196,7 +196,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
               this.wizardStepper.next();
             }, 1);
           });
-        this.terraformWebSocket
+        this.sharedWebSocket
           .receivePlanErrorEvent<string>(
             this.varsProvider.terraformWebsocketEventId(moduleEntity)
           )
@@ -206,7 +206,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
             this.planStepFinished = false;
           });
       },
-      error => {
+      (error) => {
         this.planInProgress = false;
         this.planStepFinished = false;
       }
@@ -218,7 +218,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
       .moduleServiceApplyPlan(moduleEntity, this.terraformPlanEvent)
       .subscribe(
         () => {
-          const applySubscription = this.terraformWebSocket
+          const applySubscription = this.sharedWebSocket
             .receiveApplyEvent<TerraformApplyEvent<T>>(
               this.varsProvider.terraformWebsocketEventId(moduleEntity)
             )
@@ -226,7 +226,8 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
               console.log('Receive TerraformApplyEvent from Terrform WS', data);
               applySubscription.unsubscribe();
               this.terraformApplyEvent = data;
-              this.terraformStateOutputs = this.terraformApplyEvent.stateResult.values.outputs;
+              this.terraformStateOutputs =
+                this.terraformApplyEvent.stateResult.values.outputs;
               for (const [key, value] of Object.entries(
                 this.terraformApplyEvent.stateResult.values.outputs
               )) {
@@ -243,7 +244,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
               }, 1);
             });
         },
-        error => {
+        (error) => {
           this.applyInProgress = false;
           this.applyStepFinished = false;
         }
@@ -255,7 +256,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType> imple
     this.showingDirectOutput = true;
     this.varsProvider
       .moduleServiceTerraformState(this.moduleWizard.moduleEntity)
-      .subscribe(state => (this.terraformStateOutputs = state.outputs));
+      .subscribe((state) => (this.terraformStateOutputs = state.outputs));
     setTimeout(
       () =>
         (this.wizardStepper.selectedIndex =

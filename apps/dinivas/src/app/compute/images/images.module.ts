@@ -4,21 +4,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ImagesRoutingModule } from './images-routing.module';
-import {
-  ImagesComponent,
-  ImageToBuildDialogComponent
-} from './images.component';
+import { ImagesComponent } from './images.component';
 import { CommonUiModule } from '@dinivas/common-ui';
 
 @NgModule({
-  declarations: [ImagesComponent, ImageToBuildDialogComponent],
+  declarations: [ImagesComponent],
   imports: [
     CommonModule,
     CommonUiModule,
     SharedModule,
     CoreModule,
-    ImagesRoutingModule
+    ImagesRoutingModule,
   ],
-  entryComponents: [ImageToBuildDialogComponent]
+  entryComponents: [],
 })
 export class ImagesModule {}

@@ -2657,6 +2657,14 @@
             "attributes": {}
           },
           {
+            "id": "0f56c3f0-0006-470a-807c-ad6055140df5",
+            "name": "Compute Images Editor",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
             "id": "365fbdb3-1e7f-4168-917a-3ce2ecf878a4",
             "name": "Terraform State Viewer",
             "composite": false,
@@ -3683,6 +3691,16 @@
               }
             },
             {
+              "id": "6f9fe62b-7e8f-4a4e-854a-63487ba6242a",
+              "name": "Compute Images Editor",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/Compute Images Editor\",\"required\":true}]"
+              }
+            },
+            {
               "id": "7ad9bb99-18b1-40d8-8994-a65c83a25122",
               "name": "Admin",
               "type": "role",
@@ -3944,6 +3962,18 @@
               }
             },
             {
+              "id": "b1c546d2-16ac-41ee-abbb-48e84b1a00c0",
+              "name": "cloudproviders.delete",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"cloudproviders\"]",
+                "scopes": "[\"delet\"]",
+                "applyPolicies": "[\"Cloud Providers Editor\"]"
+              }
+            },
+            {
               "id": "d36dab0d-0140-40d7-b148-32c826134391",
               "name": "cloudproviders.list",
               "type": "scope",
@@ -3977,6 +4007,30 @@
                 "resources": "[\"compute.images\"]",
                 "scopes": "[\"list\"]",
                 "applyPolicies": "[\"Compute Images Viewer\"]"
+              }
+            },
+            {
+              "id": "bbbb58c8-1b31-4ac9-80cf-6a3cd0e626bb",
+              "name": "compute.images.create",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"compute.images\"]",
+                "scopes": "[\"create\"]",
+                "applyPolicies": "[\"Compute Images Editor\"]"
+              }
+            },
+            {
+              "id": "bbbb58c8-1b31-4ac9-80cf-6a3cd0e626bb",
+              "name": "compute.images.edit",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"compute.images\"]",
+                "scopes": "[\"edit\"]",
+                "applyPolicies": "[\"Compute Images Editor\"]"
               }
             },
             {

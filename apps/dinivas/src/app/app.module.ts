@@ -14,7 +14,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { FooterComponent } from './layouts/footer/footer.component';
-import { NgMathPipesModule } from 'angular-pipes';
 
 @NgModule({
   imports: [
@@ -23,7 +22,6 @@ import { NgMathPipesModule } from 'angular-pipes';
     AppRoutingModule,
     CommonUiModule,
     AuthModule,
-    NgMathPipesModule,
     CoreModule,
     EcoFabSpeedDialModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

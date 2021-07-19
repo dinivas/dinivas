@@ -263,6 +263,64 @@
         }
       }
     },
+    "packer-worker": {
+      "root": "apps/packer-worker",
+      "sourceRoot": "apps/packer-worker/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/packer-worker",
+            "main": "apps/packer-worker/src/main.ts",
+            "tsConfig": "apps/packer-worker/tsconfig.app.json",
+            "assets": [
+              "apps/packer-worker/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/packer-worker/src/environments/environment.ts",
+                  "with": "apps/packer-worker/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "packer-worker:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/packer-worker/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/packer-worker"
+          ],
+          "options": {
+            "jestConfig": "apps/packer-worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "terraform-worker": {
       "root": "apps/terraform-worker",
       "sourceRoot": "apps/terraform-worker/src",
