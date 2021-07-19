@@ -5,13 +5,13 @@ import {
   ApplyModuleDTO,
   ICloudApiFlavor,
   ICloudApiImage,
-  ProjectDefinitionDTO
+  ProjectDefinitionDTO,
 } from '@dinivas/api-interfaces';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectsService {
   private _currentSelectedProject = new Subject<ProjectDTO>();
@@ -24,7 +24,7 @@ export class ProjectsService {
 
   getProjects(httpParams: HttpParams): Observable<ProjectDTO[]> {
     return this.http.get<ProjectDTO[]>(`${environment.apiUrl}/projects`, {
-      params: httpParams
+      params: httpParams,
     });
   }
 
@@ -37,6 +37,12 @@ export class ProjectsService {
   getProjectImages(id: number): Observable<ICloudApiImage[]> {
     return this.http.get<ICloudApiImage[]>(
       `${environment.apiUrl}/projects/${id}/images`
+    );
+  }
+
+  getProjectGuacamoleSSHToken(id: number): Observable<{ token: string }> {
+    return this.http.get<{ token: string }>(
+      `${environment.apiUrl}/projects/${id}/ssh-terminal-token`
     );
   }
 

@@ -81,7 +81,7 @@ export class AdminIAMMemberComponent
     return null;
   }
 
-  addMember() {}
+  onAddMember() {}
   editMember(userRepresentation: UserRepresentation) {
     this.contextualMenuService.openComponentInContextualMenu(
       AdminIAMMemberEditComponent,

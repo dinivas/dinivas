@@ -1,18 +1,18 @@
 <mat-toolbar class="filter-bar-toolbar">
   <mat-toolbar-row class="filter-bar" *ngIf="selection.selected.length == 0">
     <div class="left">
-      <button mat-button color="primary"  *ngIf="showAddButton" (click)="addEntity($event)">
+      <button mat-button color="primary"  *ngIf="showAddButton" (click)="onAddEntity($event)">
         <mat-icon>add</mat-icon>
         {{ addButtonLabel }}
       </button>
-      <button mat-button color="primary" (click)="customButtonClicked(customButton,$event)" *ngFor="let customButton of customButtons">
+      <button mat-button color="primary" (click)="onCustomButtonClicked(customButton,$event)" *ngFor="let customButton of customButtons">
           <mat-icon>{{ customButton.matIcon }}</mat-icon>
           {{ customButton.label }}
         </button>
     </div>
     <div class="spacer"></div>
     <div class="right">
-      <button mat-button color="primary" (click)="refreshDatas($event)">
+      <button mat-button color="primary" (click)="onRefreshDatas($event)">
         <mat-icon>refresh</mat-icon>
         Refresh
       </button>
@@ -44,7 +44,7 @@
       {{ selection.selected.length }} line selected
     </span>
     <div class="spacer"></div>
-    <button mat-icon-button class="" (click)="deleteSelection($event)">
+    <button mat-icon-button class="" (click)="onDeleteSelection($event)">
       <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button [matMenuTriggerFor]="moreMenu">
@@ -74,7 +74,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <dinivas-filter-criterion class="is-hidden-touch" [filter]="filter" [selection]="selection" (filterChanged)="filterChanged(filter)"
+    <dinivas-filter-criterion class="is-hidden-touch" [filter]="filter" [selection]="selection" (filterChanged)="onFilterChanged(filter)"
       *ngFor="let filter of (filters | selectedFilter:true)">
     </dinivas-filter-criterion>
   </div>

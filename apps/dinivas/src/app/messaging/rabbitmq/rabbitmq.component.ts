@@ -61,11 +61,11 @@ export class RabbitmqComponent
     return this.rabbitmqService.get(newHttpParams);
   }
 
-  dataChanged(rabbitmqs: any) {
+  onDataChanged(rabbitmqs: any) {
     this.rabbitmqList = rabbitmqs as RabbitMQDTO[];
   }
 
-  addRabbitMQCluster() {
+  onAddRabbitMQCluster() {
     this.router.navigate(['/messaging/rabbitmq/new'], {
       queryParamsHandling: 'preserve',
     });

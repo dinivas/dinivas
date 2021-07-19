@@ -7,6 +7,8 @@ volumes:
     driver: local
   postgres_galaxy_data:
     driver: local
+  postgres_redis_data:
+    driver: local
 
 services:
   # KEYCLOAK
@@ -34,11 +36,11 @@ services:
     ports:
       - 8085:8080
     volumes:
-      - ./singlefile-realms.json:/tmp/singlefile-realms.json
-    command: 
+      - ./dinivas-realm-tpl.json:/tmp/dinivas-realm-tpl.json
+    command:
       - |
         -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile
-        -Dkeycloak.migration.file=/tmp/singlefile-realms.json -Dkeycloak.profile.feature.upload_scripts=enabled
+        -Dkeycloak.migration.file=/tmp/dinivas-realm-tpl.json -Dkeycloak.profile.feature.upload_scripts=enabled
         -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     depends_on:
       - postgres_keycloak
@@ -84,10 +86,16 @@ services:
       - RABBITMQ_DEFAULT_PASS=galaxy
       - RABBITMQ_DEFAULT_VHOST=galaxy
 
-  galaxy_redis:
+  redis:
     image: redis:latest
     ports:
       - '6379:6379'
+    volumes:
+      - postgres_redis_data:/data
+  guacd:
+    image: guacamole/guacd
+    ports:
+      - '4822:4822'
   # DINIVAS
   # dinivas_api:
   #   build:

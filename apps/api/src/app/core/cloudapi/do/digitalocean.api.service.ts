@@ -49,7 +49,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   zoneState: {
                     available: region.available,
                   },
-                  cloudprovider: CLOUD_PROVIDER_NAME
+                  cloudprovider: CLOUD_PROVIDER_NAME,
                 };
               }
             )
@@ -69,7 +69,7 @@ export class DigitalOceanApiService implements ICloudApi {
           this.logger.debug('Project info datas:', data);
           resolve({
             project_name: '',
-            user_name: ''
+            user_name: '',
           });
         })
         .catch((err) => {
@@ -122,7 +122,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
                 pool: floatingIp.pool,
-                cloudprovider: CLOUD_PROVIDER_NAME
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -150,7 +150,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
                 pool: floatingIp.pool,
-                cloudprovider: CLOUD_PROVIDER_NAME
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -179,7 +179,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   id: vpc.id,
                   cidr: vpc.ip_range,
                   label: vpc.name,
-                  cloudprovider: CLOUD_PROVIDER_NAME
+                  cloudprovider: CLOUD_PROVIDER_NAME,
                 } as ICloudApiNetwork;
               }
             )
@@ -208,7 +208,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 instance_id: floatingIp.instance_id,
                 ip: floatingIp.ip,
                 pool: floatingIp.pool,
-                cloudprovider: CLOUD_PROVIDER_NAME
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -227,15 +227,25 @@ export class DigitalOceanApiService implements ICloudApi {
         .then((data) => {
           this.logger.debug('Project Droplet datas', data);
           resolve(
-            data.droplets.map((droplet) => {
+            data.droplets.map((droplet: { id: any; name: any; status: any; created_at: any; networks: { v4: any[]; }; tags: any[]; }) => {
               return {
                 id: droplet.id,
-                fixed_ip: droplet.fixed_ip,
-                instance_id: droplet.instance_id,
-                ip: droplet.ip,
-                pool: droplet.pool,
-                cloudprovider: CLOUD_PROVIDER_NAME
-              };
+                name: droplet.name,
+                status: droplet.status,
+                created_date: droplet.created_at,
+                adresses: droplet.networks.v4.map((t) => {
+                  return {
+                    addr: t.ip_address,
+                    cloudprovider: CLOUD_PROVIDER_NAME,
+                    type: t.type,
+                    version: 'IPV4',
+                  };
+                }),
+                metadata: {
+                  tags: droplet.tags.join(','),
+                },
+                cloudprovider: CLOUD_PROVIDER_NAME,
+              } as ICloudApiInstance;
             })
           );
         })
@@ -263,7 +273,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 disk: flavor.disk,
                 swap: flavor.swap,
                 is_public: flavor.available,
-                cloudprovider: CLOUD_PROVIDER_NAME
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );
@@ -304,7 +314,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   visibility: snapshot.public ? 'public' : 'private',
                   date: snapshot.created_at,
                   tags: snapshot.tags,
-                  cloudprovider: CLOUD_PROVIDER_NAME
+                  cloudprovider: CLOUD_PROVIDER_NAME,
                 };
               })
             );
@@ -334,7 +344,7 @@ export class DigitalOceanApiService implements ICloudApi {
                   visibility: img.public ? 'public' : 'private',
                   date: img.created_at,
                   tags: img.tags,
-                  cloudprovider: CLOUD_PROVIDER_NAME
+                  cloudprovider: CLOUD_PROVIDER_NAME,
                 };
               })
             );
@@ -367,7 +377,7 @@ export class DigitalOceanApiService implements ICloudApi {
                 volumeType: volume.visibility,
                 date: volume.updated_at,
                 metedata: volume.tags,
-                cloudprovider: CLOUD_PROVIDER_NAME
+                cloudprovider: CLOUD_PROVIDER_NAME,
               };
             })
           );

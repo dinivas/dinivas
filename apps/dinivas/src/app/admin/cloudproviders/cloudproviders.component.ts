@@ -60,7 +60,7 @@ export class CloudprovidersComponent
     return this.cloudproviderService.getCloudproviders(newHttpParams);
   }
 
-  addCloudProvider() {
+  onAddCloudProvider() {
     this.router.navigate(['/admin/cloudproviders/new'], {
       queryParamsHandling: 'preserve',
     });

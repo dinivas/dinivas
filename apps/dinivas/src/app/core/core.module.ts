@@ -30,6 +30,7 @@ import { ArchitectureTypeRadiosComponent } from './components/architecture-type-
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { NeedYourContributionComponent } from './components/need-your-contribution/need-your-contribution.component';
 import { BytesPipe } from '../core/pipes/bytes.pipe';
+import { SshTerminalComponent } from './components/ssh-terminal/ssh-terminal.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { BytesPipe } from '../core/pipes/bytes.pipe';
     TimeAgoPipe,
     FilterByPipe,
     NeedYourContributionComponent,
+    SshTerminalComponent,
   ],
   declarations: [
     SnackAlertSuccessComponent,
@@ -71,6 +73,7 @@ import { BytesPipe } from '../core/pipes/bytes.pipe';
     FilterByPipe,
     NeedYourContributionComponent,
     AdminIAMMemberEditComponent,
+    SshTerminalComponent,
   ],
   entryComponents: [
     SnackAlertSuccessComponent,
@@ -79,6 +82,7 @@ import { BytesPipe } from '../core/pipes/bytes.pipe';
     ConfirmDialogComponent,
     SelectProjectDialogComponent,
     AdminIAMMemberEditComponent,
+    SshTerminalComponent,
   ],
   providers: [
     AlertService,

@@ -15,7 +15,7 @@
         [matTooltip]="currentProject ? currentProject.cloud_provider.name + ' on ' + currentProject.cloud_provider.cloud : ''"
         matTooltipPosition="below">
         <mat-icon *ngIf="currentProject">group_work</mat-icon>
-        {{ currentProject ? currentProject?.name  : 'Select project' }}
+        {{ currentProject ? currentProject?.name : 'Select project' }}
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #project_selection_menu="matMenu" class="project-selection">
@@ -27,6 +27,11 @@
       </mat-menu>
     </div>
     <div class="right">
+      <button *ngIf="currentProject" mat-icon-button class="" color="accent" style="margin-right: 80px;"
+        matTooltip="Open SSH terminal in bastion for the current project" (click)="openSSHTerminal(currentProject)">
+        <mat-icon>monitor</mat-icon>
+        SSH terminal
+      </button>
       <button mat-icon-button class="mr-15" color="accent" (click)="toggleDarkTheme()"
         [matTooltip]="(isDarkTheme | async) ? 'Switch console to ligth theme' : 'Switch console to dark theme'"
         aria-label="Switch console theme color">

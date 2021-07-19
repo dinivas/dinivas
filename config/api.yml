@@ -14,6 +14,12 @@ dinivas:
     redis:
       host: localhost
       port: 6379
+  guacamole:
+    guacd:
+      host: localhost
+      port: 4822
+      cypher: 'AES-256-CBC'
+      key: MySuperSecretKeyForParamsToken12
   cloud_providers:
     digitalocean:
       api_uses_snapshots: true

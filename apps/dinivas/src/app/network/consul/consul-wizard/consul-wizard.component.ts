@@ -95,7 +95,7 @@ export class ConsulWizardComponent
         this.projectKeypair = this.projectTfState.outputs[
           'project_keypair_name'
         ].value;
-        this.projectTfStateSubject.next();
+        this.projectTfStateSubject.next(undefined);
       });
   }
 

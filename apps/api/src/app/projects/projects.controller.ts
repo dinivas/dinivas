@@ -32,6 +32,7 @@ import {
   Query,
   Logger,
   HttpCode,
+  NotFoundException,
 } from '@nestjs/common';
 
 import YAML = require('js-yaml');
@@ -119,6 +120,27 @@ export class ProjectsController {
     return this.projectsService.create(projectDefinition);
   }
 
+  @Get(':id/ssh-terminal-token')
+  @Permissions('projects:create')
+  async getProjectGuacamoleSSHToken(
+    @Param('id') id: number
+  ): Promise<{ token: string }> {
+    const project = await this.projectsService.findOne(id);
+    if (project) {
+      const state = await this.terraformStateService.findState(
+        project.code.toLowerCase(),
+        'project_base'
+      );
+      const jsonState = JSON.parse(state.state);
+      const token = this.projectsService.generateProjectGuacamoleToken(
+        jsonState,
+        project.cloud_provider.cloud
+      );
+      return { token };
+    }
+    throw new NotFoundException();
+  }
+
   @Post('plan')
   @Permissions('projects:create')
   async planproject(
@@ -202,7 +224,9 @@ export class ProjectsController {
           YAML.load(cloudprovider.config)
         )
       );
-      this.logger.debug(`Destroy Job Id with data: ${JSON.stringify(destroyJob)}`);
+      this.logger.debug(
+        `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
+      );
       return { destroyJobId: destroyJob.id };
     }
   }

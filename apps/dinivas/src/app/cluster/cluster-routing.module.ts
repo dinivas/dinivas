@@ -5,24 +5,29 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'kubernetes',
-    loadChildren: './kubernetes/kubernetes.module#KubernetesModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./kubernetes/kubernetes.module').then((m) => m.KubernetesModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'openshift',
-    loadChildren: './openshift/openshift.module#OpenshiftModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./openshift/openshift.module').then((m) => m.OpenshiftModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'dockerswarm',
-    loadChildren: './dockerswarm/dockerswarm.module#DockerswarmModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./dockerswarm/dockerswarm.module').then(
+        (m) => m.DockerswarmModule
+      ),
+    canActivate: [MandatorySelectedProjectGuard],
   },
-  { path: '', redirectTo: 'kubernetes', pathMatch: 'prefix' }
+  { path: '', redirectTo: 'kubernetes', pathMatch: 'prefix' },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ClusterRoutingModule {}

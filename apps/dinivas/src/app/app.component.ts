@@ -32,6 +32,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { ThemeService } from './core/services/theme.service';
 import { PageLoadingService } from './core/services/page-loading.service';
 import { countBy, findIndex } from 'lodash';
+import { SshTerminalComponent } from './core/components/ssh-terminal/ssh-terminal.component';
 
 export class SideNavMenuGroup {
   group!: string;
@@ -161,6 +162,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.contextualSidenav.open();
       }
     );
+  }
+
+  openSSHTerminal(currentProject) {
+    const sshTerminalDialog = this.dialog.open(SshTerminalComponent, {
+      minWidth: '1024px',
+      minHeight: '768px',
+      //disableClose: true,
+      data: {
+        project: currentProject,
+      },
+    });
   }
 
   createSideNavInjector(data: any) {

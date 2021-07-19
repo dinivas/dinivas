@@ -12,6 +12,11 @@ export const environment = {
     url: 'http://localhost:8085/auth',
     realm: 'dinivas',
     clientId: 'dinivas-console'
+  },
+  guacamole: {
+    wsUrl: 'ws://localhost:3336',
+    terminalWidth: 1280,
+    terminalHeight: 800,
   }
 };
 

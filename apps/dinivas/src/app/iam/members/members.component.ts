@@ -54,5 +54,5 @@ export class MembersComponent extends MatCrudComponent
     return null;
   }
 
-  addMember() {}
+  onAddMember() {}
 }

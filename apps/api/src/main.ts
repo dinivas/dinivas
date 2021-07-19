@@ -14,9 +14,9 @@ async function bootstrap() {
       exposedHeaders: [
         CONSTANT.HTTP_HEADER_AUTH_ERROR,
         CONSTANT.HTTP_HEADER_AUTH_REQUIRED_PERMISSIONS,
-        CONSTANT.HTTP_HEADER_PROJECT_UNKNOWN
-      ]
-    }
+        CONSTANT.HTTP_HEADER_PROJECT_UNKNOWN,
+      ],
+    },
   });
   app.useGlobalFilters(new AllExceptionsFilter());
 
@@ -25,7 +25,7 @@ async function bootstrap() {
   app.setGlobalPrefix(API_PREFFIX);
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {
-    Logger.log('Listening at http://localhost:' + port + '/' + API_PREFFIX);
+    Logger.log(`Listening at http://localhost:${port}/${API_PREFFIX}`);
   });
 }
 

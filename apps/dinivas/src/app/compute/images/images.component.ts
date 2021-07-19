@@ -64,6 +64,7 @@ export class ImagesComponent
       new ColumnDef('visibility', 'Visibility', false),
       new ColumnDef('size', 'Image size', false),
       new ColumnDef('min_disk', 'Min disk', false),
+      new ColumnDef('date', 'Date', false),
     ];
   }
   ngOnInit() {
@@ -89,7 +90,7 @@ export class ImagesComponent
     return this.imagesService.getImages(newHttpParams);
   }
 
-  addImage() {}
+  onAddImage() {}
 
   deleteSelected(selection: any[]): Observable<any> {
     return Observable.create((observer: Observer<any>) => {});
@@ -98,7 +99,7 @@ export class ImagesComponent
   delete(imageDTO: ICloudApiImage): Observable<any> {
     return this.imagesService.deleteImage(0);
   }
-  handleCustomButtonClicked(customButton: FilterBarCustomButton) {
+  onHandleCustomButtonClicked(customButton: any) {
     const imageToBuildDialogRef = this.dialog.open(
       ImageToBuildDialogComponent,
       {

@@ -56,7 +56,7 @@ export class ProjectsComponent
     return this.projectService.getProjects(newHttpParams);
   }
 
-  addProject() {
+  onAddProject() {
     this.router.navigate(['/projects/new'], {
       queryParamsHandling: 'preserve',
     });

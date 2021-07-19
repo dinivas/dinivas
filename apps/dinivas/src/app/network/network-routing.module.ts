@@ -5,18 +5,20 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'radius',
-    loadChildren: './radius/radius.module#RadiusModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./radius/radius.module').then((m) => m.RadiusModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'consul',
-    loadChildren: './consul/consul.module#ConsulModule',
-    canActivate: [MandatorySelectedProjectGuard]
-  }
+    loadChildren: () =>
+      import('./consul/consul.module').then((m) => m.ConsulModule),
+    canActivate: [MandatorySelectedProjectGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class NetworkRoutingModule {}

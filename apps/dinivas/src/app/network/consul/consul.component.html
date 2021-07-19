@@ -25,9 +25,9 @@
     </mat-card-header>
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
-        [showAddButton]="showAddButton" addButtonLabel="Add new consul" (onFilterChanged)="filterChanged($event)"
-        (onRefreshData)="refreshDatas()" (onDataChanged)="dataChanged($event)" (onAddEntity)="addConsul()"
-        (onDeleteSelection)="deleteEntity($event)">
+        [showAddButton]="showAddButton" addButtonLabel="Add new consul" (filterChanged)="onFilterChanged($event)"
+        (refreshData)="onRefreshDatas()" (dataChanged)="onDataChanged($event)" (addEntity)="onAddConsul()"
+        (deleteSelection)="onDeleteEntity($event)">
       </dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
         <mat-spinner></mat-spinner>
@@ -109,7 +109,7 @@
               <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
             </a>
             <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
-              (click)="deleteEntity(entity)">
+              (click)="onDeleteEntity(entity)">
               <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
             </a>
           </td>

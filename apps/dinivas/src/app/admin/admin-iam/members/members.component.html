@@ -4,8 +4,8 @@
     </mat-card-header>
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
-        [showAddButton]="showAddButton" addButtonLabel="Add user" (onFilterChanged)="filterChanged($event)"
-        (onRefreshData)="refreshDatas()" (onAddEntity)="addMember()" (onDeleteSelection)="deleteEntity($event)">
+        [showAddButton]="showAddButton" addButtonLabel="Add user" (filterChanged)="onFilterChanged($event)"
+        (refreshData)="onRefreshDatas()" (addEntity)="onAddMember()" (deleteSelection)="onDeleteEntity($event)">
       </dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
         <mat-spinner></mat-spinner>

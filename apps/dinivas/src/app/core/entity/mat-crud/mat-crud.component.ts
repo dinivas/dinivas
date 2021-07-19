@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-output-on-prefix */
 import {
   OnInit,
   ViewContainerRef,
@@ -68,18 +67,18 @@ export class MatCrudComponent implements OnInit {
 
   @Input() public entityDialogComponent: any;
 
-  @Output() onAddEntity: EventEmitter<any> = new EventEmitter();
+  @Output() addEntity: EventEmitter<any> = new EventEmitter();
 
-  @Output() onRefreshData: EventEmitter<any> = new EventEmitter();
+  @Output() refreshData: EventEmitter<any> = new EventEmitter();
 
-  @Output() onDataChanged: EventEmitter<any> = new EventEmitter();
+  @Output() dataChanged: EventEmitter<any> = new EventEmitter();
 
-  @Output() onDeleteSelection: EventEmitter<any> = new EventEmitter();
+  @Output() deleteSelection: EventEmitter<any> = new EventEmitter();
 
-  @Output() onEditEntity: EventEmitter<any> = new EventEmitter();
+  @Output() editEntity: EventEmitter<any> = new EventEmitter();
 
-  @Output() onApprovetEntity: EventEmitter<any> = new EventEmitter();
-  @Output() onRejectEntity: EventEmitter<any> = new EventEmitter();
+  @Output() approvetEntity: EventEmitter<any> = new EventEmitter();
+  @Output() rejectEntity: EventEmitter<any> = new EventEmitter();
 
   @Input() entityCanEdit = (entity?: any) => true;
   @Input() entityCanDelete = (entity?: any) => true;
@@ -96,11 +95,11 @@ export class MatCrudComponent implements OnInit {
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    this.refreshDatas();
+    this.onRefreshDatas();
   }
 
-  refreshDatas() {
-    this.onRefreshData.emit();
+  onRefreshDatas() {
+    this.refreshData.emit();
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
@@ -142,9 +141,9 @@ export class MatCrudComponent implements OnInit {
       )
       .subscribe((data) => {
         this.dataSource.data = data;
-        if (this.onDataChanged) {
-          this.onDataChanged.emit(data);
-        }
+        //if (this.dataChanged) {
+          this.dataChanged.emit(data);
+        //}
       });
   }
 
@@ -158,34 +157,34 @@ export class MatCrudComponent implements OnInit {
     return this.selection.isSelected(row);
   }
 
-  addEntity(event: any) {
-    this.onAddEntity.emit(event);
+  onAddEntity(event: any) {
+    this.addEntity.emit(event);
   }
 
-  deleteSelection() {
-    if (this.onDeleteSelection != undefined) {
-      this.onDeleteSelection.emit();
+  onDeleteSelection() {
+    if (this.deleteSelection != undefined) {
+      this.deleteSelection.emit();
     } else {
       this.dataProvider
         .deleteSelected(this.selection.selected)
         .subscribe(() => {
-          this.refreshDatas();
+          this.onRefreshDatas();
         });
     }
   }
 
-  deleteEntity(entity) {
+  onDeleteEntity(entity) {
     this.confirmDialog.doOnConfirm(this.deleteConfirmQuestion(entity), () => {
       const deleteConfirm = this.dataProvider.delete(entity);
       deleteConfirm.subscribe(() => {
-        this.refreshDatas();
+        this.onRefreshDatas();
       });
       return deleteConfirm;
     });
   }
 
-  filterChanged(filter: Filter) {
-    this.refreshDatas();
+  onFilterChanged(filter: any) {
+    this.onRefreshDatas();
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */

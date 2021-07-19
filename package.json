@@ -47,6 +47,7 @@
     "@angular/service-worker": "^12.1.2",
     "@bull-board/express": "^3.3.0",
     "@ecodev/fab-speed-dial": "^8.0.1",
+    "@illgrenoble/guacamole-common-js": "0.0.1",
     "@nest-middlewares/compression": "^6.0.0",
     "@nest-middlewares/cookie-parser": "^6.0.0",
     "@nest-middlewares/csurf": "^6.0.0",

@@ -15,12 +15,12 @@ export class FilterBarComponent implements OnInit {
   @Input() public addButtonLabel = 'Add';
   @Input() filters: Filter[] = [];
   @Input() customButtons: FilterBarCustomButton[] = [];
-  @Output() onCustomButtonClicked: EventEmitter<any> = new EventEmitter;
+  @Output() customButtonClicked: EventEmitter<any> = new EventEmitter;
 
-  @Output() onFilterChanged: EventEmitter<any> = new EventEmitter;
-  @Output() onRefreshData: EventEmitter<any> = new EventEmitter;
-  @Output() onAddEntity: EventEmitter<any> = new EventEmitter();
-  @Output() onDeleteSelection: EventEmitter<any> = new EventEmitter();
+  @Output() filterChanged: EventEmitter<any> = new EventEmitter;
+  @Output() refreshData: EventEmitter<any> = new EventEmitter;
+  @Output() addEntity: EventEmitter<any> = new EventEmitter();
+  @Output() deleteSelection: EventEmitter<any> = new EventEmitter();
 
   globalFilterText: string = '';
 
@@ -29,23 +29,23 @@ export class FilterBarComponent implements OnInit {
   ngOnInit() {
   }
 
-  addEntity(event: any) {
-    this.onAddEntity.emit(event);
+  onAddEntity(event: any) {
+    this.addEntity.emit(event);
   }
 
-  refreshDatas(event){
-    this.onRefreshData.emit(event);
+  onRefreshDatas(event){
+    this.refreshData.emit(event);
   }
 
-  deleteSelection(event){
-    this.onDeleteSelection.emit(event);
+  onDeleteSelection(event){
+    this.deleteSelection.emit(event);
   }
-  filterChanged(event){
-    this.onFilterChanged.emit(event);
+  onFilterChanged(event){
+    this.filterChanged.emit(event);
   }
 
-  customButtonClicked(customButton: FilterBarCustomButton, event: any){
-    this.onCustomButtonClicked.emit(customButton);
+  onCustomButtonClicked(customButton: FilterBarCustomButton, event: any){
+    this.customButtonClicked.emit(customButton);
   }
 }
 

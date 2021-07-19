@@ -59,17 +59,17 @@ export class JenkinsComponent
     return this.jenkinsService.get(newHttpParams);
   }
 
-  dataChanged(jenkins: any) {
+  onDataChanged(jenkins: any) {
     this.jenkinsList = jenkins as JenkinsDTO[];
   }
 
-  addJenkins() {
+  onAddJenkins() {
     this.router.navigate(['/build/jenkins/new'], {
       queryParamsHandling: 'preserve',
     });
   }
 
-  deleteSelected(selection: any[]): Observable<any> {
+  onDeleteSelected(selection: any[]): Observable<any> {
     return Observable.create((observer: Observer<any>) => {});
   }
   delete(jenkinsDTO: JenkinsDTO): Observable<any> {

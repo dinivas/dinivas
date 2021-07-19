@@ -48,7 +48,7 @@ export class ConsulViewComponent implements OnInit {
     this.activatedRoute.data
       .pipe(
         map(
-          (data: { currentConsulInfo: TerraformModuleEntityInfo<ConsulDTO> }) =>
+          (data) =>
             data.currentConsulInfo.entity
         )
       )

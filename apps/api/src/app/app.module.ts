@@ -51,6 +51,7 @@ import * as httpProxy from 'http-proxy-middleware';
 import { json } from 'body-parser';
 import { RabbitMQ } from './messaging/rabbitmq/rabbitmq.entity';
 import configConfiguration from './config.configuration';
+import GuacamoleLite = require('guacamole-lite');
 import {
   API_PREFFIX,
   BULL_TERRAFORM_MODULE_QUEUE,
@@ -174,6 +175,7 @@ export class AppModule implements NestModule {
         })
       )
       .forRoutes('ansible-galaxy/*');
+    // ==========================================
     // Bull Board routes configuration
     const bullExpressServerAdapter = new ExpressAdapter();
     bullExpressServerAdapter.setBasePath('/bull/queues');
@@ -187,6 +189,27 @@ export class AppModule implements NestModule {
     consumer
       .apply(bullExpressServerAdapter.getRouter())
       .forRoutes(`/bull/queues`);
+
+    // ===========================================
+    // Guacamole-lite
+    const guacdOptions = {
+      host: this.configService.get<string>('dinivas.guacamole.guacd.host'),
+      port: this.configService.get<number>('dinivas.guacamole.guacd.port'), // port of guacd
+    };
+
+    const clientOptions = {
+      crypt: {
+        cypher: this.configService.get<string>('dinivas.guacamole.guacd.cypher'),
+        key: this.configService.get<string>('dinivas.guacamole.guacd.key'),
+      },
+    };
+    const guacamolePort = process.env.GUACAMOLE_PORT || 3336;
+    const guacServer = new GuacamoleLite(
+      { port: guacamolePort },
+      guacdOptions,
+      clientOptions
+    );
+
     // Add manually body-parser because we disabled it in main.ts
     const jsonParseMiddleware = json({ limit: '10mb' });
     consumer

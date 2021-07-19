@@ -8,9 +8,9 @@
     </mat-card-header>
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
-        [showAddButton]="showAddButton" (onFilterChanged)="filterChanged($event)" (onRefreshData)="refreshDatas()"
-        (onAddEntity)="addImage()" (onDeleteSelection)="deleteEntity($event)" [customButtons]="filterBarCustomButtons"
-        (onCustomButtonClicked)="handleCustomButtonClicked($event)"></dinivas-filter-bar>
+        [showAddButton]="showAddButton" (filterChanged)="onFilterChanged($event)" (refreshData)="onRefreshDatas()"
+        (addEntity)="onAddImage()" (deleteSelection)="onDeleteEntity($event)" [customButtons]="filterBarCustomButtons"
+        (customButtonClicked)="onHandleCustomButtonClicked($event)"></dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
         <mat-spinner></mat-spinner>
       </div>
@@ -47,8 +47,9 @@
         <ng-container matColumnDef="dinivasImage">
           <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
           <td mat-cell *matCellDef="let row">
-            <mat-icon class="text-accent" *ngIf="row.tags.indexOf('dinivas') !== -1" matTooltip="Dinivas Image"
-              matTooltipPosition="left">star</mat-icon>
+            <mat-icon class="text-accent"
+              *ngIf="row.tags.indexOf('dinivas') !== -1 || row.name.toLowerCase().indexOf('dinivas') !== -1"
+              matTooltip="Dinivas Image" matTooltipPosition="left">star</mat-icon>
           </td>
         </ng-container>
 
@@ -80,13 +81,19 @@
           <td mat-cell *matCellDef="let row">
             {{ row.min_disk | bytes }}</td>
         </ng-container>
+        <!-- Date -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.date | date: 'medium' }}</td>
+        </ng-container>
         <!-- Actions -->
         <ng-container matColumnDef="row-actions">
           <th mat-header-cell *matHeaderCellDef class="action-cell ">
           </th>
           <td mat-cell *matCellDef="let entity" class="row-action edit-action">
             <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
-              (click)="deleteEntity(entity)">
+              (click)="onDeleteEntity(entity)">
               <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
             </a>
           </td>

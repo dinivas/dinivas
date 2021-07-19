@@ -8,11 +8,12 @@ import {
   IPaginationOptions,
   Pagination,
   ICloudApiProjectQuota,
-  ProjectDefinitionDTO
+  ProjectDefinitionDTO,
 } from '@dinivas/api-interfaces';
 import { Project } from './project.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import crypto = require('crypto');
 
 @Injectable()
 export class ProjectsService {
@@ -30,7 +31,8 @@ export class ProjectsService {
     projectDTO.logging = project.logging;
     projectDTO.logging_stack = project.logging_stack;
     projectDTO.graylog_compute_image_name = project.graylog_compute_image_name;
-    projectDTO.graylog_compute_flavour_name = project.graylog_compute_flavour_name;
+    projectDTO.graylog_compute_flavour_name =
+      project.graylog_compute_flavour_name;
     projectDTO.management_subnet_cidr = project.management_subnet_cidr;
     projectDTO.management_subnet_dhcp_allocation_start =
       project.management_subnet_dhcp_allocation_start;
@@ -73,7 +75,7 @@ export class ProjectsService {
 
   async findOne(id: number): Promise<Project> {
     const project: Project = await this.projectRepository.findOne(id, {
-      relations: ['cloud_provider']
+      relations: ['cloud_provider'],
     });
     if (!project) {
       throw new NotFoundException(`Project with id: ${id} not found`);
@@ -83,7 +85,7 @@ export class ProjectsService {
 
   async getProjectQuota(id: number): Promise<ICloudApiProjectQuota> {
     const project: Project = await this.projectRepository.findOne(id, {
-      relations: ['cloud_provider']
+      relations: ['cloud_provider'],
     });
     const cloudApi = this.cloudApiFactory.getCloudApiService(
       project.cloud_provider.cloud
@@ -124,5 +126,37 @@ export class ProjectsService {
 
   async delete(id: number) {
     await this.projectRepository.delete(id);
+  }
+
+  generateProjectGuacamoleToken(projectState: any, cloudProvider: string) {
+    const clientOptions = {
+      cypher: 'AES-256-CBC',
+      key: 'MySuperSecretKeyForParamsToken12',
+    };
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(
+      clientOptions.cypher,
+      clientOptions.key,
+      iv
+    );
+    const parameters = {
+      connection: {
+        type: 'ssh',
+        settings: {
+          hostname: projectState.outputs.bastion_floating_ip.value,
+          username: 'digitalocean' === cloudProvider ? 'root' : 'centos',
+          'private-key': projectState.outputs.bastion_private_key.value,
+        },
+      },
+    };
+    let crypted = cipher.update(JSON.stringify(parameters), 'utf8', 'base64');
+    crypted += cipher.final('base64');
+
+    const data = {
+      iv: iv.toString('base64'),
+      value: crypted,
+    };
+
+    return new Buffer(JSON.stringify(data)).toString('base64');
   }
 }

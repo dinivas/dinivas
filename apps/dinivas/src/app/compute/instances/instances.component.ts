@@ -14,16 +14,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'dinivas-instances',
   templateUrl: './instances.component.html',
-  styleUrls: ['./instances.component.scss']
+  styleUrls: ['./instances.component.scss'],
 })
-export class InstancesComponent extends MatCrudComponent
-  implements DataProvider<ICloudApiInstance> {
+export class InstancesComponent
+  extends MatCrudComponent
+  implements DataProvider<ICloudApiInstance>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
   instancesList: ICloudApiInstance[] = [];
   columnDefs: Array<ColumnDef>;
-  deleteConfirmQuestion = entity =>
-    `Delete instance ${entity.code} ?`;
+  deleteConfirmQuestion = (entity) => `Delete instance ${entity.code} ?`;
 
   constructor(
     public dialog: MatDialog,
@@ -35,11 +36,10 @@ export class InstancesComponent extends MatCrudComponent
     this.columnDefs = [
       //new ColumnDef('id', 'Id', false),
       new ColumnDef('id', 'Id', true, true, false, FilterType.TEXT),
-      new ColumnDef('code', 'Code', false),
-      new ColumnDef('description', 'Description', false),
-      new ColumnDef('project', 'Project', false),
-      new ColumnDef('keypair_name', 'Keypair', false),
-      new ColumnDef('network', 'Network', false)
+      new ColumnDef('name', 'Name', false),
+      new ColumnDef('status', 'Status', false),
+      new ColumnDef('created_date', 'Created date', false),
+      new ColumnDef('adresses', 'Adresses', false),
     ];
   }
 
@@ -53,14 +53,14 @@ export class InstancesComponent extends MatCrudComponent
     return this.instancesService.getInstances(newHttpParams);
   }
 
-  addInstance() {
+  onAddInstance() {
     this.router.navigate(['/compute/instances/new'], {
-    queryParamsHandling: 'preserve'
-});
+      queryParamsHandling: 'preserve',
+    });
   }
 
-  dataChanged(instances: ICloudApiInstance[]) {
-    this.instancesList = instances;
+  onDataChanged(instances: any) {
+    this.instancesList = instances as ICloudApiInstance[];
   }
 
   deleteSelected(selection: any[]): Observable<any> {

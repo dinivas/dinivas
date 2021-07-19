@@ -60,17 +60,17 @@ export class ConsulComponent
       .set('sort', httpParams.get('sort'));
     return this.consulService.get(newHttpParams);
   }
-  dataChanged(consul: ConsulDTO[]) {
-    this.consulList = consul;
+  onDataChanged(consul: any) {
+    this.consulList = consul as ConsulDTO[];
   }
 
-  addConsul() {
+  onAddConsul() {
     this.router.navigate(['/network/consul/new'], {
       queryParamsHandling: 'preserve',
     });
   }
 
-  deleteSelected(selection: any[]): Observable<any> {
+  onDeleteSelected(selection: any[]): Observable<any> {
     return Observable.create((observer: Observer<any>) => {});
   }
   delete(consulDTO: ConsulDTO): Observable<any> {

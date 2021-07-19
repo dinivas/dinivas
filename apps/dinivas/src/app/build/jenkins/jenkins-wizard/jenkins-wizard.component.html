@@ -145,7 +145,7 @@
       <mat-slide-toggle formControlName="manage_slave" color="accent">
         Manage slaves for this Jenkins?
       </mat-slide-toggle>
-      <mat-hint>Dinivas will manage Jenkins slave for you</mat-hint>
+      <mat-hint>Dinivas will manage Jenkins slave for you. <strong *ngIf="!jenkins">You will be able to add slave once you will create the Master</strong></mat-hint>
     </div>
 
     <!-- Jenkins slave configuration -->

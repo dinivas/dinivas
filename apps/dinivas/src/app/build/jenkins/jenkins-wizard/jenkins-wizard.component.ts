@@ -89,7 +89,10 @@ export class JenkinsWizardComponent
       .pipe(map((data) => data.cloudImages))
       .subscribe((cloudImages: ICloudApiImage[]) => {
         this.masterCloudImages = cloudImages.filter(
-          (img) => img.tags.indexOf('jenkins-master') > -1
+          (img) =>
+            ('openstack' === img.cloudprovider &&
+              img.tags.indexOf('jenkins-master') > -1) ||
+            'digitalocean' === img.cloudprovider
         );
         this.slaveCloudImages = cloudImages.filter(
           (img) => img.tags.indexOf('builder') > -1 // || img.tags.indexOf('docker') > -1
@@ -100,18 +103,53 @@ export class JenkinsWizardComponent
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo.entity;
         this.projectTfState = projectInfo.entityState;
-        this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
-          ? this.projectTfState.outputs['mgmt_network_name'].value
-          : undefined;
-        this.projectNetworkSubnet = this.projectTfState.outputs[
-          'mgmt_subnet_names'
-        ]
-          ? this.projectTfState.outputs['mgmt_subnet_names'].value[0]
-          : this.jenkins.network_subnet_name;
+        this.projectNetwork = this.toCloudProviderNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
+        this.projectNetworkSubnet = this.toCloudProviderSubnetNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
         this.projectKeypair =
           this.projectTfState.outputs['project_keypair_name'].value;
         this.projectTfStateSubject.next(undefined);
       });
+  }
+
+  toCloudProviderNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value[0]
+          : this.jenkins.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_id']
+          ? stateOutput['mgmt_network_id'].value
+          : this.jenkins.network_subnet_name;
+      default:
+        return undefined;
+    }
+  }
+  toCloudProviderSubnetNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_subnet_names']
+          ? stateOutput['mgmt_subnet_names'].value[0]
+          : this.jenkins.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_id']
+          ? stateOutput['mgmt_network_id'].value
+          : this.jenkins.network_subnet_name;
+      default:
+        return undefined;
+    }
   }
 
   ngOnInit() {

@@ -5,23 +5,26 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'dashboard',
-    loadChildren: './dashboard/dashboard.module#DashboardModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'logging',
-    loadChildren: './logging/logging.module#LoggingModule',
-    canActivate: [MandatorySelectedProjectGuard]
+    loadChildren: () =>
+      import('./logging/logging.module').then((m) => m.LoggingModule),
+    canActivate: [MandatorySelectedProjectGuard],
   },
   {
     path: 'tracing',
-    loadChildren: './tracing/tracing.module#TracingModule',
-    canActivate: [MandatorySelectedProjectGuard]
-  }
+    loadChildren: () =>
+      import('./tracing/tracing.module').then((m) => m.TracingModule),
+    canActivate: [MandatorySelectedProjectGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MonitoringRoutingModule {}
