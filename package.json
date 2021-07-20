@@ -13,7 +13,7 @@
     "build:dinivas:docker": "ng build --configuration=docker --stats-json",
     "build:packer-worker": "ng build packer-worker  --prod",
     "build:terraform-worker": "ng build terraform-worker --prod",
-    "build:docker": "run-s docker:build:api docker:build:packer-worker docker:build:terraform-worker docker:builddinivas",
+    "build:docker": "run-s docker:build:api docker:build:packer-worker docker:build:terraform-worker docker:build:dinivas",
     "stats:dinivas": "webpack-bundle-analyzer dist/apps/dinivas/stats.json",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",

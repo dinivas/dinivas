@@ -17,9 +17,15 @@ build:
   variables:
     GIT_DEPTH: 0
     DOCKER_TLS_CERTDIR: '/certs'
+  before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   script:
     - npm i
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    #- echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
     #- docker run --privileged --rm tonistiigi/binfmt --install all # required for multi-platform build
     - docker buildx create --use
     - npm run build
+    - docker push dinivas/api
+    - docker push dinivas/dinivas
+    - docker push dinivas/packer-worker
+    - docker push dinivas/terraform-worker
