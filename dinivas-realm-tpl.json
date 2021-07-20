@@ -2689,6 +2689,30 @@
             "attributes": {}
           },
           {
+            "id": "275365dc-a3f2-4ca8-82f2-c4fabfd14a30",
+            "name": "Jenkins Editor",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
+            "id": "c6c6e1b8-493c-4fa5-3a4b-8eb6c7cfb586",
+            "name": "RabbitMQ Viewer",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
+            "id": "275365dc-a3f2-3a4b-82f2-c4fabfd14a30",
+            "name": "RabbitMQ Editor",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
             "id": "05a06ffc-e370-4c0a-9608-2fc5138db66f",
             "name": "Projects Editor",
             "composite": false,
@@ -2747,14 +2771,6 @@
           {
             "id": "347fea1a-f9ea-40f4-9800-f49efd3313ae",
             "name": "uma_protection",
-            "composite": false,
-            "clientRole": true,
-            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
-            "attributes": {}
-          },
-          {
-            "id": "275365dc-a3f2-4ca8-82f2-c4fabfd14a30",
-            "name": "Jenkins Editor",
             "composite": false,
             "clientRole": true,
             "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
@@ -2843,6 +2859,35 @@
             "Terraform State Viewer",
             "Compute Instances Viewer",
             "Jenkins Viewer",
+            "RabbitMQ Viewer",
+            "Cloud Providers Viewer",
+            "Projects Viewer",
+            "Consul Viewer",
+            "Compute Flavors Viewer"
+          ]
+        },
+        "subGroups": []
+      },
+      {
+        "id": "a3cc3072-0888-495b-a493-08cb34bdabab",
+        "name": "Dinivas Admin",
+        "path": "/Dinivas Admin",
+        "attributes": {},
+        "realmRoles": [],
+        "clientRoles": {
+          "broker": ["read-token"],
+          "dinivas-api": [
+            "Compute Images Editor",
+            "Cloud Providers Editor",
+            "Jenkins Editor",
+            "RabbitMQ Editor",
+            "Projects Editor",
+            "Consul Editor",
+            "Compute Images Viewer",
+            "Terraform State Viewer",
+            "Compute Instances Viewer",
+            "Jenkins Viewer",
+            "RabbitMQ Viewer",
             "Cloud Providers Viewer",
             "Projects Viewer",
             "Consul Viewer",
@@ -2892,6 +2937,34 @@
     "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister": false,
     "webAuthnPolicyPasswordlessAcceptableAaguids": [],
     "users": [
+      {
+        "id": "3d723e6c-d8eb-4667-baaa-34c26dd3a2b8",
+        "createdTimestamp": 1586592249031,
+        "username": "devops",
+        "email" : "devops@dinivas.io",
+        "firstName": "John",
+        "lastName": "Doe",
+        "enabled": true,
+        "totp": false,
+        "emailVerified": true,
+        "credentials": [
+          {
+            "id": "cb5f6a0c-4aa1-4acb-bd3d-23fd0777bbbb",
+            "type": "password",
+            "createdDate": 1586592249100,
+            "secretData": "{\"value\":\"wifosMlN2apxztfeb9q/Im49iMAN9vVZjqC1aDfw/Vfd9Fsih/SZ2OqfVpr6NEjwB6PuW7IJ1+2FQGEwLnqPjg==\",\"salt\":\"rDLODLIPlgmhoCYxmCwoJQ==\"}",
+            "credentialData": "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\"}"
+          }
+        ],
+        "disableableCredentialTypes": [],
+        "requiredActions": [],
+        "realmRoles": ["uma_authorization", "offline_access", "admin"],
+        "clientRoles": {
+          "account": ["view-profile", "manage-account"]
+        },
+        "notBefore": 0,
+        "groups": ["/Dinivas Admin"]
+      },
       {
         "id": "5cc88dbe-79d3-4bf2-ab5c-b28f4a8641f8",
         "createdTimestamp": 1586592248526,
@@ -3407,6 +3480,31 @@
               ]
             },
             {
+              "name": "rabbitmq",
+              "ownerManagedAccess": false,
+              "displayName": "RabbitMQ resources",
+              "attributes": {},
+              "_id": "8d3854be-c29e-4f2c-889b-4dc0199a3456",
+              "uris": [],
+              "scopes": [
+                {
+                  "name": "view"
+                },
+                {
+                  "name": "edit"
+                },
+                {
+                  "name": "delete"
+                },
+                {
+                  "name": "create"
+                },
+                {
+                  "name": "list"
+                }
+              ]
+            },
+            {
               "name": "compute.flavors",
               "ownerManagedAccess": false,
               "displayName": "Compute flavors",
@@ -3588,6 +3686,26 @@
               "decisionStrategy": "UNANIMOUS",
               "config": {
                 "roles": "[{\"id\":\"dinivas-api/Jenkins Viewer\",\"required\":false}]"
+              }
+            },
+            {
+              "id": "e6597232-740e-4e08-8557-bbbb6fd78567",
+              "name": "RabbitMQ Editor",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/RabbitMQ Editor\",\"required\":false}]"
+              }
+            },
+            {
+              "id": "07f0aaaa-490d-4cb4-b9b7-a5e91a1bde74",
+              "name": "RabbitMQ Viewer",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/RabbitMQ Viewer\",\"required\":false}]"
               }
             },
             {
@@ -3782,6 +3900,66 @@
               }
             },
             {
+              "id": "931d5e20-70ff-41f7-1a2b-4a384111cf26",
+              "name": "rabbitmq.edit",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"rabbitmq\"]",
+                "scopes": "[\"edit\"]",
+                "applyPolicies": "[\"RabbitMq Editor\"]"
+              }
+            },
+            {
+              "id": "f6d47c65-a89a-1a2b-bd34-9eaf2ea757d1",
+              "name": "rabbitmq.delete",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"rabbitmq\"]",
+                "scopes": "[\"delete\"]",
+                "applyPolicies": "[\"RabbitMq Editor\"]"
+              }
+            },
+            {
+              "id": "7ed9c022-00b1-4bde-1a2b-a6e94b0c6245",
+              "name": "rabbitmq.view",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"rabbitmq\"]",
+                "scopes": "[\"view\"]",
+                "applyPolicies": "[\"RabbitMq Viewer\"]"
+              }
+            },
+            {
+              "id": "f2f414c4-2fee-49c3-a482-f8feaf721a2b",
+              "name": "rabbitmq.create",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"rabbitmq\"]",
+                "scopes": "[\"create\"]",
+                "applyPolicies": "[\"RabbitMq Editor\"]"
+              }
+            },
+            {
+              "id": "1a2bf064-40c9-42f4-8441-21d6d4d2ec4b",
+              "name": "rabbitmq.list",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"rabbitmq\"]",
+                "scopes": "[\"list\"]",
+                "applyPolicies": "[\"RabbitMq Viewer\"]"
+              }
+            },
+            {
               "id": "1dfbba0a-b7b4-49d2-b634-5127ccbf5807",
               "name": "compute.flavors.list",
               "type": "scope",
@@ -3969,7 +4147,7 @@
               "decisionStrategy": "UNANIMOUS",
               "config": {
                 "resources": "[\"cloudproviders\"]",
-                "scopes": "[\"delet\"]",
+                "scopes": "[\"delete\"]",
                 "applyPolicies": "[\"Cloud Providers Editor\"]"
               }
             },

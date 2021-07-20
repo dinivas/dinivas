@@ -1,7 +1,7 @@
 ---
 name: Dinivas
-tsconfig: ./tsconfig.json
-output: ./documentation
+tsconfig: ./tsconfig.base.json
+output: ./public
 theme: material
 hideGenerator: true
 disableSourceCode: true
@@ -9,4 +9,8 @@ disablePrivate: true
 disableProtected: true
 disableInternal: true
 disableGraph: false
-silent: false
+silent: true
+includes: ./docs
+gaID: dddd
+minimal: false
+includesName: Additional documentation

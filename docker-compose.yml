@@ -48,7 +48,7 @@ services:
     depends_on:
       - redis
   # KEYCLOAK
-  postgres-keycloak:
+  postgres_keycloak:
     image: postgres
     volumes:
       - postgres_keycloak_data:/var/lib/postgresql/data
@@ -79,7 +79,7 @@ services:
         -Dkeycloak.migration.file=/tmp/dinivas-realm-tpl.json -Dkeycloak.profile.feature.upload_scripts=enabled
         -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     depends_on:
-      - postgres-keycloak
+      - postgres_keycloak
   postgres-dinivas:
     image: postgres
     volumes:

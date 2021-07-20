@@ -17,7 +17,7 @@ Some companies also can't just go to public Cloud due to data governance and man
 
 ## Status
 
-    Dinivas is still under developement and therefore not ready at all for use. You may watch the repo to keep touched about the evolution.
+    Dinivas is still under developement and therefore not ready at all for use in production. You may watch the repo to keep touched about the evolution.
 
 ## Quick Start & Documentation
 

@@ -1,6 +1,6 @@
 import { Permissions } from './../auth/permissions.decorator';
 import { CloudproviderService } from './cloudprovider.service';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import {
   CloudproviderDTO,
   Pagination,
@@ -10,7 +10,7 @@ import {
   ICloudApiImage,
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
-  ICloudApiProjectFloatingIp
+  ICloudApiProjectFloatingIp,
 } from '@dinivas/api-interfaces';
 import { AuthzGuard } from '../auth/authz.guard';
 import {
@@ -23,7 +23,7 @@ import {
   Body,
   Post,
   Query,
-  Res
+  Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -35,6 +35,27 @@ export class CloudproviderController {
   constructor(private readonly cloudproviderService: CloudproviderService) {}
 
   @Get()
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    description: 'The page number',
+    required: false,
+    example: 0,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    description: 'The page size',
+    required: false,
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'sort',
+    type: Number,
+    description: 'The sort expression',
+    required: false,
+    example: 'id,desc',
+  })
   @Permissions('cloudproviders:list')
   async findAll(
     @Query('page') page: number = 0,
@@ -44,7 +65,7 @@ export class CloudproviderController {
     return this.cloudproviderService.findAll({
       page,
       limit,
-      sort
+      sort,
     });
   }
 

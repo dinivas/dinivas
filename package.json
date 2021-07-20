@@ -2,6 +2,10 @@
   "name": "dinivas",
   "version": "0.0.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dinivas/dinivas.git"
+  },
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
@@ -30,6 +34,7 @@
     "affected:ci:build": "nx affected:build  --configuration=docker --base=HEAD~1 --head=HEAD --plain",
     "affected:ci:docker": "nx affected --target=docker --base=HEAD~1 --head=HEAD --plain",
     "compodoc": "npx compodoc",
+    "compodoc:serve": "npx compodoc -s -r 4800 -w",
     "format": "nx format:write",
     "format:write": "nx format:write",
     "format:check": "nx format:check",
@@ -44,9 +49,11 @@
     "docker:dev:ps": "docker-compose -p dinivas -f docker-compose.dev.yml ps",
     "docker:dev:up": "docker-compose -p dinivas -f docker-compose.dev.yml up -d",
     "docker:dev:down": "docker-compose -p dinivas -f docker-compose.dev.yml down",
+    "docker:dev:logs": "docker-compose -p dinivas -f docker-compose.dev.yml logs -f",
     "docker:ps": "docker-compose -p dinivas ps",
     "docker:up": "docker-compose -p dinivas up -d",
-    "docker:down": "docker-compose -p dinivas down"
+    "docker:down": "docker-compose -p dinivas down",
+    "docker:logs": "docker-compose -p dinivas logs -f"
   },
   "private": true,
   "dependencies": {

@@ -1,5 +1,8 @@
 dinivas:
   production: false
+  xframe_domain: 'http://localhost:4200'
+  morgan:
+    format: dev # combined
   orm:
     config:
       type: postgres

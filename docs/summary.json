@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Dinivas console overview",
+    "file": "CONSOLE.md"
+  },
+  {
+    "title": "Cloudproviders",
+    "file": "CLOUDPROVIDERS.md"
+  },
+  {
+    "title": "Projects in Dinivas",
+    "file": "PROJECTS.md"
+  },
+  {
+    "title": "Packer Worker",
+    "file": "PACKER-WORKER.md"
+  },
+  {
+    "title": "Terraform Worker",
+    "file": "TERRAFORM-WORKER.md"
+  },
+  {
+    "title": "FAQ & Know issues",
+    "file": "FAQ.md"
+  }
+]

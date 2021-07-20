@@ -233,7 +233,10 @@ export class AppModule implements NestModule {
     HelmetMiddleware.configure({
       frameguard: {
         action: 'allow-from',
-        domain: 'http://localhost:4200',
+        domain: this.configService.get<string>(
+          'dinivas.xframe_domain',
+          'http://localhost:4200'
+        ),
       },
     });
     CsurfMiddleware.configure({ cookie: true });
@@ -250,7 +253,9 @@ export class AppModule implements NestModule {
       .forRoutes('/*');
     //.apply(CsurfMiddleware)
     //.forRoutes('/*');
-    MorganMiddleware.configure(!environment.production ? 'dev' : 'combined');
+    MorganMiddleware.configure(
+      this.configService.get<string>('dinivas.morgan.format')
+    );
     consumer.apply(MorganMiddleware).forRoutes('/*');
     // Keycloak Sso middleware
     consumer
