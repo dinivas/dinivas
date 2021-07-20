@@ -9,7 +9,7 @@
       "devDependencies": "*"
     },
     ".eslintrc.json": "*",
-    ".gitlab-ci.yml": ["dinivas"]
+    ".gitlab-ci.yml": ["dinivas", "api", "packer-worker", "terraform-worker"]
   },
   "tasksRunnerOptions": {
     "default": {

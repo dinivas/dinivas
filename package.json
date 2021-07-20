@@ -26,6 +26,7 @@
     "affected:lint": "nx affected:lint",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
+    "affected:output:plain": "echo \"Affected apps:\" && nx affected:apps --target=build --base=HEAD~1 --head=HEAD --plain",
     "affected:ci:build": "nx affected:build  --configuration=docker --base=HEAD~1 --head=HEAD --plain",
     "affected:ci:docker": "nx affected --target=docker --base=HEAD~1 --head=HEAD --plain",
     "compodoc": "npx compodoc",

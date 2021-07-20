@@ -24,6 +24,6 @@ build:
     #- echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
     #- docker run --privileged --rm tonistiigi/binfmt --install all # required for multi-platform build
     - docker buildx create --use
-    - echo "Affected apps:" && nx affected:apps --target=build --base=HEAD~1 --head=HEAD --plain
+    - npm run affected:output:plain
     - npm run affected:ci:build
     - npm run affected:ci:docker
