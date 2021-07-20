@@ -28,29 +28,29 @@
   },
   "projects": {
     "api": {
-      "tags": ["apps"]
+      "tags": ["scope:api"]
     },
     "api-interfaces": {
-      "tags": ["libs"]
+      "tags": ["scope:shared"]
     },
     "common-ui": {
-      "tags": []
+      "tags": ["scope:client"]
     },
     "dinivas": {
-      "tags": ["apps"]
+      "tags": ["scope:client"]
     },
     "dinivas-e2e": {
-      "tags": [],
+      "tags": ["scope:client"],
       "implicitDependencies": ["dinivas"]
     },
     "ng-material": {
-      "tags": []
+      "tags": ["scope:client"]
     },
     "packer-worker": {
-      "tags": []
+      "tags": ["scope:api"]
     },
     "terraform-worker": {
-      "tags": []
+      "tags": ["scope:api"]
     }
   }
 }

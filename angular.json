@@ -34,6 +34,15 @@
             }
           }
         },
+        "docker": {
+          "executor": "@nx-tools/nx-docker:build",
+          "options": {
+            "file": "apps/api/Dockerfile",
+            "load": true,
+            "push": false,
+            "tags": ["dinivas/api:latest"]
+          }
+        },
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
@@ -156,6 +165,27 @@
               ],
               "outputHashing": "all"
             },
+            "docker": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/dinivas/src/environments/environment.ts",
+                  "with": "apps/dinivas/src/environments/environment.docker.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -166,6 +196,15 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "docker": {
+          "executor": "@nx-tools/nx-docker:build",
+          "options": {
+            "file": "apps/dinivas/Dockerfile",
+            "load": true,
+            "push": false,
+            "tags": ["dinivas/dinivas:latest"]
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -297,6 +336,15 @@
             }
           }
         },
+        "docker": {
+          "executor": "@nx-tools/nx-docker:build",
+          "options": {
+            "file": "apps/packer-worker/Dockerfile",
+            "load": true,
+            "push": false,
+            "tags": ["dinivas/packer-worker:latest"]
+          }
+        },
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
@@ -354,6 +402,15 @@
                 }
               ]
             }
+          }
+        },
+        "docker": {
+          "executor": "@nx-tools/nx-docker:build",
+          "options": {
+            "file": "apps/terraform-worker/Dockerfile",
+            "load": true,
+            "push": false,
+            "tags": ["dinivas/terraform-worker:latest"]
           }
         },
         "serve": {

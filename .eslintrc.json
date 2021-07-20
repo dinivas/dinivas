@@ -16,6 +16,18 @@
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
               }
+              //{
+              //  "sourceTag": "scope:shared",
+              //  "onlyDependOnLibsWithTags": ["scope:shared"]
+              //},
+              //{
+              //  "sourceTag": "scope:api",
+              //  "onlyDependOnLibsWithTags": ["scope:shared", "scope:api"]
+              //},
+              //{
+              //  "sourceTag": "scope:client",
+              //  "onlyDependOnLibsWithTags": ["scope:shared", "scope:client"]
+              //}
             ]
           }
         ]
