@@ -7,6 +7,7 @@ stages:
   - install
   - build
   - deploy
+  - deploy-gh-pages
 
 # Define an hidden job to be used with extends
 # Better than default to avoid activating cache for all jobs
@@ -59,7 +60,7 @@ pages:
     - master
 
 gh_pages:
-  stage: deploy
+  stage: deploy-gh-pages
   script:
     - bash ./hack/deploy-gh-pages.sh
   needs:
