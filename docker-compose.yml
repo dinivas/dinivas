@@ -15,7 +15,7 @@ services:
   dinivas:
     image: dinivas/dinivas
     ports:
-      - '8080:8080'
+      - '8085:8085'
   dinivas-api:
     image: dinivas/api
     environment:
@@ -70,7 +70,7 @@ services:
       # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
       #JDBC_PARAMS: "ssl=true"
     ports:
-      - 8085:8080
+      - 8080:8080
     volumes:
       - ./dinivas-realm-tpl.json:/tmp/dinivas-realm-tpl.json
     command:

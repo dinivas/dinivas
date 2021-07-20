@@ -3908,7 +3908,7 @@
               "config": {
                 "resources": "[\"rabbitmq\"]",
                 "scopes": "[\"edit\"]",
-                "applyPolicies": "[\"RabbitMq Editor\"]"
+                "applyPolicies": "[\"RabbitMQ Editor\"]"
               }
             },
             {
@@ -3920,7 +3920,7 @@
               "config": {
                 "resources": "[\"rabbitmq\"]",
                 "scopes": "[\"delete\"]",
-                "applyPolicies": "[\"RabbitMq Editor\"]"
+                "applyPolicies": "[\"RabbitMQ Editor\"]"
               }
             },
             {
@@ -3932,7 +3932,7 @@
               "config": {
                 "resources": "[\"rabbitmq\"]",
                 "scopes": "[\"view\"]",
-                "applyPolicies": "[\"RabbitMq Viewer\"]"
+                "applyPolicies": "[\"RabbitMQ Viewer\"]"
               }
             },
             {
@@ -3944,7 +3944,7 @@
               "config": {
                 "resources": "[\"rabbitmq\"]",
                 "scopes": "[\"create\"]",
-                "applyPolicies": "[\"RabbitMq Editor\"]"
+                "applyPolicies": "[\"RabbitMQ Editor\"]"
               }
             },
             {
@@ -3956,7 +3956,7 @@
               "config": {
                 "resources": "[\"rabbitmq\"]",
                 "scopes": "[\"list\"]",
-                "applyPolicies": "[\"RabbitMq Viewer\"]"
+                "applyPolicies": "[\"RabbitMQ Viewer\"]"
               }
             },
             {
