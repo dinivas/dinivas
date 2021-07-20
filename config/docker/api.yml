@@ -1,0 +1,49 @@
+dinivas:
+  production: false
+  orm:
+    config:
+      type: postgres
+      host: postgres-dinivas
+      port: 5432
+      username: dinivas
+      password: Pa55W0rd
+      database: dinivas
+      synchronize: true
+      logging: false
+  tasks:
+    redis:
+      host: redis
+      port: 6379
+  guacamole:
+    enable: false
+    guacd:
+      host: guacd
+      port: 4822
+      cypher: 'AES-256-CBC'
+      key: MySuperSecretKeyForParamsToken12
+  cloud_providers:
+    digitalocean:
+      api_uses_snapshots: true
+  terraform:
+    state:
+      username: dinivas
+      password: Pa55w0rd!
+      http_timeout: 5000
+      http_max_redirects: 5
+  ansible_galaxy:
+    url: http://ansible-galaxy:8089
+  keycloak:
+    config:
+      realm: 'dinivas'
+      bearer-only: true
+      auth-server-url: 'http://keycloack:8080/auth'
+      ssl-required: 'external'
+      resource: 'dinivas-api'
+      verify-token-audience: true
+      credentials:
+        secret: 'c7629cf6-cd8a-465f-8f08-97af5781bb7f'
+      confidential-port: 0
+      policy-enforcer:
+    admin:
+      username: admin
+      password: password

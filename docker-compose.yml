@@ -7,6 +7,8 @@ volumes:
     driver: local
   postgres_galaxy_data:
     driver: local
+  postgres_redis_data:
+    driver: local
 
 services:
   # DINIVAS
@@ -21,7 +23,7 @@ services:
     ports:
       - '3333:3333'
     volumes:
-      - ./config/docker.yml:/config.yml
+      - ./config/docker/api.yml:/config.yml
     depends_on:
       - postgres-dinivas
       - redis
@@ -32,7 +34,7 @@ services:
     ports:
       - '3335:3335'
     volumes:
-      - ./config/docker.yml:/config.yml
+      - ./config/docker/packer-worker.yml:/config.yml
     depends_on:
       - redis
   dinivas-terraform-worker:
@@ -42,7 +44,7 @@ services:
     ports:
       - '3334:3334'
     volumes:
-      - ./config/docker.yml:/config.yml
+      - ./config/docker/tf-worker.yml:/config.yml
     depends_on:
       - redis
   # KEYCLOAK
@@ -54,30 +56,30 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
-    keycloak:
-      image: jboss/keycloak:9.0.0
-      environment:
-        DB_VENDOR: POSTGRES
-        DB_ADDR: postgres_keycloak
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_SCHEMA: public
-        DB_PASSWORD: password
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: password
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
-        #JDBC_PARAMS: "ssl=true"
-      ports:
-        - 8085:8080
-      volumes:
-        - ./dinivas-realm-tpl.json:/tmp/dinivas-realm-tpl.json
-      command:
-        - |
-          -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile
-          -Dkeycloak.migration.file=/tmp/dinivas-realm-tpl.json -Dkeycloak.profile.feature.upload_scripts=enabled
-          -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
-      depends_on:
-        - postgres_keycloak
+  keycloak:
+    image: jboss/keycloak:9.0.0
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres_keycloak
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    ports:
+      - 8085:8080
+    volumes:
+      - ./dinivas-realm-tpl.json:/tmp/dinivas-realm-tpl.json
+    command:
+      - |
+        -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile
+        -Dkeycloak.migration.file=/tmp/dinivas-realm-tpl.json -Dkeycloak.profile.feature.upload_scripts=enabled
+        -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+    depends_on:
+      - postgres-keycloak
   postgres-dinivas:
     image: postgres
     volumes:

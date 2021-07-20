@@ -1,13 +1,13 @@
 version: '3'
 
 volumes:
-  postgres_keycloak_data:
+  postgres_keycloak_dev_data:
     driver: local
-  postgres_dinivas_data:
+  postgres_dinivas_dev_data:
     driver: local
-  postgres_galaxy_data:
+  postgres_galaxy_dev_data:
     driver: local
-  postgres_redis_data:
+  postgres_redis_dev_data:
     driver: local
 
 services:
@@ -15,7 +15,7 @@ services:
   postgres_keycloak:
     image: postgres
     volumes:
-      - postgres_keycloak_data:/var/lib/postgresql/data
+      - postgres_keycloak_dev_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
@@ -47,7 +47,7 @@ services:
   postgres_dinivas:
     image: postgres
     volumes:
-      - postgres_dinivas_data:/var/lib/postgresql/data
+      - postgres_dinivas_dev_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: dinivas
       POSTGRES_USER: dinivas
@@ -58,7 +58,7 @@ services:
   postgres_galaxy:
     image: postgres
     volumes:
-      - postgres_galaxy_data:/var/lib/postgresql/data
+      - postgres_galaxy_dev_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: galaxy
       POSTGRES_USER: galaxy
@@ -91,7 +91,7 @@ services:
     ports:
       - '6379:6379'
     volumes:
-      - postgres_redis_data:/data
+      - postgres_redis_dev_data:/data
   guacd:
     image: guacamole/guacd
     ports:
