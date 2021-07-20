@@ -28,16 +28,16 @@
   },
   "projects": {
     "api": {
-      "tags": []
+      "tags": ["apps"]
     },
     "api-interfaces": {
-      "tags": []
+      "tags": ["libs"]
     },
     "common-ui": {
       "tags": []
     },
     "dinivas": {
-      "tags": []
+      "tags": ["apps"]
     },
     "dinivas-e2e": {
       "tags": [],

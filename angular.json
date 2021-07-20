@@ -17,7 +17,8 @@
             "tsConfig": "apps/api/tsconfig.app.json",
             "assets": [
               "apps/api/src/assets"
-            ]
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
@@ -139,7 +140,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -279,7 +280,8 @@
             "tsConfig": "apps/packer-worker/tsconfig.app.json",
             "assets": [
               "apps/packer-worker/src/assets"
-            ]
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
@@ -337,7 +339,8 @@
             "tsConfig": "apps/terraform-worker/tsconfig.app.json",
             "assets": [
               "apps/terraform-worker/src/assets"
-            ]
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {

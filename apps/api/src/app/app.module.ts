@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { native as pg } from 'pg';
 import { Instance } from './compute/instances/instance.entity';
 import { MessagingModule } from './messaging/messaging.module';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
@@ -47,7 +48,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
 import { IamModule } from './iam/iam.module';
 import { TerraformModule } from './terraform/terraform.module';
-import * as httpProxy from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { json } from 'body-parser';
 import { RabbitMQ } from './messaging/rabbitmq/rabbitmq.entity';
 import configConfiguration from './config.configuration';
@@ -172,7 +173,7 @@ export class AppModule implements NestModule {
     // Ansible Galaxy proxy, must be before body-parser
     consumer
       .apply(
-        httpProxy([`/${API_PREFFIX}/ansible-galaxy`], {
+        createProxyMiddleware([`/${API_PREFFIX}/ansible-galaxy`], {
           target: `${this.configService.get('ansible_galaxy.url')}`,
           logLevel: 'debug',
           changeOrigin: false,
