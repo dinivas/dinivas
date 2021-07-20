@@ -38,8 +38,8 @@
           "executor": "@nx-tools/nx-docker:build",
           "options": {
             "file": "apps/api/Dockerfile",
-            "load": true,
-            "push": false,
+            "load": false,
+            "push": true,
             "tags": ["dinivas/api:latest"]
           }
         },
@@ -201,8 +201,8 @@
           "executor": "@nx-tools/nx-docker:build",
           "options": {
             "file": "apps/dinivas/Dockerfile",
-            "load": true,
-            "push": false,
+            "load": false,
+            "push": true,
             "tags": ["dinivas/dinivas:latest"]
           }
         },
@@ -340,8 +340,8 @@
           "executor": "@nx-tools/nx-docker:build",
           "options": {
             "file": "apps/packer-worker/Dockerfile",
-            "load": true,
-            "push": false,
+            "load": false,
+            "push": true,
             "tags": ["dinivas/packer-worker:latest"]
           }
         },
@@ -408,8 +408,8 @@
           "executor": "@nx-tools/nx-docker:build",
           "options": {
             "file": "apps/terraform-worker/Dockerfile",
-            "load": true,
-            "push": false,
+            "load": false,
+            "push": true,
             "tags": ["dinivas/terraform-worker:latest"]
           }
         },
