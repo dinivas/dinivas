@@ -61,7 +61,7 @@ This command will start:
 - __Guacd__ used for remote SSH acces to bastion host deployed by __Dinivas__
 
 ```sh
-docker-compose -p dinivas -f docker-compose.dev.yml up -d
+docker-compose -p dinivas-dev -f docker-compose.dev.yml up -d
 ```
 
 ### Install NPM packages

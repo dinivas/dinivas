@@ -13,11 +13,13 @@ volumes:
 services:
   # DINIVAS
   dinivas:
-    image: dinivas/dinivas
+    image: dinivas/dinivas:latest
+    pull_policy: always
     ports:
       - '8085:8085'
   dinivas-api:
-    image: dinivas/api
+    image: dinivas/api:latest
+    pull_policy: always
     environment:
       - PORT=3333
     ports:
@@ -28,7 +30,8 @@ services:
       - postgres-dinivas
       - redis
   dinivas-packer-worker:
-    image: dinivas/packer-worker
+    image: dinivas/packer-worker:latest
+    pull_policy: always
     environment:
       - PORT=3335
     ports:
@@ -38,7 +41,8 @@ services:
     depends_on:
       - redis
   dinivas-terraform-worker:
-    image: dinivas/terraform-worker
+    image: dinivas/terraform-worker:latest
+    pull_policy: always
     environment:
       - PORT=3334
     ports:
@@ -49,7 +53,7 @@ services:
       - redis
   # KEYCLOAK
   postgres_keycloak:
-    image: postgres
+    image: postgres:9.5
     volumes:
       - postgres_keycloak_data:/var/lib/postgresql/data
     environment:

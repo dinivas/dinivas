@@ -11,6 +11,7 @@ disableInternal: true
 disableGraph: false
 silent: true
 includes: ./docs
-gaID: dddd
+gaID: G-Z2SH8T6TFE
+gaSite: https://dinivas.github.io/dinivas/
 minimal: false
 includesName: Additional documentation
