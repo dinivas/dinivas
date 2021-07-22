@@ -10,7 +10,7 @@ export class JenkinsDTO {
   project: ProjectDTO;
   use_floating_ip: boolean;
   link_to_keycloak: boolean;
-  keycloak_client_id: string = 'jenkins';
+  keycloak_client_id = 'jenkins';
   master_admin_url: string;
   master_admin_username: string;
   master_admin_password: string;
@@ -35,7 +35,7 @@ export class JenkinsSlaveGroupDTO {
   id: number;
   code: string;
   labels: string[] = [];
-  instance_count: number = 1;
+  instance_count = 1;
   slave_cloud_image: string;
   slave_cloud_flavor: string;
   jenkins: JenkinsDTO;

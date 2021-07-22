@@ -129,7 +129,7 @@ export class Terraform extends Base {
   ) {
     const commandToExecute = `destroy ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
-    const { stdout } = await this.executeSync(path, commandToExecute, {
+    await this.executeSync(path, commandToExecute, {
       silent: options.silent || false,
     });
     return;
@@ -491,7 +491,7 @@ export class Terraform extends Base {
     destination: string
   ) {
     jenkinsDTO.slave_groups.forEach(
-      (slaveGroup: JenkinsSlaveGroupDTO, index: number) => {
+      (slaveGroup: JenkinsSlaveGroupDTO) => {
         const slaveGroupFileContent = `
       module "jenkins-slave-${slaveGroup.code}" {
         source = "./slaves"
