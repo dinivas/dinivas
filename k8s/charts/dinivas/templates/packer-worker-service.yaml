@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: packer-worker
+  name: packer-worker
+spec:
+  ports:
+    - name: "3335"
+      port: 3335
+      targetPort: 3335
+  selector:
+    io.kompose.service: packer-worker
+status:
+  loadBalancer: {}

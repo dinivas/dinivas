@@ -1,0 +1,8 @@
+name: ./k8s/charts/dinivas
+description: A generated Helm Chart for ./k8s/charts/dinivas from Skippbox Kompose
+version: 0.0.1
+apiVersion: v1
+keywords:
+  - ./k8s/charts/dinivas
+sources:
+home:

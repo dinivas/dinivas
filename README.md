@@ -82,7 +82,16 @@ ng serve api
 ng serve
 ```
 
-###
+### Start Packer Worker to build images
+
+```sh
+ng serve packer-worker
+```
+### Start Terraform Worker to build images
+
+```sh
+ng serve terraform-worker
+```
 
 ### Start Ansible Galaxy Server
 

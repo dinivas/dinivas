@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: guacd
+  name: guacd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: guacd
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: guacd
+    spec:
+      containers:
+        - image: guacamole/guacd
+          name: guacd
+          ports:
+            - containerPort: 4822
+          resources: {}
+      restartPolicy: Always
+status: {}

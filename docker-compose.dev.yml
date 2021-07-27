@@ -12,7 +12,7 @@ volumes:
 
 services:
   # KEYCLOAK
-  postgres_keycloak:
+  postgres-keycloak:
     image: postgres
     volumes:
       - postgres_keycloak_dev_data:/var/lib/postgresql/data
@@ -24,7 +24,7 @@ services:
     image: jboss/keycloak:9.0.0
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres_keycloak
+      DB_ADDR: postgres-keycloak
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
@@ -43,8 +43,8 @@ services:
         -Dkeycloak.migration.file=/tmp/dinivas-realm-tpl.json -Dkeycloak.profile.feature.upload_scripts=enabled
         -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     depends_on:
-      - postgres_keycloak
-  postgres_dinivas:
+      - postgres-keycloak
+  postgres-dinivas:
     image: postgres
     volumes:
       - postgres_dinivas_dev_data:/var/lib/postgresql/data

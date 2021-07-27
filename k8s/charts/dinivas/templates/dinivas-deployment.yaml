@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: dinivas
+  name: dinivas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: dinivas
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: dinivas
+    spec:
+      containers:
+        - image: dinivas/dinivas:latest
+          name: dinivas
+          ports:
+            - containerPort: 8085
+          resources: {}
+      restartPolicy: Always
+status: {}

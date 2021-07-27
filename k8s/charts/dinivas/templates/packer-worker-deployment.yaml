@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: packer-worker
+  name: packer-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: packer-worker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: packer-worker
+    spec:
+      containers:
+        - env:
+            - name: PORT
+              value: "3335"
+          image: dinivas/packer-worker:latest
+          name: packer-worker
+          ports:
+            - containerPort: 3335
+          resources: {}
+          volumeMounts:
+            - mountPath: /config.yml
+              name: packer-worker-claim0
+      restartPolicy: Always
+      volumes:
+        - name: packer-worker-claim0
+          persistentVolumeClaim:
+            claimName: packer-worker-claim0
+status: {}

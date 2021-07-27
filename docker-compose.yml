@@ -14,12 +14,12 @@ services:
   # DINIVAS
   dinivas:
     image: dinivas/dinivas:latest
-    pull_policy: always
+    #pull_policy: always
     ports:
       - '8085:8085'
-  dinivas-api:
+  api:
     image: dinivas/api:latest
-    pull_policy: always
+    #pull_policy: always
     environment:
       - PORT=3333
     ports:
@@ -29,9 +29,9 @@ services:
     depends_on:
       - postgres-dinivas
       - redis
-  dinivas-packer-worker:
+  packer-worker:
     image: dinivas/packer-worker:latest
-    pull_policy: always
+    #pull_policy: always
     environment:
       - PORT=3335
     ports:
@@ -40,9 +40,9 @@ services:
       - ./config/docker/packer-worker.yml:/config.yml
     depends_on:
       - redis
-  dinivas-terraform-worker:
+  terraform-worker:
     image: dinivas/terraform-worker:latest
-    pull_policy: always
+    #pull_policy: always
     environment:
       - PORT=3334
     ports:
@@ -52,7 +52,7 @@ services:
     depends_on:
       - redis
   # KEYCLOAK
-  postgres_keycloak:
+  postgres-keycloak:
     image: postgres:9.5
     volumes:
       - postgres_keycloak_data:/var/lib/postgresql/data
@@ -64,7 +64,7 @@ services:
     image: jboss/keycloak:9.0.0
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres_keycloak
+      DB_ADDR: postgres-keycloak
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
@@ -83,7 +83,7 @@ services:
         -Dkeycloak.migration.file=/tmp/dinivas-realm-tpl.json -Dkeycloak.profile.feature.upload_scripts=enabled
         -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     depends_on:
-      - postgres_keycloak
+      - postgres-keycloak
   postgres-dinivas:
     image: postgres
     volumes:

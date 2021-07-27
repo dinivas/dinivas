@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: guacd
+  name: guacd
+spec:
+  ports:
+    - name: "4822"
+      port: 4822
+      targetPort: 4822
+  selector:
+    io.kompose.service: guacd
+status:
+  loadBalancer: {}
