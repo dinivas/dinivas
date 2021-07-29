@@ -43,7 +43,7 @@ export class DestroyJenkinsHandler {
             )
           );
           this.terraform.addSshViaBastionConfigFileToModule(
-            rawState.state,
+            rawState,
             workingDir
           );
           this.terraform.addJenkinsSlaveFilesToModule(

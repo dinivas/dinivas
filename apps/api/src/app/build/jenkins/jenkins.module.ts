@@ -8,6 +8,7 @@ import { Module } from '@nestjs/common';
 import { JenkinsController } from './jenkins.controller';
 import { JenkinsService } from './jenkins.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JenkinsTerraformTasksProcessor } from './jenkins-terraform-tasks.processor';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ConsulModule,
   ],
   controllers: [JenkinsController],
-  providers: [JenkinsService],
+  providers: [JenkinsService, JenkinsTerraformTasksProcessor],
   exports: [JenkinsService],
 })
 export class JenkinsModule {}

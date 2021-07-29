@@ -49,7 +49,7 @@ export class TerraformTasksProcessor {
       const destroyEvent = result.event as TerraformDestroyEvent<any>;
       const job = await this.terraformModuleQueue.getJob(jobId);
       this.logger.debug(
-        `[DESTROY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result  source [${destroyEvent.source}]`
+        `[DESTROY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode}, module: ${result.module} -> result  source [${destroyEvent.source}]`
       );
       this.coreWebSocketGateway.emit(result.eventCode, destroyEvent);
     }

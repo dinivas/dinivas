@@ -25,34 +25,31 @@ export class ProjectTerraformTasksProcessor {
     // Received result is in string
     const result: { module: string; eventCode: string; event: any } =
       JSON.parse(receivedResult);
-    if (result.eventCode.startsWith('destroyEvent-')) {
+    if (
+      'project' === result.module &&
+      result.eventCode.startsWith('destroyEvent-')
+    ) {
       const destroyEvent = result.event as TerraformDestroyEvent<any>;
       const job = await this.terraformModuleQueue.getJob(jobId);
       this.logger.debug(
-        `[DESTROY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result  source [${destroyEvent.source}]`
+        `[DESTROY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode}, module: ${result.module} -> result  source [${destroyEvent.source}]`
       );
-      switch (result.module) {
-        case 'project':
-          await this.consulService.delete(
-            (
-              destroyEvent.source as {
-                project: ProjectDTO;
-                consul: ConsulDTO;
-              }
-            ).consul.id
-          );
-          await this.projectService.delete(
-            (
-              destroyEvent.source as {
-                project: ProjectDTO;
-                consul: ConsulDTO;
-              }
-            ).project.id
-          );
-          break;
-        default:
-          break;
-      }
+      await this.consulService.delete(
+        (
+          destroyEvent.source as {
+            project: ProjectDTO;
+            consul: ConsulDTO;
+          }
+        ).consul.id
+      );
+      await this.projectService.delete(
+        (
+          destroyEvent.source as {
+            project: ProjectDTO;
+            consul: ConsulDTO;
+          }
+        ).project.id
+      );
     }
   }
 }
