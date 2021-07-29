@@ -1,33 +1,32 @@
 /* eslint-disable no-async-promise-executor */
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from './../../terraform/core/Terraform';
-import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   TerraformDestroyEvent,
   JenkinsDTO,
   DestroyJenkinsCommand,
 } from '@dinivas/api-interfaces';
 import { TerraformStateService } from '../../terraform-state.service';
-import { WSGateway } from '../../wsgateway';
 import { firstValueFrom } from 'rxjs';
+import { Job } from 'bull';
 
-@CommandHandler(DestroyJenkinsCommand)
-export class DestroyJenkinsHandler
-  implements ICommandHandler<DestroyJenkinsCommand>
-{
+@Injectable()
+export class DestroyJenkinsHandler {
   private readonly logger = new Logger(DestroyJenkinsHandler.name);
   terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformStateService: TerraformStateService,
-    private readonly terraformGateway: WSGateway
+    private readonly terraformStateService: TerraformStateService
   ) {
     this.terraform = new Terraform(this.configService);
   }
 
-  async execute(command: DestroyJenkinsCommand) {
-    return new Promise<void>(async (resolve, reject) => {
+  async execute(
+    job: Job<DestroyJenkinsCommand>,
+    command: DestroyJenkinsCommand
+  ) {
+    return new Promise<any>(async (resolve, reject) => {
       this.logger.debug(
         `Received DestroyProjectCommand: ${command.jenkins.code}`
       );
@@ -44,7 +43,7 @@ export class DestroyJenkinsHandler
             )
           );
           this.terraform.addSshViaBastionConfigFileToModule(
-            JSON.parse(rawState.state),
+            rawState.state,
             workingDir
           );
           this.terraform.addJenkinsSlaveFilesToModule(
@@ -68,18 +67,22 @@ export class DestroyJenkinsHandler
               ],
               {
                 autoApprove: true,
-                silent: false,
+                silent: this.configService.getOrElse(
+                  'terraform.destroy.log_silent',
+                  false
+                ),
               }
             );
-            this.terraformGateway.emit(`destroyEvent-${command.jenkins.code}`, {
-              source: command.jenkins,
-            } as TerraformDestroyEvent<JenkinsDTO>);
-            resolve();
+            const result = {
+              module: 'jenkins',
+              eventCode: `destroyEvent-${command.jenkins.code}`,
+              event: {
+                source: command.jenkins,
+              } as TerraformDestroyEvent<JenkinsDTO>,
+            };
+            job.progress(100);
+            resolve(result);
           } catch (error) {
-            this.terraformGateway.emit(
-              `destroyEvent-${command.jenkins.code}-error`,
-              error.message
-            );
             reject(error);
           }
         }

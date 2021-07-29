@@ -112,7 +112,7 @@ export class JenkinsController {
       project.code
     );
     const planJob = await this.terraformModuleQueue.add(
-      'plan',
+      'plan-jenkins',
       new PlanJenkinsCommand(
         cloudprovider.cloud,
         jenkins,
@@ -127,11 +127,20 @@ export class JenkinsController {
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('jenkins:create')
-  async applyProject(@Body() applyProject: ApplyModuleDTO<JenkinsDTO>) {
+  async applyProject(
+    @Req() request: Request,
+    @Body() applyProject: ApplyModuleDTO<JenkinsDTO>
+  ) {
+    const project = request['project'] as ProjectDTO;
+    applyProject.source.project = project;
+    const cloudprovider = await this.cloudproviderService.findOne(
+      project.cloud_provider.id,
+      true
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply',
+      'apply-jenkins',
       new ApplyJenkinsCommand(
-        applyProject.source.project.cloud_provider.cloud,
+        cloudprovider.cloud,
         applyProject.source,
         applyProject.workingDir
       )
@@ -163,6 +172,7 @@ export class JenkinsController {
     const project = request['project'] as ProjectDTO;
     const jenkins = await this.jenkinsService.findOne(id);
     if (jenkins) {
+      jenkins.project = project;
       const cloudprovider = await this.cloudproviderService.findOne(
         project.cloud_provider.id,
         true
@@ -171,7 +181,7 @@ export class JenkinsController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy',
+        'destroy-jenkins',
         new DestroyJenkinsCommand(
           cloudprovider.cloud,
           jenkins,
@@ -179,7 +189,9 @@ export class JenkinsController {
           YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
         )
       );
-      this.logger.debug(`Destroy Job Id with data: ${JSON.stringify(destroyJob)}`);
+      this.logger.debug(
+        `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
+      );
       return { planJobId: destroyJob.id };
     }
   }

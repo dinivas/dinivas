@@ -8,6 +8,7 @@ import configConfiguration from './config.configuration';
 import { CommandHandlers as ProjectsCommandHandlers } from './projects';
 import { CommandHandlers as ConsulCommandHandlers } from './network';
 import { CommandHandlers as InstancesCommandHandlers } from './compute/instances';
+import { CommandHandlers as JenkinsCommandHandlers } from './build/jenkins';
 import { CommandHandlers as RabbitMQCommandHandlers } from './messaging/rabbitmq';
 import { ConfigurationService } from './configuration.service';
 import { GitService } from './git/git.service';
@@ -58,11 +59,9 @@ const TF_STATE_CONFIG_ROOT_KEY = 'dinivas.terraform.state';
       }),
       inject: [ConfigService],
     }),
-    BullModule.registerQueue(
-      {
-        name: BULL_TERRAFORM_MODULE_QUEUE,
-      }
-    ),
+    BullModule.registerQueue({
+      name: BULL_TERRAFORM_MODULE_QUEUE,
+    }),
     CqrsModule,
   ],
   controllers: [],
@@ -75,6 +74,7 @@ const TF_STATE_CONFIG_ROOT_KEY = 'dinivas.terraform.state';
     ...ProjectsCommandHandlers,
     ...ConsulCommandHandlers,
     ...InstancesCommandHandlers,
+    ...JenkinsCommandHandlers,
     ...RabbitMQCommandHandlers,
   ],
 })

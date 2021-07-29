@@ -17,7 +17,7 @@ export class TerraformStateService {
       .get(
         `${this.configService.get<string>(
           'dinivas.api.url'
-        )}/terraform/state?stateId=${stateId}&module=${moduleName}'`,
+        )}/terraform/state?stateId=${stateId}&module=${moduleName}`,
         {
           auth: {
             username: this.configService.get<string>(

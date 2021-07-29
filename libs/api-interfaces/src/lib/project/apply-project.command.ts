@@ -1,4 +1,5 @@
-import { ProjectDTO, ConsulDTO } from '@dinivas/api-interfaces';
+import { ConsulDTO } from './../consul/consul.dto';
+import { ProjectDTO } from './project.dto';
 
 export class ApplyProjectCommand {
   constructor(

@@ -21,7 +21,7 @@ dinivas:
     init:
       log_silent: true
     plan:
-      log_silent: true
+      log_silent: false
     apply:
       log_silent: true
     destroy:
@@ -63,10 +63,10 @@ dinivas:
         type: git
         provider: digitalocean
         url: https://github.com/dinivas/terraform-digitalocean-project-instance.git
-      # - name: jenkins
-      #   type: git
-      #   provider: digitalocean
-      #   url: https://github.com/dinivas/terraform-digitalocean-jenkins.git
+      - name: jenkins
+        type: git
+        provider: digitalocean
+        url: https://github.com/dinivas/terraform-digitalocean-jenkins.git
       # - name: consul
       #   type: git
       #   provider: digitalocean

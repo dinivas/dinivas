@@ -67,7 +67,7 @@ export class TerraformTasksProcessor {
   @OnGlobalQueueFailed()
   async onGlobalQueueFailed(job: Job, err: Error) {
     this.logger.debug(
-      `A job has failed => ${JSON.stringify(job)} wit Error: ${err}`
+      `A job has failed => ${JSON.stringify(job)} with Error: ${err}`
     );
     this.coreWebSocketGateway.emit('background-job-failed', {
       jobId: job.id,

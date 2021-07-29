@@ -171,17 +171,21 @@ export class AppModule implements NestModule {
   ) {}
   configure(consumer: MiddlewareConsumer): void | MiddlewareConsumer {
     // Ansible Galaxy proxy, must be before body-parser
-    consumer
-      .apply(
-        createProxyMiddleware([`/${API_PREFFIX}/ansible-galaxy`], {
-          target: `${this.configService.get('ansible_galaxy.url')}`,
-          logLevel: 'debug',
-          changeOrigin: false,
-          prependPath: true,
-          pathRewrite: { '^/api/v1/ansible-galaxy': '' },
-        })
-      )
-      .forRoutes('ansible-galaxy/*');
+    if (
+      this.configService.get<boolean>('dinivas.ansible_galaxy.enable', true)
+    ) {
+      consumer
+        .apply(
+          createProxyMiddleware([`/${API_PREFFIX}/ansible-galaxy`], {
+            target: `${this.configService.get('ansible_galaxy.url')}`,
+            logLevel: 'debug',
+            changeOrigin: false,
+            prependPath: true,
+            pathRewrite: { '^/api/v1/ansible-galaxy': '' },
+          })
+        )
+        .forRoutes('ansible-galaxy/*');
+    }
     // ==========================================
     // Bull Board routes configuration
     const bullExpressServerAdapter = new ExpressAdapter();

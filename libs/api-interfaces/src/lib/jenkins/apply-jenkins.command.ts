@@ -1,4 +1,4 @@
-import { JenkinsDTO } from '@dinivas/api-interfaces';
+import { JenkinsDTO } from './jenkins.dto';
 
 export class ApplyJenkinsCommand {
   constructor(
@@ -6,4 +6,12 @@ export class ApplyJenkinsCommand {
     public readonly jenkins: JenkinsDTO,
     public readonly workingDir: string
   ) {}
+
+  static from<T extends ApplyJenkinsCommand>(json: T): ApplyJenkinsCommand {
+    return new ApplyJenkinsCommand(
+      json.cloudprovider,
+      json.jenkins,
+      json.workingDir
+    );
+  }
 }

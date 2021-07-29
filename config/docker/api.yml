@@ -34,6 +34,7 @@ dinivas:
       http_timeout: 5000
       http_max_redirects: 5
   ansible_galaxy:
+    enable: false
     url: http://ansible-galaxy:8089
   keycloak:
     config:

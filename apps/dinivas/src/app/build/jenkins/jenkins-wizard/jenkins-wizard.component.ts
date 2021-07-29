@@ -95,7 +95,10 @@ export class JenkinsWizardComponent
             'digitalocean' === img.cloudprovider
         );
         this.slaveCloudImages = cloudImages.filter(
-          (img) => img.tags.indexOf('builder') > -1 // || img.tags.indexOf('docker') > -1
+          (img) =>
+            ('openstack' === img.cloudprovider &&
+              img.tags.indexOf('builder') > -1) || // || img.tags.indexOf('docker') > -1
+            'digitalocean' === img.cloudprovider
         );
       });
     activatedRoute.data
@@ -520,9 +523,9 @@ export class JenkinsWizardComponent
   prepareJenkinsDTOBeforeSendToServer(jenkins: JenkinsDTO) {
     // Set master image name
     if (jenkins && this.jenkinsForm.get('_master_cloud_image').value) {
-      jenkins.master_cloud_image = (
+      jenkins.master_cloud_image = this.toCloudProviderImageId(
         this.jenkinsForm.get('_master_cloud_image').value as ICloudApiImage
-      ).name;
+      );
       delete jenkins['_master_cloud_image'];
     }
     // Set master flavor name
@@ -544,10 +547,10 @@ export class JenkinsWizardComponent
           // add prefix only for new Jenkins
           slave.code = `${jenkins.code}-${slave.code.toLowerCase()}`;
         }
-        slave.slave_cloud_image =
-          this.jenkinsForm.get('slave_groups').value[
-            slaveIndex
-          ].slave_cloud_image.name;
+        slave.slave_cloud_image = this.toCloudProviderImageId(
+          this.jenkinsForm.get('slave_groups').value[slaveIndex]
+            .slave_cloud_image
+        );
         slave.slave_cloud_flavor =
           this.jenkinsForm.get('slave_groups').value[
             slaveIndex
@@ -599,5 +602,17 @@ export class JenkinsWizardComponent
 
   moduleServiceTerraformState(moduleEntity: JenkinsDTO): Observable<any> {
     return this.jenkinsService.getTerraformState(moduleEntity.id);
+  }
+
+  toCloudProviderImageId(image: ICloudApiImage) {
+    const cloudProvider = this.project.cloud_provider;
+    switch (cloudProvider.cloud) {
+      case 'openstack':
+        return image.name;
+      case 'digitalocean':
+        return image.id;
+      default:
+        return image.name;
+    }
   }
 }

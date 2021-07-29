@@ -1,4 +1,5 @@
-import { JenkinsDTO, ConsulDTO } from '@dinivas/api-interfaces';
+import { ConsulDTO } from './../consul/consul.dto';
+import { JenkinsDTO } from './jenkins.dto';
 
 export class PlanJenkinsCommand {
   constructor(
@@ -7,4 +8,13 @@ export class PlanJenkinsCommand {
     public readonly consul: ConsulDTO,
     public readonly cloudConfig: any
   ) {}
+
+  static from<T extends PlanJenkinsCommand>(json: T): PlanJenkinsCommand {
+    return new PlanJenkinsCommand(
+      json.cloudprovider,
+      json.jenkins,
+      json.consul,
+      json.cloudConfig
+    );
+  }
 }

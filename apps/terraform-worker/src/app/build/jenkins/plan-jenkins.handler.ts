@@ -1,55 +1,59 @@
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from '../../terraform/core/Terraform';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   TerraformPlanEvent,
   TFPlanRepresentation,
   JenkinsDTO,
   PlanJenkinsCommand,
 } from '@dinivas/api-interfaces';
-import { WSGateway } from '../../wsgateway';
 import { TerraformStateService } from '../../terraform-state.service';
 import { firstValueFrom } from 'rxjs';
+import { Job } from 'bull';
 
-@CommandHandler(PlanJenkinsCommand)
-export class PlanJenkinsHandler implements ICommandHandler<PlanJenkinsCommand> {
+@Injectable()
+export class PlanJenkinsHandler {
   private readonly logger = new Logger(PlanJenkinsHandler.name);
   terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformStateService: TerraformStateService,
-    private readonly terraformGateway: WSGateway
+    private readonly terraformStateService: TerraformStateService
   ) {
     this.terraform = new Terraform(configService);
   }
 
-  async execute(command: PlanJenkinsCommand) {
+  async execute(job: Job<PlanJenkinsCommand>, command: PlanJenkinsCommand) {
     this.logger.debug(`Received PlanJenkinsCommand: ${command.jenkins.code}`);
-    try {
+    job.log(`Received PlanJenkinsCommand: ${command.jenkins.code}`);
+    job.progress(5);
+    return new Promise<any>((resolve, reject) => {
       this.terraform.executeInTerraformModuleDir(
         command.jenkins.code,
         command.cloudprovider,
         'jenkins',
         command.cloudConfig,
         async (workingDir) => {
-          const rawProjectState = await firstValueFrom(
-            this.terraformStateService.findState(
-              command.jenkins.project.code.toLowerCase(),
-              'project_base'
-            )
-          );
-          this.terraform.addSshViaBastionConfigFileToModule(
-            JSON.parse(rawProjectState.state),
-            workingDir
-          );
-          this.terraform.addJenkinsSlaveFilesToModule(
-            command.jenkins,
-            command.consul,
-            command.cloudConfig,
-            workingDir
-          );
+          try {
+            const rawProjectState = await firstValueFrom(
+              this.terraformStateService.findState(
+                command.jenkins.project.code.toLowerCase(),
+                'project_base'
+              )
+            );
+            this.terraform.addSshViaBastionConfigFileToModule(
+              rawProjectState,
+              workingDir
+            );
+            this.terraform.addJenkinsSlaveFilesToModule(
+              command.jenkins,
+              command.consul,
+              command.cloudConfig,
+              workingDir
+            );
+          } catch (error) {
+            reject(error);
+          }
         },
         async (workingDir) => {
           try {
@@ -63,29 +67,32 @@ export class PlanJenkinsHandler implements ICommandHandler<PlanJenkinsCommand> {
                 ),
                 '-out=last-plan',
               ],
-              { silent: false }
+              {
+                silent: this.configService.getOrElse(
+                  'terraform.plan.log_silent',
+                  false
+                ),
+              }
             );
-            this.terraformGateway.emit(`planEvent-${command.jenkins.code}`, {
-              source: command.jenkins,
-              workingDir,
-              planResult,
-            } as TerraformPlanEvent<JenkinsDTO>);
+            const result = {
+              module: 'jenkins',
+              eventCode: `planEvent-${command.jenkins.code}`,
+              event: {
+                source: command.jenkins,
+                workingDir,
+                planResult,
+              } as TerraformPlanEvent<JenkinsDTO>,
+            };
+            job.progress(100);
+            resolve(result);
           } catch (error) {
-            this.terraformGateway.emit(
-              `planEvent-${command.jenkins.code}-error`,
-              error.message
-            );
+            reject(error);
           }
         },
-        (error: any) => {
-          this.terraformGateway.emit(
-            `planEvent-${command.jenkins.code}-error`,
-            error.message
-          );
+        (error) => {
+          reject(error);
         }
       );
-    } catch (error) {
-      console.error(error);
-    }
+    });
   }
 }
