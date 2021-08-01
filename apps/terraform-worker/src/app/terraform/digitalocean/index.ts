@@ -3,6 +3,7 @@ import {
   JenkinsDTO,
   JenkinsSlaveGroupDTO,
   ProjectDTO,
+  RabbitMQDTO,
 } from '@dinivas/api-interfaces';
 import fs = require('fs');
 import path = require('path');
@@ -81,7 +82,6 @@ export const computeTerraformJenkinsModuleVarsForDigitalocean = (
   consul: ConsulDTO,
   cloudConfig: any
 ): string[] => {
-  const onDestroyCommand = 'consul leave';
   const jenkins_master_vars = [
     `-var 'project_name=${jenkins.project.code.toLowerCase()}'`,
     `-var 'enable_jenkins_master=${jenkins.use_existing_master ? 0 : 1}'`,
@@ -117,7 +117,6 @@ export const computeTerraformJenkinsModuleVarsForDigitalocean = (
       : '',
     `-var 'project_consul_domain=${consul.cluster_domain}'`,
     `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
-    `-var 'execute_on_destroy_jenkins_master_script=${onDestroyCommand}'`,
     `-var 'do_api_token=${cloudConfig.access_token}'`,
     `-var-file=ssh-via-bastion.tfvars`,
   ];
@@ -180,6 +179,7 @@ export const addJenkinsSlaveFilesToModuleForDigitalocean = (
       }"
       project_consul_domain = "${projectConsul.cluster_domain}"
       project_consul_datacenter = "${projectConsul.cluster_datacenter}"
+      ssh_via_bastion_config = var.ssh_via_bastion_config
       do_api_token = "${cloudConfig.access_token}"
     }
 
@@ -195,8 +195,34 @@ export const addJenkinsSlaveFilesToModuleForDigitalocean = (
   });
 };
 
+export const computeTerraformRabbitMQModuleVarsForDigitalocean = (
+  rabbitmq: RabbitMQDTO,
+  consul: ConsulDTO,
+  cloudConfig: any
+): string[] => {
+  const rabbitmq_cluster_vars = [
+    `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
+    `-var 'enable_rabbitmq=1'`,
+    `-var 'rabbitmq_cluster_name=${rabbitmq.code.toLowerCase()}'`,
+    `-var 'rabbitmq_nodes_count=${rabbitmq.cluster_instance_count}'`,
+    `-var 'rabbitmq_cluster_availability_zone=${rabbitmq.project.availability_zone}'`,
+    `-var 'rabbitmq_cluster_image_name=${rabbitmq.cluster_cloud_image}'`,
+    `-var 'rabbitmq_cluster_compute_flavor_name=${rabbitmq.cluster_cloud_flavor}'`,
+    `-var 'rabbitmq_cluster_keypair_name=${rabbitmq.keypair_name}'`,
+    `-var 'rabbitmq_cluster_security_groups_to_associate=["${rabbitmq.project.code.toLowerCase()}-common"]'`,
+    `-var 'rabbitmq_cluster_network=${rabbitmq.network_name}'`,
+    `-var 'rabbitmq_plugin_list=${rabbitmq.enabled_plugin_list}'`,
+    `-var 'project_consul_domain=${consul.cluster_domain}'`,
+    `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
+    `-var 'do_api_token=${cloudConfig.access_token}'`,
+    `-var-file=ssh-via-bastion.tfvars`,
+  ];
+  return rabbitmq_cluster_vars;
+};
+
 exports = {
   computeTerraformProjectBaseModuleVarsForDigitalocean,
   computeTerraformJenkinsModuleVarsForDigitalocean,
   addJenkinsSlaveFilesToModuleForDigitalocean,
+  computeTerraformRabbitMQModuleVarsForDigitalocean,
 };

@@ -28,7 +28,13 @@ export class ApplyProjectHandler {
         const stateResult: TFStateRepresentation = await this.terraform.apply(
           command.workingDir,
           ['-auto-approve', '"last-plan"'],
-          { autoApprove: true, silent: this.configService.getOrElse('terraform.apply.log_silent', false) }
+          {
+            autoApprove: true,
+            silent: !this.configService.getOrElse(
+              'terraform.apply.verbose',
+              false
+            ),
+          }
         );
         const result = {
           module: 'project',
@@ -42,7 +48,11 @@ export class ApplyProjectHandler {
         resolve(result);
       } catch (error) {
         this.logger.error(error);
-        reject(error);
+        reject({
+          module: 'project',
+          eventCode: `applyEvent-${command.project.code}-error`,
+          error,
+        });
       }
     });
   }

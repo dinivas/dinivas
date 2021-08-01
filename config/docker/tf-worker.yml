@@ -10,8 +10,7 @@ dinivas:
     digitalocean:
       api_uses_snapshots: true
   terraform:
-    min_required_version: '0.12.2'
-    debug_command_outputs: false
+    min_required_version: '0.15.5'
     state:
       http_address: 'http://api:3333/api/v1/terraform/state'
       username: dinivas
@@ -19,13 +18,13 @@ dinivas:
       http_timeout: 5000
       http_max_redirects: 5
     init:
-      log_silent: true
+      verbose: false
     plan:
-      log_silent: true
+      verbose: false
     apply:
-      log_silent: true
+      verbose: false
     destroy:
-      log_silent: true
+      verbose: false
     modules:
       - name: project_base
         type: git

@@ -103,7 +103,10 @@ export class RabbitmqWizardComponent
       .pipe(map((data) => data.cloudImages))
       .subscribe((cloudImages: ICloudApiImage[]) => {
         this.cloudImages = cloudImages.filter(
-          (img) => img.tags.indexOf('rabbitmq') > -1
+          (img) =>
+            ('openstack' === img.cloudprovider &&
+              img.tags.indexOf('rabbitmq') > -1) ||
+            'digitalocean' === img.cloudprovider
         );
       });
     activatedRoute.data
@@ -111,18 +114,54 @@ export class RabbitmqWizardComponent
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo.entity;
         this.projectTfState = projectInfo.entityState;
-        this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
-          ? this.projectTfState.outputs['mgmt_network_name'].value
-          : undefined;
-        this.projectNetworkSubnet = this.projectTfState.outputs[
-          'mgmt_subnet_names'
-        ]
-          ? this.projectTfState.outputs['mgmt_subnet_names'].value[0]
-          : this.rabbitmq.network_subnet_name;
+        this.projectNetwork = this.toCloudProviderNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
+        this.projectNetworkSubnet = this.toCloudProviderSubnetNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
         this.projectKeypair =
           this.projectTfState.outputs['project_keypair_name'].value;
         this.projectTfStateSubject.next(undefined);
       });
+  }
+
+  toCloudProviderNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value[0]
+          : this.rabbitmq.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
+          : this.rabbitmq.network_subnet_name;
+      default:
+        return undefined;
+    }
+  }
+
+  toCloudProviderSubnetNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_subnet_names']
+          ? stateOutput['mgmt_subnet_names'].value[0]
+          : this.rabbitmq.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
+          : this.rabbitmq.network_subnet_name;
+      default:
+        return undefined;
+    }
   }
 
   ngOnInit() {
@@ -265,14 +304,10 @@ export class RabbitmqWizardComponent
   }
 
   prepareRabbitMQDTOBeforeSendToServer(rabbitmq: RabbitMQDTO) {
-    if (!this.rabbitmq) {
-      // add prefix only for new RabbitMQ cluster
-      rabbitmq.code = `${this.project.code.toLowerCase()}-${rabbitmq.code.toLowerCase()}`;
-    }
     if (rabbitmq && this.rabbitmqForm.get('_cluster_cloud_image').value) {
-      rabbitmq.cluster_cloud_image = (
+      rabbitmq.cluster_cloud_image = this.toCloudProviderImageId(
         this.rabbitmqForm.get('_cluster_cloud_image').value as ICloudApiImage
-      ).name;
+      );
       delete rabbitmq['_cluster_cloud_image'];
     }
     if (rabbitmq && this.rabbitmqForm.get('_cluster_cloud_flavor').value) {
@@ -293,4 +328,15 @@ export class RabbitmqWizardComponent
   }
 
   showRabbitMQOutput(event: any) {}
+  toCloudProviderImageId(image: ICloudApiImage) {
+    const cloudProvider = this.project.cloud_provider;
+    switch (cloudProvider.cloud) {
+      case 'openstack':
+        return image.name;
+      case 'digitalocean':
+        return image.id;
+      default:
+        return image.name;
+    }
+  }
 }

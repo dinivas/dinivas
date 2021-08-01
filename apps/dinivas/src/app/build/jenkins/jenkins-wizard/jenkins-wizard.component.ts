@@ -130,8 +130,8 @@ export class JenkinsWizardComponent
           ? stateOutput['mgmt_network_name'].value[0]
           : this.jenkins.network_subnet_name;
       case 'digitalocean':
-        return stateOutput['mgmt_network_id']
-          ? stateOutput['mgmt_network_id'].value
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
           : this.jenkins.network_subnet_name;
       default:
         return undefined;
@@ -147,8 +147,8 @@ export class JenkinsWizardComponent
           ? stateOutput['mgmt_subnet_names'].value[0]
           : this.jenkins.network_subnet_name;
       case 'digitalocean':
-        return stateOutput['mgmt_network_id']
-          ? stateOutput['mgmt_network_id'].value
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
           : this.jenkins.network_subnet_name;
       default:
         return undefined;
@@ -227,7 +227,7 @@ export class JenkinsWizardComponent
         null,
       ],
       keycloak_client_id: [
-        this.jenkins ? this.jenkins.keycloak_client_id : null,
+        this.jenkins ? this.jenkins.keycloak_client_id : 'jenkins',
         null,
       ],
       existing_master_scheme: [
@@ -269,7 +269,7 @@ export class JenkinsWizardComponent
         Validators.nullValidator,
       ],
       slave_api_username: [
-        this.jenkins ? this.jenkins.slave_api_username : null,
+        this.jenkins ? this.jenkins.slave_api_username : 'admin',
         Validators.nullValidator,
       ],
       slave_api_token: [
@@ -534,11 +534,6 @@ export class JenkinsWizardComponent
         this.jenkinsForm.get('_master_cloud_flavor').value as ICloudApiFlavor
       ).name;
       delete jenkins['_master_cloud_flavor'];
-    }
-    // add project code preffix to jenkins code and all slave code
-    if (!this.jenkins) {
-      // add prefix only for new Jenkins
-      jenkins.code = `${this.project.code.toLowerCase()}-${jenkins.code.toLowerCase()}`;
     }
 
     if (jenkins.manage_slave) {

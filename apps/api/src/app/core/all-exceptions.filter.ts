@@ -4,7 +4,7 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
-  Logger
+  Logger,
 } from '@nestjs/common';
 
 @Catch()
@@ -22,10 +22,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(`Exception: ${exception}`, exception.stack);
     }
+    const exceptionMessage =
+      exception instanceof HttpException
+        ? exception.message
+        : 'Technical error, please contact the administrator, or retry later';
     response.status(status).json({
       statusCode: status,
+      message: exceptionMessage,
       timestamp: new Date().toISOString(),
-      path: request.url
+      path: request.url,
     });
   }
 }

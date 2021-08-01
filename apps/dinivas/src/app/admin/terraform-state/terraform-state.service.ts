@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TerraformStateService {
   constructor(private http: HttpClient) {}
@@ -13,6 +13,14 @@ export class TerraformStateService {
     return this.http.get<TerraformStateDTO[]>(
       `${environment.apiUrl}/terraform/state/all`,
       { params: httpParams }
+    );
+  }
+  forceUnlockTerraformState(
+    stateId: string,
+    module: string
+  ): Observable<TerraformStateDTO[]> {
+    return this.http.get<TerraformStateDTO[]>(
+      `${environment.apiUrl}/terraform/state/force-unlock?stateId=${stateId}&module=${module}`
     );
   }
 

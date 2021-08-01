@@ -2,9 +2,8 @@ import { TerraformStateService } from '../../terraform-state.service';
 import { WSGateway } from '../../wsgateway';
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from '../../terraform/core/Terraform';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   TerraformPlanEvent,
   TFPlanRepresentation,
@@ -12,11 +11,10 @@ import {
   PlanRabbitMQCommand,
 } from '@dinivas/api-interfaces';
 import { firstValueFrom } from 'rxjs';
+import { Job } from 'bull';
 
-@CommandHandler(PlanRabbitMQCommand)
-export class PlanRabbitMQHandler
-  implements ICommandHandler<PlanRabbitMQCommand>
-{
+@Injectable()
+export class PlanRabbitMQHandler {
   private readonly logger = new Logger(PlanRabbitMQHandler.name);
   terraform: Terraform;
   constructor(
@@ -27,9 +25,11 @@ export class PlanRabbitMQHandler
     this.terraform = new Terraform(configService);
   }
 
-  async execute(command: PlanRabbitMQCommand) {
+  async execute(job: Job<PlanRabbitMQCommand>, command: PlanRabbitMQCommand) {
     this.logger.debug(`Received PlanRabbitMQCommand: ${command.rabbitmq.code}`);
-    try {
+    job.log(`Received PlanRabbitMQCommand: ${command.rabbitmq.code}`);
+    job.progress(5);
+    return new Promise<any>((resolve, reject) => {
       this.terraform.executeInTerraformModuleDir(
         command.rabbitmq.code,
         command.cloudprovider,
@@ -43,7 +43,7 @@ export class PlanRabbitMQHandler
             )
           );
           this.terraform.addSshViaBastionConfigFileToModule(
-            JSON.parse(rawProjectState.state),
+            rawProjectState,
             workingDir
           );
         },
@@ -59,29 +59,32 @@ export class PlanRabbitMQHandler
                 ),
                 '-out=last-plan',
               ],
-              { silent: false }
+              {
+                silent: !this.configService.getOrElse(
+                  'terraform.plan.verbose',
+                  false
+                ),
+              }
             );
-            this.terraformGateway.emit(`planEvent-${command.rabbitmq.code}`, {
-              source: command.rabbitmq,
-              workingDir,
-              planResult,
-            } as TerraformPlanEvent<RabbitMQDTO>);
+            const result = {
+              module: 'rabbitmq',
+              eventCode: `planEvent-${command.rabbitmq.code}`,
+              event: {
+                source: command.rabbitmq,
+                workingDir,
+                planResult,
+              } as TerraformPlanEvent<RabbitMQDTO>,
+            };
+            job.progress(100);
+            resolve(result);
           } catch (error) {
-            this.terraformGateway.emit(
-              `planEvent-${command.rabbitmq.code}-error`,
-              error.message
-            );
+            reject(error);
           }
         },
         (error: any) => {
-          this.terraformGateway.emit(
-            `planEvent-${command.rabbitmq.code}-error`,
-            error.message
-          );
+          reject(error);
         }
       );
-    } catch (error) {
-      console.error(error);
-    }
+    });
   }
 }

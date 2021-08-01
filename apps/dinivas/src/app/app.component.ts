@@ -180,8 +180,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       .receiveBackgroundJobCompletedEvent()
       .subscribe((jobEvent) => {
         this.currentBackgroundJobsCount--;
+        const event = JSON.parse(jobEvent.event);
         this.alertService.success(
-          `A job has completed => ${JSON.stringify(jobEvent)}`
+          `A job has completed => Module: ${event.module}, Code: ${event.eventCode}`
         );
       });
     this.sharedWebSocket
@@ -189,7 +190,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       .subscribe((jobEvent) => {
         this.currentBackgroundJobsCount--;
         this.alertService.error(
-          `A baclground job has failed => ${JSON.stringify(jobEvent)}`
+          `A background job [${
+            jobEvent.jobId
+          }] has failed with error: ${JSON.stringify(jobEvent.error)}`
         );
       });
   }

@@ -2,18 +2,22 @@
   <div class="web-access-container">
     <a class="web-access consul" [href]=" 'http://' + project.code + '-consul-dashboard.' + project.root_domain"
       target="_blank">
+      <mat-icon matListIcon svgIcon="consul"></mat-icon>
       <span class="title">Consul</span>
       <mat-icon>open_in_new</mat-icon>
     </a>
     <a class="web-access prometheus" [href]="'http://prometheus.' + project.root_domain" target="_blank">
+      <mat-icon matListIcon svgIcon="prometheus"></mat-icon>
       <span class="title">Prometheus</span>
       <mat-icon>open_in_new</mat-icon>
     </a>
     <a class="web-access grafana" [href]="'http://grafana.' + project.root_domain" target="_blank">
+      <mat-icon matListIcon svgIcon="grafana"></mat-icon>
       <span class="title">Grafana</span>
       <mat-icon>open_in_new</mat-icon>
     </a>
     <a class="web-access graylog" [href]="'http://graylog.' + project.root_domain" target="_blank" *ngIf="project.logging && project.logging_stack === 'graylog'">
+      <mat-icon matListIcon svgIcon="graylog"></mat-icon>
       <span class="title">Graylog</span>
       <mat-icon>open_in_new</mat-icon>
     </a>

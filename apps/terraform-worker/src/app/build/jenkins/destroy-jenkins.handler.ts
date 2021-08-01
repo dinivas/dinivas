@@ -30,6 +30,7 @@ export class DestroyJenkinsHandler {
       this.logger.debug(
         `Received DestroyProjectCommand: ${command.jenkins.code}`
       );
+      job.progress(10);
       this.terraform.executeInTerraformModuleDir(
         command.jenkins.code,
         command.cloudprovider,
@@ -67,8 +68,8 @@ export class DestroyJenkinsHandler {
               ],
               {
                 autoApprove: true,
-                silent: this.configService.getOrElse(
-                  'terraform.destroy.log_silent',
+                silent: !this.configService.getOrElse(
+                  'terraform.destroy.verbose',
                   false
                 ),
               }

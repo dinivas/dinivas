@@ -31,7 +31,7 @@ export class Consul {
   @Column({ nullable: true })
   server_instance_count: number = 1;
   @Column({ nullable: true })
-  client_instance_count: number = 1;
+  client_instance_count: number = 0;
   @Column({ nullable: false })
   cluster_domain: string;
   @Column({ nullable: false })
@@ -40,9 +40,9 @@ export class Consul {
   server_image: string;
   @Column({ nullable: false })
   server_flavor: string;
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   client_image: string;
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   client_flavor: string;
   @Column()
   use_floating_ip: boolean = false;

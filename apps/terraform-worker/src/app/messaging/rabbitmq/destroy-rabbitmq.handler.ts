@@ -3,18 +3,17 @@ import { TerraformStateService } from '../../terraform-state.service';
 import { WSGateway } from '../../wsgateway';
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from '../../terraform/core/Terraform';
-import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   TerraformDestroyEvent,
   RabbitMQDTO,
   DestroyRabbitMQCommand,
 } from '@dinivas/api-interfaces';
 import { firstValueFrom } from 'rxjs';
+import { Job } from 'bull';
 
-@CommandHandler(DestroyRabbitMQCommand)
+@Injectable()
 export class DestroyRabbitMQHandler
-  implements ICommandHandler<DestroyRabbitMQCommand>
 {
   private readonly logger = new Logger(DestroyRabbitMQHandler.name);
   terraform: Terraform;
@@ -26,11 +25,12 @@ export class DestroyRabbitMQHandler
     this.terraform = new Terraform(this.configService);
   }
 
-  async execute(command: DestroyRabbitMQCommand) {
-    return new Promise<void>(async (resolve, reject) => {
+  async execute(job: Job<DestroyRabbitMQCommand>,command: DestroyRabbitMQCommand) {
+    return new Promise<any>(async (resolve, reject) => {
       this.logger.debug(
-        `Received DestroyProjectCommand: ${command.rabbitmq.code}`
+        `Received DestroyRabbitMQCommand: ${command.rabbitmq.code}`
       );
+      job.progress(10);
       this.terraform.executeInTerraformModuleDir(
         command.rabbitmq.code,
         command.cloudprovider,
@@ -44,7 +44,7 @@ export class DestroyRabbitMQHandler
             )
           );
           this.terraform.addSshViaBastionConfigFileToModule(
-            JSON.parse(rawProjectState.state),
+            rawProjectState,
             workingDir
           );
         },
@@ -62,21 +62,22 @@ export class DestroyRabbitMQHandler
               ],
               {
                 autoApprove: true,
-                silent: false,
+                silent: !this.configService.getOrElse(
+                  'terraform.destroy.verbose',
+                  false
+                ),
               }
             );
-            this.terraformGateway.emit(
-              `destroyEvent-${command.rabbitmq.code}`,
-              {
+            const result = {
+              module: 'rabbitmq',
+              eventCode: `destroyEvent-${command.rabbitmq.code}`,
+              event: {
                 source: command.rabbitmq,
-              } as TerraformDestroyEvent<RabbitMQDTO>
-            );
-            resolve();
+              } as TerraformDestroyEvent<RabbitMQDTO>,
+            };
+            job.progress(100);
+            resolve(result);
           } catch (error) {
-            this.terraformGateway.emit(
-              `destroyEvent-${command.rabbitmq.code}-error`,
-              error.message
-            );
             reject(error);
           }
         }

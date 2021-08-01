@@ -68,8 +68,8 @@ export class PlanJenkinsHandler {
                 '-out=last-plan',
               ],
               {
-                silent: this.configService.getOrElse(
-                  'terraform.plan.log_silent',
+                silent: !this.configService.getOrElse(
+                  'terraform.plan.verbose',
                   false
                 ),
               }

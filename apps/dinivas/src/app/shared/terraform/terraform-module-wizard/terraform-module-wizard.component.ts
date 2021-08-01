@@ -243,6 +243,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
                 this.wizardStepper.next();
               }, 1);
             });
+            // Error case
         },
         (error) => {
           this.applyInProgress = false;

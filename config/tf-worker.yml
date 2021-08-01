@@ -11,7 +11,6 @@ dinivas:
       api_uses_snapshots: true
   terraform:
     min_required_version: '0.12.2'
-    debug_command_outputs: false
     state:
       http_address: 'http://localhost:3333/api/v1/terraform/state'
       username: dinivas
@@ -19,13 +18,13 @@ dinivas:
       http_timeout: 5000
       http_max_redirects: 5
     init:
-      log_silent: true
+      verbose: true
     plan:
-      log_silent: false
+      verbose: true
     apply:
-      log_silent: true
+      verbose: true
     destroy:
-      log_silent: true
+      verbose: true
     modules:
       - name: project_base
         type: git
@@ -75,7 +74,7 @@ dinivas:
         type: git
         provider: digitalocean
         url: https://github.com/dinivas/terraform-digitalocean-keypair.git
-      # - name: rabbitmq
-      #   type: git
-      #   provider: digitalocean
-      #   url: https://github.com/dinivas/terraform-digitalocean-rabbitmq.git
+      - name: rabbitmq
+        type: git
+        provider: digitalocean
+        url: https://github.com/dinivas/terraform-digitalocean-rabbitmq.git

@@ -13,6 +13,7 @@ import {
 @Injectable()
 export class ConsulService {
   static toDTO = (consul: Consul): ConsulDTO => {
+    if(!consul) return null;
     const consulDTO = new ConsulDTO();
     consulDTO.id = consul.id;
     consulDTO.code = consul.code;

@@ -54,6 +54,14 @@ services:
       POSTGRES_PASSWORD: Pa55W0rd
     ports:
       - 5433:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dinivas.io
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - 8383:80
+
   # Galaxy
   #postgres_galaxy:
   #  image: postgres

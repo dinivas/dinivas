@@ -1,11 +1,12 @@
 <div class="jenkins-status container">
-  <p>You can access to this Jenkins here
-    <a class="ml-10" mat-button color="primary" [href]="'http://' + jenkins.code + '.' + project?.root_domain"
+  <div class="web-access-container">
+    <a class="web-access jenkins" [href]="'http://' + jenkins.code + '.' + project?.root_domain"
       target="_blank" *ngIf="project?.root_domain && !jenkins.use_existing_master">
-      {{jenkins.code + '.' + project?.root_domain }}
+      <mat-icon matListIcon svgIcon="jenkins"></mat-icon>
+      <span class="title">{{jenkins.code + '.' + project?.root_domain }}</span>
       <mat-icon>open_in_new</mat-icon>
     </a>
-  </p>
+  </div>
   <mat-card>
     <mat-card-header>
       <mat-card-title>jenkins infra infos</mat-card-title>
@@ -15,7 +16,8 @@
         <mat-list-item *ngFor="let output of (jenkinsState.outputs | keyvalue)">
           <mat-icon *ngIf="!output.value['sensitive']">info</mat-icon>
           <h3 matLine>
-            {{ output.key }}:<strong class="ml-10" *ngIf="!output.value['sensitive']">{{ output.value['value'] }}</strong>
+            {{ output.key }}:<strong class="ml-10" *ngIf="!output.value['sensitive']">{{ output.value['value']
+              }}</strong>
           </h3>
         </mat-list-item>
       </mat-list>

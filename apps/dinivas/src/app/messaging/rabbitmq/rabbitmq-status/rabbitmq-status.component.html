@@ -1,20 +1,23 @@
-<div class="container">
+<div class="rabbitmq-status container">
+  <div class="web-access-container">
+    <a class="web-access rabbitmq" [href]="'http://' + rabbitmq.code + '-dashboard.' + project?.root_domain"
+      target="_blank" *ngIf="project?.root_domain && rabbitmq">
+      <mat-icon matListIcon svgIcon="rabbitmq"></mat-icon>
+      <span class="title">{{rabbitmq.code + '.' + project?.root_domain }}</span>
+      <mat-icon>open_in_new</mat-icon>
+    </a>
+  </div>
   <mat-card>
     <mat-card-header>
       <mat-card-title>RabbitMQ infra infos</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-list *ngIf="rabbitMQInfo" dense>
-        <mat-list-item
-          *ngFor="let output of (rabbitMQInfo.entityState.outputs | keyvalue)"
-        >
+      <mat-list *ngIf="rabbitmqState" dense>
+        <mat-list-item *ngFor="let output of (rabbitmqState.outputs | keyvalue)">
           <mat-icon *ngIf="!output.value['sensitive']">info</mat-icon>
           <h3 matLine>
-            {{ output.key }}:<strong
-              class="ml-10"
-              *ngIf="!output.value['sensitive']"
-              >{{ output.value['value'] }}</strong
-            >
+            {{ output.key }}:<strong class="ml-10" *ngIf="!output.value['sensitive']">{{ output.value['value']
+              }}</strong>
           </h3>
         </mat-list-item>
       </mat-list>

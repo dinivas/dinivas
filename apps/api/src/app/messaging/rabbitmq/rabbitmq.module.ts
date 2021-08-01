@@ -8,6 +8,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RabbitMQ } from './rabbitmq.entity';
 import { TerraformModule } from '../../terraform/terraform.module';
+import { RabbitMQTerraformTasksProcessor } from './rabbitmq-terraform-tasks.processor';
 
 @Module({
   imports: [
@@ -16,10 +17,10 @@ import { TerraformModule } from '../../terraform/terraform.module';
     TerraformModule,
     TerraformStateModule,
     CloudproviderModule,
-    ConsulModule
+    ConsulModule,
   ],
   controllers: [RabbitMQController],
-  providers: [RabbitMQService],
+  providers: [RabbitMQService, RabbitMQTerraformTasksProcessor],
   exports: [RabbitMQService],
 })
 export class RabbitmqModule {}

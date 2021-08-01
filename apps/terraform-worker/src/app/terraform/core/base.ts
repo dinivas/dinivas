@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { spawn, exec } from 'child_process';
 import { Writable } from 'stream';
+import { Logger as NestLogger } from '@nestjs/common';
 
 interface InteractiveOptions {
   autoApprove?: boolean;
@@ -37,12 +38,13 @@ abstract class Base {
 
   constructor(
     private executableName: string,
-    private autoApproveOptionName: string
+    private autoApproveOptionName: string,
+    private customLogger: NestLogger
   ) {
     this.triggerWordsForInteractiveMode = [];
     this.logger = {
       log: async (data: string): Promise<void> => {
-        console.log(data);
+        this.customLogger.debug(data);
       }
     };
     this.stdErrStream = process.stderr;

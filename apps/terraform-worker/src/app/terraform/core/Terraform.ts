@@ -35,18 +35,24 @@ import ncpModule = require('ncp');
 import {
   addJenkinsSlaveFilesToModuleForDigitalocean,
   computeTerraformProjectBaseModuleVarsForDigitalocean,
+  computeTerraformRabbitMQModuleVarsForDigitalocean,
 } from '../digitalocean';
 import {
   addJenkinsSlaveFilesToModuleForOpenstack,
   computeTerraformJenkinsModuleVarsForOpenstack,
   computeTerraformProjectBaseModuleVarsForOpenstack,
+  computeTerraformRabbitMQModuleVarsForOpenstack,
 } from '../openstack';
 const ncp = ncpModule.ncp;
 
 export class Terraform extends Base {
   private readonly nestLogger = new Logger(Terraform.name);
   constructor(private configService: ConfigurationService) {
-    super(configService.getTerraformExecutable(), '-auto-approve');
+    super(
+      configService.getTerraformExecutable(),
+      '-auto-approve',
+      new Logger('Terraform Execution')
+    );
     this.addTriggerWordForInteractiveMode(
       "Only 'yes' will be accepted to approve"
     );
@@ -346,8 +352,8 @@ export class Terraform extends Base {
             // Init module temporary directory
             try {
               await this.init(tempFolder, [], {
-                silent: this.configService.getOrElse(
-                  'terraform.init.log_silent',
+                silent: !this.configService.getOrElse(
+                  'terraform.init.verbose',
                   false
                 ),
               });
@@ -409,10 +415,12 @@ export class Terraform extends Base {
   addSshViaBastionConfigFileToModule(projectState: any, destination: string) {
     const content = `
     ssh_via_bastion_config = {
+      "bastion_host"         = "${projectState.outputs.bastion_floating_ip.value}"
+      "bastion_port"         = 22
+      "bastion_ssh_user"     = "root"
       "host_private_key"     = <<EOT
       ${projectState.outputs.project_private_key.value}
       EOT
-      "bastion_host"         = "${projectState.outputs.bastion_floating_ip.value}"
       "bastion_private_key"  = <<EOT
       ${projectState.outputs.bastion_private_key.value}
       EOT
@@ -454,7 +462,20 @@ export class Terraform extends Base {
     consul: ConsulDTO,
     cloudConfig: any
   ): string[] {
-    const onDestroyCommand = 'consul leave';
+    if ('openstack' === rabbitmq.project.cloud_provider.cloud) {
+      return computeTerraformRabbitMQModuleVarsForOpenstack(
+        rabbitmq,
+        consul,
+        cloudConfig
+      );
+    }
+    if ('digitalocean' === rabbitmq.project.cloud_provider.cloud) {
+      return computeTerraformRabbitMQModuleVarsForDigitalocean(
+        rabbitmq,
+        consul,
+        cloudConfig
+      );
+    }
     const rabbitmq_cluster_vars = [
       `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
       `-var 'enable_rabbitmq=1'`,
@@ -471,7 +492,6 @@ export class Terraform extends Base {
       `-var 'project_consul_domain=${consul.cluster_domain}'`,
       `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
       `-var 'os_auth_domain_name=${cloudConfig.clouds.openstack.auth.user_domain_name}'`,
-      `-var 'execute_on_destroy_rabbitmq_node_script=${onDestroyCommand}'`,
       `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
       `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
       `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
@@ -486,7 +506,6 @@ export class Terraform extends Base {
     consul: ConsulDTO,
     cloudConfig: any
   ): string[] {
-    const onDestroyCommand = 'consul leave';
     const instance_vars = [
       `-var 'project_name=${instance.project.code.toLowerCase()}'`,
       `-var 'instance_name=${instance.code.toLowerCase()}'`,
@@ -502,7 +521,6 @@ export class Terraform extends Base {
       `-var 'project_consul_domain=${consul.cluster_domain}'`,
       `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
       `-var 'os_auth_domain_name=${cloudConfig.clouds.openstack.auth.user_domain_name}'`,
-      `-var 'execute_on_destroy_instance_script=${onDestroyCommand}'`,
       `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
       `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
       `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,

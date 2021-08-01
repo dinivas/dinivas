@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./dist/apps/terraform-worker .
 ENV PORT=3334 \
     DINIVAS_CONFIG_FILE=/config.yml\
-    TERRAFORM_VERSION=0.15.3 \
+    TERRAFORM_VERSION=0.15.5 \
     TERRAFORM_OSNAME=linux \
     TERRAFORM_OSARCH=amd64 \
     TERRAFORM_DEST=/usr/local/sbin

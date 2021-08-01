@@ -3,6 +3,7 @@ import {
   JenkinsDTO,
   JenkinsSlaveGroupDTO,
   ProjectDTO,
+  RabbitMQDTO,
 } from '@dinivas/api-interfaces';
 import fs = require('fs');
 import path = require('path');
@@ -84,7 +85,6 @@ export const computeTerraformJenkinsModuleVarsForOpenstack = (
   consul: ConsulDTO,
   cloudConfig: any
 ): string[] => {
-  const onDestroyCommand = 'consul leave';
   const jenkins_master_vars = [
     `-var 'project_name=${jenkins.project.code.toLowerCase()}'`,
     `-var 'enable_jenkins_master=${jenkins.use_existing_master ? 0 : 1}'`,
@@ -122,7 +122,6 @@ export const computeTerraformJenkinsModuleVarsForOpenstack = (
     `-var 'project_consul_domain=${consul.cluster_domain}'`,
     `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
     `-var 'os_auth_domain_name=${cloudConfig.clouds.openstack.auth.user_domain_name}'`,
-    `-var 'execute_on_destroy_jenkins_master_script=${onDestroyCommand}'`,
     `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
     `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
     `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
@@ -209,8 +208,39 @@ export const addJenkinsSlaveFilesToModuleForOpenstack = (
   });
 };
 
+export const computeTerraformRabbitMQModuleVarsForOpenstack = (
+  rabbitmq: RabbitMQDTO,
+  consul: ConsulDTO,
+  cloudConfig: any
+): string[] => {
+  const rabbitmq_cluster_vars = [
+    `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
+    `-var 'enable_rabbitmq=1'`,
+    `-var 'rabbitmq_cluster_name=${rabbitmq.code.toLowerCase()}'`,
+    `-var 'rabbitmq_nodes_count=${rabbitmq.cluster_instance_count}'`,
+    `-var 'rabbitmq_cluster_availability_zone=${rabbitmq.project.availability_zone}'`,
+    `-var 'rabbitmq_cluster_image_name=${rabbitmq.cluster_cloud_image}'`,
+    `-var 'rabbitmq_cluster_compute_flavor_name=${rabbitmq.cluster_cloud_flavor}'`,
+    `-var 'rabbitmq_cluster_keypair_name=${rabbitmq.keypair_name}'`,
+    `-var 'rabbitmq_cluster_security_groups_to_associate=["${rabbitmq.project.code.toLowerCase()}-common"]'`,
+    `-var 'rabbitmq_cluster_network=${rabbitmq.network_name}'`,
+    `-var 'rabbitmq_cluster_subnet=${rabbitmq.network_subnet_name}'`,
+    `-var 'rabbitmq_plugin_list=${rabbitmq.enabled_plugin_list}'`,
+    `-var 'project_consul_domain=${consul.cluster_domain}'`,
+    `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
+    `-var 'os_auth_domain_name=${cloudConfig.clouds.openstack.auth.user_domain_name}'`,
+    `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
+    `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
+    `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
+    `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`,
+    `-var-file=ssh-via-bastion.tfvars`,
+  ];
+  return rabbitmq_cluster_vars;
+};
+
 exports = {
   computeTerraformProjectBaseModuleVarsForOpenstack,
   computeTerraformJenkinsModuleVarsForOpenstack,
   addJenkinsSlaveFilesToModuleForOpenstack,
+  computeTerraformRabbitMQModuleVarsForOpenstack,
 };

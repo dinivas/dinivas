@@ -6,13 +6,13 @@ import {
   ManyToOne,
   JoinColumn,
   Column,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 @Entity()
 export class Jenkins {
   @PrimaryGeneratedColumn()
   id: number;
-  @ManyToOne(type => Project, { nullable: false })
+  @ManyToOne(() => Project, { nullable: false })
   @JoinColumn()
   project: Project;
   @Column({ unique: true })
@@ -71,10 +71,10 @@ export class Jenkins {
   @Column()
   manage_slave: boolean;
   @OneToMany(
-    type => JenkinsSlaveGroup,
-    jenkinsSlaveGroup => jenkinsSlaveGroup.jenkins,
+    (type) => JenkinsSlaveGroup,
+    (jenkinsSlaveGroup) => jenkinsSlaveGroup.jenkins,
     {
-      cascade: true
+      cascade: true,
     }
   )
   slave_groups: JenkinsSlaveGroup[];
@@ -95,8 +95,8 @@ export class JenkinsSlaveGroup {
   slave_cloud_image: string;
   @Column({ nullable: true })
   slave_cloud_flavor: string;
-  @ManyToOne(type => Jenkins, jenkins => jenkins.slave_groups, {
-    onDelete: 'CASCADE'
+  @ManyToOne((type) => Jenkins, (jenkins) => jenkins.slave_groups, {
+    onDelete: 'CASCADE',
   })
   jenkins: Jenkins;
 }

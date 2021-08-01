@@ -51,8 +51,8 @@ export class DestroyProjectHandler {
               ],
               {
                 autoApprove: true,
-                silent: this.configService.getOrElse(
-                  'terraform.destroy.log_silent',
+                silent: !this.configService.getOrElse(
+                  'terraform.destroy.verbose',
                   false
                 ),
               }

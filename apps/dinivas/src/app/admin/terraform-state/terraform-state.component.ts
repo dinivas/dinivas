@@ -1,4 +1,8 @@
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { FilterType } from './../../core/entity/filter-bar/filter';
@@ -13,10 +17,12 @@ import { TerraformStateService } from './terraform-state.service';
 @Component({
   selector: 'dinivas-terraform-state',
   templateUrl: './terraform-state.component.html',
-  styleUrls: ['./terraform-state.component.scss']
+  styleUrls: ['./terraform-state.component.scss'],
 })
-export class TerraformStateComponent extends MatCrudComponent
-  implements DataProvider<TerraformStateDTO> {
+export class TerraformStateComponent
+  extends MatCrudComponent
+  implements DataProvider<TerraformStateDTO>
+{
   filterPlaceholder = 'Filter';
   dataProvider = this;
   columnDefs: Array<ColumnDef>;
@@ -33,7 +39,7 @@ export class TerraformStateComponent extends MatCrudComponent
       new ColumnDef('lockState', '', false),
       new ColumnDef('module', 'Tf module', true, true, false, FilterType.TEXT),
       new ColumnDef('lockId', 'Lock id', false),
-      new ColumnDef('lockDate', 'Lock date', false)
+      new ColumnDef('lockDate', 'Lock date', false),
     ];
   }
 
@@ -44,15 +50,19 @@ export class TerraformStateComponent extends MatCrudComponent
   showState(tfState: TerraformStateDTO) {
     this.dialog.open(DisplayTerraformStateDialogComponent, {
       data: {
-        tfState: tfState
-      }
+        tfState: tfState,
+      },
     });
   }
-  unlockState(tfState: TerraformStateDTO){
-
+  unlockState(tfState: TerraformStateDTO) {
+    this.terraformStateService
+      .forceUnlockTerraformState(tfState.stateId, tfState.module)
+      .subscribe((res) => {
+        console.log('Unlock done');
+      });
   }
 
-  canDeleteTfState(tfState: TerraformStateDTO): boolean{
+  canDeleteTfState(tfState: TerraformStateDTO): boolean {
     return true;
   }
 
@@ -63,7 +73,7 @@ export class TerraformStateComponent extends MatCrudComponent
 
 @Component({
   templateUrl: './display-terraform-state-dialog.component.html',
-  styleUrls: ['./display-terraform-state-dialog.component.scss']
+  styleUrls: ['./display-terraform-state-dialog.component.scss'],
 })
 export class DisplayTerraformStateDialogComponent implements OnInit {
   tfState: TerraformStateDTO;

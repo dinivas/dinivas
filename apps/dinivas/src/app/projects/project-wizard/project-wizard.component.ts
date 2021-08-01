@@ -179,7 +179,7 @@ export class ProjectWizardComponent implements OnInit {
         Validators.required,
       ],
       keycloak_client_id: [
-        this.project ? this.project.keycloak_client_id : null,
+        this.project ? this.project.keycloak_client_id : 'dinivas-terraform',
         Validators.required,
       ],
       keycloak_client_secret: [
@@ -219,11 +219,9 @@ export class ProjectWizardComponent implements OnInit {
         ],
         _consul_client_cloud_image: [
           this.project ? this.consul.client_image : null,
-          Validators.required,
         ],
         _consul_client_cloud_flavor: [
           this.project ? this.consul.client_flavor : null,
-          Validators.required,
         ],
       }),
     });
@@ -244,6 +242,7 @@ export class ProjectWizardComponent implements OnInit {
     this.setMonitoringValidators();
     //this.setLoggingValidators();
     this.setProxyValidators();
+    this.setConsulValidators();
     this.setRoutingValidators();
   }
 
@@ -286,6 +285,8 @@ export class ProjectWizardComponent implements OnInit {
       delete project['_proxy_cloud_flavor'];
     }
 
+    project.logging_stack = this.loggingStack || 'graylog';
+
     // Set prometheus flavor name
     if (project && this.projectForm.get('_prometheus_cloud_flavor').value) {
       project.bastion_cloud_flavor = (
@@ -312,10 +313,12 @@ export class ProjectWizardComponent implements OnInit {
       this.projectForm.get('_consul').get('_consul_client_cloud_image')
         .value as ICloudApiImage
     );
-    consul.client_flavor = (
-      this.projectForm.get('_consul').get('_consul_client_cloud_flavor')
-        .value as ICloudApiFlavor
-    ).name;
+    const consulClientFlavor = this.projectForm
+      .get('_consul')
+      .get('_consul_client_cloud_flavor').value as ICloudApiFlavor;
+    if (consulClientFlavor) {
+      consul.client_flavor = consulClientFlavor.name;
+    }
     consul.use_floating_ip = false;
     delete project['_consul'];
   }
@@ -328,7 +331,6 @@ export class ProjectWizardComponent implements OnInit {
       // Set code because formbuilder has exclude it
       project.code = this.project.code;
     }
-    project.logging_stack = this.loggingStack || 'graylog';
     if (!this.project) {
       this.planProject(project, consul);
     } else {
@@ -533,6 +535,28 @@ export class ProjectWizardComponent implements OnInit {
         }
         proxyImage.updateValueAndValidity();
         proxyFlavor.updateValueAndValidity();
+      });
+  }
+  setConsulValidators() {
+    const consulFormGroup: AbstractControl = this.projectForm.get('_consul');
+    const consulClientImage: AbstractControl = consulFormGroup.get(
+      '_consul_client_cloud_image'
+    );
+    const consulClientFlavor: AbstractControl = consulFormGroup.get(
+      '_consul_client_cloud_flavor'
+    );
+    consulFormGroup
+      .get('client_instance_count')
+      .valueChanges.subscribe((consulClientInstanceCount: number) => {
+        if (consulClientInstanceCount > 0) {
+          consulClientImage.setValidators([Validators.required]);
+          consulClientFlavor.setValidators([Validators.required]);
+        } else {
+          consulClientImage.setValidators(null);
+          consulClientFlavor.setValidators(null);
+        }
+        consulClientImage.updateValueAndValidity();
+        consulClientFlavor.updateValueAndValidity();
       });
   }
 
@@ -741,6 +765,7 @@ export class ProjectWizardComponent implements OnInit {
   toCloudProviderImageId(image: ICloudApiImage) {
     const cloudProvider = this.projectForm.controls['cloud_provider']
       .value as CloudproviderDTO;
+    if (!image) return null;
     switch (cloudProvider.cloud) {
       case 'openstack':
         return image.name;

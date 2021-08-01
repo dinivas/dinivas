@@ -1,5 +1,4 @@
 /* eslint-disable no-async-promise-executor */
-import { WSGateway } from '../../wsgateway';
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from '../../terraform/core/Terraform';
 import { Injectable, Logger } from '@nestjs/common';
@@ -17,7 +16,6 @@ export class ApplyJenkinsHandler {
   terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformGateway: WSGateway
   ) {
     this.terraform = new Terraform(configService);
   }
@@ -34,8 +32,8 @@ export class ApplyJenkinsHandler {
           ['-auto-approve', '"last-plan"'],
           {
             autoApprove: true,
-            silent: this.configService.getOrElse(
-              'terraform.apply.log_silent',
+            silent: !this.configService.getOrElse(
+              'terraform.apply.verbose',
               false
             ),
           }
@@ -51,6 +49,12 @@ export class ApplyJenkinsHandler {
         job.progress(100);
         resolve(result);
       } catch (error) {
+        console.error(JSON.stringify(error));
+        job.returnvalue = {
+          module: 'jenkins',
+          eventCode: `applyEvent-${command.jenkins.code}-error`,
+          error,
+        }
         reject(error);
       }
     });

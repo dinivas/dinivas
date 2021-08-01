@@ -13,6 +13,8 @@
 @import '../../app/build/ansible/galaxy/my-import/my-import.component.scss';
 @import '../../app/build/ansible/galaxy/my-content/my-content.component.scss';
 @import '../../app/build/jenkins/jenkins-wizard/jenkins-wizard.component.scss';
+@import '../../app/build/jenkins/jenkins-status/jenkins-status.component.scss';
+@import '../../app/messaging/rabbitmq/rabbitmq-status/rabbitmq-status.component.scss';
 @import '../../app/network/consul/consul-wizard/consul-wizard.component.scss';
 @import '../../app/build/ansible/galaxy/repo-content-detail/repo-content-detail.component.scss';
 @import '../../app/shared/terraform/terraform-representation/terraform-representation.component.scss';
@@ -137,6 +139,8 @@
   @include cloud-image-radios-theme($theme);
   @include terraform-module-wizard-theme($theme);
   @include project-status-theme($theme);
+  @include jenkins-status-theme($theme);
+  @include rabbitmq-status-theme($theme);
   @include project-wizard-theme($theme);
   @include app-footer-theme($theme);
   @include entity-filter-bar-theme($theme);

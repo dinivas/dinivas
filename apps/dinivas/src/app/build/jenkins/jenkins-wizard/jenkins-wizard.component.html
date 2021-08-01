@@ -193,7 +193,7 @@
       <div class="jenkins-slave-groups-container">
         <div formArrayName="slave_groups" class="jenkins-slave-group-container mat-elevation-z4"
           *ngFor="let slaveGroup of jenkinsForm.get('slave_groups')['controls']; let slaveGroupIndex = index;">
-          <span class="slave-group-number">#{{ slaveGroupIndex + 1 }}</span>
+          <span class="slave-group-number">Slave group #{{ slaveGroupIndex + 1 }}</span>
           <div [formGroupName]="slaveGroupIndex" class="" fxLayout="column">
             <mat-form-field class="" appearance="outline">
               <mat-label>Slave group name</mat-label>

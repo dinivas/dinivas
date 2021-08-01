@@ -36,7 +36,7 @@ export class SharedWebSocket extends Socket {
   }> {
     return this.fromEvent(`background-job-completed`);
   }
-  receiveBackgroundJobFailedEvent(): Observable<{ jobId: number; event: any }> {
+  receiveBackgroundJobFailedEvent(): Observable<{ jobId: number; error: any }> {
     return this.fromEvent(`background-job-failed`);
   }
 }

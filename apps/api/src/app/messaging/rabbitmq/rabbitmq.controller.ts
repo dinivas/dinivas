@@ -112,7 +112,7 @@ export class RabbitMQController {
       project.code
     );
     const planJob = await this.terraformModuleQueue.add(
-      'plan',
+      'plan-rabbitmq',
       new PlanRabbitMQCommand(
         cloudprovider.cloud,
         rabbitmq,
@@ -127,11 +127,20 @@ export class RabbitMQController {
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('rabbitmq:create')
-  async applyProject(@Body() applyProject: ApplyModuleDTO<RabbitMQDTO>) {
+  async applyProject(
+    @Req() request: Request,
+    @Body() applyProject: ApplyModuleDTO<RabbitMQDTO>
+  ) {
+    const project = request['project'] as ProjectDTO;
+    applyProject.source.project = project;
+    const cloudprovider = await this.cloudproviderService.findOne(
+      project.cloud_provider.id,
+      true
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply',
+      'apply-rabbitmq',
       new ApplyRabbitMQCommand(
-        applyProject.source.project.cloud_provider.cloud,
+        cloudprovider.cloud,
         applyProject.source,
         applyProject.workingDir
       )
@@ -163,6 +172,7 @@ export class RabbitMQController {
     const project = request['project'] as ProjectDTO;
     const rabbitmq = await this.rabbitmqService.findOne(id);
     if (rabbitmq) {
+      rabbitmq.project = project;
       const cloudprovider = await this.cloudproviderService.findOne(
         project.cloud_provider.id,
         true
@@ -171,7 +181,7 @@ export class RabbitMQController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy',
+        'destroy-rabbitmq',
         new DestroyRabbitMQCommand(
           cloudprovider.cloud,
           rabbitmq,
@@ -179,7 +189,9 @@ export class RabbitMQController {
           YAML.load(cloudprovider.config)
         )
       );
-      this.logger.debug(`Destroy Job Id with data: ${JSON.stringify(destroyJob)}`);
+      this.logger.debug(
+        `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
+      );
       return { planJobId: destroyJob.id };
     }
   }

@@ -1,4 +1,4 @@
-import { RabbitMQDTO } from '@dinivas/api-interfaces';
+import { RabbitMQDTO } from './rabbitmq.dto';
 
 export class ApplyRabbitMQCommand {
   constructor(
@@ -6,4 +6,12 @@ export class ApplyRabbitMQCommand {
     public readonly rabbitmq: RabbitMQDTO,
     public readonly workingDir: string
   ) {}
+
+  static from<T extends ApplyRabbitMQCommand>(json: T): ApplyRabbitMQCommand {
+    return new ApplyRabbitMQCommand(
+      json.cloudprovider,
+      json.rabbitmq,
+      json.workingDir
+    );
+  }
 }

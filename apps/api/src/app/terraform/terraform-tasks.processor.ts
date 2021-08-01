@@ -69,9 +69,10 @@ export class TerraformTasksProcessor {
     this.logger.debug(
       `A job has failed => ${JSON.stringify(job)} with Error: ${err}`
     );
+    //const jobInError = await this.terraformModuleQueue.getJob(job.id);
     this.coreWebSocketGateway.emit('background-job-failed', {
-      jobId: job.id,
-      event: err,
+      jobId: JSON.parse(JSON.stringify(job)),
+      error: err,
     });
   }
 }

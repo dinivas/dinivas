@@ -23,7 +23,7 @@ export class Project {
   @Column('text', { nullable: true })
   @ApiProperty()
   description: string;
-  @ManyToOne(type => Cloudprovider)
+  @ManyToOne(() => Cloudprovider)
   @JoinColumn()
   cloud_provider: Cloudprovider;
   @Column({ nullable: true })

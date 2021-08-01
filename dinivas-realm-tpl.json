@@ -2673,6 +2673,14 @@
             "attributes": {}
           },
           {
+            "id": "365fbdb3-1e7f-4168-917a-55555cf878a4",
+            "name": "Terraform State Editor",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
             "id": "e6ab2fa2-4092-4109-85ca-57dd00ac6771",
             "name": "Compute Instances Viewer",
             "composite": false,
@@ -2857,6 +2865,7 @@
           "dinivas-api": [
             "Compute Images Viewer",
             "Terraform State Viewer",
+            "Terraform State Editor",
             "Compute Instances Viewer",
             "Jenkins Viewer",
             "RabbitMQ Viewer",
@@ -2885,6 +2894,7 @@
             "Consul Editor",
             "Compute Images Viewer",
             "Terraform State Viewer",
+            "Terraform State Editor",
             "Compute Instances Viewer",
             "Jenkins Viewer",
             "RabbitMQ Viewer",
@@ -3729,6 +3739,16 @@
               }
             },
             {
+              "id": "85ad68c9-82f6-4868-88b1-cfab723740eb",
+              "name": "Terraform State Editor",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/Terraform State Editor\",\"required\":true}]"
+              }
+            },
+            {
               "id": "700ac3f2-649c-42a5-ad41-932cac27c81f",
               "name": "Cloud Providers Editor",
               "type": "role",
@@ -3981,6 +4001,18 @@
                 "resources": "[\"terraform.state\"]",
                 "scopes": "[\"list\"]",
                 "applyPolicies": "[\"Terraform State Viewer\"]"
+              }
+            },
+            {
+              "id": "458d350a-84a2-4408-b2b1-a3d6d850d333",
+              "name": "terraform.state.edit",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"terraform.state\"]",
+                "scopes": "[\"edit\"]",
+                "applyPolicies": "[\"Terraform State Editor\"]"
               }
             },
             {

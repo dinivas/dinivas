@@ -1,0 +1,45 @@
+@import '../../../../assets/styles/mixins';
+@import '~@angular/material/theming';
+
+@mixin rabbitmq-status-theme($theme) {
+  $primary: map-get($theme, primary);
+  $primary-color: mat-color($primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background, card);
+  $foreground: map-get($theme, foreground);
+  $foreground-color: mat-color($foreground, text);
+
+  .rabbitmq-status {
+    .web-access-container {
+      display: flex;
+
+      a.web-access {
+        display: flex;
+        justify-content: space-between;
+        width: 350px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        background-color: $background-color;
+        @include transition(all 0.3s ease);
+        @include box-shadow(1);
+        margin-bottom: 10px;
+        &:not(:first-child) {
+          margin-left: 10px;
+        }
+        &:hover {
+          @include box-shadow(3);
+        }
+        span.title,
+        .mat-icon {
+          color: mat-color($accent);
+        }
+        span.title{
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

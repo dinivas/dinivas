@@ -13,7 +13,7 @@ import {
   Logger,
   Query,
   Res,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
@@ -65,18 +65,12 @@ export class TerraformStateController {
     }
 
     this.logger.debug(`checking for existing lock`);
-    const existingLock = await this.stateService.getLock(
-      stateId,
-      moduleName
-    );
+    const existingLock = await this.stateService.getLock(stateId, moduleName);
 
     if (existingLock) {
       if (lockId !== existingLock.ID) {
         this.logger.debug(`incoming lock id does not match existing lock`);
-        response
-          .status(423)
-          .send(existingLock)
-          .end();
+        response.status(423).send(existingLock).end();
 
         return;
       }
@@ -111,6 +105,45 @@ export class TerraformStateController {
     return null;
   }
 
+  @All('force-unlock')
+  @ApiBearerAuth()
+  @UseGuards(AuthzGuard)
+  @Permissions('terraform.state:edit')
+  async forceUnlockState(
+    @Query('stateId') stateId: string,
+    @Query('module') module: string,
+    @Req() request: Request,
+    @Res() response: Response
+  ) {
+    this.logger.debug(
+      `Receive force unlock query for state: ${stateId} and module: ${module}`
+    );
+    const existingLock = await this.stateService.getLock(stateId, module);
+    if (!existingLock) {
+      this.logger.debug(
+        `no existing lock found for state: ${stateId} and module: ${module}, already unlocked`
+      );
+      response.status(409).end();
+      return;
+    }
+    if (request.body.ID && existingLock.ID !== request.body.ID) {
+      this.logger.debug(
+        `incoming lock id ${request.body.id} does not match current lock ${existingLock.ID}`
+      );
+      response.status(423).send(existingLock).end();
+
+      return;
+    }
+
+    this.logger.debug(`Force unlocking`);
+    // Unlock it
+    await this.stateService.unlock(stateId, module);
+
+    this.logger.debug(`unlocked`);
+    // Send success
+    response.status(200).end();
+  }
+
   @All() // order is important for this method. We need to handle Http LOCK & UNLOCK but NestJs does not provide it yet
   @UseGuards(AuthGuard('terraform-state-basic'))
   async lockOrUnlockState(
@@ -127,10 +160,7 @@ export class TerraformStateController {
       const existingLock = await this.stateService.getLock(stateId, module);
       if (existingLock) {
         this.logger.debug(`existing lock ${existingLock.ID} found`);
-        response
-          .status(409)
-          .send(existingLock)
-          .end();
+        response.status(409).send(existingLock).end();
         return;
       }
       this.logger.debug(
@@ -139,15 +169,11 @@ export class TerraformStateController {
       // Lock it
       const newLock = request.body;
       this.logger.debug(
-        `locking state: ${stateId} and module: ${module} with ${
-          newLock.ID
-        }`
+        `locking state: ${stateId} and module: ${module} with ${newLock.ID}`
       );
       await await this.stateService.lock(stateId, module, newLock);
       this.logger.debug(
-        `locked state: ${stateId} and module: ${module} with ${
-          newLock.ID
-        }`
+        `locked state: ${stateId} and module: ${module} with ${newLock.ID}`
       );
       // Send success
       response.status(200).end();
@@ -165,14 +191,9 @@ export class TerraformStateController {
       }
       if (request.body.ID && existingLock.ID !== request.body.ID) {
         this.logger.debug(
-          `incoming lock id ${request.body.id} does not match current lock ${
-            existingLock.ID
-          }`
+          `incoming lock id ${request.body.id} does not match current lock ${existingLock.ID}`
         );
-        response
-          .status(423)
-          .send(existingLock)
-          .end();
+        response.status(423).send(existingLock).end();
 
         return;
       }

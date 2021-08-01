@@ -77,7 +77,9 @@ export function registerCustomMatIcon(
       'ram',
       'pin',
       'harbor',
-      'consul'
+      'consul',
+      'grafana',
+      'prometheus'
     ];
     customSvgIcons.forEach(icon =>
       matIconRegistry.addSvgIcon(
