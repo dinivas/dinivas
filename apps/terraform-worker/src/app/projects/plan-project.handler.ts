@@ -12,10 +12,10 @@ import { Job } from 'bull';
 @Injectable()
 export class PlanProjectHandler {
   private readonly logger = new Logger(PlanProjectHandler.name);
-  terraform: Terraform;
-  constructor(private readonly configService: ConfigurationService) {
-    this.terraform = new Terraform(this.configService);
-  }
+  constructor(
+    private readonly configService: ConfigurationService,
+    private terraform: Terraform
+  ) {}
 
   async execute(job: Job<PlanProjectCommand>, command: PlanProjectCommand) {
     this.logger.debug(
@@ -31,7 +31,14 @@ export class PlanProjectHandler {
         command.cloudprovider,
         'project_base',
         command.cloudConfig,
-        null,
+        async (workingDir) => {
+          this.terraform.addTerraformProjectBaseModuleFile(
+            command.project,
+            command.consul,
+            command.cloudConfig,
+            workingDir
+          );
+        },
         async (workingDir) => {
           try {
             job.progress(60);
@@ -39,29 +46,24 @@ export class PlanProjectHandler {
               command.project,
               workingDir
             );
+
             const planResult: TFPlanRepresentation = await this.terraform.plan(
               workingDir,
-              [
-                ...this.terraform.computeTerraformProjectBaseModuleVars(
-                  command.project,
-                  command.consul,
-                  command.cloudConfig
-                ),
-                '-out=last-plan',
-              ],
+              ['-out=tfplan'],
               {
                 silent: !this.configService.getOrElse(
                   'terraform.plan.verbose',
                   false
                 ),
-              }
+              },
+              `dinivas-project-${command.projectCode.toLowerCase()}`,
+              `project_base`
             );
             const result = {
               module: 'project',
               eventCode: `planEvent-${command.projectCode}`,
               event: {
                 source: command.project,
-                workingDir,
                 planResult,
               } as TerraformPlanEvent<ProjectDTO>,
             };

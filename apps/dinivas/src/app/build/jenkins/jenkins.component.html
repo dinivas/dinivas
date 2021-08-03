@@ -69,7 +69,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
           <td mat-cell *matCellDef="let row">
             <a mat-button [href]="'http://' + row.code + '.' + row.project.root_domain" target="_blank" *ngIf="row.project.root_domain && !row.use_existing_master">
-              {{row.code + '.' + row.project.root_domain }}
+              {{ row.code + '.' + row.project.root_domain }}
               <mat-icon>open_in_new</mat-icon>
           </a>
           </td>

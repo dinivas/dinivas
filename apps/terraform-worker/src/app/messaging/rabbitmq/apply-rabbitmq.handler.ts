@@ -12,18 +12,15 @@ import { WSGateway } from '../../wsgateway';
 import { Job } from 'bull';
 
 @Injectable()
-export class ApplyRabbitMQHandler
-{
+export class ApplyRabbitMQHandler {
   private readonly logger = new Logger(ApplyRabbitMQCommand.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformGateway: WSGateway
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private readonly terraformGateway: WSGateway,
+    private terraform: Terraform
+  ) {}
 
-  async execute(job: Job<ApplyRabbitMQCommand>,command: ApplyRabbitMQCommand) {
+  async execute(job: Job<ApplyRabbitMQCommand>, command: ApplyRabbitMQCommand) {
     return new Promise<any>(async (resolve, reject) => {
       this.logger.debug(
         `Received ApplyRabbitMQCommand: ${command.rabbitmq.code}`
@@ -31,12 +28,16 @@ export class ApplyRabbitMQHandler
       try {
         job.progress(20);
         const stateResult: TFStateRepresentation = await this.terraform.apply(
-          command.workingDir,
-          ['-auto-approve', '"last-plan"'],
-          { autoApprove: true, silent: !this.configService.getOrElse(
-            'terraform.apply.verbose',
-            false
-          ) }
+          ['-auto-approve', '"tfplan"'],
+          {
+            autoApprove: true,
+            silent: !this.configService.getOrElse(
+              'terraform.apply.verbose',
+              false
+            ),
+          },
+          `dinivas-project-${command.rabbitmq.project.code.toLowerCase()}`,
+          `rabbitmq/${command.rabbitmq.code.toLowerCase()}`
         );
         const result = {
           module: 'rabbitmq',

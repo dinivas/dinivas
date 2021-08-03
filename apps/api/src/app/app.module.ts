@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { native as pg } from 'pg';
 import { Instance } from './compute/instances/instance.entity';
 import { MessagingModule } from './messaging/messaging.module';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
@@ -23,7 +22,6 @@ import { ProjectProviderMiddleware } from './core/middlewares/project-provider/p
 import { Project } from './projects/project.entity';
 import { Cloudprovider } from './cloudprovider/cloudprovider.entity';
 import { AuthzGuard } from './auth/authz.guard';
-import { environment } from './../environments/environment';
 import { InfoController } from './info.controller';
 import { BullModule, InjectQueue } from '@nestjs/bull';
 import { ExpressAdapter } from '@bull-board/express';
@@ -34,6 +32,7 @@ import {
   NestModule,
   MiddlewareConsumer,
   RequestMethod,
+  OnApplicationShutdown,
 } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { HelmetMiddleware } from '@nest-middlewares/helmet';
@@ -161,7 +160,8 @@ const TASKS_REDIS_CONFIG_ROOT_KEY = 'dinivas.tasks.redis';
     CoreWebSocketGateway,
   ],
 })
-export class AppModule implements NestModule {
+export class AppModule implements NestModule, OnApplicationShutdown {
+  guacServer = undefined;
   constructor(
     private configService: ConfigService,
     @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
@@ -207,7 +207,7 @@ export class AppModule implements NestModule {
     if (this.configService.get<boolean>('dinivas.guacamole.enable', true)) {
       const guacdOptions = {
         host: this.configService.get<string>('dinivas.guacamole.guacd.host'),
-        port: this.configService.get<number>('dinivas.guacamole.guacd.port'), // port of guacd
+        port: this.configService.get<number>('dinivas.guacamole.guacd.port'),
       };
 
       const clientOptions = {
@@ -219,7 +219,7 @@ export class AppModule implements NestModule {
         },
       };
       const guacamolePort = process.env.GUACAMOLE_PORT || 3336;
-      const guacServer = new GuacamoleLite(
+      this.guacServer = new GuacamoleLite(
         { port: guacamolePort },
         guacdOptions,
         clientOptions
@@ -279,5 +279,13 @@ export class AppModule implements NestModule {
     //consumer
     //  .apply(AuthzMiddleware)
     //  .forRoutes('/*');
+  }
+  onApplicationShutdown(signal: string) {
+    if (this.guacServer) {
+      console.log(
+        `[SHUTDOWN] Received SIGTERM: ${signal}, stopping GUACSERVER...`
+      );
+      this.guacServer.close();
+    }
   }
 }

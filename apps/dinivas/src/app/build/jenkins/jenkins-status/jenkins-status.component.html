@@ -3,7 +3,7 @@
     <a class="web-access jenkins" [href]="'http://' + jenkins.code + '.' + project?.root_domain"
       target="_blank" *ngIf="project?.root_domain && !jenkins.use_existing_master">
       <mat-icon matListIcon svgIcon="jenkins"></mat-icon>
-      <span class="title">{{jenkins.code + '.' + project?.root_domain }}</span>
+      <span class="title">{{ jenkins.code + '.' + project?.root_domain }}</span>
       <mat-icon>open_in_new</mat-icon>
     </a>
   </div>

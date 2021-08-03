@@ -4,5 +4,7 @@ import { DestroyInstanceHandler } from './destroy-instance.handler';
 export const CommandHandlers = [
   PlanInstanceHandler,
   ApplyInstanceHandler,
-  DestroyInstanceHandler
+  DestroyInstanceHandler,
 ];
+
+export { PlanInstanceHandler, ApplyInstanceHandler, DestroyInstanceHandler };

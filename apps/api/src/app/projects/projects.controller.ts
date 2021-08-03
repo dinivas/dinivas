@@ -183,7 +183,6 @@ export class ProjectsController {
         applyProjectDefinition.source.project.cloud_provider.cloud,
         applyProjectDefinition.source.project,
         applyProjectDefinition.source.consul,
-        applyProjectDefinition.workingDir
       )
     );
     this.logger.debug(`Apply Job Id with data: ${JSON.stringify(applyJob)}`);

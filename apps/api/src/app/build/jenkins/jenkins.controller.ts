@@ -101,7 +101,7 @@ export class JenkinsController {
   async planproject(
     @Req() request: Request,
     @Body() jenkins: JenkinsDTO
-  ): Promise<{ planJobId: number | string }> {
+  ): Promise<{ planJobId: number }> {
     const project = request['project'] as ProjectDTO;
     jenkins.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
@@ -121,7 +121,7 @@ export class JenkinsController {
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
-    return { planJobId: planJob.id };
+    return { planJobId: Number(planJob.id) };
   }
 
   @Post('apply-plan')
@@ -139,14 +139,10 @@ export class JenkinsController {
     );
     const applyJob = await this.terraformModuleQueue.add(
       'apply-jenkins',
-      new ApplyJenkinsCommand(
-        cloudprovider.cloud,
-        applyProject.source,
-        applyProject.workingDir
-      )
+      new ApplyJenkinsCommand(cloudprovider.cloud, applyProject.source)
     );
     this.logger.debug('Apply Job Id', JSON.stringify(applyJob));
-    return { applyJobId: applyJob.id };
+    return { applyJobId: Number(applyJob.id) };
   }
 
   @Get(':id/terraform_state')
@@ -192,7 +188,7 @@ export class JenkinsController {
       this.logger.debug(
         `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
       );
-      return { planJobId: destroyJob.id };
+      return { destroyJobId: Number(destroyJob.id) };
     }
   }
 }

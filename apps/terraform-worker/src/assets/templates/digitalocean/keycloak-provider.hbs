@@ -1,0 +1,5 @@
+ provider "keycloak" {
+    client_id   = "{{ keycloak_client_id }}"
+    client_secret = "{{ keycloak_client_secret }}"
+    url    = "http://{{ keycloak_host }}"
+}

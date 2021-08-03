@@ -111,28 +111,41 @@ export class ConsulController {
       project.cloud_provider.id,
       true
     );
+    const projectConsul: ConsulDTO = await this.consulService.findOneByCode(
+      project.code
+    );
     const planJob = await this.terraformModuleQueue.add(
-      'plan',
+      'plan-consul',
       new PlanConsulCommand(
         cloudprovider.cloud,
         consul,
+        projectConsul,
         YAML.load(cloudprovider.config)
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
-    return { planJobId: planJob.id };
+    return { planJobId: Number(planJob.id) };
   }
 
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('consul:create')
-  async applyProject(@Body() applyProject: ApplyModuleDTO<ConsulDTO>) {
+  async applyProject(
+    @Req() request: Request,
+    @Body() applyProject: ApplyModuleDTO<ConsulDTO>
+  ) {
+    const project = request['project'] as ProjectDTO;
+    applyProject.source.project = project;
+    const cloudprovider = await this.cloudproviderService.findOne(
+      project.cloud_provider.id,
+      true
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply',
-      new ApplyConsulCommand(applyProject.source, applyProject.workingDir)
+      'apply-consul',
+      new ApplyConsulCommand(cloudprovider.cloud, applyProject.source)
     );
     this.logger.debug(`Apply Job Id with datas: ${JSON.stringify(applyJob)}`);
-    return { applyJobId: applyJob.id };
+    return { applyJobId: Number(applyJob.id) };
   }
 
   @Get(':id/terraform_state')
@@ -162,18 +175,22 @@ export class ConsulController {
         project.cloud_provider.id,
         true
       );
+      const projectConsul: ConsulDTO = await this.consulService.findOneByCode(
+        project.code
+      );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy',
+        'destroy-consul',
         new DestroyConsulCommand(
           cloudprovider.cloud,
           consul,
+          projectConsul,
           YAML.load(cloudprovider.config)
         )
       );
       this.logger.debug(
         `Destroy Job Id with datas: ${JSON.stringify(destroyJob)}`
       );
-      return { destroyJobId: destroyJob.id };
+      return { destroyJobId: Number(destroyJob.id) };
     }
   }
 }

@@ -1,5 +1,5 @@
-import { computeTerraformJenkinsModuleVarsForDigitalocean } from './../digitalocean/index';
-import { Logger } from '@nestjs/common';
+import { MinioService } from './../minio.service';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigurationService } from '../../configuration.service';
 import {
   Base,
@@ -29,25 +29,33 @@ import {
   PlanConsulCommand,
 } from '@dinivas/api-interfaces';
 import fs = require('fs');
+import * as archiver from 'archiver';
 import path = require('path');
 import os = require('os');
-import ncpModule = require('ncp');
+import * as extract from 'extract-zip';
 import {
-  addJenkinsSlaveFilesToModuleForDigitalocean,
-  computeTerraformProjectBaseModuleVarsForDigitalocean,
-  computeTerraformRabbitMQModuleVarsForDigitalocean,
+  computeTerraformProjectBaseModuleTemplateContextForDigitalocean,
+  computeTerraformRabbitMQModuleTemplateContextForDigitalocean,
+  computeTerraformInstanceModuleTemplateContextForDigitalocean,
+  computeTerraformJenkinsModuleTemplateContextForDigitalocean,
+  computeTerraformConsulModuleTemplateContextForDigitalocean,
 } from '../digitalocean';
 import {
-  addJenkinsSlaveFilesToModuleForOpenstack,
-  computeTerraformJenkinsModuleVarsForOpenstack,
-  computeTerraformProjectBaseModuleVarsForOpenstack,
-  computeTerraformRabbitMQModuleVarsForOpenstack,
+  computeTerraformInstanceModuleTemplateContextForOpenstack,
+  computeTerraformJenkinsModuleTemplateContextForOpenstack,
+  computeTerraformProjectBaseModuleTemplateContextForOpenstack,
+  computeTerraformRabbitMQModuleTemplateContextForOpenstack,
+  computeTerraformConsulModuleTemplateContextForOpenstack,
 } from '../openstack';
-const ncp = ncpModule.ncp;
+import Handlebars = require('handlebars');
 
+@Injectable()
 export class Terraform extends Base {
   private readonly nestLogger = new Logger(Terraform.name);
-  constructor(private configService: ConfigurationService) {
+  constructor(
+    private configService: ConfigurationService,
+    private minioService: MinioService
+  ) {
     super(
       configService.getTerraformExecutable(),
       '-auto-approve',
@@ -120,50 +128,150 @@ export class Terraform extends Base {
   }
 
   public async plan(
-    path: string,
+    directoryPath: string,
     commandLineArgs: string[],
-    options: ExecuteOptions = {}
+    options: ExecuteOptions = {},
+    bucketName: string,
+    tfPlanFileName: string
   ): Promise<TFPlanRepresentation> {
-    const commandToExecute = `plan ${commandLineArgs.join(' ')}`;
+    const commandToExecute = `plan -input=false ${commandLineArgs.join(' ')}`;
     this.nestLogger.debug(commandToExecute);
-    // First plan and save in file last-plan
-    await this.executeSync(path, commandToExecute, {
+    // First plan and save in file tfplan
+    await this.executeSync(directoryPath, commandToExecute, {
       silent: options.silent || false,
     });
-    const { stdout } = await this.executeSync(path, `show -json last-plan`, {
-      silent: true,
+    const { stdout } = await this.executeSync(
+      directoryPath,
+      `show -json tfplan`,
+      {
+        silent: true,
+      }
+    );
+    const zipFilePath = path.join(fs.mkdtempSync(os.tmpdir()), 'workspace.zip');
+    // Archive the workspace
+    const output = fs.createWriteStream(zipFilePath);
+    const archive = archiver('zip', {
+      zlib: { level: 9 }, // Sets the compression level.
+    });
+    archive.on('error', function (err) {
+      throw err;
+    });
+    // archive.on('entry', (entryData) => {
+    //   this.nestLogger.verbose(`Adding entry ${entryData.name} to Zip file [${zipFilePath}]...`);
+    // });
+    archive.pipe(output);
+    this.nestLogger.debug(
+      `Zipping workspace directory: ${directoryPath} to ${zipFilePath}...`
+    );
+    archive.directory(`${directoryPath}/`, false);
+    await archive.finalize();
+    // Upload workspace archive to Minio
+    await this.minioService.doInBucket(bucketName, (minio, resolve, reject) => {
+      minio.fPutObject(
+        bucketName,
+        `${tfPlanFileName}/workspace.zip`,
+        zipFilePath,
+        { 'Content-Type': 'application/zip' },
+        (err, objInfo) => {
+          if (err) {
+            reject(err);
+          }
+          this.nestLogger.debug(
+            `Upload workspace zip file [${zipFilePath}] to bucket ${bucketName} Success ${objInfo}`
+          );
+          resolve();
+        }
+      );
     });
     return JSON.parse(stdout) as TFPlanRepresentation;
-    //return this.parseResourceChanges(stdout, ChangeTypes.PLAN);
   }
 
   public async destroy(
-    path: string,
     commandLineArgs: string[],
-    options: DestroyOptions = {}
+    options: DestroyOptions = {},
+    bucketName: string,
+    tfPlanFileName: string
   ) {
-    const commandToExecute = `destroy ${commandLineArgs.join(' ')}`;
-    this.nestLogger.debug(commandToExecute);
-    await this.executeSync(path, commandToExecute, {
+    const commandToExecute = `destroy -input=false ${commandLineArgs.join(
+      ' '
+    )}`;
+    this.nestLogger.debug(
+      `Terraform Destroy command to execute: ${commandToExecute}`
+    );
+    const workingDirectory = fs.mkdtempSync(os.tmpdir());
+    // Download last workspace from Minio
+    const zipFilePath = path.join(fs.mkdtempSync(os.tmpdir()), 'workspace.zip');
+    await this.minioService.doInBucket(bucketName, (minio, resolve, reject) => {
+      minio.fGetObject(
+        bucketName,
+        `${tfPlanFileName}/workspace.zip`,
+        zipFilePath,
+        (err) => {
+          if (err) {
+            reject(err);
+          }
+          this.nestLogger.debug(
+            `Downloaded workspace file [${tfPlanFileName}/workspace.zip] from bucket ${bucketName} Success in ${zipFilePath}`
+          );
+          resolve();
+        }
+      );
+    });
+    await extract(zipFilePath, { dir: workingDirectory });
+    this.nestLogger.debug(
+      `Extracted workspace [${zipFilePath}] to directory: ${workingDirectory}`
+    );
+    this.nestLogger.debug(
+      `Terraform destroy with following parameters: Workdir: [${workingDirectory}], LocalZipFile: [${zipFilePath}]`
+    );
+    await this.executeSync(workingDirectory, commandToExecute, {
       silent: options.silent || false,
     });
     return;
   }
 
   public async apply(
-    path: string,
     commandLineArgs: string[],
-    options: ApplyOptions = {}
+    options: ApplyOptions = {},
+    bucketName: string,
+    tfPlanFileName: string
   ): Promise<TFStateRepresentation> {
-    const commandToExecute = `apply ${commandLineArgs.join(' ')}`;
-    this.nestLogger.debug(commandToExecute);
-
+    const commandToExecute = `apply -input=false ${commandLineArgs.join(' ')}`;
+    this.nestLogger.debug(
+      `Terraform Apply command to execute: ${commandToExecute}`
+    );
+    const workingDirectory = fs.mkdtempSync(os.tmpdir());
+    // Download last workspace from Minio
+    const zipFilePath = path.join(fs.mkdtempSync(os.tmpdir()), 'workspace.zip');
+    await this.minioService.doInBucket(bucketName, (minio, resolve, reject) => {
+      minio.fGetObject(
+        bucketName,
+        `${tfPlanFileName}/workspace.zip`,
+        zipFilePath,
+        (err) => {
+          if (err) {
+            reject(err);
+          }
+          this.nestLogger.debug(
+            `Downloaded workspace file [${tfPlanFileName}/workspace.zip] from bucket ${bucketName} Success in ${zipFilePath}`
+          );
+          resolve();
+        }
+      );
+    });
+    await extract(zipFilePath, { dir: workingDirectory });
+    this.nestLogger.debug(
+      `Extracted workspace [${zipFilePath}] to directory: ${workingDirectory}`
+    );
+    this.nestLogger.debug(
+      `Terraform apply with following parameters: Workdir: [${workingDirectory}], LocalZipFile: [${zipFilePath}]`
+    );
     // Terraform apply
-    await this.executeSync(path, commandToExecute, {
+    await this.executeSync(workingDirectory, commandToExecute, {
       silent: options.silent || false,
     });
     // Terraform show state as json
-    const { stdout } = await this.executeSync(path, `show -json`, {
+    const { stdout } = await this.executeSync(workingDirectory, `show -json`, {
       silent: true,
     });
     return JSON.parse(stdout) as TFStateRepresentation;
@@ -225,32 +333,25 @@ export class Terraform extends Base {
   }
 
   addBackendConfigFileToModule(
+    cloudProviderId: string,
     stateId: string,
     module: string,
     destination: string
   ) {
-    const backendContent = `
-    terraform {
-      required_version = ">= ${this.configService.get(
-        'terraform.min_required_version'
-      )}"
-      backend "http" {
-        address        = "${this.configService.get(
-          'terraform.state.http_address'
-        )}?stateId=${stateId.toLowerCase()}&module=${module}"
-        lock_address   = "${this.configService.get(
-          'terraform.state.http_address'
-        )}?stateId=${stateId.toLowerCase()}&module=${module}"
-        unlock_address = "${this.configService.get(
-          'terraform.state.http_address'
-        )}?stateId=${stateId.toLowerCase()}&module=${module}"
-        username       = "${this.configService.get('terraform.state.username')}"
-        password       = "${this.configService.get('terraform.state.password')}"
-      }
-    }
-    `;
     try {
-      fs.writeFileSync(path.join(destination, 'backend.tf'), backendContent);
+      fs.writeFileSync(
+        path.join(destination, 'backend.tf'),
+        this.renderTemplate(`${cloudProviderId}/backend.hbs`, {
+          min_required_version: this.configService.get(
+            'terraform.min_required_version'
+          ),
+          http_address: this.configService.get('terraform.state.http_address'),
+          username: this.configService.get('terraform.state.username'),
+          password: this.configService.get('terraform.state.password'),
+          state_id: stateId.toLowerCase(),
+          module: module.toLowerCase(),
+        })
+      );
     } catch (err) {
       console.error(err);
     }
@@ -261,27 +362,24 @@ export class Terraform extends Base {
     cloudConfig: any,
     destination: string
   ) {
-    let providerContent;
+    let providerContext;
     if ('openstack' === cloudprovider) {
-      providerContent = `
-    provider "openstack" {
-      user_name   = "${cloudConfig.clouds.openstack.auth.username}"
-      tenant_name = "${cloudConfig.clouds.openstack.auth.project_name}"
-      password    = "${cloudConfig.clouds.openstack.auth.password}"
-      auth_url    = "${cloudConfig.clouds.openstack.auth.auth_url}"
-      region      = "${cloudConfig.clouds.openstack.region_name}"
-    }
-    `;
+      providerContext = {
+        user_name: cloudConfig.clouds.openstack.auth.username,
+        tenant_name: cloudConfig.clouds.openstack.auth.project_name,
+        password: cloudConfig.clouds.openstack.auth.password,
+        auth_url: cloudConfig.clouds.openstack.auth.auth_url,
+        region: cloudConfig.clouds.openstack.region_name,
+      };
     }
     if ('digitalocean' === cloudprovider) {
-      providerContent = `
-      provider "digitalocean" {
-        token = "${cloudConfig.access_token}"
-      }
-    `;
+      providerContext = { access_token: cloudConfig.access_token };
     }
     try {
-      fs.writeFileSync(path.join(destination, 'provider.tf'), providerContent);
+      fs.writeFileSync(
+        path.join(destination, 'provider.tf'),
+        this.renderTemplate(`${cloudprovider}/provider.hbs`, providerContext)
+      );
     } catch (err) {
       this.nestLogger.error(err);
     }
@@ -291,21 +389,31 @@ export class Terraform extends Base {
     project: ProjectDTO,
     destination: string
   ) {
-    const providerContent = `
-    provider "keycloak" {
-      client_id   = "${project.keycloak_client_id}"
-      client_secret = "${project.keycloak_client_secret}"
-      url    = "http://${project.keycloak_host}"
-    }
-    `;
     try {
       fs.writeFileSync(
         path.join(destination, 'keycloak-provider.tf'),
-        providerContent
+        this.renderTemplate(
+          `${project.cloud_provider.cloud}/keycloak-provider.hbs`,
+          {
+            keycloak_host: project.keycloak_host,
+            keycloak_client_id: project.keycloak_client_id,
+            keycloak_client_secret: project.keycloak_client_secret,
+          }
+        )
       );
     } catch (err) {
       this.nestLogger.error(err);
     }
+  }
+
+  renderTemplate(templatePath: string, templateContext: any): string {
+    const templateStr = fs
+      .readFileSync(
+        path.resolve(__dirname, 'assets', 'templates', templatePath)
+      )
+      .toString('utf8');
+    const template = Handlebars.compile(templateStr, { noEscape: true });
+    return template(templateContext);
   }
 
   executeInTerraformModuleDir(
@@ -322,242 +430,289 @@ export class Terraform extends Base {
         os.tmpdir(),
         `project-${projectCode.toLocaleLowerCase()}-${tfModuleName}-`
       ),
-      (err: any, tempFolder: string) => {
+      async (err: any, tempFolder: string) => {
         if (err) throw err;
-        ncp(
-          path.join(
-            this.configService.getTerraformModulesRootPath(),
-            cloudProviderId,
-            tfModuleName
-          ),
-          path.join(tempFolder),
-          async (error: any) => {
-            if (error) {
-              return console.error(error);
-            }
-            this.nestLogger.debug(`Working Terraform folder: ${tempFolder}`);
-            // Add backend config file
-            this.addBackendConfigFileToModule(
-              projectCode,
-              tfModuleName,
-              tempFolder
-            );
-            // Add provider config
-            this.addProviderConfigFileToModule(
-              cloudProviderId,
-              cloudConfig,
-              tempFolder
-            );
-            if (preInitCallback) preInitCallback(tempFolder);
-            // Init module temporary directory
-            try {
-              await this.init(tempFolder, [], {
-                silent: !this.configService.getOrElse(
-                  'terraform.init.verbose',
-                  false
-                ),
-              });
-              if (postInitCallback) postInitCallback(tempFolder);
-            } catch (error) {
-              if (onInitErrorCallback) onInitErrorCallback(error);
-            }
-          }
+        this.nestLogger.debug(`Working Terraform folder: ${tempFolder}`);
+        // Add backend config file
+        this.addBackendConfigFileToModule(
+          cloudProviderId,
+          projectCode,
+          tfModuleName,
+          tempFolder
         );
+        // Add provider config
+        this.addProviderConfigFileToModule(
+          cloudProviderId,
+          cloudConfig,
+          tempFolder
+        );
+        if (preInitCallback) preInitCallback(tempFolder);
+        // Init module temporary directory
+        try {
+          await this.init(tempFolder, [], {
+            silent: !this.configService.getOrElse(
+              'terraform.init.verbose',
+              false
+            ),
+          });
+          if (postInitCallback) postInitCallback(tempFolder);
+        } catch (error) {
+          if (onInitErrorCallback) onInitErrorCallback(error);
+        }
       }
     );
   }
 
-  computeTerraformProjectBaseModuleVars(
+  addTerraformProjectBaseModuleFile(
     project: ProjectDTO,
-    projectConsul: ConsulDTO,
-    cloudConfig: any
-  ): string[] {
-    if ('openstack' === project.cloud_provider.cloud) {
-      return computeTerraformProjectBaseModuleVarsForOpenstack(
-        project,
-        projectConsul,
-        cloudConfig
-      );
-    }
-    if ('digitalocean' === project.cloud_provider.cloud) {
-      return computeTerraformProjectBaseModuleVarsForDigitalocean(
-        project,
-        projectConsul,
-        cloudConfig
-      );
-    }
-  }
-
-  addJenkinsSlaveFilesToModule(
-    jenkinsDTO: JenkinsDTO,
     projectConsul: ConsulDTO,
     cloudConfig: any,
     destination: string
   ) {
-    if ('openstack' === jenkinsDTO.project.cloud_provider.cloud) {
-      addJenkinsSlaveFilesToModuleForOpenstack(
-        jenkinsDTO,
-        projectConsul,
-        cloudConfig,
-        destination
-      );
-    }
-    if ('digitalocean' === jenkinsDTO.project.cloud_provider.cloud) {
-      addJenkinsSlaveFilesToModuleForDigitalocean(
-        jenkinsDTO,
-        projectConsul,
-        cloudConfig,
-        destination
-      );
-    }
-  }
-
-  addSshViaBastionConfigFileToModule(projectState: any, destination: string) {
-    const content = `
-    ssh_via_bastion_config = {
-      "bastion_host"         = "${projectState.outputs.bastion_floating_ip.value}"
-      "bastion_port"         = 22
-      "bastion_ssh_user"     = "root"
-      "host_private_key"     = <<EOT
-      ${projectState.outputs.project_private_key.value}
-      EOT
-      "bastion_private_key"  = <<EOT
-      ${projectState.outputs.bastion_private_key.value}
-      EOT
-    }
-    `;
     try {
       fs.writeFileSync(
-        path.join(destination, 'ssh-via-bastion.tfvars'),
-        content
+        path.join(destination, 'main.tf'),
+        this.renderTemplate(
+          `${project.cloud_provider.cloud}/project_base.hbs`,
+          this.computeTerraformProjectBaseModuleTemplateContext(
+            project,
+            projectConsul,
+            cloudConfig
+          )
+        )
       );
     } catch (err) {
       this.nestLogger.error(err);
     }
   }
 
-  computeTerraformJenkinsModuleVars(
+  addTerraformJenkinsModuleFile(
+    jenkins: JenkinsDTO,
+    projectConsul: ConsulDTO,
+    cloudConfig: any,
+    destination: string
+  ) {
+    try {
+      fs.writeFileSync(
+        path.join(destination, 'main.tf'),
+        this.renderTemplate(
+          `${jenkins.project.cloud_provider.cloud}/jenkins.hbs`,
+          this.computeTerraformJenkinsModuleTemplateContext(
+            jenkins,
+            projectConsul,
+            cloudConfig
+          )
+        )
+      );
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+  addTerraformConsulModuleFile(
+    consul: ConsulDTO,
+    projectConsul: ConsulDTO,
+    cloudConfig: any,
+    destination: string
+  ) {
+    try {
+      fs.writeFileSync(
+        path.join(destination, 'main.tf'),
+        this.renderTemplate(
+          `${consul.project.cloud_provider.cloud}/consul.hbs`,
+          this.computeTerraformConsulModuleTemplateContext(
+            consul,
+            projectConsul,
+            cloudConfig
+          )
+        )
+      );
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+  addTerraformInstanceModuleFile(
+    instance: InstanceDTO,
+    projectConsul: ConsulDTO,
+    cloudConfig: any,
+    destination: string
+  ) {
+    try {
+      fs.writeFileSync(
+        path.join(destination, 'main.tf'),
+        this.renderTemplate(
+          `${instance.project.cloud_provider.cloud}/instance.hbs`,
+          this.computeTerraformInstanceModuleTemplateContext(
+            instance,
+            projectConsul,
+            cloudConfig
+          )
+        )
+      );
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+  addTerraformRabbitMQModuleFile(
+    rabbitmq: RabbitMQDTO,
+    projectConsul: ConsulDTO,
+    cloudConfig: any,
+    destination: string
+  ) {
+    try {
+      fs.writeFileSync(
+        path.join(destination, 'main.tf'),
+        this.renderTemplate(
+          `${rabbitmq.project.cloud_provider.cloud}/rabbitmq.hbs`,
+          this.computeTerraformRabbitMQModuleTemplateContext(
+            rabbitmq,
+            projectConsul,
+            cloudConfig
+          )
+        )
+      );
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+
+  computeTerraformProjectBaseModuleTemplateContext(
+    project: ProjectDTO,
+    projectConsul: ConsulDTO,
+    cloudConfig: any
+  ): any {
+    if ('openstack' === project.cloud_provider.cloud) {
+      return computeTerraformProjectBaseModuleTemplateContextForOpenstack(
+        project,
+        projectConsul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource('project_base', 'openstack')
+      );
+    }
+    if ('digitalocean' === project.cloud_provider.cloud) {
+      return computeTerraformProjectBaseModuleTemplateContextForDigitalocean(
+        project,
+        projectConsul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource(
+          'project_base',
+          'digitalocean'
+        )
+      );
+    }
+  }
+
+  addSshViaBastionConfigFileToModule(
+    cloudProviderId: string,
+    projectState: any,
+    destination: string
+  ) {
+    try {
+      fs.writeFileSync(
+        path.join(destination, 'ssh-via-bastion.tfvars'),
+        this.renderTemplate(`${cloudProviderId}/ssh-via-bastion.hbs`, {
+          project_private_key: projectState.outputs.project_private_key.value,
+          bastion_private_key: projectState.outputs.bastion_private_key.value,
+          bastion_host: projectState.outputs.bastion_floating_ip.value,
+        })
+      );
+    } catch (err) {
+      this.nestLogger.error(err);
+    }
+  }
+
+  computeTerraformJenkinsModuleTemplateContext(
     jenkins: JenkinsDTO,
     consul: ConsulDTO,
     cloudConfig: any
-  ): string[] {
+  ): any {
     if ('openstack' === jenkins.project.cloud_provider.cloud) {
-      return computeTerraformJenkinsModuleVarsForOpenstack(
+      return computeTerraformJenkinsModuleTemplateContextForOpenstack(
         jenkins,
         consul,
-        cloudConfig
+        cloudConfig,
+        this.configService.getTerraformModuleSource('jenkins', 'openstack')
       );
     }
     if ('digitalocean' === jenkins.project.cloud_provider.cloud) {
-      return computeTerraformJenkinsModuleVarsForDigitalocean(
+      return computeTerraformJenkinsModuleTemplateContextForDigitalocean(
         jenkins,
         consul,
-        cloudConfig
+        cloudConfig,
+        this.configService.getTerraformModuleSource('jenkins', 'digitalocean')
       );
     }
   }
-
-  computeTerraformRabbitMQModuleVars(
-    rabbitmq: RabbitMQDTO,
+  computeTerraformConsulModuleTemplateContext(
     consul: ConsulDTO,
+    projectConsul: ConsulDTO,
     cloudConfig: any
-  ): string[] {
-    if ('openstack' === rabbitmq.project.cloud_provider.cloud) {
-      return computeTerraformRabbitMQModuleVarsForOpenstack(
-        rabbitmq,
+  ): any {
+    if ('openstack' === consul.project.cloud_provider.cloud) {
+      return computeTerraformConsulModuleTemplateContextForOpenstack(
         consul,
-        cloudConfig
+        projectConsul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource('consul', 'openstack')
       );
     }
-    if ('digitalocean' === rabbitmq.project.cloud_provider.cloud) {
-      return computeTerraformRabbitMQModuleVarsForDigitalocean(
-        rabbitmq,
+    if ('digitalocean' === consul.project.cloud_provider.cloud) {
+      return computeTerraformConsulModuleTemplateContextForDigitalocean(
         consul,
-        cloudConfig
+        projectConsul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource('consul', 'digitalocean')
       );
     }
-    const rabbitmq_cluster_vars = [
-      `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
-      `-var 'enable_rabbitmq=1'`,
-      `-var 'rabbitmq_cluster_name=${rabbitmq.code.toLowerCase()}'`,
-      `-var 'rabbitmq_nodes_count=${rabbitmq.cluster_instance_count}'`,
-      `-var 'rabbitmq_cluster_availability_zone=${rabbitmq.project.availability_zone}'`,
-      `-var 'rabbitmq_cluster_image_name=${rabbitmq.cluster_cloud_image}'`,
-      `-var 'rabbitmq_cluster_compute_flavor_name=${rabbitmq.cluster_cloud_flavor}'`,
-      `-var 'rabbitmq_cluster_keypair_name=${rabbitmq.keypair_name}'`,
-      `-var 'rabbitmq_cluster_security_groups_to_associate=["${rabbitmq.project.code.toLowerCase()}-common"]'`,
-      `-var 'rabbitmq_cluster_network=${rabbitmq.network_name}'`,
-      `-var 'rabbitmq_cluster_subnet=${rabbitmq.network_subnet_name}'`,
-      `-var 'rabbitmq_plugin_list=${rabbitmq.enabled_plugin_list}'`,
-      `-var 'project_consul_domain=${consul.cluster_domain}'`,
-      `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
-      `-var 'os_auth_domain_name=${cloudConfig.clouds.openstack.auth.user_domain_name}'`,
-      `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
-      `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
-      `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
-      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`,
-      `-var-file=ssh-via-bastion.tfvars`,
-    ];
-    return rabbitmq_cluster_vars;
   }
-
-  computeTerraformInstanceModuleVars(
+  computeTerraformInstanceModuleTemplateContext(
     instance: InstanceDTO,
     consul: ConsulDTO,
     cloudConfig: any
-  ): string[] {
-    const instance_vars = [
-      `-var 'project_name=${instance.project.code.toLowerCase()}'`,
-      `-var 'instance_name=${instance.code.toLowerCase()}'`,
-      `-var 'enable_instance=1'`,
-      `-var 'instance_count=1'`,
-      `-var 'instance_image_name=${instance.cloud_image}'`,
-      `-var 'instance_flavor_name=${instance.cloud_flavor}'`,
-      `-var 'instance_keypair_name=${instance.keypair_name}'`,
-      `-var 'instance_network=${instance.network_name}'`,
-      `-var 'instance_subnet=${instance.network_subnet_name}'`,
-      `-var 'instance_availability_zone=${instance.project.availability_zone}'`,
-      `-var 'instance_security_groups_to_associate=["${instance.project.code.toLowerCase()}-common"]'`,
-      `-var 'project_consul_domain=${consul.cluster_domain}'`,
-      `-var 'project_consul_datacenter=${consul.cluster_datacenter}'`,
-      `-var 'os_auth_domain_name=${cloudConfig.clouds.openstack.auth.user_domain_name}'`,
-      `-var 'os_auth_username=${cloudConfig.clouds.openstack.auth.username}'`,
-      `-var 'os_auth_password=${cloudConfig.clouds.openstack.auth.password}'`,
-      `-var 'os_auth_url=${cloudConfig.clouds.openstack.auth.auth_url}'`,
-      `-var 'os_project_id=${cloudConfig.clouds.openstack.auth.project_id}'`,
-      `-var-file=ssh-via-bastion.tfvars`,
-    ];
-    return instance_vars;
+  ): any {
+    if ('openstack' === instance.project.cloud_provider.cloud) {
+      return computeTerraformInstanceModuleTemplateContextForOpenstack(
+        instance,
+        consul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource(
+          'project_instance',
+          'openstack'
+        )
+      );
+    }
+    if ('digitalocean' === instance.project.cloud_provider.cloud) {
+      return computeTerraformInstanceModuleTemplateContextForDigitalocean(
+        instance,
+        consul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource(
+          'project_instance',
+          'digitalocean'
+        )
+      );
+    }
   }
 
-  computeTerraformConsulModuleVars(consulCommand: PlanConsulCommand): string[] {
-    const consul_cluster_vars = [
-      `-var 'enable_consul_cluster=1'`,
-      `-var 'consul_cluster_name=${consulCommand.consul.code.toLowerCase()}'`,
-      `-var 'consul_cluster_domain=${consulCommand.consul.cluster_domain}'`,
-      `-var 'consul_cluster_datacenter=${consulCommand.consul.cluster_datacenter}'`,
-      `-var 'consul_cluster_availability_zone=${consulCommand.consul.project.availability_zone}'`,
-      `-var 'consul_server_image_name=${consulCommand.consul.server_image}'`,
-      `-var 'consul_server_flavor_name=${consulCommand.consul.server_flavor}'`,
-      `-var 'consul_client_image_name=${consulCommand.consul.client_image}'`,
-      `-var 'consul_client_flavor_name=${consulCommand.consul.client_flavor}'`,
-      `-var 'consul_server_instance_count=${consulCommand.consul.server_instance_count}'`,
-      `-var 'consul_client_instance_count=${consulCommand.consul.client_instance_count}'`,
-      `-var 'consul_server_keypair_name=${consulCommand.consul.keypair_name}'`,
-      `-var 'consul_client_keypair_name=${consulCommand.consul.keypair_name}'`,
-      `-var 'consul_cluster_security_groups_to_associate=["${consulCommand.consul.project.code.toLowerCase()}-common"]'`,
-      `-var 'consul_cluster_network=${consulCommand.consul.network_name}'`,
-      `-var 'consul_cluster_metadata={"consul_cluster_name":"${consulCommand.consul.code.toLowerCase()}"}'`,
-      `-var 'consul_cluster_subnet=${consulCommand.consul.network_subnet_name}'`,
-      consulCommand.consul.use_floating_ip
-        ? `-var 'consul_cluster_floating_ip_pool=${consulCommand.consul.project.floating_ip_pool}'`
-        : '',
-      `-var 'os_auth_domain_name=${consulCommand.cloudConfig.clouds.openstack.auth.user_domain_name}'`,
-      `-var 'os_auth_username=${consulCommand.cloudConfig.clouds.openstack.auth.username}'`,
-      `-var 'os_auth_password=${consulCommand.cloudConfig.clouds.openstack.auth.password}'`,
-      `-var 'os_auth_url=${consulCommand.cloudConfig.clouds.openstack.auth.auth_url}'`,
-      `-var 'os_project_id=${consulCommand.cloudConfig.clouds.openstack.auth.project_id}'`,
-    ];
-    return consul_cluster_vars;
+  computeTerraformRabbitMQModuleTemplateContext(
+    rabbitmq: RabbitMQDTO,
+    consul: ConsulDTO,
+    cloudConfig: any
+  ): any {
+    if ('openstack' === rabbitmq.project.cloud_provider.cloud) {
+      return computeTerraformRabbitMQModuleTemplateContextForOpenstack(
+        rabbitmq,
+        consul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource('rabbitmq', 'openstack')
+      );
+    }
+    if ('digitalocean' === rabbitmq.project.cloud_provider.cloud) {
+      return computeTerraformRabbitMQModuleTemplateContextForDigitalocean(
+        rabbitmq,
+        consul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource('rabbitmq', 'digitalocean')
+      );
+    }
   }
 }

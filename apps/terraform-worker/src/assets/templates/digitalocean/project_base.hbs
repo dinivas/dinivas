@@ -1,0 +1,96 @@
+variable "project_keycloak_host" {
+  default = "{{ project_keycloak_host }}"
+}
+variable "do_api_token" {
+  default = "{{ do_api_token }}"
+}
+variable "project_root_domain" {
+  default = "{{ project_root_domain }}"
+}
+
+module "project_base" {
+  source = "{{ module_project_base_source }}"
+
+  project_name                      = "{{ project_name }}"
+  project_description               = "{{ project_description }}"
+  project_root_domain               = var.project_root_domain
+  project_availability_zone         = "{{ project_availability_zone }}"
+  public_router_name                = "{{ public_router_name }}"
+  mgmt_subnet_cidr                  = "{{ mgmt_subnet_cidr }}"
+  mgmt_subnet_dhcp_allocation_start = "{{ mgmt_subnet_dhcp_allocation_start }}"
+  mgmt_subnet_dhcp_allocation_end   = "{{ mgmt_subnet_dhcp_allocation_end }}"
+  bastion_image_name                = {{ bastion_image_name }}
+  bastion_compute_flavor_name       = "{{ bastion_compute_flavor_name}}"
+  bastion_ssh_user                  = "{{ bastion_ssh_user }}"
+  prometheus_image_name             = "{{ prometheus_image_name }}"
+  prometheus_compute_flavor_name    = "{{ prometheus_compute_flavor_name }}"
+  enable_proxy                      = "{{ enable_proxy }}"
+  enable_prometheus                 = "{{ enable_prometheus }}"
+  proxy_image_name                  = "{{ proxy_image_name }}"
+  proxy_compute_flavor_name         = "{{ proxy_compute_flavor_name }}"
+  proxy_prefered_floating_ip        = "{{ proxy_prefered_floating_ip }}"
+
+  project_consul_enable             = "{{ project_consul_enable }}"
+  project_consul_domain             = "{{ project_consul_domain }}"
+  project_consul_datacenter         = "{{ project_consul_datacenter }}"
+  project_consul_server_count       = {{ project_consul_server_count }}
+  project_consul_client_count       = {{ project_consul_client_count }}
+  project_consul_floating_ip_pool   = "{{ project_consul_floating_ip_pool }}"
+  project_consul_server_image_name  = "{{ project_consul_server_image_name }}"
+  project_consul_server_flavor_name = "{{ project_consul_server_flavor_name }}"
+  project_consul_client_image_name  = "{{ project_consul_client_image_name }}"
+  project_consul_client_flavor_name = "{{ project_consul_client_flavor_name }}"
+
+  enable_logging_graylog       = "{{ enable_logging_graylog }}"
+  graylog_compute_image_name   = {{ graylog_compute_image_name }}
+  graylog_compute_flavour_name = "{{ graylog_compute_flavour_name }}"
+
+  project_keycloak_host = var.project_keycloak_host
+  do_api_token          = var.do_api_token
+}
+
+output "bastion_floating_ip" {
+  description = "The floating ip bind to bastion"
+  value       = module.project_base.bastion_floating_ip
+}
+
+output "bastion_private_key" {
+  value       = module.project_base.bastion_private_key
+  description = "The private Key (generated) to access bastion"
+  sensitive   = true
+}
+
+output "project_private_key" {
+  value       = module.project_base.project_private_key
+  description = "The private Key to access project instances"
+  sensitive   = true
+}
+
+output "project_keypair_name" {
+  value       = module.project_base.project_keypair_name
+  description = "Default keypair used for project hosts"
+}
+
+output "mgmt_network_name" {
+  value       = module.project_base.mgmt_network_name
+  description = "Project management network"
+}
+
+output "proxy_floating_ip" {
+  description = "The floating ip bind to proxy"
+  value       = module.project_base.proxy_floating_ip
+}
+
+output "consul_url" {
+  description = "The URL to access Project Consul Dashboard"
+  value       = format("http://%s-consul-dashboard.%s", "dnv", var.project_root_domain)
+}
+output "prometheus_url" {
+  description = "The URL to access Project Prometheus"
+  value       = format("http://prometheus.%s", var.project_root_domain)
+}
+output "grafana_url" {
+  description = "The URL to access Project Grafana Dashboard"
+  value       = format("http://grafana.%s", var.project_root_domain)
+}
+

@@ -9,6 +9,8 @@ volumes:
     driver: local
   postgres_redis_dev_data:
     driver: local
+  minio_dinivas_dev_data:
+    driver: local
 
 services:
   # KEYCLOAK
@@ -61,6 +63,27 @@ services:
       PGADMIN_DEFAULT_PASSWORD: password
     ports:
       - 8383:80
+  minio-dinivas:
+    image: minio/minio:latest
+    command: server --console-address ":9001" /data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - minio_dinivas_dev_data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    volumes:
+      - postgres_redis_dev_data:/data
+  guacd:
+    image: guacamole/guacd
+    ports:
+      - '4822:4822'
 
   # Galaxy
   #postgres_galaxy:
@@ -94,16 +117,6 @@ services:
   #    - RABBITMQ_DEFAULT_PASS=galaxy
   #    - RABBITMQ_DEFAULT_VHOST=galaxy
 
-  redis:
-    image: redis:latest
-    ports:
-      - '6379:6379'
-    volumes:
-      - postgres_redis_dev_data:/data
-  guacd:
-    image: guacamole/guacd
-    ports:
-      - '4822:4822'
   # DINIVAS
   # dinivas_api:
   #   build:

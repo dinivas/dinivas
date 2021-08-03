@@ -516,7 +516,9 @@ export class JenkinsWizardComponent
     return formValid;
   }
 
-  moduleServicePlan(moduleEntity: JenkinsDTO): Observable<any> {
+  moduleServicePlan(
+    moduleEntity: JenkinsDTO
+  ): Observable<{ planJobId: number }> {
     return this.jenkinsService.plan(moduleEntity);
   }
 
@@ -535,7 +537,11 @@ export class JenkinsWizardComponent
       ).name;
       delete jenkins['_master_cloud_flavor'];
     }
-
+    // add project code preffix to jenkins code and all slave code
+    if (!this.jenkins) {
+      // add prefix only for new Jenkins
+      jenkins.code = `${this.project.code.toLowerCase()}-${jenkins.code.toLowerCase()}`;
+    }
     if (jenkins.manage_slave) {
       jenkins.slave_groups.forEach((slave, slaveIndex) => {
         if (!slave.id) {
@@ -575,7 +581,7 @@ export class JenkinsWizardComponent
   moduleServiceApplyPlan(
     moduleEntity: JenkinsDTO,
     terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>
-  ): Observable<any> {
+  ): Observable<[any, { applyJobId: number }]> {
     if (this.jenkins) {
       moduleEntity.id = this.jenkins.id;
     }
@@ -585,9 +591,7 @@ export class JenkinsWizardComponent
 
     return forkJoin(
       saveOrUpdateJenkins,
-      this.jenkinsService.applyPlan(
-        new ApplyModuleDTO(moduleEntity, terraformPlanEvent.workingDir)
-      )
+      this.jenkinsService.applyPlan(new ApplyModuleDTO(moduleEntity))
     );
   }
 

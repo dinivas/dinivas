@@ -2689,6 +2689,14 @@
             "attributes": {}
           },
           {
+            "id": "e6a55555-4092-4109-85ca-57dd00ac6771",
+            "name": "Compute Instances Editor",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
             "id": "c6c6e1b8-493c-4fa5-807a-8eb6c7cfb586",
             "name": "Jenkins Viewer",
             "composite": false,
@@ -2896,6 +2904,7 @@
             "Terraform State Viewer",
             "Terraform State Editor",
             "Compute Instances Viewer",
+            "Compute Instances Editor",
             "Jenkins Viewer",
             "RabbitMQ Viewer",
             "Cloud Providers Viewer",
@@ -3819,6 +3828,16 @@
               }
             },
             {
+              "id": "0a1de2fb-a4c4-4444-a3b2-2b27c1cc0c43",
+              "name": "Compute Instances Editor",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/Compute Instances Editor\",\"required\":false}]"
+              }
+            },
+            {
               "id": "6f9fe62b-7e8f-4a4e-854a-68220ba6242a",
               "name": "Compute Images Viewer",
               "type": "role",
@@ -4205,6 +4224,54 @@
                 "resources": "[\"compute.instances\"]",
                 "scopes": "[\"list\"]",
                 "applyPolicies": "[\"Compute Instances Viewer\"]"
+              }
+            },
+            {
+              "id": "79ddad14-4574-4a28-8e12-05bca5412a22",
+              "name": "compute.instances.view",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"compute.instances\"]",
+                "scopes": "[\"view\"]",
+                "applyPolicies": "[\"Compute Instances Viewer\"]"
+              }
+            },
+            {
+              "id": "79ddad14-4574-4a28-8e12-05bca5414444",
+              "name": "compute.instances.edit",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"compute.instances\"]",
+                "scopes": "[\"edit\"]",
+                "applyPolicies": "[\"Compute Instances Editor\"]"
+              }
+            },
+            {
+              "id": "79ddad14-4574-4a28-8e12-05bca5412333",
+              "name": "compute.instances.delete",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"compute.instances\"]",
+                "scopes": "[\"delete\"]",
+                "applyPolicies": "[\"Compute Instances Editor\"]"
+              }
+            },
+            {
+              "id": "79ddad14-4574-4a28-8e12-05bca5455555",
+              "name": "compute.instances.create",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"compute.instances\"]",
+                "scopes": "[\"create\"]",
+                "applyPolicies": "[\"Compute Instances Editor\"]"
               }
             },
             {

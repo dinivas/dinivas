@@ -1,0 +1,11 @@
+host_private_key     = <<EOT
+{{ project_private_key }}
+EOT
+bastion_private_key  = <<EOT
+{{ bastion_private_key }}
+EOT
+ssh_via_bastion_config = {
+  "bastion_host"         = "{{ bastion_host }}"
+  "bastion_port"         = 22
+  "bastion_ssh_user"     = "root"
+}

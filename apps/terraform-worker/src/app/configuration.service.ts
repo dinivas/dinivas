@@ -16,6 +16,12 @@ if (!fileSystem.existsSync(dinivasWorkspaceDirectory)) {
   fileSystem.mkdirSync(dinivasWorkspaceDirectory, { recursive: true });
 }
 
+type TfModule = {
+  name: string;
+  type: string;
+  provider: string;
+  url: string;
+};
 @Injectable()
 export class ConfigurationService {
   configRootPrefix = 'dinivas';
@@ -51,6 +57,19 @@ export class ConfigurationService {
         }
       }
     );
+  }
+
+  getTerraformModuleSource(
+    moduleId: 'project_base' | 'jenkins' | 'rabbitmq' | 'project_instance' | 'consul',
+    cloudproviderId: 'openstack' | 'digitalocean'
+  ): string {
+    return this.configService
+      .get<TfModule[]>(`${this.configRootPrefix}.terraform.modules`)
+      .filter(
+        (module) =>
+          module.provider === cloudproviderId && module.name === moduleId
+      )
+      .map((m) => m.url)[0];
   }
 
   getTerraformExecutable(): string {

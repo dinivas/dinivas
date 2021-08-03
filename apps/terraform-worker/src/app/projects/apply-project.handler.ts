@@ -13,10 +13,10 @@ import { Job } from 'bull';
 @Injectable()
 export class ApplyProjectHandler {
   private readonly logger = new Logger(ApplyProjectCommand.name);
-  terraform: Terraform;
-  constructor(private readonly configService: ConfigurationService) {
-    this.terraform = new Terraform(this.configService);
-  }
+  constructor(
+    private readonly configService: ConfigurationService,
+    private terraform: Terraform
+  ) {}
 
   async execute(job: Job<ApplyProjectCommand>, command: ApplyProjectCommand) {
     return new Promise<any>(async (resolve, reject) => {
@@ -26,15 +26,16 @@ export class ApplyProjectHandler {
       try {
         job.progress(20);
         const stateResult: TFStateRepresentation = await this.terraform.apply(
-          command.workingDir,
-          ['-auto-approve', '"last-plan"'],
+          ['-auto-approve', '"tfplan"'],
           {
             autoApprove: true,
             silent: !this.configService.getOrElse(
               'terraform.apply.verbose',
               false
             ),
-          }
+          },
+          `dinivas-project-${command.project.code.toLowerCase()}`,
+          `project_base`
         );
         const result = {
           module: 'project',
@@ -48,11 +49,7 @@ export class ApplyProjectHandler {
         resolve(result);
       } catch (error) {
         this.logger.error(error);
-        reject({
-          module: 'project',
-          eventCode: `applyEvent-${command.project.code}-error`,
-          error,
-        });
+        reject(error);
       }
     });
   }

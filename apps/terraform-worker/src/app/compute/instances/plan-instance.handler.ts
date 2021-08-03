@@ -1,87 +1,92 @@
 import { TerraformStateService } from '../../terraform-state.service';
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from '../../terraform/core/Terraform';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   TerraformPlanEvent,
   TFPlanRepresentation,
   InstanceDTO,
   PlanInstanceCommand,
 } from '@dinivas/api-interfaces';
-import { WSGateway } from '../../wsgateway';
 import { firstValueFrom } from 'rxjs';
+import { Job } from 'bull';
 
-@CommandHandler(PlanInstanceCommand)
-export class PlanInstanceHandler
-  implements ICommandHandler<PlanInstanceCommand>
-{
+@Injectable()
+export class PlanInstanceHandler {
   private readonly logger = new Logger(PlanInstanceHandler.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
     private readonly terraformStateService: TerraformStateService,
-    private readonly terraformGateway: WSGateway
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private terraform: Terraform
+  ) {}
 
-  async execute(command: PlanInstanceCommand) {
+  async execute(job: Job<PlanInstanceCommand>, command: PlanInstanceCommand) {
     this.logger.debug(`Received PlanInstanceCommand: ${command.instance.code}`);
-    try {
+    job.progress(5);
+    return new Promise<any>((resolve, reject) => {
       this.terraform.executeInTerraformModuleDir(
         command.instance.code,
         command.cloudprovider,
         'project_instance',
         command.cloudConfig,
         async (workingDir) => {
-          const rawProjectState = await firstValueFrom(
-            this.terraformStateService.findState(
-              command.instance.project.code.toLowerCase(),
-              'project_base'
-            )
-          );
-          this.terraform.addSshViaBastionConfigFileToModule(
-            JSON.parse(rawProjectState.state),
-            workingDir
-          );
+          try {
+            const rawProjectState = await firstValueFrom(
+              this.terraformStateService.findState(
+                command.instance.project.code.toLowerCase(),
+                'project_base'
+              )
+            );
+
+            this.terraform.addTerraformInstanceModuleFile(
+              command.instance,
+              command.consul,
+              command.cloudConfig,
+              workingDir
+            );
+
+            this.terraform.addSshViaBastionConfigFileToModule(
+              command.cloudprovider,
+              rawProjectState,
+              workingDir
+            );
+          } catch (error) {
+            reject(error);
+          }
         },
         async (workingDir) => {
           try {
             const planResult: TFPlanRepresentation = await this.terraform.plan(
               workingDir,
-              [
-                ...this.terraform.computeTerraformInstanceModuleVars(
-                  command.instance,
-                  command.consul,
-                  command.cloudConfig
+              ['-var-file=ssh-via-bastion.tfvars ', '-out=tfplan'],
+              {
+                silent: !this.configService.getOrElse(
+                  'terraform.plan.verbose',
+                  false
                 ),
-                '-out=last-plan',
-              ],
-              { silent: false }
+              },
+              `dinivas-project-${command.instance.project.code.toLowerCase()}`,
+              `project_instance/${command.instance.code.toLowerCase()}`
             );
-            this.terraformGateway.emit(`planEvent-${command.instance.code}`, {
-              source: command.instance,
-              workingDir,
-              planResult,
-            } as TerraformPlanEvent<InstanceDTO>);
+            const result = {
+              module: 'instance',
+              eventCode: `planEvent-${command.instance.code}`,
+              event: {
+                source: command.instance,
+                planResult,
+              } as TerraformPlanEvent<InstanceDTO>,
+            };
+            job.progress(100);
+            resolve(result);
           } catch (error) {
-            this.terraformGateway.emit(
-              `planEvent-${command.instance.code}-error`,
-              error.message
-            );
+            reject(error);
           }
         },
         (error: any) => {
-          this.terraformGateway.emit(
-            `planEvent-${command.instance.code}-error`,
-            error.message
-          );
+          reject(error);
         }
       );
-    } catch (error) {
-      console.error(error);
-    }
+    });
   }
 }

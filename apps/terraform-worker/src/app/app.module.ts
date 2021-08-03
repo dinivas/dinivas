@@ -1,3 +1,5 @@
+import { Terraform } from './terraform/core/Terraform';
+import { MinioService } from './terraform/minio.service';
 import { HttpModule, Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -71,6 +73,8 @@ const TF_STATE_CONFIG_ROOT_KEY = 'dinivas.terraform.state';
     GitService,
     TerraformProcessor,
     TerraformStateService,
+    MinioService,
+    Terraform,
     ...ProjectsCommandHandlers,
     ...ConsulCommandHandlers,
     ...InstancesCommandHandlers,

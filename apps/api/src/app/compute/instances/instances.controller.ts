@@ -63,6 +63,21 @@ export class InstancesController {
     const instances = await this.instancesService.getInstances(
       project.cloud_provider.id
     );
+    const dinivasInstances = (
+      await this.instancesService.findAll({
+        page,
+        limit,
+        sort,
+        route: 'http://api/instances',
+      })
+    ).items;
+    instances.forEach((cloudInstance) => {
+      dinivasInstances.forEach((dinivasInstance) => {
+        if (cloudInstance.name.startsWith(dinivasInstance.code)) {
+          cloudInstance.techId = dinivasInstance.id;
+        }
+      });
+    });
     return new Pagination(instances, instances.length, instances.length, page);
   }
 
@@ -93,7 +108,7 @@ export class InstancesController {
       project.code
     );
     const planJob = await this.terraformModuleQueue.add(
-      'plan',
+      'plan-instance',
       new PlanInstanceCommand(
         cloudprovider.cloud,
         instance,
@@ -102,23 +117,28 @@ export class InstancesController {
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
-    return { planJobId: planJob.id };
+    return { planJobId: Number(planJob.id) };
   }
 
   @Post('apply-plan')
   @HttpCode(202)
   @Permissions('compute.instances:create')
-  async applyProject(@Body() applyProject: ApplyModuleDTO<InstanceDTO>) {
+  async applyProject(
+    @Req() request: Request,
+    @Body() applyProject: ApplyModuleDTO<InstanceDTO>
+  ) {
+    const project = request['project'] as ProjectDTO;
+    applyProject.source.project = project;
+    const cloudprovider = await this.cloudproviderService.findOne(
+      project.cloud_provider.id,
+      true
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply',
-      new ApplyInstanceCommand(
-        applyProject.source.project.cloud_provider.cloud,
-        applyProject.source,
-        applyProject.workingDir
-      )
+      'apply-instance',
+      new ApplyInstanceCommand(cloudprovider.cloud, applyProject.source)
     );
     this.logger.debug(`Apply Job Id with datas: ${JSON.stringify(applyJob)}`);
-    return { applyJobId: applyJob.id };
+    return { applyJobId: Number(applyJob.id) };
   }
 
   @Get(':id')
@@ -146,7 +166,7 @@ export class InstancesController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy',
+        'destroy-instance',
         new DestroyInstanceCommand(
           cloudprovider.cloud,
           instance,
@@ -157,7 +177,7 @@ export class InstancesController {
       this.logger.debug(
         `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
       );
-      return { destroyJobId: destroyJob.id };
+      return { destroyJobId: Number(destroyJob.id) };
     }
   }
 

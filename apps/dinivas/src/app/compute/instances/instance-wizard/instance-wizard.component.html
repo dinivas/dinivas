@@ -17,8 +17,8 @@
     <mat-form-field class="" appearance="outline">
       <mat-label>Instance network</mat-label>
       <mat-select formControlName="network_name" required>
-        <mat-option [value]="projectNetwork.name">
-          {{ projectNetwork.name }}
+        <mat-option [value]="projectNetwork">
+          {{ projectNetwork }}
         </mat-option>
       </mat-select>
       <mat-hint>Instance will be added to project Network by default</mat-hint>
@@ -26,8 +26,8 @@
     <mat-form-field class="" appearance="outline">
       <mat-label>Instance network subnet</mat-label>
       <mat-select formControlName="network_subnet_name" required>
-        <mat-option [value]="projectNetworkSubnet.name">
-          {{ projectNetworkSubnet.name }}
+        <mat-option [value]="projectNetworkSubnet">
+          {{ projectNetworkSubnet }}
         </mat-option>
       </mat-select>
       <mat-hint>Instance will be added to project Subnet by default</mat-hint>

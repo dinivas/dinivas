@@ -1,4 +1,5 @@
-import { InstanceDTO, ConsulDTO } from '@dinivas/api-interfaces';
+import { ConsulDTO } from './../consul/consul.dto';
+import { InstanceDTO } from './instance.dto';
 
 export class DestroyInstanceCommand {
   constructor(
@@ -7,4 +8,15 @@ export class DestroyInstanceCommand {
     public readonly consul: ConsulDTO,
     public readonly cloudConfig: any
   ) {}
+
+  static from<T extends DestroyInstanceCommand>(
+    json: T
+  ): DestroyInstanceCommand {
+    return new DestroyInstanceCommand(
+      json.cloudprovider,
+      json.instance,
+      json.consul,
+      json.cloudConfig
+    );
+  }
 }

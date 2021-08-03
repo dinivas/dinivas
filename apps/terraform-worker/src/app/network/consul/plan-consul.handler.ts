@@ -1,6 +1,6 @@
-import { Logger } from '@nestjs/common';
-
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { TerraformStateService } from './../../terraform-state.service';
+import { Injectable, Logger } from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
 import {
   TerraformPlanEvent,
   TFPlanRepresentation,
@@ -9,60 +9,83 @@ import {
 } from '@dinivas/api-interfaces';
 import { Terraform } from '../../terraform/core';
 import { ConfigurationService } from '../../configuration.service';
-import { WSGateway } from '../../wsgateway';
+import { Job } from 'bull';
 
-@CommandHandler(PlanConsulCommand)
-export class PlanConsulHandler implements ICommandHandler<PlanConsulCommand> {
+@Injectable()
+export class PlanConsulHandler {
   private readonly logger = new Logger(PlanConsulHandler.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformGateway: WSGateway
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private readonly terraformStateService: TerraformStateService,
+    private terraform: Terraform
+  ) {}
 
-  async execute(command: PlanConsulCommand) {
+  async execute(job: Job<PlanConsulCommand>, command: PlanConsulCommand) {
     this.logger.debug(`Received PlanConsulCommand: ${command.consul.code}`);
-    try {
+    job.log(`Received PlanConsulCommand: ${command.consul.code}`);
+    job.progress(5);
+    return new Promise<any>((resolve, reject) => {
       this.terraform.executeInTerraformModuleDir(
         command.consul.code,
         command.cloudprovider,
         'consul',
         command.cloudConfig,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        () => {},
+        async (workingDir) => {
+          try {
+            const rawProjectState = await firstValueFrom(
+              this.terraformStateService.findState(
+                command.consul.project.code.toLowerCase(),
+                'project_base'
+              )
+            );
+            this.terraform.addTerraformConsulModuleFile(
+              command.consul,
+              command.consul,
+              command.cloudConfig,
+              workingDir
+            );
+
+            this.terraform.addSshViaBastionConfigFileToModule(
+              command.consul.project.cloud_provider.cloud,
+              rawProjectState,
+              workingDir
+            );
+          } catch (error) {
+            reject(error);
+          }
+        },
         async (workingDir) => {
           try {
             const planResult: TFPlanRepresentation = await this.terraform.plan(
               workingDir,
-              [
-                ...this.terraform.computeTerraformConsulModuleVars(command),
-                '-out=last-plan',
-              ],
-              { silent: false }
+              ['-var-file=ssh-via-bastion.tfvars ', '-out=tfplan'],
+              {
+                silent: !this.configService.getOrElse(
+                  'terraform.plan.verbose',
+                  false
+                ),
+              },
+              `dinivas-project-${command.consul.project.code.toLowerCase()}`,
+              `consul/${command.consul.code.toLowerCase()}`
             );
-            this.terraformGateway.emit(`planEvent-${command.consul.code}`, {
-              source: command.consul,
-              workingDir,
-              planResult,
-            } as TerraformPlanEvent<ConsulDTO>);
+            const result = {
+              module: 'consul',
+              eventCode: `planEvent-${command.consul.code}`,
+              event: {
+                source: command.consul,
+                planResult,
+              } as TerraformPlanEvent<ConsulDTO>,
+            };
+            job.progress(100);
+            resolve(result);
           } catch (error) {
-            this.terraformGateway.emit(
-              `planEvent-${command.consul.code}-error`,
-              error.message
-            );
+            reject(error);
           }
         },
         (error) => {
-          this.terraformGateway.emit(
-            `planEvent-${command.consul.code}-error`,
-            error.message
-          );
+          reject(error);
         }
       );
-    } catch (error) {
-      console.error(error);
-    }
+    });
   }
 }

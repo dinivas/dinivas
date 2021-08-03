@@ -15,13 +15,11 @@ import { Job } from 'bull';
 @Injectable()
 export class PlanJenkinsHandler {
   private readonly logger = new Logger(PlanJenkinsHandler.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformStateService: TerraformStateService
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private readonly terraformStateService: TerraformStateService,
+    private terraform: Terraform
+  ) {}
 
   async execute(job: Job<PlanJenkinsCommand>, command: PlanJenkinsCommand) {
     this.logger.debug(`Received PlanJenkinsCommand: ${command.jenkins.code}`);
@@ -41,14 +39,16 @@ export class PlanJenkinsHandler {
                 'project_base'
               )
             );
-            this.terraform.addSshViaBastionConfigFileToModule(
-              rawProjectState,
-              workingDir
-            );
-            this.terraform.addJenkinsSlaveFilesToModule(
+            this.terraform.addTerraformJenkinsModuleFile(
               command.jenkins,
               command.consul,
               command.cloudConfig,
+              workingDir
+            );
+
+            this.terraform.addSshViaBastionConfigFileToModule(
+              command.jenkins.project.cloud_provider.cloud,
+              rawProjectState,
               workingDir
             );
           } catch (error) {
@@ -59,27 +59,21 @@ export class PlanJenkinsHandler {
           try {
             const planResult: TFPlanRepresentation = await this.terraform.plan(
               workingDir,
-              [
-                ...this.terraform.computeTerraformJenkinsModuleVars(
-                  command.jenkins,
-                  command.consul,
-                  command.cloudConfig
-                ),
-                '-out=last-plan',
-              ],
+              ['-var-file=ssh-via-bastion.tfvars ', '-out=tfplan'],
               {
                 silent: !this.configService.getOrElse(
                   'terraform.plan.verbose',
                   false
                 ),
-              }
+              },
+              `dinivas-project-${command.jenkins.project.code.toLowerCase()}`,
+              `jenkins/${command.jenkins.code.toLowerCase()}`
             );
             const result = {
               module: 'jenkins',
               eventCode: `planEvent-${command.jenkins.code}`,
               event: {
                 source: command.jenkins,
-                workingDir,
                 planResult,
               } as TerraformPlanEvent<JenkinsDTO>,
             };

@@ -4,5 +4,7 @@ import { DestroyRabbitMQHandler } from './destroy-rabbitmq.handler';
 export const CommandHandlers = [
   PlanRabbitMQHandler,
   ApplyRabbitMQHandler,
-  DestroyRabbitMQHandler
+  DestroyRabbitMQHandler,
 ];
+
+export { PlanRabbitMQHandler, ApplyRabbitMQHandler, DestroyRabbitMQHandler };

@@ -1,66 +1,56 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-async-promise-executor */
 import { ConfigurationService } from '../../configuration.service';
-import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   TerraformDestroyEvent,
   ConsulDTO,
   DestroyConsulCommand,
 } from '@dinivas/api-interfaces';
-import { WSGateway } from '../../wsgateway';
 import { Terraform } from '../../terraform/core';
+import { Job } from 'bull';
 
-@CommandHandler(DestroyConsulCommand)
-export class DestroyConsulHandler
-  implements ICommandHandler<DestroyConsulCommand>
-{
+@Injectable()
+export class DestroyConsulHandler {
   private readonly logger = new Logger(DestroyConsulHandler.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformGateway: WSGateway
-  ) {
-    this.terraform = new Terraform(this.configService);
-  }
+    private terraform: Terraform
+  ) {}
 
-  async execute(command: DestroyConsulCommand) {
-    return new Promise<void>(async (resolve, reject) => {
+  async execute(job: Job<DestroyConsulCommand>, command: DestroyConsulCommand) {
+    return new Promise<any>(async (resolve, reject) => {
       this.logger.debug(
         `Received DestroyProjectCommand: ${command.consul.code}`
       );
-      this.terraform.executeInTerraformModuleDir(
-        command.consul.code,
-        command.cloudprovider,
-        'consul',
-        command.cloudConfig,
-        () => {},
-        async (workingDir) => {
-          try {
-            await this.terraform.destroy(
-              workingDir,
-              [
-                '-auto-approve',
-                ...this.terraform.computeTerraformConsulModuleVars(command),
-              ],
-              {
-                autoApprove: true,
-                silent: false,
-              }
-            );
-            this.terraformGateway.emit(`destroyEvent-${command.consul.code}`, {
-              source: command.consul,
-            } as TerraformDestroyEvent<ConsulDTO>);
-            resolve();
-          } catch (error) {
-            this.terraformGateway.emit(
-              `destroyEvent-${command.consul.code}-error`,
-              error.message
-            );
-            reject(error);
-          }
-        }
-      );
+
+      job.progress(10);
+      try {
+        await this.terraform.destroy(
+          ['-var-file=ssh-via-bastion.tfvars ', '-auto-approve'],
+          {
+            autoApprove: true,
+            silent: !this.configService.getOrElse(
+              'terraform.destroy.verbose',
+              false
+            ),
+          },
+          `dinivas-project-${command.consul.project.code.toLowerCase()}`,
+          `consul/${command.consul.code.toLowerCase()}`
+        );
+        const result = {
+          module: 'consul',
+          eventCode: `destroyEvent-${command.consul.code}`,
+          event: {
+            source: command.consul,
+          } as TerraformDestroyEvent<ConsulDTO>,
+        };
+        job.progress(100);
+        resolve(result);
+      } catch (error) {
+        job.log(error);
+        reject(error);
+      }
     });
   }
 }

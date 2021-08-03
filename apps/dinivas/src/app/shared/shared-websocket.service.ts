@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
@@ -38,5 +38,10 @@ export class SharedWebSocket extends Socket {
   }
   receiveBackgroundJobFailedEvent(): Observable<{ jobId: number; error: any }> {
     return this.fromEvent(`background-job-failed`);
+  }
+  receiveBackgroundJobFailedEventForGivenJobId(planJobId: number) {
+    return this.fromEvent<{ jobId: number; error: any }>(
+      `background-job-failed`
+    ).pipe(filter((event) => Number(event.jobId) === planJobId));
   }
 }

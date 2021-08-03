@@ -1,0 +1,43 @@
+variable "project_keycloak_host" {
+    default = "{{ project_keycloak_host }}"
+}
+variable "do_api_token" {
+  default = "{{ do_api_token }}"
+}
+variable "ssh_via_bastion_config" {}
+variable "host_private_key" {}
+variable "bastion_private_key" {}
+
+module "project_instance" {
+  source = "{{ module_project_instance_source }}"
+
+  project_name               = "{{ project_name }}"
+  instance_name              = "{{ instance_name }}"
+  project_availability_zone  = "{{ instance_availability_zone }}"
+  instance_network           = "{{ instance_network }}"
+  instance_image_name        = "{{ instance_image_name }}"
+  instance_flavor_name       = "{{ instance_flavor_name }}"
+  instance_ssh_key_id        = "{{ instance_keypair_name }}"
+  enable_logging_graylog     = "1"
+
+  project_consul_domain      = "{{ project_consul_domain }}"
+  project_consul_datacenter  = "{{ project_consul_datacenter }}"
+
+  ssh_via_bastion_config     = var.ssh_via_bastion_config
+  host_private_key           = var.host_private_key
+  bastion_private_key        = var.bastion_private_key
+  do_api_token               = var.do_api_token
+}
+
+
+output "instance_instance_ids" {
+  value = module.project_instance.instance_instance_ids
+}
+
+output "instance_public_ip_v4" {
+  value = module.project_instance.instance_public_ip_v4
+}
+
+output "instance_private_ip_v4" {
+  value = module.project_instance.instance_private_ip_v4
+}

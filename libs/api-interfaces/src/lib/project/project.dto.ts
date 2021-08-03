@@ -38,9 +38,7 @@ export class ProjectDefinitionDTO {
 
 export class ApplyModuleDTO<T> {
   source: T;
-  workingDir: string;
-  constructor(source: T, workingDir: string) {
+  constructor(source: T) {
     this.source = source;
-    this.workingDir = workingDir;
   }
 }

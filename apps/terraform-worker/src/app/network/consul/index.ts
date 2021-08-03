@@ -4,5 +4,6 @@ import { DestroyConsulHandler } from './destroy-consul.handler';
 export const CommandHandlers = [
   PlanConsulHandler,
   ApplyConsulHandler,
-  DestroyConsulHandler
+  DestroyConsulHandler,
 ];
+export { PlanConsulHandler, ApplyConsulHandler, DestroyConsulHandler };

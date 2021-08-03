@@ -1,0 +1,10 @@
+terraform {
+    required_version = ">= {{ min_required_version}}"
+    backend "http" {
+        address        = "{{ http_address }}?stateId={{ state_id }}&module={{ module }}"
+        lock_address   = "{{ http_address }}?stateId={{ state_id }}&module={{ module }}"
+        unlock_address = "{{ http_address }}?stateId={{ state_id }}&module={{ module }}"
+        username       = "{{ username }}"
+        password       = "{{ password }}"
+    }
+}

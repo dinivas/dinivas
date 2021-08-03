@@ -47,6 +47,7 @@ export interface ICloudApiInstance {
   updated_date: string;
   metadata: any;
   cloudprovider: AvailableCloudProvider;
+  techId?: number;
 }
 
 type AvailableCloudProvider = 'openstack' | 'digitalocean' | 'aws' | 'gcp';

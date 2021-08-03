@@ -4,5 +4,7 @@ import { DestroyJenkinsHandler } from './destroy-jenkins.handler';
 export const CommandHandlers = [
   PlanJenkinsHandler,
   ApplyJenkinsHandler,
-  DestroyJenkinsHandler
+  DestroyJenkinsHandler,
 ];
+
+export { PlanJenkinsHandler, ApplyJenkinsHandler, DestroyJenkinsHandler };

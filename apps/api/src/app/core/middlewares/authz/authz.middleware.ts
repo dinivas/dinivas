@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Keycloak } from './../../../auth/keycloak';
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';

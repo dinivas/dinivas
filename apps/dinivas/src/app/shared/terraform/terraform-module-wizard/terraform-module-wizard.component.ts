@@ -181,7 +181,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
     this.terraformPlanEvent = null;
     this.moduleWizard.moduleEntity = moduleEntity;
     this.varsProvider.moduleServicePlan(moduleEntity).subscribe(
-      () => {
+      (res) => {
         const planEventSuSubscription = this.sharedWebSocket
           .receivePlanEvent<TerraformPlanEvent<T>>(
             this.varsProvider.terraformWebsocketEventId(moduleEntity)
@@ -205,6 +205,14 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
             this.planInProgress = false;
             this.planStepFinished = false;
           });
+        const planJobErrorEventSuSubscription = this.sharedWebSocket
+          .receiveBackgroundJobFailedEventForGivenJobId(res.planJobId)
+          .subscribe((err) => {
+            planJobErrorEventSuSubscription.unsubscribe();
+            this.alertService.error(err.error);
+            this.planInProgress = false;
+            this.planStepFinished = false;
+          });
       },
       (error) => {
         this.planInProgress = false;
@@ -217,7 +225,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
     this.varsProvider
       .moduleServiceApplyPlan(moduleEntity, this.terraformPlanEvent)
       .subscribe(
-        () => {
+        (res) => {
           const applySubscription = this.sharedWebSocket
             .receiveApplyEvent<TerraformApplyEvent<T>>(
               this.varsProvider.terraformWebsocketEventId(moduleEntity)
@@ -243,7 +251,15 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
                 this.wizardStepper.next();
               }, 1);
             });
-            // Error case
+          const applyJobErrorEventSuSubscription = this.sharedWebSocket
+            .receiveBackgroundJobFailedEventForGivenJobId(res[1].applyJobId)
+            .subscribe((err) => {
+              applyJobErrorEventSuSubscription.unsubscribe();
+              this.alertService.error(err.error);
+              this.applyInProgress = false;
+              this.applyStepFinished = false;
+            });
+          // Error case
         },
         (error) => {
           this.applyInProgress = false;
@@ -278,11 +294,11 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
 
 export interface TerraformModuleWizardVarsProvider<T> {
   submitApplyPlan: (moduleEntity: T) => void;
-  moduleServicePlan: (moduleEntity: T) => Observable<any>;
+  moduleServicePlan: (moduleEntity: T) => Observable<{ planJobId: number }>;
   moduleServiceApplyPlan: (
     moduleEntity: T,
     terraformPlanEvent: TerraformPlanEvent<T>
-  ) => Observable<any>;
+  ) => Observable<[any, { applyJobId: number }]>;
   moduleServiceTerraformState: (moduleEntity: T) => Observable<any>;
   terraformWebsocketEventId: (moduleEntity: T) => string;
 }

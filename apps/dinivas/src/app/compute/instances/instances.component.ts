@@ -67,7 +67,7 @@ export class InstancesComponent
     return Observable.create((observer: Observer<any>) => {});
   }
 
-  delete(instanceDTO: InstanceDTO): Observable<any> {
-    return this.instancesService.delete(instanceDTO.id);
+  delete(cloudApiInstance: ICloudApiInstance): Observable<any> {
+    return this.instancesService.delete(cloudApiInstance.techId);
   }
 }

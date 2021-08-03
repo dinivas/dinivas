@@ -402,8 +402,7 @@ export class ProjectWizardComponent implements OnInit {
     this.projectService
       .applyProjectPlan(
         new ApplyModuleDTO<ProjectDefinitionDTO>(
-          { project, consul: consul },
-          this.terraformPlanEvent.workingDir
+          { project, consul: consul }
         )
       )
       .subscribe(

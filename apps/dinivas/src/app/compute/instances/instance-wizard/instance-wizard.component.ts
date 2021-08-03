@@ -10,7 +10,7 @@ import {
   OnInit,
   AfterViewChecked,
   EventEmitter,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   InstanceDTO,
@@ -19,7 +19,7 @@ import {
   TerraformApplyEvent,
   TerraformPlanEvent,
   ProjectDTO,
-  ApplyModuleDTO
+  ApplyModuleDTO,
 } from '@dinivas/api-interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -27,13 +27,14 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'dinivas-instance-wizard',
   templateUrl: './instance-wizard.component.html',
-  styleUrls: ['./instance-wizard.component.scss']
+  styleUrls: ['./instance-wizard.component.scss'],
 })
 export class InstanceWizardComponent
   implements
     OnInit,
     AfterViewChecked,
-    TerraformModuleWizardVarsProvider<InstanceDTO> {
+    TerraformModuleWizardVarsProvider<InstanceDTO>
+{
   instance: InstanceDTO;
   instanceForm: FormGroup;
 
@@ -54,8 +55,8 @@ export class InstanceWizardComponent
   onArchitectureTypeChanged: EventEmitter<any>;
   project: ProjectDTO;
   projectTfState: any;
-  projectNetwork: { name: string; id: string };
-  projectNetworkSubnet: { name: string; id: string };
+  projectNetwork: string;
+  projectNetworkSubnet: string;
   projectKeypair: string;
   projectTfStateSubject = new Subject<any>();
 
@@ -67,9 +68,7 @@ export class InstanceWizardComponent
     private cdRef: ChangeDetectorRef
   ) {
     activatedRoute.data
-      .pipe(
-        map((data) => data.cloudFlavors)
-      )
+      .pipe(map((data) => data.cloudFlavors))
       .subscribe(
         (cloudFlavors: ICloudApiFlavor[]) => (this.cloudFlavors = cloudFlavors)
       );
@@ -79,35 +78,58 @@ export class InstanceWizardComponent
         this.cloudImages = cloudImages;
       });
     activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentProjectInfo
-        )
-      )
+      .pipe(map((data) => data.currentProjectInfo))
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo.entity;
         this.projectTfState = projectInfo.entityState;
-        this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
-          ? {
-              name: this.projectTfState.outputs['mgmt_network_name'].value,
-              id: this.projectTfState.outputs['mgmt_network_id'].value
-            }
-          : undefined;
-        this.projectNetworkSubnet = this.projectTfState.outputs[
-          'mgmt_subnet_names'
-        ]
-          ? {
-              id: this.projectTfState.outputs['mgmt_subnet_ids'].value[0],
-              name: this.projectTfState.outputs['mgmt_subnet_names'].value[0]
-            }
-          : undefined;
-        this.projectKeypair = this.projectTfState.outputs[
-          'project_keypair_name'
-        ].value;
+        this.projectNetwork = this.toCloudProviderNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
+        this.projectNetworkSubnet = this.toCloudProviderSubnetNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
+        this.projectKeypair =
+          this.projectTfState.outputs['project_keypair_name'].value;
         this.projectTfStateSubject.next(undefined);
       });
   }
 
+  toCloudProviderNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value[0]
+          : this.instance.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
+          : this.instance.network_subnet_name;
+      default:
+        return undefined;
+    }
+  }
+  toCloudProviderSubnetNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_subnet_names']
+          ? stateOutput['mgmt_subnet_names'].value[0]
+          : this.instance.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
+          : this.instance.network_subnet_name;
+      default:
+        return undefined;
+    }
+  }
   ngOnInit() {
     this.activatedRoute.data
       .pipe(
@@ -135,31 +157,31 @@ export class InstanceWizardComponent
       code: [this.instance ? this.instance.code : null, Validators.required],
       description: [this.instance ? this.instance.description : null, null],
       network_name: [
-        this.instance ? this.instance.network_name : this.projectNetwork.name,
-        Validators.required
+        this.instance ? this.instance.network_name : this.projectNetwork,
+        Validators.required,
       ],
       network_subnet_name: [
         this.instance
           ? this.instance.network_subnet_name
-          : this.projectNetworkSubnet.name,
-        Validators.required
+          : this.projectNetworkSubnet,
+        Validators.required,
       ],
       keypair_name: [
         this.instance ? this.instance.keypair_name : this.projectKeypair,
-        Validators.required
+        Validators.required,
       ],
       _cluster_cloud_image: [
         this.instance ? this.instance.cloud_image : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       _cluster_cloud_flavor: [
         this.instance ? this.instance.cloud_flavor : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       use_floating_ip: [
         this.instance ? this.instance.use_floating_ip : false,
-        null
-      ]
+        null,
+      ],
     });
     if (this.instance && this.instance.code) {
       this.instanceForm.get('code').disable();
@@ -174,7 +196,9 @@ export class InstanceWizardComponent
     return formValid;
   }
 
-  moduleServicePlan(moduleEntity: InstanceDTO): Observable<any> {
+  moduleServicePlan(
+    moduleEntity: InstanceDTO
+  ): Observable<{ planJobId: number }> {
     return this.instancesService.plan(moduleEntity);
   }
 
@@ -190,7 +214,7 @@ export class InstanceWizardComponent
   moduleServiceApplyPlan(
     moduleEntity: InstanceDTO,
     terraformPlanEvent: TerraformPlanEvent<InstanceDTO>
-  ): Observable<any> {
+  ): Observable<[any, { applyJobId: number }]> {
     if (this.instance) {
       moduleEntity.id = this.instance.id;
     }
@@ -200,9 +224,7 @@ export class InstanceWizardComponent
 
     return forkJoin(
       saveOrUpdateInstance,
-      this.instancesService.applyPlan(
-        new ApplyModuleDTO(moduleEntity, terraformPlanEvent.workingDir)
-      )
+      this.instancesService.applyPlan(new ApplyModuleDTO(moduleEntity))
     );
   }
 
@@ -212,13 +234,15 @@ export class InstanceWizardComponent
       instance.code = `${this.project.code.toLowerCase()}-${instance.code.toLowerCase()}`;
     }
     if (instance && this.instanceForm.get('_cluster_cloud_image').value) {
-      instance.cloud_image = (this.instanceForm.get('_cluster_cloud_image')
-        .value as ICloudApiImage).name;
+      instance.cloud_image = this.toCloudProviderImageId(
+        this.instanceForm.get('_cluster_cloud_image').value as ICloudApiImage
+      );
       delete instance['_cluster_cloud_image'];
     }
     if (instance && this.instanceForm.get('_cluster_cloud_flavor').value) {
-      instance.cloud_flavor = (this.instanceForm.get('_cluster_cloud_flavor')
-        .value as ICloudApiFlavor).name;
+      instance.cloud_flavor = (
+        this.instanceForm.get('_cluster_cloud_flavor').value as ICloudApiFlavor
+      ).name;
       delete instance['_cluster_cloud_flavor'];
     }
     if (this.instance) {
@@ -235,5 +259,19 @@ export class InstanceWizardComponent
     return this.instancesService.getTerraformState(moduleEntity.id);
   }
 
-  showInstanceOutput(instance: any){}
+  showInstanceOutput(instance: InstanceDTO) {
+    this.showOutputApplied.emit(instance);
+  }
+
+  toCloudProviderImageId(image: ICloudApiImage) {
+    const cloudProvider = this.project.cloud_provider;
+    switch (cloudProvider.cloud) {
+      case 'openstack':
+        return image.name;
+      case 'digitalocean':
+        return image.id;
+      default:
+        return image.name;
+    }
+  }
 }

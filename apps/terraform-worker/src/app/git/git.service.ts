@@ -9,7 +9,7 @@ export class GitService {
   private readonly logger = new Logger(GitService.name);
 
   constructor(private configService: ConfigurationService) {
-    this.initTerraformModules();
+    //this.initTerraformModules();
   }
 
   initTerraformModules() {

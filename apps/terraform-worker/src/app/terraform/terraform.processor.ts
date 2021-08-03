@@ -8,20 +8,42 @@ import {
   DestroyJenkinsCommand,
   PlanRabbitMQCommand,
   DestroyRabbitMQCommand,
-  ApplyRabbitMQCommand
+  ApplyRabbitMQCommand,
+  ApplyInstanceCommand,
+  PlanInstanceCommand,
+  DestroyInstanceCommand,
+  PlanConsulCommand,
+  ApplyConsulCommand,
+  DestroyConsulCommand,
 } from '@dinivas/api-interfaces';
 import { Job } from 'bull';
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { PlanProjectHandler } from '../projects/plan-project.handler';
-import { ApplyProjectHandler } from '../projects/apply-project.handler';
-import { DestroyProjectHandler } from '../projects/destroy-project.handler';
-import { PlanJenkinsHandler } from '../build/jenkins/plan-jenkins.handler';
-import { ApplyJenkinsHandler } from '../build/jenkins/apply-jenkins.handler';
-import { DestroyJenkinsHandler } from '../build/jenkins/destroy-jenkins.handler';
-import { DestroyRabbitMQHandler } from './../messaging/rabbitmq/destroy-rabbitmq.handler';
-import { ApplyRabbitMQHandler } from './../messaging/rabbitmq/apply-rabbitmq.handler';
-import { PlanRabbitMQHandler } from './../messaging/rabbitmq/plan-rabbitmq.handler';
+import {
+  PlanProjectHandler,
+  ApplyProjectHandler,
+  DestroyProjectHandler,
+} from '../projects';
+import {
+  PlanJenkinsHandler,
+  ApplyJenkinsHandler,
+  DestroyJenkinsHandler,
+} from '../build/jenkins';
+import {
+  PlanRabbitMQHandler,
+  ApplyRabbitMQHandler,
+  DestroyRabbitMQHandler,
+} from './../messaging/rabbitmq';
+import {
+  PlanInstanceHandler,
+  ApplyInstanceHandler,
+  DestroyInstanceHandler,
+} from './../compute/instances';
+import {
+  PlanConsulHandler,
+  ApplyConsulHandler,
+  DestroyConsulHandler,
+} from './../network/consul';
 
 @Processor(BULL_TERRAFORM_MODULE_QUEUE)
 export class TerraformProcessor {
@@ -36,9 +58,16 @@ export class TerraformProcessor {
     private readonly destroyJenkinsHandler: DestroyJenkinsHandler,
     private readonly planRabbitMQHandler: PlanRabbitMQHandler,
     private readonly applyRabbitMQHandler: ApplyRabbitMQHandler,
-    private readonly destroyRabbitMQHandler: DestroyRabbitMQHandler
+    private readonly destroyRabbitMQHandler: DestroyRabbitMQHandler,
+    private readonly planInstanceHandler: PlanInstanceHandler,
+    private readonly applyInstanceHandler: ApplyInstanceHandler,
+    private readonly destroyInstanceHandler: DestroyInstanceHandler,
+    private readonly planConsulHandler: PlanConsulHandler,
+    private readonly applyConsulHandler: ApplyConsulHandler,
+    private readonly destroyConsulHandler: DestroyConsulHandler
   ) {}
 
+  // Project
   @Process('plan-project')
   async handleTerraformPlanProject(planJob: Job<PlanProjectCommand>) {
     this.logger.debug(
@@ -141,13 +170,91 @@ export class TerraformProcessor {
   }
 
   @Process('destroy-rabbitmq')
-  async handleTerraformDestroyRabbitMQ(destroyJob: Job<DestroyRabbitMQCommand>) {
+  async handleTerraformDestroyRabbitMQ(
+    destroyJob: Job<DestroyRabbitMQCommand>
+  ) {
     this.logger.debug(
       `Receive Destroy Job with datas: ${JSON.stringify(destroyJob)}`
     );
     return this.destroyRabbitMQHandler.execute(
       destroyJob,
       DestroyRabbitMQCommand.from(destroyJob.data)
+    );
+  }
+  // Instance
+  @Process('plan-instance')
+  async handleTerraformPlanInstance(planJob: Job<PlanInstanceCommand>) {
+    this.logger.debug(
+      `Receive Plan Job [${planJob.id}] with datas: ${JSON.stringify(
+        planJob.data as PlanInstanceCommand
+      )}`
+    );
+    return this.planInstanceHandler.execute(
+      planJob,
+      PlanInstanceCommand.from(planJob.data)
+    );
+  }
+
+  @Process('apply-instance')
+  async handleTerraformApplyInstance(applyJob: Job<ApplyInstanceCommand>) {
+    this.logger.debug(
+      `Receive Apply Job [${applyJob.id}]  with datas: ${JSON.stringify(
+        applyJob
+      )}`
+    );
+    return this.applyInstanceHandler.execute(
+      applyJob,
+      ApplyInstanceCommand.from(applyJob.data)
+    );
+  }
+
+  @Process('destroy-instance')
+  async handleTerraformDestroyInstance(
+    destroyJob: Job<DestroyInstanceCommand>
+  ) {
+    this.logger.debug(
+      `Receive Destroy Job with datas: ${JSON.stringify(destroyJob)}`
+    );
+    return this.destroyInstanceHandler.execute(
+      destroyJob,
+      DestroyInstanceCommand.from(destroyJob.data)
+    );
+  }
+  // Consul
+  @Process('plan-consul')
+  async handleTerraformPlanConsul(planJob: Job<PlanConsulCommand>) {
+    this.logger.debug(
+      `Receive Plan Job [${planJob.id}] with datas: ${JSON.stringify(
+        planJob.data as PlanConsulCommand
+      )}`
+    );
+    return this.planConsulHandler.execute(
+      planJob,
+      PlanConsulCommand.from(planJob.data)
+    );
+  }
+
+  @Process('apply-consul')
+  async handleTerraformApplyConsul(applyJob: Job<ApplyConsulCommand>) {
+    this.logger.debug(
+      `Receive Apply Job [${applyJob.id}]  with datas: ${JSON.stringify(
+        applyJob
+      )}`
+    );
+    return this.applyConsulHandler.execute(
+      applyJob,
+      ApplyConsulCommand.from(applyJob.data)
+    );
+  }
+
+  @Process('destroy-consul')
+  async handleTerraformDestroyConsul(destroyJob: Job<DestroyConsulCommand>) {
+    this.logger.debug(
+      `Receive Destroy Job with datas: ${JSON.stringify(destroyJob)}`
+    );
+    return this.destroyConsulHandler.execute(
+      destroyJob,
+      DestroyConsulCommand.from(destroyJob.data)
     );
   }
 }

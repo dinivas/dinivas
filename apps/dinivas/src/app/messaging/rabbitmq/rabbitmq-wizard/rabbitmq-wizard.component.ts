@@ -263,7 +263,9 @@ export class RabbitmqWizardComponent
     return formValid;
   }
 
-  moduleServicePlan(moduleEntity: RabbitMQDTO): Observable<any> {
+  moduleServicePlan(
+    moduleEntity: RabbitMQDTO
+  ): Observable<{ planJobId: number }> {
     return this.rabbitmqService.plan(moduleEntity);
   }
 
@@ -279,7 +281,7 @@ export class RabbitmqWizardComponent
   moduleServiceApplyPlan(
     moduleEntity: RabbitMQDTO,
     terraformPlanEvent: TerraformPlanEvent<RabbitMQDTO>
-  ): Observable<any> {
+  ): Observable<[any, { applyJobId: number }]> {
     if (this.rabbitmq) {
       moduleEntity.id = this.rabbitmq.id;
     }
@@ -289,9 +291,7 @@ export class RabbitmqWizardComponent
 
     return forkJoin(
       saveOrUpdateRabbitMQ,
-      this.rabbitmqService.applyPlan(
-        new ApplyModuleDTO(moduleEntity, terraformPlanEvent.workingDir)
-      )
+      this.rabbitmqService.applyPlan(new ApplyModuleDTO(moduleEntity))
     );
   }
 
@@ -315,6 +315,11 @@ export class RabbitmqWizardComponent
         this.rabbitmqForm.get('_cluster_cloud_flavor').value as ICloudApiFlavor
       ).name;
       delete rabbitmq['_cluster_cloud_flavor'];
+    }
+    // add project code preffix to rabbitmq code
+    if (!this.rabbitmq) {
+      // add prefix only for new RabbitMQ cluster
+      rabbitmq.code = `${this.project.code.toLowerCase()}-${rabbitmq.code.toLowerCase()}`;
     }
     if (this.rabbitmq) {
       rabbitmq.id = this.rabbitmq.id;

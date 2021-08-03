@@ -1,46 +1,52 @@
 /* eslint-disable no-async-promise-executor */
 import { ConfigurationService } from '../../configuration.service';
-import { Logger } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   TFStateRepresentation,
   TerraformApplyEvent,
   ConsulDTO,
   ApplyConsulCommand,
 } from '@dinivas/api-interfaces';
-import { WSGateway } from '../../wsgateway';
 import { Terraform } from '../../terraform/core';
+import { Job } from 'bull';
 
-@CommandHandler(ApplyConsulCommand)
-export class ApplyConsulHandler implements ICommandHandler<ApplyConsulCommand> {
+@Injectable()
+export class ApplyConsulHandler {
   private readonly logger = new Logger(ApplyConsulCommand.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-    private readonly terraformGateway: WSGateway
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private terraform: Terraform
+  ) {}
 
-  async execute(command: ApplyConsulCommand) {
-    return new Promise<void>(async (resolve, reject) => {
+  async execute(job: Job<ApplyConsulCommand>, command: ApplyConsulCommand) {
+    return new Promise<any>(async (resolve, reject) => {
       this.logger.debug(`Received ApplyConsulCommand: ${command.consul.code}`);
       try {
+        job.progress(20);
         const stateResult: TFStateRepresentation = await this.terraform.apply(
-          command.workingDir,
-          ['-auto-approve', '"last-plan"'],
-          { autoApprove: true, silent: false }
+          ['-auto-approve', '"tfplan"'],
+          {
+            autoApprove: true,
+            silent: !this.configService.getOrElse(
+              'terraform.apply.verbose',
+              false
+            ),
+          },
+          `dinivas-project-${command.consul.project.code.toLowerCase()}`,
+          `consul/${command.consul.code.toLowerCase()}`
         );
-        resolve();
-        this.terraformGateway.emit(`applyEvent-${command.consul.code}`, {
-          source: command.consul,
-          stateResult,
-        } as TerraformApplyEvent<ConsulDTO>);
+        const result = {
+          module: 'consul',
+          eventCode: `applyEvent-${command.consul.code}`,
+          event: {
+            source: command.consul,
+            stateResult,
+          } as TerraformApplyEvent<ConsulDTO>,
+        };
+        job.progress(100);
+        resolve(result);
       } catch (error) {
-        this.terraformGateway.emit(
-          `applyEvent-${command.consul.code}-error`,
-          error.message
-        );
+        reject(error);
       }
     });
   }

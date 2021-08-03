@@ -1,5 +1,6 @@
 import {
   ConsulDTO,
+  InstanceDTO,
   JenkinsDTO,
   JenkinsSlaveGroupDTO,
   ProjectDTO,
@@ -7,10 +8,11 @@ import {
 } from '@dinivas/api-interfaces';
 import fs = require('fs');
 import path = require('path');
-export const computeTerraformProjectBaseModuleVarsForOpenstack = (
+export const computeTerraformProjectBaseModuleTemplateContextForOpenstack = (
   project: ProjectDTO,
   projectConsul: ConsulDTO,
-  cloudConfig: any
+  cloudConfig: any,
+  moduleSource: string
 ): string[] => {
   return [
     `-var 'project_name=${project.code.toLowerCase()}'`,
@@ -80,11 +82,12 @@ export const computeTerraformProjectBaseModuleVarsForOpenstack = (
   ];
 };
 
-export const computeTerraformJenkinsModuleVarsForOpenstack = (
+export const computeTerraformJenkinsModuleTemplateContextForOpenstack = (
   jenkins: JenkinsDTO,
   consul: ConsulDTO,
-  cloudConfig: any
-): string[] => {
+  cloudConfig: any,
+  moduleSource: string
+): any => {
   const jenkins_master_vars = [
     `-var 'project_name=${jenkins.project.code.toLowerCase()}'`,
     `-var 'enable_jenkins_master=${jenkins.use_existing_master ? 0 : 1}'`,
@@ -131,11 +134,30 @@ export const computeTerraformJenkinsModuleVarsForOpenstack = (
   return jenkins_master_vars;
 };
 
+export const computeTerraformInstanceModuleTemplateContextForOpenstack = (
+  instance: InstanceDTO,
+  consul: ConsulDTO,
+  cloudConfig: any,
+  moduleSource: string
+): any => {
+  return null;
+};
+
+export const computeTerraformConsulModuleTemplateContextForOpenstack = (
+  consul: ConsulDTO,
+  projectConsul: ConsulDTO,
+  cloudConfig: any,
+  moduleSource: string
+): any => {
+  return null;
+};
+
 export const addJenkinsSlaveFilesToModuleForOpenstack = (
   jenkinsDTO: JenkinsDTO,
   projectConsul: ConsulDTO,
   cloudConfig: any,
-  destination: string
+  destination: string,
+  moduleSource: string
 ) => {
   jenkinsDTO.slave_groups.forEach((slaveGroup: JenkinsSlaveGroupDTO) => {
     const slaveGroupFileContent = `
@@ -208,10 +230,11 @@ export const addJenkinsSlaveFilesToModuleForOpenstack = (
   });
 };
 
-export const computeTerraformRabbitMQModuleVarsForOpenstack = (
+export const computeTerraformRabbitMQModuleTemplateContextForOpenstack = (
   rabbitmq: RabbitMQDTO,
   consul: ConsulDTO,
-  cloudConfig: any
+  cloudConfig: any,
+  moduleSource: string
 ): string[] => {
   const rabbitmq_cluster_vars = [
     `-var 'project_name=${rabbitmq.project.code.toLowerCase()}'`,
@@ -239,8 +262,9 @@ export const computeTerraformRabbitMQModuleVarsForOpenstack = (
 };
 
 exports = {
-  computeTerraformProjectBaseModuleVarsForOpenstack,
-  computeTerraformJenkinsModuleVarsForOpenstack,
+  computeTerraformProjectBaseModuleTemplateContextForOpenstack,
+  computeTerraformJenkinsModuleTemplateContextForOpenstack,
   addJenkinsSlaveFilesToModuleForOpenstack,
-  computeTerraformRabbitMQModuleVarsForOpenstack,
+  computeTerraformRabbitMQModuleTemplateContextForOpenstack,
+  computeTerraformConsulModuleTemplateContextForOpenstack,
 };

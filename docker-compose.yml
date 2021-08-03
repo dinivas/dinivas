@@ -9,6 +9,8 @@ volumes:
     driver: local
   postgres_redis_data:
     driver: local
+  minio_dinivas_data:
+    driver: local
 
 services:
   # DINIVAS
@@ -92,6 +94,27 @@ services:
       POSTGRES_DB: dinivas
       POSTGRES_USER: dinivas
       POSTGRES_PASSWORD: Pa55W0rd
+  minio-dinivas:
+    image: minio/minio:latest
+    command: server --console-address ":9001" /data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - minio_dinivas_data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    volumes:
+      - postgres_redis_data:/data
+  guacd:
+    image: guacamole/guacd
+    ports:
+      - '4822:4822'
     # ports:
     #   - 5433:5432
   # Ansible Galaxy
@@ -157,13 +180,3 @@ services:
   #    - RABBITMQ_DEFAULT_USER=galaxy
   #    - RABBITMQ_DEFAULT_PASS=galaxy
   #    - RABBITMQ_DEFAULT_VHOST=galaxy
-  redis:
-    image: redis:latest
-    ports:
-      - '6379:6379'
-    volumes:
-      - postgres_redis_data:/data
-  guacd:
-    image: guacamole/guacd
-    ports:
-      - '4822:4822'

@@ -101,7 +101,7 @@ export class RabbitMQController {
   async planproject(
     @Req() request: Request,
     @Body() rabbitmq: RabbitMQDTO
-  ): Promise<{ planJobId: number | string }> {
+  ): Promise<{ planJobId: number }> {
     const project = request['project'] as ProjectDTO;
     rabbitmq.project = project;
     const cloudprovider = await this.cloudproviderService.findOne(
@@ -121,7 +121,7 @@ export class RabbitMQController {
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
-    return { planJobId: planJob.id };
+    return { planJobId: Number(planJob.id) };
   }
 
   @Post('apply-plan')
@@ -142,11 +142,10 @@ export class RabbitMQController {
       new ApplyRabbitMQCommand(
         cloudprovider.cloud,
         applyProject.source,
-        applyProject.workingDir
       )
     );
     this.logger.debug('Apply Job Id', JSON.stringify(applyJob));
-    return { applyJobId: applyJob.id };
+    return { applyJobId: Number(applyJob.id) };
   }
 
   @Get(':id/terraform_state')
@@ -192,7 +191,7 @@ export class RabbitMQController {
       this.logger.debug(
         `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
       );
-      return { planJobId: destroyJob.id };
+      return { planJobId: Number(destroyJob.id) };
     }
   }
 }

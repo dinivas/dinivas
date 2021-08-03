@@ -2,7 +2,7 @@
   <mat-icon matListIcon svgIcon="server"></mat-icon>
   <span class="page-title">Instances</span>
 </mat-toolbar>
-<mat-card class="empty-item-card info-card hide"  *ngIf="dataSource.data.length === 0">
+<mat-card class="empty-item-card info-card hide" *ngIf="dataSource.data.length === 0">
   <mat-card-header>
     <div mat-card-avatar class="instance-logo"></div>
     <mat-card-title>Free instance</mat-card-title>
@@ -26,7 +26,8 @@
     <mat-card-content>
       <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
         [showAddButton]="showAddButton" addButtonLabel="Create instance" (filterChanged)="onFilterChanged($event)"
-        (refreshData)="onRefreshDatas()" (dataChanged)="onDataChanged($event)" (addEntity)="onAddInstance()" (deleteSelection)="onDeleteEntity($event)">
+        (refreshData)="onRefreshDatas()" (dataChanged)="onDataChanged($event)" (addEntity)="onAddInstance()"
+        (deleteSelection)="onDeleteEntity($event)">
       </dinivas-filter-bar>
       <div class="spinner-container" *ngIf="isLoadingResults">
         <mat-spinner></mat-spinner>
@@ -78,7 +79,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Adresses</th>
           <td mat-cell *matCellDef="let row">
             <ul>
-              <li *ngFor="let item of row.adresses">{{ item.addr }} ({{ item.type }}}</li>
+              <li *ngFor="let item of row.adresses">{{ item.addr }} ({{ item.type }})</li>
             </ul>
           </td>
         </ng-container>
@@ -100,7 +101,8 @@
           <th mat-header-cell *matHeaderCellDef class="action-cell ">
           </th>
           <td mat-cell *matCellDef="let entity" class="row-action edit-action">
-            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" (click)="onDeleteEntity(entity)">
+            <a class="delete" *ngIf="entity.techId" mat-icon-button class="has-text-grey-light delete-entity"
+              (click)="onDeleteEntity(entity)">
               <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
             </a>
           </td>

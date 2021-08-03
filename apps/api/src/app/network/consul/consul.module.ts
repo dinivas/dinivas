@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { ConsulController } from './consul.controller';
 import { ConsulService } from './consul.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConsulTerraformTasksProcessor } from './consul-terraform-tasks.processor';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CloudproviderModule,
   ],
   controllers: [ConsulController],
-  providers: [ConsulService],
+  providers: [ConsulService, ConsulTerraformTasksProcessor],
   exports: [ConsulService],
 })
 export class ConsulModule {}

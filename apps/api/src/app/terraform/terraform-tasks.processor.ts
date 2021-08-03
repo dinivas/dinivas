@@ -33,7 +33,7 @@ export class TerraformTasksProcessor {
       const planEvent = result.event as TerraformPlanEvent<any>;
       const job = await this.terraformModuleQueue.getJob(jobId);
       this.logger.debug(
-        `[PLAN] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result workingDir=[${planEvent.workingDir}], source [${planEvent.source}], planResult: ( Nb resources changed: [${planEvent.planResult.resource_changes.length}], Planned Values: [${planEvent.planResult.planned_values.outputs}])`
+        `[PLAN] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode} -> result source [${planEvent.source}], planResult: ( Nb resources changed: [${planEvent.planResult.resource_changes.length}], Planned Values: [${planEvent.planResult.planned_values.outputs}])`
       );
       this.coreWebSocketGateway.emit(result.eventCode, planEvent);
     }

@@ -11,14 +11,14 @@ import {
   ProjectDTO,
   TerraformPlanEvent,
   TerraformApplyEvent,
-  ApplyModuleDTO
+  ApplyModuleDTO,
 } from '@dinivas/api-interfaces';
 import {
   Component,
   OnInit,
   EventEmitter,
   ChangeDetectorRef,
-  AfterViewChecked
+  AfterViewChecked,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -26,13 +26,14 @@ import { TerraformModuleEntityInfo } from '../../../shared/terraform/terraform-m
 
 @Component({
   selector: 'dinivas-consul-wizard',
-  templateUrl: './consul-wizard.component.html'
+  templateUrl: './consul-wizard.component.html',
 })
 export class ConsulWizardComponent
   implements
     OnInit,
     AfterViewChecked,
-    TerraformModuleWizardVarsProvider<ConsulDTO> {
+    TerraformModuleWizardVarsProvider<ConsulDTO>
+{
   consul: ConsulDTO;
   consulForm: FormGroup;
   moduleWizardStepper: Observable<MatVerticalStepper>;
@@ -69,34 +70,62 @@ export class ConsulWizardComponent
         (cloudImages: ICloudApiImage[]) => (this.cloudImages = cloudImages)
       );
     activatedRoute.data
-      .pipe(
-        map((data) => data.cloudFlavors)
-      )
+      .pipe(map((data) => data.cloudFlavors))
       .subscribe(
         (cloudFlavors: ICloudApiFlavor[]) => (this.cloudFlavors = cloudFlavors)
       );
     activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentProjectInfo
-        )
-      )
+      .pipe(map((data) => data.currentProjectInfo))
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo.entity;
         this.projectTfState = projectInfo.entityState;
-        this.projectNetwork = this.projectTfState.outputs['mgmt_network_name']
-          ? this.projectTfState.outputs['mgmt_network_name'].value
-          : undefined;
-        this.projectNetworkSubnet = this.projectTfState.outputs[
-          'mgmt_subnet_names'
-        ]
-          ? this.projectTfState.outputs['mgmt_subnet_names'].value[0]
-          : this.consul.network_subnet_name;
-        this.projectKeypair = this.projectTfState.outputs[
-          'project_keypair_name'
-        ].value;
+        this.projectNetwork = this.toCloudProviderNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
+        this.projectNetworkSubnet = this.toCloudProviderSubnetNetworkIdentifier(
+          this.project.cloud_provider.cloud,
+          this.projectTfState.outputs
+        );
+        this.projectKeypair =
+          this.projectTfState.outputs['project_keypair_name'].value;
         this.projectTfStateSubject.next(undefined);
       });
+  }
+
+  toCloudProviderNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value[0]
+          : this.consul.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
+          : this.consul.network_subnet_name;
+      default:
+        return undefined;
+    }
+  }
+  toCloudProviderSubnetNetworkIdentifier(
+    cloudprovider: string,
+    stateOutput: any
+  ): string {
+    switch (cloudprovider) {
+      case 'openstack':
+        return stateOutput['mgmt_subnet_names']
+          ? stateOutput['mgmt_subnet_names'].value[0]
+          : this.consul.network_subnet_name;
+      case 'digitalocean':
+        return stateOutput['mgmt_network_name']
+          ? stateOutput['mgmt_network_name'].value
+          : this.consul.network_subnet_name;
+      default:
+        return undefined;
+    }
   }
 
   ngOnInit() {
@@ -110,7 +139,7 @@ export class ConsulWizardComponent
     this.onArchitectureTypeChanged.subscribe(
       (architectureType: string) => (this.architectureType = architectureType)
     );
-    this.moduleWizardStepper.subscribe(stepper => {
+    this.moduleWizardStepper.subscribe((stepper) => {
       if (this.consul && this.consul.architecture_type) {
         //setTimeout(() => (stepper.selectedIndex = 1), 1);
       }
@@ -127,46 +156,53 @@ export class ConsulWizardComponent
       code: [this.consul ? this.consul.code : null, Validators.required],
       cluster_domain: [
         this.consul ? this.consul.cluster_domain : null,
-        Validators.required
+        Validators.required,
+      ],
+      cluster_datacenter: [
+        this.consul ? this.consul.cluster_datacenter : null,
+        Validators.required,
       ],
       description: [this.consul ? this.consul.description : null, null],
       network_name: [
         this.consul ? this.consul.network_name : this.projectNetwork,
-        Validators.required
+        Validators.required,
       ],
       network_subnet_name: [
         this.consul
           ? this.consul.network_subnet_name
           : this.projectNetworkSubnet,
-        Validators.required
+        Validators.required,
       ],
       keypair_name: [
         this.consul ? this.consul.keypair_name : this.projectKeypair,
-        Validators.required
+        Validators.required,
       ],
       server_instance_count: [
-        this.consul ? this.consul.server_instance_count : 1
+        this.consul ? this.consul.server_instance_count : 1,
       ],
       _server_image: [
         this.consul ? this.consul.server_image : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       _server_flavor: [
         this.consul ? this.consul.server_flavor : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       client_instance_count: [
-        this.consul ? this.consul.client_instance_count : 1
+        this.consul ? this.consul.client_instance_count : 1,
       ],
       _client_image: [
         this.consul ? this.consul.client_image : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
       _client_flavor: [
         this.consul ? this.consul.client_flavor : null,
-        Validators.nullValidator
+        Validators.nullValidator,
       ],
-      use_floating_ip: [this.consul ? this.consul.use_floating_ip : false, null]
+      use_floating_ip: [
+        this.consul ? this.consul.use_floating_ip : false,
+        null,
+      ],
     });
     this.consulForm.get('network_name').disable();
     this.consulForm.get('network_subnet_name').disable();
@@ -184,26 +220,30 @@ export class ConsulWizardComponent
   prepareConsulDTOBeforeSendToServer(consul: ConsulDTO) {
     // Set server image name
     if (consul && this.consulForm.get('_server_image').value) {
-      consul.server_image = (this.consulForm.get('_server_image')
-        .value as ICloudApiImage).name;
+      consul.server_image = this.toCloudProviderImageId(
+        this.consulForm.get('_server_image').value as ICloudApiImage
+      );
       delete consul['_server_image'];
     }
     // Set server flavor name
     if (consul && this.consulForm.get('_server_flavor').value) {
-      consul.server_flavor = (this.consulForm.get('_server_flavor')
-        .value as ICloudApiFlavor).name;
+      consul.server_flavor = (
+        this.consulForm.get('_server_flavor').value as ICloudApiFlavor
+      ).name;
       delete consul['_server_flavor'];
     }
     // Set client image name
     if (consul && this.consulForm.get('_client_image').value) {
-      consul.client_image = (this.consulForm.get('_client_image')
-        .value as ICloudApiImage).name;
+      consul.client_image = this.toCloudProviderImageId(
+        this.consulForm.get('_client_image').value as ICloudApiImage
+      );
       delete consul['_client_image'];
     }
     // Set client flavor name
     if (consul && this.consulForm.get('_client_flavor').value) {
-      consul.client_flavor = (this.consulForm.get('_client_flavor')
-        .value as ICloudApiFlavor).name;
+      consul.client_flavor = (
+        this.consulForm.get('_client_flavor').value as ICloudApiFlavor
+      ).name;
       delete consul['_client_flavor'];
     }
 
@@ -217,6 +257,8 @@ export class ConsulWizardComponent
       consul.id = this.consul.id;
     }
     consul.architecture_type = this.architectureType;
+    consul.cluster_datacenter =
+      consul.cluster_datacenter || this.project.availability_zone;
   }
 
   submitApplyPlan(consul: ConsulDTO) {
@@ -244,9 +286,7 @@ export class ConsulWizardComponent
 
     return forkJoin(
       saveOrUpdateConsul,
-      this.consulService.applyPlan(
-        new ApplyModuleDTO(moduleEntity, terraformPlanEvent.workingDir)
-      )
+      this.consulService.applyPlan(new ApplyModuleDTO(moduleEntity))
     );
   }
 
@@ -258,5 +298,17 @@ export class ConsulWizardComponent
     return this.consul.managed_by_project
       ? of(null)
       : this.consulService.getTerraformState(moduleEntity.id);
+  }
+
+  toCloudProviderImageId(image: ICloudApiImage) {
+    const cloudProvider = this.project.cloud_provider;
+    switch (cloudProvider.cloud) {
+      case 'openstack':
+        return image.name;
+      case 'digitalocean':
+        return image.id;
+      default:
+        return image.name;
+    }
   }
 }

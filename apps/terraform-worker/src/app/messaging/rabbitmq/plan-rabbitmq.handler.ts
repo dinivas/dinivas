@@ -1,5 +1,4 @@
 import { TerraformStateService } from '../../terraform-state.service';
-import { WSGateway } from '../../wsgateway';
 import { ConfigurationService } from '../../configuration.service';
 import { Terraform } from '../../terraform/core/Terraform';
 import { Injectable, Logger } from '@nestjs/common';
@@ -16,14 +15,11 @@ import { Job } from 'bull';
 @Injectable()
 export class PlanRabbitMQHandler {
   private readonly logger = new Logger(PlanRabbitMQHandler.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
     private readonly terraformStateService: TerraformStateService,
-    private readonly terraformGateway: WSGateway
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private terraform: Terraform
+  ) {}
 
   async execute(job: Job<PlanRabbitMQCommand>, command: PlanRabbitMQCommand) {
     this.logger.debug(`Received PlanRabbitMQCommand: ${command.rabbitmq.code}`);
@@ -36,42 +32,47 @@ export class PlanRabbitMQHandler {
         'rabbitmq',
         command.cloudConfig,
         async (workingDir) => {
-          const rawProjectState = await firstValueFrom(
-            this.terraformStateService.findState(
-              command.rabbitmq.project.code.toLowerCase(),
-              'project_base'
-            )
-          );
-          this.terraform.addSshViaBastionConfigFileToModule(
-            rawProjectState,
-            workingDir
-          );
+          try {
+            const rawProjectState = await firstValueFrom(
+              this.terraformStateService.findState(
+                command.rabbitmq.project.code.toLowerCase(),
+                'project_base'
+              )
+            );
+            this.terraform.addTerraformRabbitMQModuleFile(
+              command.rabbitmq,
+              command.consul,
+              command.cloudConfig,
+              workingDir
+            );
+            this.terraform.addSshViaBastionConfigFileToModule(
+              command.cloudprovider,
+              rawProjectState,
+              workingDir
+            );
+          } catch (error) {
+            reject(error);
+          }
         },
         async (workingDir) => {
           try {
             const planResult: TFPlanRepresentation = await this.terraform.plan(
               workingDir,
-              [
-                ...this.terraform.computeTerraformRabbitMQModuleVars(
-                  command.rabbitmq,
-                  command.consul,
-                  command.cloudConfig
-                ),
-                '-out=last-plan',
-              ],
+              ['-var-file=ssh-via-bastion.tfvars ', '-out=tfplan'],
               {
                 silent: !this.configService.getOrElse(
                   'terraform.plan.verbose',
                   false
                 ),
-              }
+              },
+              `dinivas-project-${command.rabbitmq.project.code.toLowerCase()}`,
+              `rabbitmq/${command.rabbitmq.code.toLowerCase()}`
             );
             const result = {
               module: 'rabbitmq',
               eventCode: `planEvent-${command.rabbitmq.code}`,
               event: {
                 source: command.rabbitmq,
-                workingDir,
                 planResult,
               } as TerraformPlanEvent<RabbitMQDTO>,
             };

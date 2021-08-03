@@ -82,7 +82,6 @@ export interface TFPlanRepresentation {
 
 export interface TerraformPlanEvent<T> {
   source: T;
-  workingDir: string;
   planResult: TFPlanRepresentation;
 }
 

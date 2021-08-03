@@ -13,12 +13,10 @@ import {
 @Injectable()
 export class ApplyJenkinsHandler {
   private readonly logger = new Logger(ApplyJenkinsHandler.name);
-  terraform: Terraform;
   constructor(
     private readonly configService: ConfigurationService,
-  ) {
-    this.terraform = new Terraform(configService);
-  }
+    private terraform: Terraform
+  ) {}
 
   async execute(job: Job<ApplyJenkinsCommand>, command: ApplyJenkinsCommand) {
     return new Promise<any>(async (resolve, reject) => {
@@ -28,15 +26,16 @@ export class ApplyJenkinsHandler {
       try {
         job.progress(20);
         const stateResult: TFStateRepresentation = await this.terraform.apply(
-          command.workingDir,
-          ['-auto-approve', '"last-plan"'],
+          ['-auto-approve', '"tfplan"'],
           {
             autoApprove: true,
             silent: !this.configService.getOrElse(
               'terraform.apply.verbose',
               false
             ),
-          }
+          },
+          `dinivas-project-${command.jenkins.project.code.toLowerCase()}`,
+          `jenkins/${command.jenkins.code.toLowerCase()}`
         );
         const result = {
           module: 'jenkins',
@@ -54,7 +53,7 @@ export class ApplyJenkinsHandler {
           module: 'jenkins',
           eventCode: `applyEvent-${command.jenkins.code}-error`,
           error,
-        }
+        };
         reject(error);
       }
     });
