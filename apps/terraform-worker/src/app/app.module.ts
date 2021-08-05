@@ -7,11 +7,7 @@ import { StatusMonitorModule } from 'nest-status-monitor';
 
 import { statusMonitorConfig } from './utils/status-monitor';
 import configConfiguration from './config.configuration';
-import { CommandHandlers as ProjectsCommandHandlers } from './projects';
-import { CommandHandlers as ConsulCommandHandlers } from './network';
-import { CommandHandlers as InstancesCommandHandlers } from './compute/instances';
-import { CommandHandlers as JenkinsCommandHandlers } from './build/jenkins';
-import { CommandHandlers as RabbitMQCommandHandlers } from './messaging/rabbitmq';
+import { CommandHandlers } from './command-handlers';
 import { ConfigurationService } from './configuration.service';
 import { GitService } from './git/git.service';
 import { TerraformStateService } from './terraform-state.service';
@@ -75,11 +71,7 @@ const TF_STATE_CONFIG_ROOT_KEY = 'dinivas.terraform.state';
     TerraformStateService,
     MinioService,
     Terraform,
-    ...ProjectsCommandHandlers,
-    ...ConsulCommandHandlers,
-    ...InstancesCommandHandlers,
-    ...JenkinsCommandHandlers,
-    ...RabbitMQCommandHandlers,
+    ...CommandHandlers,
   ],
 })
 export class AppModule {}

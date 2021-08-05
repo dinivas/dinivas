@@ -15,8 +15,6 @@ import {
   JenkinsDTO,
   ICloudApiImage,
   ICloudApiFlavor,
-  TerraformPlanEvent,
-  TerraformApplyEvent,
   JenkinsSlaveGroupDTO,
   ProjectDTO,
   ApplyModuleDTO,
@@ -30,7 +28,7 @@ import {
   AfterViewChecked,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Observable, Subject, forkJoin } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { findIndex } from 'lodash';
 import { TerraformModuleEntityInfo } from '../../../shared/terraform/terraform-module-entity-info';
 import { MatVerticalStepper } from '@angular/material/stepper';
@@ -52,8 +50,6 @@ export class JenkinsWizardComponent
   masterCloudImages: ICloudApiImage[];
   slaveCloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
-  terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>;
-  terraformApplyEvent: TerraformApplyEvent<JenkinsDTO>;
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
@@ -223,7 +219,7 @@ export class JenkinsWizardComponent
         null,
       ],
       link_to_keycloak: [
-        this.jenkins ? this.jenkins.link_to_keycloak : false,
+        this.jenkins ? this.jenkins.link_to_keycloak : true,
         null,
       ],
       keycloak_client_id: [
@@ -579,20 +575,13 @@ export class JenkinsWizardComponent
   }
 
   moduleServiceApplyPlan(
-    moduleEntity: JenkinsDTO,
-    terraformPlanEvent: TerraformPlanEvent<JenkinsDTO>
-  ): Observable<[any, { applyJobId: number }]> {
+    moduleEntity: JenkinsDTO
+  ): Observable<{ applyJobId: number }> {
     if (this.jenkins) {
       moduleEntity.id = this.jenkins.id;
     }
-    const saveOrUpdateJenkins = this.jenkins
-      ? this.jenkinsService.update(moduleEntity)
-      : this.jenkinsService.create(moduleEntity);
 
-    return forkJoin(
-      saveOrUpdateJenkins,
-      this.jenkinsService.applyPlan(new ApplyModuleDTO(moduleEntity))
-    );
+    return this.jenkinsService.applyPlan(new ApplyModuleDTO(moduleEntity));
   }
 
   terraformWebsocketEventId(moduleEntity: JenkinsDTO): string {

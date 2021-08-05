@@ -25,10 +25,9 @@ import {
   ProjectDTO,
   ApplyModuleDTO,
   ConsulDTO,
-  PlanRabbitMQCommand,
-  DestroyRabbitMQCommand,
-  ApplyRabbitMQCommand,
+  CommonModuleCommand,
   BULL_TERRAFORM_MODULE_QUEUE,
+  CloudProviderId,
 } from '@dinivas/api-interfaces';
 import { Request } from 'express';
 import YAML = require('js-yaml');
@@ -112,12 +111,16 @@ export class RabbitMQController {
       project.code
     );
     const planJob = await this.terraformModuleQueue.add(
-      'plan-rabbitmq',
-      new PlanRabbitMQCommand(
-        cloudprovider.cloud,
+      'plan',
+      new CommonModuleCommand<RabbitMQDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'rabbitmq',
+        rabbitmq.code,
         rabbitmq,
+        project.code,
+        project,
         consul,
-        YAML.load(cloudprovider.config)
+        YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
@@ -137,11 +140,21 @@ export class RabbitMQController {
       project.cloud_provider.id,
       true
     );
+    const cloudConfig = YAML.load(cloudprovider.config);
+    const consul: ConsulDTO = await this.consulService.findOneByCode(
+      project.code
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply-rabbitmq',
-      new ApplyRabbitMQCommand(
-        cloudprovider.cloud,
+      'apply',
+      new CommonModuleCommand<RabbitMQDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'rabbitmq',
+        applyProject.source.code,
         applyProject.source,
+        project.code,
+        project,
+        consul,
+        cloudConfig
       )
     );
     this.logger.debug('Apply Job Id', JSON.stringify(applyJob));
@@ -180,12 +193,16 @@ export class RabbitMQController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy-rabbitmq',
-        new DestroyRabbitMQCommand(
-          cloudprovider.cloud,
+        'destroy',
+        new CommonModuleCommand<RabbitMQDTO>(
+          cloudprovider.cloud as CloudProviderId,
+          'rabbitmq',
+          rabbitmq.code,
           rabbitmq,
+          project.code,
+          project,
           consul,
-          YAML.load(cloudprovider.config)
+          YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
         )
       );
       this.logger.debug(

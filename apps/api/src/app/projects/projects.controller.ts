@@ -12,10 +12,9 @@ import {
   ConsulDTO,
   ProjectDefinitionDTO,
   CloudproviderDTO,
-  PlanProjectCommand,
-  ApplyProjectCommand,
-  DestroyProjectCommand,
+  CommonModuleCommand,
   BULL_TERRAFORM_MODULE_QUEUE,
+  CloudProviderId,
 } from '@dinivas/api-interfaces';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -145,30 +144,26 @@ export class ProjectsController {
   @Permissions('projects:create')
   async planproject(
     @Body() projectDefinition: ProjectDefinitionDTO
-  ): Promise<{ planJobId: number | string }> {
+  ): Promise<{ planJobId: number }> {
     const project = projectDefinition.project;
     const cloudprovider: CloudproviderDTO =
       await this.cloudproviderService.findOne(project.cloud_provider.id, true);
     const cloudConfig = YAML.load(cloudprovider.config);
     const planJob = await this.terraformModuleQueue.add(
-      'plan-project',
-      new PlanProjectCommand(
-        cloudprovider.cloud,
-        project,
-        project.name,
+      'plan',
+      new CommonModuleCommand<ProjectDefinitionDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'project_base',
         project.code,
-        project.description,
-        project.public_router,
-        project.floating_ip_pool,
-        project.monitoring,
-        project.logging,
-        project.logging_stack,
-        cloudConfig,
-        projectDefinition.consul
+        projectDefinition,
+        project.code,
+        project,
+        projectDefinition.consul,
+        cloudConfig
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
-    return { planJobId: planJob.id };
+    return { planJobId: Number(planJob.id) };
   }
 
   @Post('apply-plan')
@@ -176,17 +171,27 @@ export class ProjectsController {
   @Permissions('projects:create')
   async applyProject(
     @Body() applyProjectDefinition: ApplyModuleDTO<ProjectDefinitionDTO>
-  ) {
+  ): Promise<{ applyJobId: number }> {
+    const project = applyProjectDefinition.source.project;
+    const cloudprovider: CloudproviderDTO =
+      await this.cloudproviderService.findOne(project.cloud_provider.id, true);
+    const cloudConfig = YAML.load(cloudprovider.config);
     const applyJob = await this.terraformModuleQueue.add(
-      'apply-project',
-      new ApplyProjectCommand(
-        applyProjectDefinition.source.project.cloud_provider.cloud,
+      'apply',
+      new CommonModuleCommand<ProjectDefinitionDTO>(
+        applyProjectDefinition.source.project.cloud_provider
+          .cloud as CloudProviderId,
+        'project_base',
+        applyProjectDefinition.source.project.code,
+        applyProjectDefinition.source,
+        applyProjectDefinition.source.project.code,
         applyProjectDefinition.source.project,
         applyProjectDefinition.source.consul,
+        cloudConfig
       )
     );
     this.logger.debug(`Apply Job Id with data: ${JSON.stringify(applyJob)}`);
-    return { applyJobId: applyJob.id };
+    return { applyJobId: Number(applyJob.id) };
   }
 
   @Put(':id')
@@ -203,8 +208,7 @@ export class ProjectsController {
 
   @Delete(':id')
   @Permissions('projects:delete')
-  async remove(@Param('id') id: number) {
-    //TODO rachide: find project consul
+  async remove(@Param('id') id: number): Promise<{ destroyJobId: number }> {
     const project = await this.projectsService.findOne(id);
     if (project) {
       const cloudprovider = await this.cloudproviderService.findOne(
@@ -215,9 +219,13 @@ export class ProjectsController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy-project',
-        new DestroyProjectCommand(
-          cloudprovider.cloud,
+        'destroy',
+        new CommonModuleCommand<ProjectDefinitionDTO>(
+          cloudprovider.cloud as CloudProviderId,
+          'project_base',
+          project.code,
+          { project, consul },
+          project.code,
           project,
           consul,
           YAML.load(cloudprovider.config)
@@ -226,7 +234,7 @@ export class ProjectsController {
       this.logger.debug(
         `Destroy Job Id with data: ${JSON.stringify(destroyJob)}`
       );
-      return { destroyJobId: destroyJob.id };
+      return { destroyJobId: Number(destroyJob.id) };
     }
   }
 }

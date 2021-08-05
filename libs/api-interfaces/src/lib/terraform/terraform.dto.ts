@@ -1,3 +1,4 @@
+import { ConsulDTO } from '../consul/consul.dto';
 import { ProjectDTO } from '../project/project.dto';
 
 export interface TerraformStateDTO {
@@ -80,16 +81,8 @@ export interface TFPlanRepresentation {
 
 // Terraform Event
 
-export interface TerraformPlanEvent<T> {
-  source: T;
-  planResult: TFPlanRepresentation;
-}
-
-export interface TerraformApplyEvent<T> {
-  source: T;
-  stateResult: TFStateRepresentation;
-}
-
-export interface TerraformDestroyEvent<T> {
-  source: T;
+export interface TerraformModuleEvent<T> {
+  source: { data: T; project: ProjectDTO; consul: ConsulDTO };
+  planResult?: TFPlanRepresentation;
+  stateResult?: TFStateRepresentation;
 }

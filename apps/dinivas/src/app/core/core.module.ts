@@ -101,7 +101,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
       multi: true,
       deps: [LocalStorageService],
     },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 10000 } },
     {
       provide: LOCALE_ID,
       useValue: 'fr-FR',

@@ -1,14 +1,78 @@
 import {
+  CloudProviderId,
   ConsulDTO,
   InstanceDTO,
   JenkinsDTO,
   JenkinsSlaveGroupDTO,
   ProjectDTO,
   RabbitMQDTO,
+  TerraformModule,
 } from '@dinivas/api-interfaces';
 import fs = require('fs');
 import path = require('path');
-export const computeTerraformProjectBaseModuleTemplateContextForOpenstack = (
+
+export const computeTerraformModuleTemplateContextForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
+  moduleData: any,
+  projectConsul: ConsulDTO,
+  cloudConfig: any,
+  moduleSource: string
+): any => {
+  switch (moduleId) {
+    case 'project_base':
+      return computeTerraformProjectBaseModuleTemplateContextForOpenstack(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'jenkins':
+      return computeTerraformJenkinsModuleTemplateContextForOpenstack(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'rabbitmq':
+      return computeTerraformRabbitMQModuleTemplateContextForOpenstack(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'consul':
+      return computeTerraformConsulModuleTemplateContextForOpenstack(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'project_instance':
+      return computeTerraformInstanceModuleTemplateContextForOpenstack(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    default:
+      break;
+  }
+};
+
+const computeTerraformProjectBaseModuleTemplateContextForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   project: ProjectDTO,
   projectConsul: ConsulDTO,
   cloudConfig: any,
@@ -82,7 +146,9 @@ export const computeTerraformProjectBaseModuleTemplateContextForOpenstack = (
   ];
 };
 
-export const computeTerraformJenkinsModuleTemplateContextForOpenstack = (
+const computeTerraformJenkinsModuleTemplateContextForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   jenkins: JenkinsDTO,
   consul: ConsulDTO,
   cloudConfig: any,
@@ -134,7 +200,9 @@ export const computeTerraformJenkinsModuleTemplateContextForOpenstack = (
   return jenkins_master_vars;
 };
 
-export const computeTerraformInstanceModuleTemplateContextForOpenstack = (
+const computeTerraformInstanceModuleTemplateContextForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   instance: InstanceDTO,
   consul: ConsulDTO,
   cloudConfig: any,
@@ -143,7 +211,9 @@ export const computeTerraformInstanceModuleTemplateContextForOpenstack = (
   return null;
 };
 
-export const computeTerraformConsulModuleTemplateContextForOpenstack = (
+const computeTerraformConsulModuleTemplateContextForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   consul: ConsulDTO,
   projectConsul: ConsulDTO,
   cloudConfig: any,
@@ -152,7 +222,9 @@ export const computeTerraformConsulModuleTemplateContextForOpenstack = (
   return null;
 };
 
-export const addJenkinsSlaveFilesToModuleForOpenstack = (
+const addJenkinsSlaveFilesToModuleForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   jenkinsDTO: JenkinsDTO,
   projectConsul: ConsulDTO,
   cloudConfig: any,
@@ -230,7 +302,9 @@ export const addJenkinsSlaveFilesToModuleForOpenstack = (
   });
 };
 
-export const computeTerraformRabbitMQModuleTemplateContextForOpenstack = (
+const computeTerraformRabbitMQModuleTemplateContextForOpenstack = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   rabbitmq: RabbitMQDTO,
   consul: ConsulDTO,
   cloudConfig: any,
@@ -262,9 +336,5 @@ export const computeTerraformRabbitMQModuleTemplateContextForOpenstack = (
 };
 
 exports = {
-  computeTerraformProjectBaseModuleTemplateContextForOpenstack,
-  computeTerraformJenkinsModuleTemplateContextForOpenstack,
-  addJenkinsSlaveFilesToModuleForOpenstack,
-  computeTerraformRabbitMQModuleTemplateContextForOpenstack,
-  computeTerraformConsulModuleTemplateContextForOpenstack,
+  computeTerraformModuleTemplateContextForOpenstack,
 };

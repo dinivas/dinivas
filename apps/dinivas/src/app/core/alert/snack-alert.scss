@@ -1,9 +1,9 @@
-
 @import '../../../assets/styles/variables';
 
 .snack-alert {
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
+  padding: 20px 10px;
   &.success {
     color: $dinivas-green;
   }

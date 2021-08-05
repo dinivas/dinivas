@@ -1,7 +1,7 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { ConsulService } from './../../../shared/consul/consul.service';
 import { MatVerticalStepper } from '@angular/material/stepper';
-import { Observable, Subject, forkJoin, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
 import {
@@ -9,8 +9,7 @@ import {
   ICloudApiImage,
   ICloudApiFlavor,
   ProjectDTO,
-  TerraformPlanEvent,
-  TerraformApplyEvent,
+  TerraformModuleEvent,
   ApplyModuleDTO,
 } from '@dinivas/api-interfaces';
 import {
@@ -39,8 +38,8 @@ export class ConsulWizardComponent
   moduleWizardStepper: Observable<MatVerticalStepper>;
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
-  erraformPlanEvent: TerraformPlanEvent<ConsulDTO>;
-  terraformApplyEvent: TerraformApplyEvent<ConsulDTO>;
+  erraformPlanEvent: TerraformModuleEvent<ConsulDTO>;
+  terraformApplyEvent: TerraformModuleEvent<ConsulDTO>;
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
@@ -274,20 +273,12 @@ export class ConsulWizardComponent
   }
 
   moduleServiceApplyPlan(
-    moduleEntity: ConsulDTO,
-    terraformPlanEvent: TerraformPlanEvent<ConsulDTO>
-  ): Observable<any> {
+    moduleEntity: ConsulDTO
+  ): Observable<{ applyJobId: number }> {
     if (this.consul) {
       moduleEntity.id = this.consul.id;
     }
-    const saveOrUpdateConsul = this.consul
-      ? this.consulService.update(moduleEntity)
-      : this.consulService.create(moduleEntity);
-
-    return forkJoin(
-      saveOrUpdateConsul,
-      this.consulService.applyPlan(new ApplyModuleDTO(moduleEntity))
-    );
+    return this.consulService.applyPlan(new ApplyModuleDTO(moduleEntity));
   }
 
   terraformWebsocketEventId(moduleEntity: ConsulDTO): string {

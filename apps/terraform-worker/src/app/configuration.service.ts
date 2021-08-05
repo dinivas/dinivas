@@ -1,6 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import { ITerraformModuleInfo } from '@dinivas/api-interfaces';
+import {
+  ITerraformModuleInfo,
+  TerraformModule,
+  CloudProviderId,
+} from '@dinivas/api-interfaces';
 import { ConfigService } from '@nestjs/config';
 if (!process.env['NODE_CONFIG_DIR']) {
   process.env['NODE_CONFIG_DIR'] = __dirname + '/../../../config/';
@@ -60,8 +64,8 @@ export class ConfigurationService {
   }
 
   getTerraformModuleSource(
-    moduleId: 'project_base' | 'jenkins' | 'rabbitmq' | 'project_instance' | 'consul',
-    cloudproviderId: 'openstack' | 'digitalocean'
+    moduleId: TerraformModule,
+    cloudproviderId: CloudProviderId
   ): string {
     return this.configService
       .get<TfModule[]>(`${this.configRootPrefix}.terraform.modules`)

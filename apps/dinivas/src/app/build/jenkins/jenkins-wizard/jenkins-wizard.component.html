@@ -5,7 +5,7 @@
   <div class="mat-form-container" fxLayout="column">
     <mat-form-field class="" appearance="outline">
       <mat-label>Jenkins code</mat-label>
-      <input type="text" matInput formControlName="code" required>
+      <input id="jenkins-code" type="text" matInput formControlName="code" required>
       <span *ngIf="!jenkins?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
       <mat-hint>The Jenkins code will be used to suffix most components. You can't change it after Jenkins
         creation.</mat-hint>

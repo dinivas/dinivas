@@ -1,17 +1,80 @@
 import {
   ConsulDTO,
   JenkinsDTO,
-  ProjectDTO,
+  ProjectDefinitionDTO,
   RabbitMQDTO,
   InstanceDTO,
+  TerraformModule,
+  CloudProviderId,
 } from '@dinivas/api-interfaces';
 
-export const computeTerraformProjectBaseModuleTemplateContextForDigitalocean = (
-  project: ProjectDTO,
+export const computeTerraformModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
+  moduleData: any,
   projectConsul: ConsulDTO,
   cloudConfig: any,
   moduleSource: string
 ): any => {
+  switch (moduleId) {
+    case 'project_base':
+      return computeTerraformProjectBaseModuleTemplateContextForDigitalocean(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'jenkins':
+      return computeTerraformJenkinsModuleTemplateContextForDigitalocean(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'rabbitmq':
+      return computeTerraformRabbitMQModuleTemplateContextForDigitalocean(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'consul':
+      return computeTerraformConsulModuleTemplateContextForDigitalocean(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'project_instance':
+      return computeTerraformInstanceModuleTemplateContextForDigitalocean(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    default:
+      break;
+  }
+};
+const computeTerraformProjectBaseModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
+  projectDefinition: ProjectDefinitionDTO,
+  projectConsul: ConsulDTO,
+  cloudConfig: any,
+  moduleSource: string
+): any => {
+  const project = projectDefinition.project;
   return {
     module_project_base_source: moduleSource,
     project_name: project.code.toLowerCase(),
@@ -69,7 +132,9 @@ export const computeTerraformProjectBaseModuleTemplateContextForDigitalocean = (
   };
 };
 
-export const computeTerraformJenkinsModuleTemplateContextForDigitalocean = (
+const computeTerraformJenkinsModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   jenkins: JenkinsDTO,
   consul: ConsulDTO,
   cloudConfig: any,
@@ -155,7 +220,9 @@ export const computeTerraformJenkinsModuleTemplateContextForDigitalocean = (
   };
 };
 
-export const computeTerraformInstanceModuleTemplateContextForDigitalocean = (
+const computeTerraformInstanceModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   instance: InstanceDTO,
   consul: ConsulDTO,
   cloudConfig: any,
@@ -179,7 +246,9 @@ export const computeTerraformInstanceModuleTemplateContextForDigitalocean = (
     do_api_token: cloudConfig.access_token,
   };
 };
-export const computeTerraformConsulModuleTemplateContextForDigitalocean = (
+const computeTerraformConsulModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   consul: ConsulDTO,
   projectConsul: ConsulDTO,
   cloudConfig: any,
@@ -210,7 +279,9 @@ export const computeTerraformConsulModuleTemplateContextForDigitalocean = (
   };
 };
 
-export const computeTerraformRabbitMQModuleTemplateContextForDigitalocean = (
+const computeTerraformRabbitMQModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
   rabbitmq: RabbitMQDTO,
   consul: ConsulDTO,
   cloudConfig: any,
@@ -239,9 +310,5 @@ export const computeTerraformRabbitMQModuleTemplateContextForDigitalocean = (
 };
 
 exports = {
-  computeTerraformProjectBaseModuleTemplateContextForDigitalocean,
-  computeTerraformJenkinsModuleTemplateContextForDigitalocean,
-  computeTerraformRabbitMQModuleTemplateContextForDigitalocean,
-  computeTerraformInstanceModuleTemplateContextForDigitalocean,
-  computeTerraformConsulModuleTemplateContextForDigitalocean,
+  computeTerraformModuleTemplateContextForDigitalocean,
 };

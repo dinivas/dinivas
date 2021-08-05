@@ -37,9 +37,9 @@
           <span class="text-warn">This step will not create any resources</span></ng-template>
         <div class="form-container">
           <div class="spinner-container" *ngIf="planInProgress">
-            <mat-spinner></mat-spinner>
+            <mat-spinner [mode]="planSpinnerMode" [value]="planSpinnerValue"></mat-spinner>
             <span>We are planning your {{ moduleWizard.moduleEntityName }} resources
-              changes, wait a moment...</span>
+              changes, wait a moment, <strong>{{ planSpinnerValue }} %</strong> ...</span>
           </div>
           <ng-template dinivasTerraformModuleWizardVars (planApplied)="onPlanApplied($event)"
             (applyApplied)="onApplyApplied($event)" (showOutputApplied)="onShowOutputApplied($event)"></ng-template>
@@ -48,9 +48,9 @@
       <mat-step [completed]="applyStepFinished" [editable]="!showingDirectOutput">
         <div class="apply-container">
           <div class="spinner-container" *ngIf="applyInProgress">
-            <mat-spinner></mat-spinner>
+            <mat-spinner [mode]="applySpinnerMode" [value]="applySpinnerValue"></mat-spinner>
             <span>We are applying {{ moduleWizard.moduleEntityName }} changes on your
-              infrastructure, wait a moment...</span>
+              infrastructure, wait a moment <strong>{{ applySpinnerValue }} %</strong> ...</span>
           </div>
           <ng-template matStepLabel>Check and validate resources to be created -
             <span class="text-warn">This step will not create any resources</span>

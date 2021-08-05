@@ -10,8 +10,8 @@
   <mat-step [completed]="projectPlanStepFinished">
     <div class="form-container">
       <div class="spinner-container" *ngIf="projectPlanInProgress">
-        <mat-spinner></mat-spinner>
-        <span>We are planning your project resources, wait a moment...</span>
+        <mat-spinner [mode]="planSpinnerMode" [value]="planSpinnerValue"></mat-spinner>
+        <span>We are planning your project resources, wait a moment, <strong>{{ planSpinnerValue }} %</strong> ...</span>
       </div>
       <form [formGroup]="projectForm" *ngIf="projectForm" (ngSubmit)="submitPlanProject(projectForm.getRawValue(), projectForm.getRawValue()._consul)">
         <ng-template matStepLabel>Project informations - <span class="text-warn">This step will not create any
@@ -94,7 +94,7 @@
           <ng-container formGroupName="_consul">
             <mat-form-field class="" appearance="outline">
               <mat-label>Consul domain</mat-label>
-              <input type="text" matInput formControlName="cluster_domain" required>
+              <input id="consul-domain" type="text" matInput formControlName="cluster_domain" required>
               <mat-hint>The domain name used for consul cluster, default to <strong>consul</strong></mat-hint>
             </mat-form-field>
             <mat-form-field class="" appearance="outline">
@@ -286,8 +286,8 @@
   <mat-step [completed]="projectApplyStepFinished" [editable]="!showingDirectOutput">
     <div class="apply-container">
       <div class="spinner-container" *ngIf="projectApplyInProgress">
-        <mat-spinner></mat-spinner>
-        <span>We are creating your project resources, wait a moment...</span>
+        <mat-spinner [mode]="applySpinnerMode" [value]="applySpinnerValue"></mat-spinner>
+        <span>We are creating your project resources, wait a moment <strong>{{ applySpinnerValue }} %</strong> ...</span>
       </div>
       <ng-template matStepLabel>Check and validate resources to be created - <span class="text-warn">This step will
           not create any resources</span>

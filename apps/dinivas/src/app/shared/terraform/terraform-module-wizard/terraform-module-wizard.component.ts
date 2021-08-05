@@ -12,8 +12,7 @@ import {
 } from '@angular/core';
 import { MatVerticalStepper } from '@angular/material/stepper';
 import {
-  TerraformApplyEvent,
-  TerraformPlanEvent,
+  TerraformModuleEvent,
   ICloudApiImage,
   ICloudApiFlavor,
 } from '@dinivas/api-interfaces';
@@ -22,6 +21,7 @@ import {
   TerraformModuleType,
   TerraformModuleWizard,
 } from './terraform-module-wizard';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'dinivas-terraform-module-wizard',
@@ -50,8 +50,13 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
 
   isLinear = true;
 
-  terraformPlanEvent!: TerraformPlanEvent<T>;
-  terraformApplyEvent!: TerraformApplyEvent<T>;
+  planSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  applySpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  planSpinnerValue = 0;
+  applySpinnerValue = 0;
+
+  terraformPlanEvent!: TerraformModuleEvent<T>;
+  terraformApplyEvent!: TerraformModuleEvent<T>;
   terraformStateOutputs!: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
@@ -180,22 +185,31 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
   planModule(moduleEntity: T) {
     this.terraformPlanEvent = null;
     this.moduleWizard.moduleEntity = moduleEntity;
+    this.planSpinnerMode = 'indeterminate';
+    this.planSpinnerValue = 0;
     this.varsProvider.moduleServicePlan(moduleEntity).subscribe(
       (res) => {
+        const planJobProgressEventSuSubscription = this.sharedWebSocket
+          .receiveBackgroundJobProgressEventForGivenJobId(res.planJobId)
+          .subscribe((res) => {
+            this.planSpinnerValue = res.progress;
+          });
         const planEventSuSubscription = this.sharedWebSocket
-          .receivePlanEvent<TerraformPlanEvent<T>>(
+          .receivePlanEvent<TerraformModuleEvent<T>>(
             this.varsProvider.terraformWebsocketEventId(moduleEntity)
           )
-          .subscribe((data: TerraformPlanEvent<T>) => {
+          .subscribe((data: TerraformModuleEvent<T>) => {
             console.log('Receive TerraformPlanEvent from Terrform WS', data);
             planEventSuSubscription.unsubscribe();
             this.terraformPlanEvent = data;
             this.planInProgress = false;
             this.planStepFinished = true;
+            planJobProgressEventSuSubscription.unsubscribe();
             setTimeout(() => {
               this.wizardStepper.next();
             }, 1);
           });
+
         this.sharedWebSocket
           .receivePlanErrorEvent<string>(
             this.varsProvider.terraformWebsocketEventId(moduleEntity)
@@ -204,6 +218,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
             this.alertService.error(error);
             this.planInProgress = false;
             this.planStepFinished = false;
+            planJobProgressEventSuSubscription.unsubscribe();
           });
         const planJobErrorEventSuSubscription = this.sharedWebSocket
           .receiveBackgroundJobFailedEventForGivenJobId(res.planJobId)
@@ -212,6 +227,7 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
             this.alertService.error(err.error);
             this.planInProgress = false;
             this.planStepFinished = false;
+            planJobProgressEventSuSubscription.unsubscribe();
           });
       },
       (error) => {
@@ -222,50 +238,57 @@ export class TerraformModuleWizardComponent<T extends TerraformModuleType>
   }
 
   applyPlan(moduleEntity: T) {
-    this.varsProvider
-      .moduleServiceApplyPlan(moduleEntity, this.terraformPlanEvent)
-      .subscribe(
-        (res) => {
-          const applySubscription = this.sharedWebSocket
-            .receiveApplyEvent<TerraformApplyEvent<T>>(
-              this.varsProvider.terraformWebsocketEventId(moduleEntity)
-            )
-            .subscribe((data) => {
-              console.log('Receive TerraformApplyEvent from Terrform WS', data);
-              applySubscription.unsubscribe();
-              this.terraformApplyEvent = data;
-              this.terraformStateOutputs =
-                this.terraformApplyEvent.stateResult.values.outputs;
-              for (const [key, value] of Object.entries(
-                this.terraformApplyEvent.stateResult.values.outputs
-              )) {
-                this.shouldShowSensitiveData[key] = this.terraformApplyEvent
-                  .stateResult.values.outputs[key].sensitive
-                  ? false
-                  : true;
-              }
+    this.applySpinnerMode = 'indeterminate';
+    this.applySpinnerValue = 0;
+    this.varsProvider.moduleServiceApplyPlan(moduleEntity).subscribe(
+      (res) => {
+        const applyJobProgressEventSuSubscription = this.sharedWebSocket
+          .receiveBackgroundJobProgressEventForGivenJobId(res.applyJobId)
+          .subscribe((res) => {
+            this.applySpinnerValue = res.progress;
+          });
+        const applySubscription = this.sharedWebSocket
+          .receiveApplyEvent<TerraformModuleEvent<T>>(
+            this.varsProvider.terraformWebsocketEventId(moduleEntity)
+          )
+          .subscribe((data) => {
+            console.log('Receive TerraformApplyEvent from Terrform WS', data);
+            applySubscription.unsubscribe();
+            this.terraformApplyEvent = data;
+            this.terraformStateOutputs =
+              this.terraformApplyEvent.stateResult.values.outputs;
+            for (const [key, value] of Object.entries(
+              this.terraformApplyEvent.stateResult.values.outputs
+            )) {
+              this.shouldShowSensitiveData[key] = this.terraformApplyEvent
+                .stateResult.values.outputs[key].sensitive
+                ? false
+                : true;
+            }
 
-              this.applyInProgress = false;
-              this.applyStepFinished = true;
-              setTimeout(() => {
-                this.wizardStepper.next();
-              }, 1);
-            });
-          const applyJobErrorEventSuSubscription = this.sharedWebSocket
-            .receiveBackgroundJobFailedEventForGivenJobId(res[1].applyJobId)
-            .subscribe((err) => {
-              applyJobErrorEventSuSubscription.unsubscribe();
-              this.alertService.error(err.error);
-              this.applyInProgress = false;
-              this.applyStepFinished = false;
-            });
-          // Error case
-        },
-        (error) => {
-          this.applyInProgress = false;
-          this.applyStepFinished = false;
-        }
-      );
+            this.applyInProgress = false;
+            this.applyStepFinished = true;
+            applyJobProgressEventSuSubscription.unsubscribe();
+            setTimeout(() => {
+              this.wizardStepper.next();
+            }, 1);
+          });
+        // Error case
+        const applyJobErrorEventSuSubscription = this.sharedWebSocket
+          .receiveBackgroundJobFailedEventForGivenJobId(res.applyJobId)
+          .subscribe((err) => {
+            applyJobErrorEventSuSubscription.unsubscribe();
+            this.alertService.error(err.error);
+            this.applyInProgress = false;
+            this.applyStepFinished = false;
+            applyJobProgressEventSuSubscription.unsubscribe();
+          });
+      },
+      (error) => {
+        this.applyInProgress = false;
+        this.applyStepFinished = false;
+      }
+    );
   }
   onShowOutputApplied(event) {
     this.planStepFinished = true;
@@ -296,9 +319,8 @@ export interface TerraformModuleWizardVarsProvider<T> {
   submitApplyPlan: (moduleEntity: T) => void;
   moduleServicePlan: (moduleEntity: T) => Observable<{ planJobId: number }>;
   moduleServiceApplyPlan: (
-    moduleEntity: T,
-    terraformPlanEvent: TerraformPlanEvent<T>
-  ) => Observable<[any, { applyJobId: number }]>;
+    moduleEntity: T
+  ) => Observable<{ applyJobId: number }>;
   moduleServiceTerraformState: (moduleEntity: T) => Observable<any>;
   terraformWebsocketEventId: (moduleEntity: T) => string;
 }

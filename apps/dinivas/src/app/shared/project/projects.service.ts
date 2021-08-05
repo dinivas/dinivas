@@ -50,14 +50,19 @@ export class ProjectsService {
     return this.http.post(`${environment.apiUrl}/projects`, projectDefinition);
   }
 
-  planProject(project: ProjectDefinitionDTO): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/projects/plan`, project);
+  planProject(
+    project: ProjectDefinitionDTO
+  ): Observable<{ planJobId: number }> {
+    return this.http.post<{ planJobId: number }>(
+      `${environment.apiUrl}/projects/plan`,
+      project
+    );
   }
 
   applyProjectPlan(
     applyProjectDTO: ApplyModuleDTO<ProjectDefinitionDTO>
-  ): Observable<any> {
-    return this.http.post(
+  ): Observable<{ applyJobId: number }> {
+    return this.http.post<{ applyJobId: number }>(
       `${environment.apiUrl}/projects/apply-plan`,
       applyProjectDTO
     );
@@ -86,7 +91,9 @@ export class ProjectsService {
     );
   }
 
-  deleteProject(id: number): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/projects/${id}`);
+  deleteProject(id: number): Observable<{ destroyJobId: number }> {
+    return this.http.delete<{ destroyJobId: number }>(
+      `${environment.apiUrl}/projects/${id}`
+    );
   }
 }

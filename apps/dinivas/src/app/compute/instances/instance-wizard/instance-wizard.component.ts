@@ -1,7 +1,7 @@
 import { TerraformModuleEntityInfo } from './../../../shared/terraform/terraform-module-entity-info';
 import { InstancesService } from './../../../shared/compute/instances.service';
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
-import { Observable, Subject, forkJoin } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MatVerticalStepper } from '@angular/material/stepper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TerraformModuleWizardVarsProvider } from './../../../shared/terraform/terraform-module-wizard/terraform-module-wizard.component';
@@ -16,8 +16,7 @@ import {
   InstanceDTO,
   ICloudApiImage,
   ICloudApiFlavor,
-  TerraformApplyEvent,
-  TerraformPlanEvent,
+  TerraformModuleEvent,
   ProjectDTO,
   ApplyModuleDTO,
 } from '@dinivas/api-interfaces';
@@ -41,8 +40,8 @@ export class InstanceWizardComponent
   moduleWizardStepper: Observable<MatVerticalStepper>;
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
-  terraformPlanEvent: TerraformPlanEvent<InstanceDTO>;
-  terraformApplyEvent: TerraformApplyEvent<InstanceDTO>;
+  terraformPlanEvent: TerraformModuleEvent<InstanceDTO>;
+  terraformApplyEvent: TerraformModuleEvent<InstanceDTO>;
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
@@ -212,20 +211,12 @@ export class InstanceWizardComponent
   }
 
   moduleServiceApplyPlan(
-    moduleEntity: InstanceDTO,
-    terraformPlanEvent: TerraformPlanEvent<InstanceDTO>
-  ): Observable<[any, { applyJobId: number }]> {
+    moduleEntity: InstanceDTO
+  ): Observable<{ applyJobId: number }> {
     if (this.instance) {
       moduleEntity.id = this.instance.id;
     }
-    const saveOrUpdateInstance = this.instance
-      ? this.instancesService.update(moduleEntity)
-      : this.instancesService.create(moduleEntity);
-
-    return forkJoin(
-      saveOrUpdateInstance,
-      this.instancesService.applyPlan(new ApplyModuleDTO(moduleEntity))
-    );
+    return this.instancesService.applyPlan(new ApplyModuleDTO(moduleEntity));
   }
 
   prepareInstanceDTOBeforeSendToServer(instance: InstanceDTO) {

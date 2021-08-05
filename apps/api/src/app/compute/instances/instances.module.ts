@@ -9,6 +9,7 @@ import { Module } from '@nestjs/common';
 import { InstancesService } from './instances.service';
 import { InstancesController } from './instances.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { InstanceTerraformTasksProcessor } from './instance-terraform-tasks.processor';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CloudproviderModule,
   ],
   controllers: [InstancesController],
-  providers: [InstancesService],
-  exports: [InstancesService]
+  providers: [InstancesService, InstanceTerraformTasksProcessor],
+  exports: [InstancesService],
 })
 export class InstancesModule {}

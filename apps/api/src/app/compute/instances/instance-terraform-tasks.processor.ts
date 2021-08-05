@@ -1,23 +1,21 @@
+import { InstancesService } from './instances.service';
 import {
   BULL_TERRAFORM_MODULE_QUEUE,
+  InstanceDTO,
   TerraformModule,
-  ProjectDefinitionDTO,
   TerraformModuleEvent,
 } from '@dinivas/api-interfaces';
 import { InjectQueue, OnGlobalQueueCompleted, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Queue } from 'bull';
-import { ProjectsService } from './projects.service';
-import { ConsulService } from '../network/consul/consul.service';
 
 @Processor(BULL_TERRAFORM_MODULE_QUEUE)
-export class ProjectTerraformTasksProcessor {
-  private readonly logger = new Logger(ProjectTerraformTasksProcessor.name);
+export class InstanceTerraformTasksProcessor {
+  private readonly logger = new Logger(InstanceTerraformTasksProcessor.name);
   constructor(
     @InjectQueue(BULL_TERRAFORM_MODULE_QUEUE)
     private readonly terraformModuleQueue: Queue,
-    private readonly projectService: ProjectsService,
-    private readonly consulService: ConsulService
+    private readonly instancesService: InstancesService
   ) {}
 
   @OnGlobalQueueCompleted()
@@ -26,22 +24,22 @@ export class ProjectTerraformTasksProcessor {
     const result: {
       module: TerraformModule;
       eventCode: string;
-      event: TerraformModuleEvent<ProjectDefinitionDTO>;
+      event: TerraformModuleEvent<InstanceDTO>;
     } = JSON.parse(receivedResult);
-    if ('project_base' === result.module) {
+    if ('project_instance' === result.module) {
       if (result.eventCode.startsWith('destroyEvent-')) {
-        await this.handleDeleteProjectEvent(result, jobId);
+        await this.handleDeleteInstanceEvent(result, jobId);
       } else if (result.eventCode.startsWith('applyEvent-')) {
-        await this.handleCreateOrUpdateProjectEvent(result, jobId);
+        await this.handleCreateOrUpdateInstanceEvent(result, jobId);
       }
     }
   }
 
-  private async handleCreateOrUpdateProjectEvent(
+  private async handleCreateOrUpdateInstanceEvent(
     result: {
       module: TerraformModule;
       eventCode: string;
-      event: TerraformModuleEvent<ProjectDefinitionDTO>;
+      event: TerraformModuleEvent<InstanceDTO>;
     },
     jobId: number
   ) {
@@ -49,17 +47,20 @@ export class ProjectTerraformTasksProcessor {
     this.logger.debug(
       `[APPLY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode}, module: ${result.module} -> result  source [${result.event.source}]`
     );
-    if (!result.event.source.project.id) {
-      await this.projectService.create(result.event.source.data);
+    if (!result.event.source.data.id) {
+      await this.instancesService.create(result.event.source.data);
     } else {
-      await this.projectService.update(result.event.source.data);
+      await this.instancesService.update(
+        result.event.source.data.id,
+        result.event.source.data
+      );
     }
   }
-  private async handleDeleteProjectEvent(
+  private async handleDeleteInstanceEvent(
     result: {
-      module: TerraformModule;
+      module: string;
       eventCode: string;
-      event: TerraformModuleEvent<ProjectDefinitionDTO>;
+      event: TerraformModuleEvent<InstanceDTO>;
     },
     jobId: number
   ) {
@@ -68,7 +69,6 @@ export class ProjectTerraformTasksProcessor {
     this.logger.debug(
       `[DESTROY] (Global) on completed: job  ${job.id}, eventCode ${result.eventCode}, module: ${result.module} -> result  source [${destroyEvent.source}]`
     );
-    await this.consulService.delete(result.event.source.consul.id);
-    await this.projectService.delete(result.event.source.project.id);
+    await this.instancesService.delete(destroyEvent.source.data.id);
   }
 }

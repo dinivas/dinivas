@@ -1,14 +1,13 @@
 import { ConfirmDialogService } from './../../../core/dialog/confirm-dialog/confirm-dialog.service';
 import { RabbitMQService } from './../../../shared/rabbitmq/rabbitmq.service';
-import { Observable, Subject, forkJoin } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MatVerticalStepper } from '@angular/material/stepper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {
   RabbitMQDTO,
   ICloudApiImage,
   ICloudApiFlavor,
-  TerraformPlanEvent,
-  TerraformApplyEvent,
+  TerraformModuleEvent,
   ProjectDTO,
   ApplyModuleDTO,
 } from '@dinivas/api-interfaces';
@@ -43,8 +42,8 @@ export class RabbitmqWizardComponent
   moduleWizardStepper: Observable<MatVerticalStepper>;
   cloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
-  terraformPlanEvent: TerraformPlanEvent<RabbitMQDTO>;
-  terraformApplyEvent: TerraformApplyEvent<RabbitMQDTO>;
+  terraformPlanEvent: TerraformModuleEvent<RabbitMQDTO>;
+  terraformApplyEvent: TerraformModuleEvent<RabbitMQDTO>;
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
@@ -280,19 +279,11 @@ export class RabbitmqWizardComponent
 
   moduleServiceApplyPlan(
     moduleEntity: RabbitMQDTO,
-    terraformPlanEvent: TerraformPlanEvent<RabbitMQDTO>
-  ): Observable<[any, { applyJobId: number }]> {
+  ): Observable<{ applyJobId: number }> {
     if (this.rabbitmq) {
       moduleEntity.id = this.rabbitmq.id;
     }
-    const saveOrUpdateRabbitMQ = this.rabbitmq
-      ? this.rabbitmqService.update(moduleEntity)
-      : this.rabbitmqService.create(moduleEntity);
-
-    return forkJoin(
-      saveOrUpdateRabbitMQ,
-      this.rabbitmqService.applyPlan(new ApplyModuleDTO(moduleEntity))
-    );
+    return this.rabbitmqService.applyPlan(new ApplyModuleDTO(moduleEntity));
   }
 
   terraformWebsocketEventId(moduleEntity: RabbitMQDTO): string {

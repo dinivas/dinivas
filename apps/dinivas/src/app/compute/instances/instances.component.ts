@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatCrudComponent } from './../../core/entity/mat-crud/mat-crud.component';
 import { DataProvider } from './../../core/entity/mat-crud/data-provider';
 import { Component } from '@angular/core';
-import { ICloudApiInstance, InstanceDTO } from '@dinivas/api-interfaces';
+import { ICloudApiInstance } from '@dinivas/api-interfaces';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,7 +24,8 @@ export class InstancesComponent
   dataProvider = this;
   instancesList: ICloudApiInstance[] = [];
   columnDefs: Array<ColumnDef>;
-  deleteConfirmQuestion = (entity) => `Delete instance ${entity.code} ?`;
+  deleteConfirmQuestion = (entity: ICloudApiInstance) =>
+    `Delete instance ${entity.name} ?`;
 
   constructor(
     public dialog: MatDialog,

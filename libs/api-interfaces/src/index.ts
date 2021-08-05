@@ -20,3 +20,11 @@ export * from './lib/terraform';
 export * from './lib/packer/packer.dto';
 
 export * from './lib/constants';
+
+export {
+  TerraformCommand,
+  TerraformModule,
+  CloudProviderId,
+} from './lib/terraform-command.interface';
+
+export { CommonModuleCommand } from './lib/common-module.command';

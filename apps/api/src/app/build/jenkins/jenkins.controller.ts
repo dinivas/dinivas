@@ -25,10 +25,9 @@ import {
   ProjectDTO,
   ApplyModuleDTO,
   ConsulDTO,
-  PlanJenkinsCommand,
-  ApplyJenkinsCommand,
-  DestroyJenkinsCommand,
+  CommonModuleCommand,
   BULL_TERRAFORM_MODULE_QUEUE,
+  CloudProviderId,
 } from '@dinivas/api-interfaces';
 import { Request } from 'express';
 import YAML = require('js-yaml');
@@ -112,10 +111,14 @@ export class JenkinsController {
       project.code
     );
     const planJob = await this.terraformModuleQueue.add(
-      'plan-jenkins',
-      new PlanJenkinsCommand(
-        cloudprovider.cloud,
+      'plan',
+      new CommonModuleCommand<JenkinsDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'jenkins',
+        jenkins.code,
         jenkins,
+        project.code,
+        project,
         consul,
         YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
       )
@@ -137,9 +140,22 @@ export class JenkinsController {
       project.cloud_provider.id,
       true
     );
+    const cloudConfig = YAML.load(cloudprovider.config);
+    const consul: ConsulDTO = await this.consulService.findOneByCode(
+      project.code
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply-jenkins',
-      new ApplyJenkinsCommand(cloudprovider.cloud, applyProject.source)
+      'apply',
+      new CommonModuleCommand<JenkinsDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'jenkins',
+        applyProject.source.code,
+        applyProject.source,
+        project.code,
+        project,
+        consul,
+        cloudConfig
+      )
     );
     this.logger.debug('Apply Job Id', JSON.stringify(applyJob));
     return { applyJobId: Number(applyJob.id) };
@@ -177,10 +193,14 @@ export class JenkinsController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy-jenkins',
-        new DestroyJenkinsCommand(
-          cloudprovider.cloud,
+        'destroy',
+        new CommonModuleCommand<JenkinsDTO>(
+          cloudprovider.cloud as CloudProviderId,
+          'jenkins',
+          jenkins.code,
           jenkins,
+          project.code,
+          project,
           consul,
           YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
         )

@@ -27,9 +27,9 @@
       </mat-menu>
     </div>
     <div class="right">
-      <button mat-icon-button *ngIf="currentBackgroundJobsCount > 0" [matBadge]="currentBackgroundJobsCount" matBadgeSize="small" matBadgePosition="above after" color="accent" matBadgeColor="warn">
+      <button mat-icon-button *ngIf="currentBackgroundJobsCount > 0" [matBadge]="currentBackgroundJobsCount" matBadgeSize="small" matBadgePosition="above after" matBadgeColor="accent">
         <mat-icon>notifications</mat-icon></button>
-      <button *ngIf="currentProject" mat-icon-button class="" color="accent" style="margin-right: 80px;"
+      <button *ngIf="currentProject" mat-icon-button class=""  style="margin-right: 80px;"
         matTooltip="Open SSH terminal in bastion for the current project" (click)="openSSHTerminal(currentProject)">
         <mat-icon>monitor</mat-icon>
         SSH terminal

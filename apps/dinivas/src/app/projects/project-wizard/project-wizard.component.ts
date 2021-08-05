@@ -19,8 +19,7 @@ import {
   CloudproviderDTO,
   ICloudApiProjectFloatingIpPool,
   ICloudApiProjectRouter,
-  TerraformPlanEvent,
-  TerraformApplyEvent,
+  TerraformModuleEvent,
   ICloudApiImage,
   ICloudApiFlavor,
   ApplyModuleDTO,
@@ -32,6 +31,7 @@ import {
 import { MatVerticalStepper } from '@angular/material/stepper';
 import { filter, flatMap, toArray, map } from 'rxjs/operators';
 import { SharedWebSocket } from '../../shared/shared-websocket.service';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'dinivas-project-wizard',
@@ -55,8 +55,8 @@ export class ProjectWizardComponent implements OnInit {
   projectApplyInProgress = false;
   @ViewChild(MatVerticalStepper)
   projectWizardStepper: MatVerticalStepper;
-  terraformPlanEvent: TerraformPlanEvent<ProjectDTO>;
-  terraformApplyEvent: TerraformApplyEvent<ProjectDTO>;
+  terraformPlanEvent: TerraformModuleEvent<ProjectDTO>;
+  terraformApplyEvent: TerraformModuleEvent<ProjectDTO>;
   terraformStateOutputs: any[];
   shouldShowSensitiveData: any = {};
   showingDirectOutput = false;
@@ -64,6 +64,11 @@ export class ProjectWizardComponent implements OnInit {
   proxyCloudImages: ICloudApiImage[];
   cloudFlavors: ICloudApiFlavor[];
   availabilityZones: ICloudApiAvailabilityZone[];
+
+  planSpinnerMode: ProgressSpinnerMode = 'determinate';
+  applySpinnerMode: ProgressSpinnerMode = 'determinate';
+  planSpinnerValue = 0;
+  applySpinnerValue = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -161,7 +166,7 @@ export class ProjectWizardComponent implements OnInit {
         this.project ? this.project.bastion_cloud_flavor : null,
         Validators.required,
       ],
-      enable_proxy: [this.project ? this.project.enable_proxy : false, null],
+      enable_proxy: [this.project ? this.project.enable_proxy : true, null],
       proxy_prefered_floating_ip: [
         this.project ? this.project.proxy_prefered_floating_ip : '',
         null,
@@ -340,16 +345,24 @@ export class ProjectWizardComponent implements OnInit {
   }
 
   planProject(project: ProjectDTO, consul: ConsulDTO) {
+    this.planSpinnerMode = 'indeterminate';
+    this.planSpinnerValue = 0;
     this.projectService.planProject({ project, consul }).subscribe(
-      () => {
+      (res) => {
+        const planJobProgressEventSuSubscription = this.terraformWebSocket
+          .receiveBackgroundJobProgressEventForGivenJobId(res.planJobId)
+          .subscribe((res) => {
+            this.planSpinnerValue = res.progress;
+          });
         const projectPlanEventSubscription = this.terraformWebSocket
-          .receivePlanEvent<TerraformPlanEvent<ProjectDTO>>(project.code)
+          .receivePlanEvent<TerraformModuleEvent<ProjectDTO>>(project.code)
           .subscribe((data) => {
             console.log('Receive TerraformPlanEvent from Terrform WS', data);
             projectPlanEventSubscription.unsubscribe();
             this.terraformPlanEvent = data;
             this.projectPlanInProgress = false;
             this.projectPlanStepFinished = true;
+            planJobProgressEventSuSubscription.unsubscribe();
             setTimeout(() => {
               this.projectWizardStepper.next();
             }, 1);
@@ -360,6 +373,16 @@ export class ProjectWizardComponent implements OnInit {
             this.alertService.error(error);
             this.projectPlanInProgress = false;
             this.projectPlanStepFinished = false;
+            planJobProgressEventSuSubscription.unsubscribe();
+          });
+          const planJobErrorEventSuSubscription = this.terraformWebSocket
+          .receiveBackgroundJobFailedEventForGivenJobId(res.planJobId)
+          .subscribe((err) => {
+            planJobErrorEventSuSubscription.unsubscribe();
+            this.alertService.error(err.error);
+            this.projectPlanInProgress = false;
+            this.projectPlanStepFinished = false;
+            planJobProgressEventSuSubscription.unsubscribe();
           });
       },
       (error) => {
@@ -372,43 +395,25 @@ export class ProjectWizardComponent implements OnInit {
   submitApplyProjectPlan(project: ProjectDTO, consul: ConsulDTO) {
     this.prepareProjectFormValueBeforeSendToServer(project, consul);
     this.projectApplyInProgress = true;
-    if (!this.project) {
-      // create
-      this.projectService
-        .createProject({ project, consul })
-        .subscribe((projectDefinition: ProjectDefinitionDTO) => {
-          this.applyProject(
-            projectDefinition.project,
-            projectDefinition.consul
-          );
-        });
-    } else {
-      // update
-      project.id = this.project.id;
-      consul.id = this.consul.id;
-      consul.project = project;
-      this.projectService
-        .updateProject({ project, consul })
-        .subscribe((projectDefinition: ProjectDefinitionDTO) => {
-          this.applyProject(
-            projectDefinition.project,
-            projectDefinition.consul
-          );
-        });
-    }
+    this.applyProject(project, consul);
   }
 
   applyProject(project: ProjectDTO, consul: ConsulDTO) {
+    this.applySpinnerMode = 'indeterminate';
+    this.applySpinnerValue = 0;
     this.projectService
       .applyProjectPlan(
-        new ApplyModuleDTO<ProjectDefinitionDTO>(
-          { project, consul: consul }
-        )
+        new ApplyModuleDTO<ProjectDefinitionDTO>({ project, consul: consul })
       )
       .subscribe(
-        () => {
+        (res) => {
+          const applyJobProgressEventSuSubscription = this.terraformWebSocket
+            .receiveBackgroundJobProgressEventForGivenJobId(res.applyJobId)
+            .subscribe((res) => {
+              this.applySpinnerValue = res.progress;
+            });
           const projectApplyEventSubscription = this.terraformWebSocket
-            .receiveApplyEvent<TerraformApplyEvent<ProjectDTO>>(project.code)
+            .receiveApplyEvent<TerraformModuleEvent<ProjectDTO>>(project.code)
             .subscribe((data) => {
               console.log('Receive TerraformApplyEvent from Terrform WS', data);
               projectApplyEventSubscription.unsubscribe();
@@ -426,6 +431,7 @@ export class ProjectWizardComponent implements OnInit {
 
               this.projectApplyInProgress = false;
               this.projectApplyStepFinished = true;
+              applyJobProgressEventSuSubscription.unsubscribe();
               setTimeout(() => {
                 this.projectWizardStepper.next();
               }, 1);
@@ -437,6 +443,17 @@ export class ProjectWizardComponent implements OnInit {
               this.alertService.error(error);
               this.projectApplyInProgress = false;
               this.projectPlanStepFinished = false;
+              applyJobProgressEventSuSubscription.unsubscribe();
+            });
+
+            const applyJobErrorEventSuSubscription = this.terraformWebSocket
+            .receiveBackgroundJobFailedEventForGivenJobId(res.applyJobId)
+            .subscribe((err) => {
+              applyJobErrorEventSuSubscription.unsubscribe();
+              this.alertService.error(err.error);
+              this.projectApplyInProgress = false;
+              this.projectPlanStepFinished = false;
+              applyJobProgressEventSuSubscription.unsubscribe();
             });
         },
         (error) => {

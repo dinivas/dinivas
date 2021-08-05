@@ -5,9 +5,8 @@ import {
   Pagination,
   ProjectDTO,
   ApplyModuleDTO,
-  DestroyConsulCommand,
-  PlanConsulCommand,
-  ApplyConsulCommand,
+  CommonModuleCommand,
+  CloudProviderId,
   BULL_TERRAFORM_MODULE_QUEUE,
 } from '@dinivas/api-interfaces';
 import { Permissions } from './../../auth/permissions.decorator';
@@ -115,12 +114,16 @@ export class ConsulController {
       project.code
     );
     const planJob = await this.terraformModuleQueue.add(
-      'plan-consul',
-      new PlanConsulCommand(
-        cloudprovider.cloud,
+      'plan',
+      new CommonModuleCommand<ConsulDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'consul',
+        consul.code,
         consul,
+        project.code,
+        project,
         projectConsul,
-        YAML.load(cloudprovider.config)
+        YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
       )
     );
     this.logger.debug(`Plan Job Id with datas: ${JSON.stringify(planJob)}`);
@@ -140,9 +143,22 @@ export class ConsulController {
       project.cloud_provider.id,
       true
     );
+    const cloudConfig = YAML.load(cloudprovider.config);
+    const consul: ConsulDTO = await this.consulService.findOneByCode(
+      project.code
+    );
     const applyJob = await this.terraformModuleQueue.add(
-      'apply-consul',
-      new ApplyConsulCommand(cloudprovider.cloud, applyProject.source)
+      'apply',
+      new CommonModuleCommand<ConsulDTO>(
+        cloudprovider.cloud as CloudProviderId,
+        'consul',
+        applyProject.source.code,
+        applyProject.source,
+        project.code,
+        project,
+        consul,
+        cloudConfig
+      )
     );
     this.logger.debug(`Apply Job Id with datas: ${JSON.stringify(applyJob)}`);
     return { applyJobId: Number(applyJob.id) };
@@ -179,12 +195,16 @@ export class ConsulController {
         project.code
       );
       const destroyJob = await this.terraformModuleQueue.add(
-        'destroy-consul',
-        new DestroyConsulCommand(
-          cloudprovider.cloud,
+        'destroy',
+        new CommonModuleCommand<ConsulDTO>(
+          cloudprovider.cloud as CloudProviderId,
+          'consul',
+          consul.code,
           consul,
+          project.code,
+          project,
           projectConsul,
-          YAML.load(cloudprovider.config)
+          YAML.load(cloudprovider.config, { schema: YAML.FAILSAFE_SCHEMA })
         )
       );
       this.logger.debug(

@@ -4,28 +4,31 @@ import { ConfigurationService } from '../configuration.service';
 import { Injectable, Logger } from '@nestjs/common';
 import {
   TFStateRepresentation,
-  TerraformApplyEvent,
-  ProjectDTO,
-  ApplyProjectCommand,
+  TerraformModuleEvent,
+  TerraformCommand,
 } from '@dinivas/api-interfaces';
 import { Job } from 'bull';
 
 @Injectable()
-export class ApplyProjectHandler {
-  private readonly logger = new Logger(ApplyProjectCommand.name);
+export class ApplyCommandHandler {
+  private readonly logger = new Logger(ApplyCommandHandler.name);
   constructor(
     private readonly configService: ConfigurationService,
     private terraform: Terraform
   ) {}
 
-  async execute(job: Job<ApplyProjectCommand>, command: ApplyProjectCommand) {
+  async execute(
+    job: Job<TerraformCommand<any>>,
+    command: TerraformCommand<any>
+  ) {
+    const receivedLogText = `Received ApplyCommand: CloudProvider: ${command.cloudprovider}, Module: ${command.moduleId} Service Code: ${command.commandServiceCode}`;
+    this.logger.debug(receivedLogText);
+    job.log(receivedLogText);
+    job.progress(5);
     return new Promise<any>(async (resolve, reject) => {
-      this.logger.debug(
-        `Received ApplyProjectCommand: ${command.project.name} (${command.project.name})`
-      );
       try {
-        job.progress(20);
         const stateResult: TFStateRepresentation = await this.terraform.apply(
+          job,
           ['-auto-approve', '"tfplan"'],
           {
             autoApprove: true,
@@ -34,16 +37,20 @@ export class ApplyProjectHandler {
               false
             ),
           },
-          `dinivas-project-${command.project.code.toLowerCase()}`,
-          `project_base`
+          `dinivas-project-${command.projectCode.toLowerCase()}`,
+          `${command.moduleId}/${command.commandServiceCode}`
         );
         const result = {
-          module: 'project',
-          eventCode: `applyEvent-${command.project.code}`,
+          module: command.moduleId,
+          eventCode: `applyEvent-${command.commandServiceCode}`,
           event: {
-            source: command.project,
+            source: {
+              data: command.data,
+              project: command.project,
+              consul: command.projectConsul,
+            },
             stateResult,
-          } as TerraformApplyEvent<ProjectDTO>,
+          } as TerraformModuleEvent<any>,
         };
         job.progress(100);
         resolve(result);
