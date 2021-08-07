@@ -1,0 +1,100 @@
+variable "project_keycloak_host" {
+    default = "{{ project_keycloak_host }}"
+}
+variable "do_api_token" {
+    default = "{{ do_api_token }}"
+}
+variable "ssh_via_bastion_config" {}
+variable "host_private_key" {}
+variable "bastion_private_key" {}
+
+provider "consul" {
+  address    = "{{ project_consul_address }}"
+  datacenter = "{{ project_consul_datacenter }}"
+}
+
+module "gitlab" {
+  source = "{{ module_gitlab_source }}"
+
+  project_name                               = "{{ project_name }}"
+  enable_gitlab_server                       = "{{ enable_gitlab_server }}"
+  gitlab_server_name                         = "{{ gitlab_server_name }}"
+  gitlab_server_instance_count               = {{ gitlab_server_instance_count }}
+  gitlab_server_image_name                   = "{{ gitlab_server_image_name }}"
+  gitlab_server_compute_flavor_name          = "{{ gitlab_server_compute_flavor_name }}"
+  gitlab_server_keypair_name                 = "{{ gitlab_server_keypair_name }}"
+  gitlab_server_network                      = "{{ gitlab_server_network }}"
+  gitlab_server_security_groups_to_associate = ["{{ gitlab_server_security_groups_to_associate }}"]
+  gitlab_server_floating_ip_pool             = "{{ gitlab_server_floating_ip_pool }}"
+  gitlab_server_availability_zone            = "{{ gitlab_server_availability_zone }}"
+
+  project_consul_domain       = "{{ project_consul_domain }}"
+  project_consul_datacenter   = "{{ project_consul_datacenter }}"
+  gitlab_server_use_keycloak  = "{{ gitlab_server_use_keycloak }}"
+
+  gitlab_server_keycloak_host               = var.project_keycloak_host
+  gitlab_server_keycloak_client_id          = "{{ gitlab_server_keycloak_client_id }}"
+  execute_on_destroy_gitlab_server_script   = ["consul leave"]
+
+  ssh_via_bastion_config  = var.ssh_via_bastion_config
+  host_private_key        = var.host_private_key
+  bastion_private_key     = var.bastion_private_key
+  do_api_token            = var.do_api_token
+}
+
+{{#each gitlab_runners}}
+module "gitlab_runner_{{ this.gitlab_runner_group_name }}" {
+  source = "{{ this.module_gitlab_source }}/runners"
+
+  project_name                                  = "{{ this.project_name }}"
+  gitlab_runner_group_name                      = "{{ this.gitlab_runner_group_name }}"
+  project_consul_domain                         = "{{ this.project_consul_domain }}"
+  project_consul_datacenter                     = "{{ this.project_consul_datacenter }}"
+  gitlab_runner_group_gitlab_url                = "{{ gitlab_runner_group_gitlab_url }}"
+  gitlab_runner_group_gitlab_token              = "{{ gitlab_runner_group_gitlab_token }}"
+  gitlab_runner_group_executor                  = "{{ gitlab_runner_group_executor }}"
+  gitlab_runner_group_docker_image              = "{{ gitlab_runner_group_docker_image }}"
+  gitlab_runner_group_tags                      = "{{ this.gitlab_runner_group_tags }}"
+  gitlab_runner_group_prometheus_listen_address = "{{ gitlab_runner_group_prometheus_listen_address }}"
+  gitlab_runner_group_instance_count            = {{ this.gitlab_runner_group_instance_count }}
+  gitlab_runner_keypair                         = "{{ this.gitlab_runner_keypair }}"
+  gitlab_runner_network                         = "{{ this.gitlab_runner_network }}"
+  gitlab_runner_group_cloud_image               = "{{ this.gitlab_runner_group_cloud_image }}"
+  gitlab_runner_group_cloud_flavor              = "{{ this.gitlab_runner_group_cloud_flavor }}"
+  gitlab_runner_security_groups_to_associate    = ["{{ this.gitlab_runner_security_groups_to_associate }}"]
+  gitlab_runner_availability_zone               = "{{ this.gitlab_runner_availability_zone }}"
+  ssh_via_bastion_config                        = var.ssh_via_bastion_config
+  host_private_key       = var.host_private_key
+  bastion_private_key    = var.bastion_private_key
+  execute_on_destroy_gitlab_runner_script     = ["gitlab-runner unregister --all-runners", "consul leave"]
+
+  do_api_token = var.do_api_token
+}
+{{/each}}
+
+output "gitlab_server_instance_ids" {
+  description = "Gitlab server instance ids"
+  value       = module.gitlab.gitlab_server_instance_ids
+}
+
+output "gitlab_server_network_private_fixed_ip_v4" {
+  value = module.gitlab.gitlab_server_network_private_fixed_ip_v4
+}
+output "gitlab_server_network_public_fixed_ip_v4" {
+  value = module.gitlab.gitlab_server_network_public_fixed_ip_v4
+}
+
+{{#each gitlab_runners}}
+
+output "gitlab_runner_instance_ids" {
+  description = "Gitlab runner instance ids"
+  value = module.gitlab_runner_{{ this.gitlab_runner_group_name }}.gitlab_runner_instance_ids
+}
+output "gitlab_runner_network_private_fixed_ip_v4" {
+  value = module.gitlab_runner_{{ this.gitlab_runner_group_name }}.gitlab_runner_network_private_fixed_ip_v4
+}
+output "gitlab_runner_network_public_fixed_ip_v4" {
+  value = module.gitlab_runner_{{ this.gitlab_runner_group_name }}.gitlab_runner_network_public_fixed_ip_v4
+}
+
+{{/each}}

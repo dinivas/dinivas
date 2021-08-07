@@ -2713,6 +2713,22 @@
             "attributes": {}
           },
           {
+            "id": "c6c6e1b8-493c-4fa5-807a-3336c7cfb586",
+            "name": "Gitlab Viewer",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
+            "id": "275365dc-a3f2-4ca8-82f2-999abfd14a30",
+            "name": "Gitlab Editor",
+            "composite": false,
+            "clientRole": true,
+            "containerId": "81498cbe-a88b-4cb6-90bb-f03ff409d0f0",
+            "attributes": {}
+          },
+          {
             "id": "c6c6e1b8-493c-4fa5-3a4b-8eb6c7cfb586",
             "name": "RabbitMQ Viewer",
             "composite": false,
@@ -2876,6 +2892,7 @@
             "Terraform State Editor",
             "Compute Instances Viewer",
             "Jenkins Viewer",
+            "Gitlab Viewer",
             "RabbitMQ Viewer",
             "Cloud Providers Viewer",
             "Projects Viewer",
@@ -2897,6 +2914,7 @@
             "Compute Images Editor",
             "Cloud Providers Editor",
             "Jenkins Editor",
+            "Gitlab Editor",
             "RabbitMQ Editor",
             "Projects Editor",
             "Consul Editor",
@@ -2906,6 +2924,7 @@
             "Compute Instances Viewer",
             "Compute Instances Editor",
             "Jenkins Viewer",
+            "Gitlab Viewer",
             "RabbitMQ Viewer",
             "Cloud Providers Viewer",
             "Projects Viewer",
@@ -3499,6 +3518,31 @@
               ]
             },
             {
+              "name": "gitlab",
+              "ownerManagedAccess": false,
+              "displayName": "Gitlab resources",
+              "attributes": {},
+              "_id": "8d3854be-c29e-4f2c-889b-4dc019666666",
+              "uris": [],
+              "scopes": [
+                {
+                  "name": "view"
+                },
+                {
+                  "name": "edit"
+                },
+                {
+                  "name": "delete"
+                },
+                {
+                  "name": "create"
+                },
+                {
+                  "name": "list"
+                }
+              ]
+            },
+            {
               "name": "rabbitmq",
               "ownerManagedAccess": false,
               "displayName": "RabbitMQ resources",
@@ -3705,6 +3749,26 @@
               "decisionStrategy": "UNANIMOUS",
               "config": {
                 "roles": "[{\"id\":\"dinivas-api/Jenkins Viewer\",\"required\":false}]"
+              }
+            },
+            {
+              "id": "e6597232-740e-4e08-8557-209467777777",
+              "name": "Gitlab Editor",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/Gitlab Editor\",\"required\":false}]"
+              }
+            },
+            {
+              "id": "07f0c7d1-490d-4cb4-b9b7-a5e988888888",
+              "name": "Gitlab Viewer",
+              "type": "role",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "roles": "[{\"id\":\"dinivas-api/Gitlab Viewer\",\"required\":false}]"
               }
             },
             {
@@ -3936,6 +4000,66 @@
                 "resources": "[\"jenkins\"]",
                 "scopes": "[\"list\"]",
                 "applyPolicies": "[\"Jenkins Viewer\"]"
+              }
+            },
+            {
+              "id": "931d5e22-70ff-41f7-b5f7-4a384111cf26",
+              "name": "gitlab.edit",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"gitlab\"]",
+                "scopes": "[\"edit\"]",
+                "applyPolicies": "[\"Gitlab Editor\"]"
+              }
+            },
+            {
+              "id": "f6d47333-a89a-4829-bd34-9eaf2ea757d1",
+              "name": "gitlab.delete",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"gitlab\"]",
+                "scopes": "[\"delete\"]",
+                "applyPolicies": "[\"Gitlab Editor\"]"
+              }
+            },
+            {
+              "id": "7ed9c022-4444-4bde-9214-a6e94b0c6245",
+              "name": "gitlab.view",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"gitlab\"]",
+                "scopes": "[\"view\"]",
+                "applyPolicies": "[\"Gitlab Viewer\"]"
+              }
+            },
+            {
+              "id": "f2f414c4-2fee-5555-a482-f8feaf728297",
+              "name": "gitlab.create",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"gitlab\"]",
+                "scopes": "[\"create\"]",
+                "applyPolicies": "[\"Gitlab Editor\"]"
+              }
+            },
+            {
+              "id": "59cff064-40c9-42f4-6666-21d6d4d2ec4b",
+              "name": "gitlab.list",
+              "type": "scope",
+              "logic": "POSITIVE",
+              "decisionStrategy": "UNANIMOUS",
+              "config": {
+                "resources": "[\"gitlab\"]",
+                "scopes": "[\"list\"]",
+                "applyPolicies": "[\"Gitlab Viewer\"]"
               }
             },
             {

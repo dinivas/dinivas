@@ -51,6 +51,11 @@ body {
   }
 }
 
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 // // ==================
 
 // // Custom Theming for Angular Material

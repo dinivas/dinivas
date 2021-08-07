@@ -2,41 +2,82 @@
   <button mat-icon-button color="primary" [routerLink]="['/admin/cloudproviders']" queryParamsHandling="merge">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <span
-    class="page-title">{{ cloudprovider ? 'Edit Cloud provider ' + cloudprovider.name : 'New Cloud provider to add'}}</span>
+  <span class="page-title">{{ cloudprovider ? 'Edit Cloud provider ' + cloudprovider.name : 'New Cloud provider to
+    add'}}</span>
 </mat-toolbar>
-<div class="form-container">
-  <form [formGroup]="cloudproviderForm" *ngIf="cloudproviderForm" (ngSubmit)="submit(cloudproviderForm.value)">
-    <div class="mat-form-container" fxLayout="column">
-      <mat-form-field class="" appearance="outline">
-        <mat-label>Name</mat-label>
-        <input type="text" matInput formControlName="name" required>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Cloud type</mat-label>
-        <mat-select formControlName="cloud" required>
-          <mat-option *ngFor="let cloudType of cloudTypes" [value]="cloudType.code"
-            [disabled]="cloudType.code !== 'openstack' && cloudType.code !== 'digitalocean'">
-            {{ cloudType.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="" appearance="outline">
-        <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description" rows="2"></textarea>
-      </mat-form-field>
-      <mat-form-field class="" appearance="outline">
-        <mat-label>Config</mat-label>
-        <textarea matInput formControlName="config" rows=10 required></textarea>
-        <mat-hint *ngIf="cloudproviderForm.value.cloud === 'openstack'">For Openstack use the cloud.yaml file</mat-hint>
-        <mat-hint *ngIf="cloudproviderForm.value.cloud === 'digitalocean'">For Digital Ocean Put the Access Token ({{ '{' }}access_token: xxxx, project_id: xxx {{ '}' }})</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="actions">
-      <button mat-button [routerLink]="['/admin', 'cloudproviders']" queryParamsHandling="merge" type="button">Cancel</button>
-      <button mat-raised-button color="primary" class="ml-10" type="submit" [disabled]="!isFormValid()">
-        {{ cloudprovider ? "Update" : "Create" }}
-      </button>
-    </div>
-  </form>
+<div class="page-container">
+
+  <div class="form-container">
+    <form [formGroup]="cloudproviderForm" *ngIf="cloudproviderForm" (ngSubmit)="submit(cloudproviderForm.value)">
+      <div class="mat-form-container" fxLayout="column">
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Cloud type</mat-label>
+          <mat-select formControlName="cloud" required>
+            <mat-option class="cloudprovider-option" *ngFor="let cloudType of cloudTypes" [value]="cloudType.code"
+              [disabled]="cloudType.code !== 'openstack' && cloudType.code !== 'digitalocean'">
+              <span>{{ cloudType.label }}</span>
+              <mat-icon class="ml-15" [svgIcon]="cloudType.svgIcon"></mat-icon>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="2"></textarea>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Config</mat-label>
+          <textarea matInput formControlName="config" rows=10 required></textarea>
+          <mat-hint *ngIf="cloudproviderForm.value.cloud === 'openstack'">For Openstack use the cloud.yaml file
+          </mat-hint>
+          <mat-hint *ngIf="cloudproviderForm.value.cloud === 'digitalocean'">For Digital Ocean Put the Access Token ({{
+            '{' }}access_token: xxxx, project_id: xxx {{ '}' }})</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="actions">
+        <button mat-button [routerLink]="['/admin', 'cloudproviders']" queryParamsHandling="merge"
+          type="button">Cancel</button>
+        <button mat-raised-button color="primary" class="ml-10" type="submit" [disabled]="!isFormValid()">
+          {{ cloudprovider ? "Update" : "Create" }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="page-context container">
+    <h2>How to register a cloud provider</h2>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Openstack
+          </mat-panel-title>
+          <mat-panel-description>
+            Use the cloud.yaml file
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>In the <strong>config</strong> section please put the content of the <strong>cloud.yaml</strong> file.</p>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Digital Ocean
+          </mat-panel-title>
+          <mat-panel-description>
+
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>For Digitalocean please use this format:</p>
+        <pre>
+{{'{'}}
+  access_token: xxxx,
+  project_id: xxx
+{{'}'}}
+        </pre>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>

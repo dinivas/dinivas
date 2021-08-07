@@ -287,9 +287,9 @@ export class Terraform extends Base {
         }
       );
     });
-    job.progress(30);
+    job.progress(10);
     await extract(zipFilePath, { dir: workingDirectory });
-    job.progress(50);
+    job.progress(20);
     this.nestLogger.debug(
       `Extracted workspace [${zipFilePath}] to directory: ${workingDirectory}`
     );
@@ -300,12 +300,12 @@ export class Terraform extends Base {
     await this.executeSync(workingDirectory, commandToExecute, {
       silent: options.silent || false,
     });
-    job.progress(80);
+    job.progress(90);
     // Terraform show state as json
     const { stdout } = await this.executeSync(workingDirectory, `show -json`, {
       silent: true,
     });
-    job.progress(90);
+    job.progress(95);
     return JSON.parse(stdout) as TFStateRepresentation;
   }
 
@@ -385,7 +385,8 @@ export class Terraform extends Base {
         })
       );
     } catch (err) {
-      console.error(err);
+      this.nestLogger.error(err);
+      throw err;
     }
   }
 
@@ -453,8 +454,8 @@ export class Terraform extends Base {
     cloudProviderId: string,
     tfModuleName: string,
     cloudConfig,
-    preInitCallback?: (workingFolder: string) => void,
-    postInitCallback?: (workingFolder: string) => void,
+    preInitCallback?: (workingFolder: string) => Promise<void>,
+    postInitCallback?: (workingFolder: string) => Promise<void>,
     onInitErrorCallback?: (error) => void
   ) {
     fs.mkdtemp(
@@ -465,29 +466,29 @@ export class Terraform extends Base {
       async (err: any, tempFolder: string) => {
         if (err) throw err;
         this.nestLogger.debug(`Working Terraform folder: ${tempFolder}`);
-        // Add backend config file
-        this.addBackendConfigFileToModule(
-          cloudProviderId,
-          projectCode,
-          tfModuleName,
-          tempFolder
-        );
-        // Add provider config
-        this.addProviderConfigFileToModule(
-          cloudProviderId,
-          cloudConfig,
-          tempFolder
-        );
-        if (preInitCallback) preInitCallback(tempFolder);
-        // Init module temporary directory
         try {
+          // Add backend config file
+          this.addBackendConfigFileToModule(
+            cloudProviderId,
+            projectCode,
+            tfModuleName,
+            tempFolder
+          );
+          // Add provider config
+          this.addProviderConfigFileToModule(
+            cloudProviderId,
+            cloudConfig,
+            tempFolder
+          );
+          if (preInitCallback) await preInitCallback(tempFolder);
+          // Init module temporary directory
           await this.init(tempFolder, [], {
             silent: !this.configService.getOrElse(
               'terraform.init.verbose',
               false
             ),
           });
-          if (postInitCallback) postInitCallback(tempFolder);
+          if (postInitCallback) await postInitCallback(tempFolder);
         } catch (error) {
           if (onInitErrorCallback) onInitErrorCallback(error);
         }
@@ -519,6 +520,7 @@ export class Terraform extends Base {
       );
     } catch (err) {
       this.nestLogger.error(err);
+      throw err;
     }
   }
 

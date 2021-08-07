@@ -5,7 +5,8 @@ export type TerraformModule =
   | 'jenkins'
   | 'rabbitmq'
   | 'project_instance'
-  | 'consul';
+  | 'consul'
+  | 'gitlab';
 
 export type CloudProviderId = 'openstack' | 'digitalocean' | 'aws';
 

@@ -14,6 +14,7 @@
 @import '../../app/build/ansible/galaxy/my-content/my-content.component.scss';
 @import '../../app/build/jenkins/jenkins-wizard/jenkins-wizard.component.scss';
 @import '../../app/build/jenkins/jenkins-status/jenkins-status.component.scss';
+@import '../../app/build/gitlab/gitlab-wizard/gitlab-wizard.component.scss';
 @import '../../app/messaging/rabbitmq/rabbitmq-status/rabbitmq-status.component.scss';
 @import '../../app/network/consul/consul-wizard/consul-wizard.component.scss';
 @import '../../app/build/ansible/galaxy/repo-content-detail/repo-content-detail.component.scss';
@@ -151,6 +152,7 @@
   @include ansible-repo-detail-theme($theme);
   @include confirm-dialog-theme($theme);
   @include jenkins-wizard-theme($theme);
+  @include gitlab-wizard-theme($theme);
   @include consul-wizard-theme($theme);
   @include page-loading-spinner-theme($theme);
   @include custom-mat-form-field-outline-theme($theme);

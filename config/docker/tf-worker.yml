@@ -66,6 +66,10 @@ dinivas:
         type: git
         provider: digitalocean
         url: github.com/dinivas/terraform-digitalocean-jenkins
+      - name: gitlab
+        type: git
+        provider: digitalocean
+        url: github.com/dinivas/terraform-digitalocean-gitlab
       - name: consul
         type: git
         provider: digitalocean

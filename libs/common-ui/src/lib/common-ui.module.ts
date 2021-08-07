@@ -79,7 +79,13 @@ export function registerCustomMatIcon(
       'harbor',
       'consul',
       'grafana',
-      'prometheus'
+      'prometheus',
+      'openstack-horizontal',
+      'aws',
+      'digitalocean',
+      'azure',
+      'gcp',
+      'openstack'
     ];
     customSvgIcons.forEach(icon =>
       matIconRegistry.addSvgIcon(

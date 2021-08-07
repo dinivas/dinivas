@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'dinivas-jenkins-status',
   templateUrl: './jenkins-status.component.html',
-  styleUrls: ['./jenkins-status.component.scss']
+  styleUrls: ['./jenkins-status.component.scss'],
 })
 export class JenkinsStatusComponent implements OnInit {
   jenkins: JenkinsDTO;
@@ -18,11 +18,7 @@ export class JenkinsStatusComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentJenkinsInfo
-        )
-      )
+      .pipe(map((data) => data.currentJenkinsInfo))
       .subscribe(
         (currentJenkinsInfo: TerraformModuleEntityInfo<JenkinsDTO>) => {
           this.jenkins = currentJenkinsInfo
@@ -34,11 +30,7 @@ export class JenkinsStatusComponent implements OnInit {
         }
       );
     this.activatedRoute.data
-      .pipe(
-        map(
-          (data) => data.currentProjectInfo
-        )
-      )
+      .pipe(map((data) => data.currentProjectInfo))
       .subscribe((projectInfo: TerraformModuleEntityInfo<ProjectDTO>) => {
         this.project = projectInfo ? projectInfo.entity : undefined;
         this.projectState = projectInfo ? projectInfo.entityState : undefined;

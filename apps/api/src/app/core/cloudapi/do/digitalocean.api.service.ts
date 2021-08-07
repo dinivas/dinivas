@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 import { Injectable, Logger } from '@nestjs/common';
 import {
   ICloudApi,
@@ -13,6 +14,7 @@ import {
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
   ICloudApiProjectFloatingIp,
+  AvailableCloudProvider,
 } from '@dinivas/api-interfaces';
 import DigitalOcean from 'do-wrapper';
 import VPCs from './vpcs';
@@ -82,27 +84,48 @@ export class DigitalOceanApiService implements ICloudApi {
   getProjectQuota(
     cloudConfig: ICloudApiConfig
   ): Promise<ICloudApiProjectQuota> {
-    return new Promise<ICloudApiProjectQuota>((resolve, reject) => {
-      this.getDOInstance(cloudConfig)
-        .floatingIPs.getAll('')
-        .then((data) => {
-          this.logger.debug('Project Quoto datas', data);
-          resolve(
-            data.floating_ips.map((floatingIp) => {
-              return {
-                id: floatingIp.id,
-                fixed_ip: floatingIp.fixed_ip,
-                instance_id: floatingIp.instance_id,
-                ip: floatingIp.ip,
-                pool: floatingIp.pool,
-              };
-            })
-          );
-        })
-        .catch((err) => {
-          this.logger.error(err);
-          reject(err);
-        });
+    return new Promise<ICloudApiProjectQuota>(async (resolve, reject) => {
+      const account = (await this.getDOInstance(cloudConfig).account.get())
+        .account;
+      const floatingIps = (
+        await this.getDOInstance(cloudConfig).floatingIPs.getAll('')
+      ).floating_ips;
+      const droplets = (
+        await this.getDOInstance(cloudConfig).droplets.getAll('')
+      ).droplets;
+
+      const result: ICloudApiProjectQuota = {
+        id: '',
+        instances: {
+          in_use: droplets.length,
+          limit: account.droplet_limit,
+          reserved: 0,
+          cloudprovider: 'digitalocean',
+        },
+        cores: {
+          in_use: droplets
+            .map((d) => d.vcpus)
+            .reduce((accumulator, currentValue) => accumulator + currentValue),
+          limit: 0,
+          reserved: 0,
+          cloudprovider: 'digitalocean',
+        },
+        ram: {
+          in_use: droplets
+          .map((d) => d.memory)
+          .reduce((accumulator, currentValue) => accumulator + currentValue),
+          limit: 0,
+          reserved: 0,
+          cloudprovider: 'digitalocean',
+        },
+        floating_ips: {
+          in_use: floatingIps.length,
+          limit: account.floating_ip_limit,
+          reserved: 0,
+          cloudprovider: 'digitalocean',
+        },
+      };
+      resolve(result);
     });
   }
 
@@ -174,13 +197,18 @@ export class DigitalOceanApiService implements ICloudApi {
           this.logger.debug(`Project VPCs datas: ${JSON.stringify(data)}`);
           resolve(
             data.vpcs.map(
-              (vpc: { id: string; ip_range: string; name: string, region: string }) => {
+              (vpc: {
+                id: string;
+                ip_range: string;
+                name: string;
+                region: string;
+              }) => {
                 return {
                   id: vpc.id,
                   cidr: vpc.ip_range,
                   label: vpc.name,
                   cloudprovider: CLOUD_PROVIDER_NAME,
-                  region: vpc.region
+                  region: vpc.region,
                 } as ICloudApiNetwork;
               }
             )

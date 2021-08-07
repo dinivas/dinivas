@@ -6,6 +6,7 @@ import {
   InstanceDTO,
   TerraformModule,
   CloudProviderId,
+  GitlabDTO,
 } from '@dinivas/api-interfaces';
 
 export const computeTerraformModuleTemplateContextForDigitalocean = (
@@ -55,6 +56,15 @@ export const computeTerraformModuleTemplateContextForDigitalocean = (
       );
     case 'project_instance':
       return computeTerraformInstanceModuleTemplateContextForDigitalocean(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        moduleSource
+      );
+    case 'gitlab':
+      return computeTerraformGitlabModuleTemplateContextForDigitalocean(
         moduleId,
         cloudprovider,
         moduleData,
@@ -211,6 +221,76 @@ const computeTerraformJenkinsModuleTemplateContextForDigitalocean = (
         jenkins_slave_group_cloud_image: slaveGroup.slave_cloud_image,
         jenkins_slave_group_cloud_flavor: slaveGroup.slave_cloud_flavor,
         jenkins_slave_availability_zone: jenkins.project.availability_zone,
+        project_consul_domain: consul.cluster_domain,
+        project_consul_datacenter: consul.cluster_datacenter,
+        ssh_via_bastion_config: 'var.ssh_via_bastion_config',
+        do_api_token: cloudConfig.access_token,
+      };
+    }),
+  };
+};
+const computeTerraformGitlabModuleTemplateContextForDigitalocean = (
+  moduleId: TerraformModule,
+  cloudprovider: CloudProviderId,
+  gitlab: GitlabDTO,
+  consul: ConsulDTO,
+  cloudConfig: any,
+  moduleSource: string
+): any => {
+  const moduleGitlabSource = moduleSource;
+  return {
+    module_gitlab_source: moduleGitlabSource,
+    project_name: gitlab.project.code.toLowerCase(),
+    enable_gitlab_server: gitlab.use_existing_instance ? 0 : 1,
+    gitlab_server_name: `${gitlab.code.toLowerCase()}`,
+    gitlab_server_instance_count: 1,
+    gitlab_server_description: gitlab.description,
+    gitlab_server_availability_zone: gitlab.project.availability_zone,
+    gitlab_server_image_name: gitlab.cloud_image,
+    gitlab_server_compute_flavor_name: gitlab.cloud_flavor,
+    gitlab_server_keypair_name: gitlab.keypair_name,
+    gitlab_server_security_groups_to_associate: [
+      `${gitlab.project.code.toLowerCase()}-common`,
+    ],
+    gitlab_server_network: gitlab.network_name,
+    gitlab_server_floating_ip_pool: gitlab.use_floating_ip
+      ? gitlab.project.floating_ip_pool
+      : '',
+    gitlab_server_username: gitlab.admin_password || 'admin',
+    gitlab_server_password: gitlab.admin_password,
+    gitlab_server_use_keycloak: gitlab.link_to_keycloak ? '1' : '0',
+    gitlab_server_keycloak_host: gitlab.link_to_keycloak
+      ? gitlab.project.keycloak_host
+      : '',
+    gitlab_server_keycloak_client_id: gitlab.link_to_keycloak
+      ? gitlab.keycloak_client_id
+      : 'gitlab',
+    project_consul_address: `${gitlab.project.code.toLowerCase()}-consul-dashboard.${
+      gitlab.project.root_domain
+    }`,
+    project_consul_domain: consul.cluster_domain,
+    project_consul_datacenter: consul.cluster_datacenter,
+    project_keycloak_host: gitlab.project.keycloak_host,
+    do_api_token: cloudConfig.access_token,
+    gitlab_runners: gitlab.runners.map((runnerGroup) => {
+      return {
+        module_gitlab_source: moduleGitlabSource,
+        project_name: gitlab.project.code.toLowerCase(),
+        gitlab_runner_group_name: runnerGroup.code,
+        gitlab_runner_group_gitlab_url: runnerGroup.gitlab_url,
+        gitlab_runner_group_gitlab_token: runnerGroup.gitlab_token,
+        gitlab_runner_group_executor: runnerGroup.executor || 'docker',
+        gitlab_runner_group_docker_image: runnerGroup.docker_image || 'alpine',
+        gitlab_runner_group_tags: runnerGroup.tags.join(','),
+        gitlab_runner_group_instance_count: runnerGroup.instance_count || 1,
+        gitlab_runner_keypair: `${gitlab.project.code.toLowerCase()}-project-keypair`,
+        gitlab_runner_network: gitlab.network_name,
+        gitlab_runner_security_groups_to_associate: `${gitlab.project.code.toLowerCase()}-common`,
+        gitlab_runner_group_cloud_image: runnerGroup.runner_cloud_image,
+        gitlab_runner_group_cloud_flavor: runnerGroup.runner_cloud_flavor,
+        gitlab_runner_group_prometheus_listen_address:
+          runnerGroup.prometheus_listen_address || ':9252',
+        gitlab_runner_availability_zone: gitlab.project.availability_zone,
         project_consul_domain: consul.cluster_domain,
         project_consul_datacenter: consul.cluster_datacenter,
         ssh_via_bastion_config: 'var.ssh_via_bastion_config',

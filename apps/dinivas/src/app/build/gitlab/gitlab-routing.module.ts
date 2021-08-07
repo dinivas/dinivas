@@ -1,4 +1,7 @@
-import { CurrentGitlabResolver } from './../../shared/gitlab/gitlab.resolver';
+import {
+  CurrentGitlabResolver,
+  GitlabResolver,
+} from './../../shared/gitlab/gitlab.resolver';
 import { GitlabStatusComponent } from './gitlab-status/gitlab-status.component';
 import { GitlabViewComponent } from './gitlab-view.component';
 import { CloudImagesResolver } from './../../shared/cloudprovider/cloud-images.resolver';
@@ -26,55 +29,65 @@ const moduleWizardData = new TerraformModuleWizard<GitlabDTO>(
 );
 
 const routes: Routes = [
-  { path: '', component: GitlabComponent },
+  {
+    path: '',
+    component: GitlabComponent,
+    resolve: {
+      gitlabPage: GitlabResolver,
+    },
+  },
   {
     path: 'new',
     component: TerraformModuleWizardComponent,
     canActivate: [MandatorySelectedProjectGuard],
     data: {
-      moduleWizard: moduleWizardData
+      moduleWizard: moduleWizardData,
     },
     resolve: {
       cloudFlavors: CloudFlavorsResolver,
       cloudImages: CloudImagesResolver,
-      currentProjectInfo: CurrentProjectResolver
-    }
+      currentProjectInfo: CurrentProjectResolver,
+    },
   },
   {
     path: ':gitlabId',
     component: GitlabViewComponent,
     resolve: {
-      gitlab: CurrentGitlabResolver
+      currentGitlabInfo: CurrentGitlabResolver,
     },
     children: [
       {
         path: 'status',
-        component: GitlabStatusComponent
+        component: GitlabStatusComponent,
+        resolve: {
+          currentGitlabInfo: CurrentGitlabResolver,
+          currentProjectInfo: CurrentProjectResolver,
+        },
       },
       {
         path: 'edit',
         component: TerraformModuleWizardComponent,
         canActivate: [MandatorySelectedProjectGuard],
         data: {
-          moduleWizard: moduleWizardData
+          moduleWizard: moduleWizardData,
         },
         resolve: {
           cloudFlavors: CloudFlavorsResolver,
           cloudImages: CloudImagesResolver,
           moduleEntity: CurrentGitlabResolver,
-          currentProjectInfo: CurrentProjectResolver
-        }
+          currentProjectInfo: CurrentProjectResolver,
+        },
       },
       {
         path: '**',
-        redirectTo: 'status'
-      }
-    ]
-  }
+        redirectTo: 'status',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class GitlabRoutingModule {}

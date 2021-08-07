@@ -1,4 +1,6 @@
+import { GitlabRunner } from './build/gitlab/gitlab.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Gitlab } from './build/gitlab/gitlab.entity';
 import { Instance } from './compute/instances/instance.entity';
 import { MessagingModule } from './messaging/messaging.module';
 import { AdminIamModule } from './admin-iam/admin-iam.module';
@@ -113,6 +115,8 @@ const TASKS_REDIS_CONFIG_ROOT_KEY = 'dinivas.tasks.redis';
           Consul,
           RabbitMQ,
           Instance,
+          Gitlab,
+          GitlabRunner,
         ],
       }),
     }),

@@ -1,3 +1,26 @@
-<p>
-  gitlab-status works!
-</p>
+<div class="gitlab-status container">
+  <div class="web-access-container">
+    <a class="web-access gitlab" [href]="'http://' + gitlab.code + '.' + project?.root_domain"
+      target="_blank" *ngIf="project?.root_domain && !gitlab.use_existing_instance">
+      <mat-icon matListIcon svgIcon="gitlab"></mat-icon>
+      <span class="title">{{ gitlab.code + '.' + project?.root_domain }}</span>
+      <mat-icon>open_in_new</mat-icon>
+    </a>
+  </div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>gitlab infra infos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list *ngIf="gitlabState" dense>
+        <mat-list-item *ngFor="let output of (gitlabState.outputs | keyvalue)">
+          <mat-icon *ngIf="!output.value['sensitive']">info</mat-icon>
+          <h3 matLine>
+            {{ output.key }}:<strong class="ml-10" *ngIf="!output.value['sensitive']">{{ output.value['value']
+              }}</strong>
+          </h3>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

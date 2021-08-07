@@ -50,7 +50,7 @@ export interface ICloudApiInstance {
   techId?: number;
 }
 
-type AvailableCloudProvider = 'openstack' | 'digitalocean' | 'aws' | 'gcp';
+export type AvailableCloudProvider = 'openstack' | 'digitalocean' | 'aws' | 'gcp';
 
 export interface ICloudApiImage {
   id: string;

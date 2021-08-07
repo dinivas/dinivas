@@ -1,3 +1,4 @@
+import { TerraformModuleEntityInfo } from './../../shared/terraform/terraform-module-entity-info';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -38,14 +39,17 @@ import { GitlabDTO } from '@dinivas/api-interfaces';
     <div class="">
       <router-outlet></router-outlet>
     </div>
-  `
+  `,
 })
 export class GitlabViewComponent implements OnInit {
   gitlab: GitlabDTO;
   constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit() {
     this.activatedRoute.data
-      .pipe(map((data) => data.gitlab))
-      .subscribe((gitlab: GitlabDTO) => (this.gitlab = gitlab));
+      .pipe(map((data) => data.currentGitlabInfo))
+      .subscribe(
+        (currentGitlabInfo: TerraformModuleEntityInfo<GitlabDTO>) =>
+          (this.gitlab = currentGitlabInfo.entity)
+      );
   }
 }

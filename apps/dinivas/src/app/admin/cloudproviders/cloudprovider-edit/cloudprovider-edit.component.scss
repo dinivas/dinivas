@@ -1,10 +1,29 @@
-.form-container {
-  margin: 20px 10px;
-  max-width: 600px;
-  mat-form-field.mat-form-field {
-    font-size: 14px;
+.page-container {
+  display: flex;
+  flex-direction: row;
+  .form-container {
+    flex: 5;
+    margin: 20px 10px;
+    max-width: 600px;
+    mat-form-field.mat-form-field {
+      font-size: 14px;
+    }
+    .cloudprovider-option {
+      .mat-option-text {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+  .page-context {
+    h2 {
+      text-align: center;
+    }
+    flex: 2;
+    padding-left: 100px;
   }
 }
+
 .actions {
   display: flex;
   justify-content: flex-end;

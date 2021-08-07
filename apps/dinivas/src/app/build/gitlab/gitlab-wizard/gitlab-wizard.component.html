@@ -1,3 +1,212 @@
-<p>
-  gitlab-wizard works!
-</p>
+<form [formGroup]="gitlabForm" *ngIf="gitlabForm" (ngSubmit)="submitPlanGitlab(gitlabForm.getRawValue())"
+  class="gitlab-wizard-form">
+  <ng-template matStepLabel>Gitlab informations - <span class="text-warn">This step will not create any
+      resources</span></ng-template>
+  <div class="mat-form-container" fxLayout="column">
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Gitlab code</mat-label>
+      <input id="gitlab-code" type="text" matInput formControlName="code" required>
+      <span *ngIf="!gitlab?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>
+      <mat-hint>The Gitlab code will be used to suffix most components. You can't change it after Gitlab
+        creation.</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Gitlab network</mat-label>
+      <mat-select formControlName="network_name" required>
+        <mat-option [value]="projectNetwork">
+          {{ projectNetwork }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Gitlab will be added to project Network by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Gitlab network subnet</mat-label>
+      <mat-select formControlName="network_subnet_name" required>
+        <mat-option [value]="projectNetworkSubnet">
+          {{ projectNetworkSubnet }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Gitlab will be added to project Network by default</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="" appearance="outline">
+      <mat-label>Gitlab instances keypair</mat-label>
+      <mat-select formControlName="keypair_name" required>
+        <mat-option [value]="projectKeypair">
+          {{ projectKeypair }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>This Keypair will be added to all instances crated</mat-hint>
+    </mat-form-field>
+    <!-- Gitlab Master configuration -->
+    <h4>Gitlab Server</h4>
+    <div class="slide-toggle-container">
+      <mat-slide-toggle formControlName="use_existing_instance" color="accent">
+        Use an external existing server and not create a new one?
+      </mat-slide-toggle>
+      <mat-hint>The existing server won't be managed by Dinivas, but only reference in Dinivas</mat-hint>
+    </div>
+    <ng-container *ngIf="!gitlabForm?.value.use_existing_instance">
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Gitlab admin username</mat-label>
+        <input type="text" matInput formControlName="admin_username"
+          [required]="!gitlabForm?.value.use_existing_instance" autocomplete="username">
+        <mat-hint>The Gitlab admin username. Default value is <strong>admin</strong></mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Gitlab admin password</mat-label>
+        <input type="password" matInput formControlName="admin_password"
+          [required]="!gitlabForm?.value.use_existing_instance" autocomplete="current-password">
+        <mat-hint>The Gitlab admin password. Default value is <strong>password</strong></mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+      </mat-form-field>
+      <dinivas-cloud-image-radios *ngIf="serverCloudImages?.length > 0; else loading_master_image"
+        formControlName="_cloud_image" label="Select Gitlab instance image to use" [cloudImages]="serverCloudImages">
+      </dinivas-cloud-image-radios>
+      <ng-template #loading_master_image>
+        <p class="no-data-checkbox">No image that match filter found.</p>
+      </ng-template>
+      <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"
+        formControlName="_cloud_flavor" label="Select Gitlab instance flavor to use" [cloudFlavors]="cloudFlavors">
+      </dinivas-cloud-flavor-radios>
+      <ng-template #loading_master_flavor>
+        <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master
+            instance</strong></p>
+      </ng-template>
+      <div class="slide-toggle-container">
+        <mat-slide-toggle formControlName="use_floating_ip" color="accent">
+          Use floating IP?
+        </mat-slide-toggle>
+        <mat-hint>A proxy will expose services to external network</mat-hint>
+      </div>
+      <div class="slide-toggle-container">
+        <mat-slide-toggle formControlName="link_to_keycloak" color="accent">
+          Link this Gitlab Master to project Keycloak?
+        </mat-slide-toggle>
+        <mat-hint>Gitlab authentication will be delegated to Keycloak</mat-hint>
+      </div>
+      <mat-form-field class="" appearance="outline" *ngIf="gitlabForm?.value.link_to_keycloak">
+        <mat-label>Keycloak client id</mat-label>
+        <input type="text" matInput formControlName="keycloak_client_id"
+          [required]="gitlabForm?.value.link_to_keycloak">
+        <mat-hint>Keycloak OIDC Client Id</mat-hint>
+      </mat-form-field>
+    </ng-container>
+    <!-- Existing Gitlab instance -->
+    <ng-container *ngIf="gitlabForm?.value.use_existing_instance">
+      <mat-form-field class="" appearance="outline">
+        <mat-label>External Gitlab instance URL</mat-label>
+        <input type="text" matInput formControlName="existing_instance_url" autocomplete="gitlab_url"
+          [required]="gitlabForm?.value.use_existing_instance">
+        <mat-hint>The external Gitlab username to use for remote access (API)</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+      </mat-form-field>
+    </ng-container>
+    <div class="slide-toggle-container">
+      <mat-slide-toggle formControlName="manage_runner" color="accent">
+        Manage Runners for this Gitlab?
+      </mat-slide-toggle>
+      <mat-hint>Dinivas will manage Gitlab Runners for you. <strong *ngIf="!gitlab">You will be able to add runner once
+          you will create the Gitlab instance</strong></mat-hint>
+    </div>
+
+    <!-- Gitlab runner configuration -->
+    <ng-container *ngIf="gitlabForm?.value.manage_runner">
+      <h4>Runner groups <small *ngIf="gitlabForm.get('runners')['controls'].length > 0">({{
+          gitlabForm.get('runners')['controls'].length }}
+          groups)</small></h4>
+      <div class="gitlab-runner-groups-container">
+        <div formArrayName="runners" class="gitlab-runner-group-container mat-elevation-z4"
+          *ngFor="let runnerGroup of gitlabForm.get('runners')['controls']; let runnerGroupIndex = index;">
+          <span class="runner-group-number">Runner group #{{ runnerGroupIndex + 1 }}</span>
+          <div [formGroupName]="runnerGroupIndex" class="" fxLayout="column">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Runner code (internal use)</mat-label>
+              <input type="text" matInput formControlName="code" required>
+              <span *ngIf="gitlabForm?.value.code" matPrefix>{{ project.code.toLowerCase() }}-{{
+                gitlabForm?.value.code.toLowerCase() }}-</span>
+              <mat-hint>This is just an identification for this runner group</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Runner name</mat-label>
+              <input type="text" matInput formControlName="runner_name" required>
+              <mat-hint>The runner visible name on Gitlab</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Gitlab runner token </mat-label>
+              <input type="text" matInput formControlName="gitlab_token" required>
+              <mat-hint>The Gitlab Runner registration token. It can be obtain in your <strong>Gitlab Group/Project settings/ci_cd</strong></mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Runner executor</mat-label>
+              <mat-select formControlName="executor"  required>
+                <mat-option *ngFor="let executor of runnerExecutors" [value]="executor">
+                  {{ executor }}
+                </mat-option>
+              </mat-select>
+              <mat-hint>Recomended executor is <strong>docker</strong>, depending on the executor some packages may be present on the instance</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+              <mat-chip-list #chipList aria-label="Runners tags" formControlName="tags">
+                <mat-chip *ngFor="let tag of gitlabForm?.value.runners[runnerGroupIndex].tags" [selectable]="false"
+                  [removable]="true" color="accent" selected
+                  (removed)="removeRunnerGroupTag(gitlabForm.value.runners[runnerGroupIndex], tag)">
+                  {{tag}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Runner labels" [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                  (matChipInputTokenEnd)="addRunnerGroupTag(gitlabForm.value.runners[runnerGroupIndex], $event)">
+              </mat-chip-list>
+              <mat-hint>Those label could be used to mark runners</mat-hint>
+            </mat-form-field>
+            <div class="slider-container">
+              <span>Select the number of runner instances</span>
+              <mat-slider class="" [class.cdk-focused]="true" formControlName="instance_count" [max]="10" [min]="1"
+                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">
+              </mat-slider>
+              {{ gitlabForm?.value.runners[runnerGroupIndex]['instance_count'] | json}}
+            </div>
+            <dinivas-cloud-image-radios *ngIf="runnerCloudImages?.length > 0" formControlName="runner_cloud_image"
+              label="Select Runner image to use" [cloudImages]="runnerCloudImages">
+            </dinivas-cloud-image-radios>
+            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="runner_cloud_flavor"
+              label="Select Runner flavor to use" [cloudFlavors]="cloudFlavors">
+            </dinivas-cloud-flavor-radios>
+            <div fxLayout="row" fxLayoutAlign="end">
+              <button type="button" mat-button color="warn" (click)="removeRunner(runnerGroupIndex)">
+                <mat-icon>delete</mat-icon>Delete this
+                Runner group
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="add-gitlab-runner" mat-button color="accent" (click)="addGitlabSlave(null)">
+        <mat-icon>add</mat-icon>
+        Add new Gitlab runner
+      </button>
+    </ng-container>
+  </div>
+  <div class="actions">
+    <button mat-button [routerLink]="['/build', 'gitlab']" queryParamsHandling="merge" type="button">Cancel</button>
+    <button type="button" mat-button matStepperPrevious>Back</button>
+    <button type="button" mat-button class="ml-10" *ngIf="(gitlab?.id && isFormValid())"
+      (click)="showGitlabOutput(gitlabForm.getRawValue())">Show gitlab
+      infra infos</button>
+    <button type="submit" mat-raised-button color="primary" class="ml-10"
+      [disabled]="!isFormValid() || isFormValid() && !gitlabForm.dirty">Plan
+      Gitlab
+      resources</button>
+  </div>
+</form>

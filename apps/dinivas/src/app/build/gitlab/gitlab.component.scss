@@ -1,6 +1,14 @@
+@import '../../core/entity/mat-crud/mat-crud.scss';
 .mat-card-header {
   .gitlab-logo {
     background-image: url('../../../assets/icons/gitlab.svg');
     background-size: cover;
   }
+}
+.full-width-table {
+  width: 100%;
+}
+
+.hide {
+  display: none;
 }

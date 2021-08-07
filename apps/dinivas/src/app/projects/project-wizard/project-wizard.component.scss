@@ -10,9 +10,21 @@
   $foreground: map-get($theme, foreground);
   $foreground-color: mat-color($foreground, text);
 
+  .page-container {
+    display: flex;
+    flex-direction: row;
+    .page-context {
+      h3 {
+        text-align: center;
+      }
+      flex: 2;
+      padding-left: 100px;
+    }
+  }
   .mat-stepper-vertical {
     background-color: $background-color;
     max-width: 1400px;
+    flex: 5;
   }
 
   .form-container {
@@ -21,8 +33,9 @@
       font-size: 14px;
       max-width: 600px;
     }
-    h2,h3 {
-      color: rgba(mat-color($primary),.7);
+    h2,
+    h3 {
+      color: rgba(mat-color($primary), 0.7);
     }
     .no-data-checkbox {
       font-size: 14px;

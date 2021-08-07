@@ -1,7 +1,8 @@
 <footer class="app-footer">
   <div class="container">
     <div class="resources-container">
-      <div class="provider openstack" *ngIf="ramQuota" fxHide fxShow.gt-lg></div>
+      <mat-icon class="provider" [svgIcon]="ramQuota.cloudprovider" *ngIf="ramQuota"></mat-icon>
+      
       <div class="quota ram" *ngIf="ramQuota">
         <span class="type">Ram:</span>
         <span class="in-use">{{ ramQuota.in_use * 1024 * 1024 | bytes}}</span>
@@ -24,13 +25,13 @@
         <small class="ml-5">used</small>
       </div>
       <div class="quota ips" *ngIf="floatIpQuota">
-        <span class="type">Ips:</span>
+        <span class="type">Floating Ips:</span>
         <span class="in-use">{{ floatIpQuota.in_use }}</span>
         <span>/</span>
         <span class="limit">{{ floatIpQuota.limit }}</span>
         <small class="ml-5">used</small>
       </div>
     </div>
-    <span class="copyright">Dinivas@2018</span>
+    <span class="copyright">Dinivas@2021</span>
   </div>
 </footer>

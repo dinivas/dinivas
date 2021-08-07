@@ -2,7 +2,7 @@
   <mat-icon matListIcon svgIcon="gitlab"></mat-icon>
   <span class="page-title">Gitlab</span>
 </mat-toolbar>
-<mat-card class="empty-item-card info-card">
+<mat-card class="empty-item-card info-card" *ngIf="gitlabList.length === 0">
   <mat-card-header>
     <div mat-card-avatar class="gitlab-logo"></div>
     <mat-card-title>Gitlab server</mat-card-title>
@@ -19,4 +19,98 @@
     <button mat-button color="primary" [routerLink]="['/build', 'gitlab', 'new']">Create Gitlab instance</button>
   </mat-card-actions>
 </mat-card>
-<dinivas-need-your-contribution moduleName="gitlab"></dinivas-need-your-contribution>
+<div class="container" [class.hide]="gitlabList.length === 0">
+  <mat-card class="entity-table-card">
+    <mat-card-header>
+    </mat-card-header>
+    <mat-card-content>
+      <dinivas-filter-bar [filterPlaceholder]="filterPlaceholder" [filters]="filters" [selection]="selection"
+        [showAddButton]="showAddButton" addButtonLabel="Add new gitlab" (filterChanged)="onFilterChanged($event)"
+        (refreshData)="onRefreshDatas()" (dataChanged)="onDataChanged($event)" (onAddEntity)="onAddGitlab()"
+        (deleteSelection)="onDeleteEntity($event)">
+      </dinivas-filter-bar>
+      <div class="spinner-container" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table #table class="responsive full-width-table" [dataSource]="dataSource" matSort matSortActive="id"
+        matSortDirection="desc" matSortDisableClear>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="select-cell">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="select-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Datas -->
+        <!-- Id Column -->
+        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container> -->
+
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" [routerLink]="['/build','gitlab', row.id, 'status']"
+              queryParamsHandling="merge">
+              {{row.code }}
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="managed_gitlab_server">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Is Gitlab server managed?</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [matTooltip]="row.use_existing_instance ? 'This Gitlab server is not managed by Dinivas': 'This Gitlab server is managed by Dinivas'"
+              [disabled]="true" [checked]="!row.use_existing_instance">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+        <!-- Worker Column -->
+        <ng-container matColumnDef="runners">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Runners</th>
+          <td mat-cell *matCellDef="let row">{{row.runners.length}} managed runners group(s)</td>
+        </ng-container>
+        <!-- Actions -->
+        <ng-container matColumnDef="row-actions">
+          <th mat-header-cell *matHeaderCellDef class="action-cell ">
+          </th>
+          <td mat-cell *matCellDef="let entity" class="row-action edit-action">
+            <a class="edit" mat-icon-button class="has-text-grey-light edit" *ngIf="entityCanEdit(entity)"
+              [routerLink]="['/build','gitlab', entity.id , 'edit']" queryParamsHandling="merge">
+              <mat-icon matTooltip="Edit" matTooltipPosition="left">mode_edit</mat-icon>
+            </a>
+            <a class="delete" mat-icon-button class="has-text-grey-light delete-entity" *ngIf="entityCanDelete(entity)"
+              (click)="onDeleteEntity(entity)">
+              <mat-icon matTooltip="Delete" matTooltipPosition="left">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      </table>
+      <mat-paginator [length]="totalEntitiesCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
