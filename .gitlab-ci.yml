@@ -37,6 +37,8 @@ build:
   extends: .dependencies_cache
   only:
     - branches
+  except:
+    - master
 
 build_and_dockerize:
   stage: build
