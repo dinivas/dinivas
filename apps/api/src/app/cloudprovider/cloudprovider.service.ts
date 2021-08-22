@@ -167,6 +167,20 @@ export class CloudproviderService {
       )
     );
   }
+  async getCloudProviderKeyPairs(cloudProviderId: number) {
+    const cloudprovider = await this.cloudproviderRepository.findOne(
+      cloudProviderId
+    );
+    const cloudApi = this.cloudApiFactory.getCloudApiService(
+      cloudprovider.cloud
+    );
+    return cloudApi.getProjectKeyPairs(
+      this.cloudApiFactory.getCloudApiConfig(
+        cloudprovider.cloud,
+        cloudprovider.config
+      )
+    );
+  }
 
   async getCloudProviderImages(cloudProviderId: number) {
     const cloudprovider = await this.cloudproviderRepository.findOne(

@@ -1,0 +1,81 @@
+variable "project_keycloak_host" {
+    default = "{{ project_keycloak_host }}"
+}
+variable "do_api_token" {
+    default = "{{ do_api_token }}"
+}
+variable "ssh_via_bastion_config" {}
+variable "host_private_key" {}
+variable "bastion_private_key" {}
+
+module "jenkins" {
+  source = "{{ module_jenkins_source }}"
+
+  project_name                                = "{{ project_name }}"
+  enable_jenkins_master                       = "{{ enable_jenkins_master }}"
+  jenkins_master_name                         = "{{ jenkins_master_name }}"
+  jenkins_master_instance_count               = {{ jenkins_master_instance_count }}
+  jenkins_master_image_name                   = {{ jenkins_master_image_name }}
+  jenkins_master_compute_flavor_name          = "{{ jenkins_master_compute_flavor_name }}"
+  jenkins_master_keypair_name                 = "{{ jenkins_master_keypair_name }}"
+  jenkins_master_network                      = "{{ jenkins_master_network }}"
+  jenkins_master_security_groups_to_associate = ["{{ jenkins_master_security_groups_to_associate }}"]
+  jenkins_master_floating_ip_pool             = "{{ jenkins_master_floating_ip_pool }}"
+  jenkins_master_availability_zone            = "{{ jenkins_master_availability_zone }}"
+
+  project_consul_domain       = "{{ project_consul_domain }}"
+  project_consul_datacenter   = "{{ project_consul_datacenter }}"
+  jenkins_master_use_keycloak = "{{ jenkins_master_use_keycloak }}"
+
+  jenkins_master_keycloak_host               = var.project_keycloak_host
+  jenkins_master_keycloak_client_id          = "{{ jenkins_master_keycloak_client_id }}"
+  jenkins_master_register_exporter_to_consul = 1
+  execute_on_destroy_jenkins_master_script   = ["consul leave"]
+
+  ssh_via_bastion_config = var.ssh_via_bastion_config
+  host_private_key       = var.host_private_key
+  bastion_private_key    = var.bastion_private_key
+  do_api_token           = var.do_api_token
+}
+
+{{#each jenkins_slaves_groups}}
+module "jenkins-slave-{{ this.jenkins_slave_group_name }}" {
+  source = "{{ this.module_jenkins_source }}/slaves"
+
+  project_name                               = "{{ this.project_name }}"
+  jenkins_slave_group_name                   = "{{ this.jenkins_slave_group_name }}"
+  project_consul_domain                      = "{{ this.project_consul_domain }}"
+  project_consul_datacenter                  = "{{ this.project_consul_datacenter }}"
+  jenkins_master_scheme                      = "{{ this.jenkins_master_scheme }}"
+  jenkins_master_host                        = "{{ this.jenkins_master_host }}"
+  jenkins_master_port                        = "{{ this.jenkins_master_port }}"
+  jenkins_master_username                    = "{{ this.jenkins_master_username }}"
+  jenkins_master_password                    = "{{ this.jenkins_master_password }}"
+  jenkins_slave_group_labels                 = "{{ this.jenkins_slave_group_labels }}"
+  jenkins_slave_group_instance_count         = {{ this.jenkins_slave_group_instance_count }}
+  jenkins_slave_keypair                      = "{{ this.jenkins_slave_keypair }}"
+  jenkins_slave_network                      = "{{ this.jenkins_slave_network }}"
+  jenkins_slave_group_cloud_image            = {{ this.jenkins_slave_group_cloud_image }}
+  jenkins_slave_group_cloud_flavor           = "{{ this.jenkins_slave_group_cloud_flavor }}"
+  jenkins_slave_security_groups_to_associate = ["{{ this.jenkins_slave_security_groups_to_associate }}"]
+  jenkins_slave_availability_zone            = "{{ this.jenkins_slave_availability_zone }}"
+  ssh_via_bastion_config                     = var.ssh_via_bastion_config
+  host_private_key       = var.host_private_key
+  bastion_private_key    = var.bastion_private_key
+  execute_on_destroy_jenkins_node_script     = ["/var/run/jenkins/remove_slave.sh", "consul leave"]
+
+  do_api_token = var.do_api_token
+}
+{{/each}}
+
+output "jenkins_master_instance_ids" {
+  description = "Jenkins master instance ids"
+  value       = module.jenkins.jenkins_master_instance_ids
+}
+
+output "jenkins_master_network_private_fixed_ip_v4" {
+  value = module.jenkins.jenkins_master_network_private_fixed_ip_v4
+}
+output "jenkins_master_network_public_fixed_ip_v4" {
+  value = module.jenkins.jenkins_master_network_public_fixed_ip_v4
+}

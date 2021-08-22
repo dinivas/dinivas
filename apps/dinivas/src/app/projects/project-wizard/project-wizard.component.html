@@ -185,6 +185,14 @@
               <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Bastion
                   instance</strong></p>
             </ng-template>
+            <dinivas-cloud-keypair-radios *ngIf="cloudKeyPairs?.length > 0; else loading_bastion_keypair"
+              formControlName="_bastion_cloud_keypair" label="Select bastion keypair to use"
+              [cloudKeyPairs]="cloudKeyPairs">
+            </dinivas-cloud-keypair-radios>
+            <ng-template #loading_bastion_keypair>
+              <p class="no-data-checkbox">Select a cloudprovider to display <strong>keypairs</strong> for <strong>Bastion
+                  instance</strong></p>
+            </ng-template>
             <h2>Project proxy</h2>
             <!-- <button type="button" mat-button (click)="addSSHKey()">New SSH key</button> -->
             <div class="slide-toggle-container">

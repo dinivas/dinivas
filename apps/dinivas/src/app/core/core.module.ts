@@ -32,6 +32,7 @@ import { NeedYourContributionComponent } from './components/need-your-contributi
 import { BytesPipe } from '../core/pipes/bytes.pipe';
 import { SshTerminalComponent } from './components/ssh-terminal/ssh-terminal.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { CloudKeyPairRadiosComponent } from './components/cloud-keypair-radios/cloud-keypair-radios.component';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     JsonPrettyPipe,
     CloudImageRadiosComponent,
     CloudFlavorRadiosComponent,
+    CloudKeyPairRadiosComponent,
     ArchitectureTypeRadiosComponent,
     TimeAgoPipe,
     FilterByPipe,
@@ -69,6 +71,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     BytesPipe,
     CloudImageRadiosComponent,
     CloudFlavorRadiosComponent,
+    CloudKeyPairRadiosComponent,
     ArchitectureTypeRadiosComponent,
     TimeAgoPipe,
     JsonPrettyPipe,

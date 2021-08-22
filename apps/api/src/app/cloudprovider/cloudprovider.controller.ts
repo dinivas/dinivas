@@ -11,6 +11,7 @@ import {
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
   ICloudApiProjectFloatingIp,
+  ICloudApiKeyPair,
 } from '@dinivas/api-interfaces';
 import { AuthzGuard } from '../auth/authz.guard';
 import {
@@ -103,6 +104,11 @@ export class CloudproviderController {
   @Permissions('projects:view')
   async allFlavors(@Param('id') id: number): Promise<ICloudApiFlavor[]> {
     return this.cloudproviderService.getCloudProviderFlavors(id);
+  }
+  @Get(':id/keypairs')
+  @Permissions('projects:view')
+  async allKeyPairs(@Param('id') id: number): Promise<ICloudApiKeyPair[]> {
+    return this.cloudproviderService.getCloudProviderKeyPairs(id);
   }
 
   @Get(':id/availability_zones')

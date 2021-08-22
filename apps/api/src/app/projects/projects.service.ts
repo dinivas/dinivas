@@ -48,6 +48,7 @@ export class ProjectsService {
     projectDTO.proxy_prefered_floating_ip = project.proxy_prefered_floating_ip;
     projectDTO.bastion_cloud_image = project.bastion_cloud_image;
     projectDTO.bastion_cloud_flavor = project.bastion_cloud_flavor;
+    projectDTO.bastion_cloud_keypair = project.bastion_cloud_keypair;
     projectDTO.prometheus_cloud_flavor = project.prometheus_cloud_flavor;
     projectDTO.cloud_provider = CloudproviderService.toDTO(
       project.cloud_provider

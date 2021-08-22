@@ -44,9 +44,9 @@ export class CloudFlavorRadiosComponent
   cloudFlavor: ICloudApiFlavor;
   disabled = false;
 
-  private onTouch: Function;
-  private onModelChange: Function;
-  private onValidatorChange: Function;
+  private onTouch: () => void;
+  private onModelChange: (flavor: ICloudApiFlavor) => void;
+  private onValidatorChange: () => void;
 
   constructor() {}
 

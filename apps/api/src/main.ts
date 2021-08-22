@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AllExceptionsFilter } from './app/core/all-exceptions.filter';
 import { setupSwagger } from './swagger';
@@ -18,6 +18,7 @@ async function bootstrap() {
       ],
     },
   });
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
 
   setupSwagger(app);

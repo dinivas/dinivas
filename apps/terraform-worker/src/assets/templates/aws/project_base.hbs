@@ -1,8 +1,14 @@
 variable "project_keycloak_host" {
   default = "{{ project_keycloak_host }}"
 }
-variable "do_api_token" {
-  default = "{{ do_api_token }}"
+variable "aws_region" {
+  default = "{{ aws_region }}"
+}
+variable "aws_access_key_id" {
+  default = "{{ aws_access_key_id }}"
+}
+variable "aws_secret_access_key" {
+  default = "{{ aws_secret_access_key }}"
 }
 variable "project_root_domain" {
   default = "{{ project_root_domain }}"
@@ -17,6 +23,8 @@ module "project_base" {
   project_availability_zone         = "{{ project_availability_zone }}"
   public_router_name                = "{{ public_router_name }}"
   mgmt_subnet_cidr                  = "{{ mgmt_subnet_cidr }}"
+  mgmt_private_subnet_cidr          = "10.0.1.0/24"
+  mgmt_public_subnet_cidr           = "10.0.101.0/24"
   mgmt_subnet_dhcp_allocation_start = "{{ mgmt_subnet_dhcp_allocation_start }}"
   mgmt_subnet_dhcp_allocation_end   = "{{ mgmt_subnet_dhcp_allocation_end }}"
   bastion_image_name                = "{{ bastion_image_name }}"
@@ -46,7 +54,9 @@ module "project_base" {
   graylog_compute_flavour_name = "{{ graylog_compute_flavour_name }}"
 
   project_keycloak_host = var.project_keycloak_host
-  do_api_token          = var.do_api_token
+  aws_region            = var.aws_region
+  aws_access_key_id     = var.aws_access_key_id
+  aws_secret_access_key = var.aws_secret_access_key
 }
 
 output "bastion_floating_ip" {

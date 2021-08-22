@@ -15,6 +15,7 @@ import {
   CommonModuleCommand,
   BULL_TERRAFORM_MODULE_QUEUE,
   CloudProviderId,
+  ICloudApiKeyPair,
 } from '@dinivas/api-interfaces';
 import { AuthzGuard } from '../auth/authz.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -32,6 +33,7 @@ import {
   Logger,
   HttpCode,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import YAML = require('js-yaml');
@@ -70,22 +72,36 @@ export class ProjectsController {
 
   @Get(':id')
   @Permissions('projects:view')
-  async findOne(@Param('id') id: number): Promise<ProjectDTO> {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<ProjectDTO> {
     return this.projectsService.findOne(id);
   }
 
   @Get(':id/flavors')
   @Permissions('projects:view')
-  async allFlavors(@Param('id') id: number): Promise<ICloudApiFlavor[]> {
+  async allFlavors(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<ICloudApiFlavor[]> {
     const project = await this.projectsService.findOne(id);
     return this.cloudproviderService.getCloudProviderFlavors(
+      project.cloud_provider.id
+    );
+  }
+  @Get(':id/keypairs')
+  @Permissions('projects:view')
+  async allKeyPairs(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<ICloudApiKeyPair[]> {
+    const project = await this.projectsService.findOne(id);
+    return this.cloudproviderService.getCloudProviderKeyPairs(
       project.cloud_provider.id
     );
   }
 
   @Get(':id/images')
   @Permissions('projects:view')
-  async allImages(@Param('id') id: number): Promise<ICloudApiImage[]> {
+  async allImages(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<ICloudApiImage[]> {
     const project = await this.projectsService.findOne(id);
     return this.cloudproviderService.getCloudProviderImages(
       project.cloud_provider.id
@@ -94,13 +110,17 @@ export class ProjectsController {
 
   @Get(':id/quota')
   @Permissions('projects:view')
-  async projectQuota(@Param('id') id: number): Promise<ICloudApiProjectQuota> {
+  async projectQuota(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<ICloudApiProjectQuota> {
     return this.projectsService.getProjectQuota(id);
   }
 
   @Get(':id/terraform_state')
   @Permissions('projects:view')
-  async projectTerraformState(@Param('id') id: number): Promise<any> {
+  async projectTerraformState(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<any> {
     const project = await this.projectsService.findOne(id);
     if (project) {
       const state = await this.terraformStateService.findState(
@@ -122,7 +142,7 @@ export class ProjectsController {
   @Get(':id/ssh-terminal-token')
   @Permissions('projects:create')
   async getProjectGuacamoleSSHToken(
-    @Param('id') id: number
+    @Param('id', ParseIntPipe) id: number
   ): Promise<{ token: string }> {
     const project = await this.projectsService.findOne(id);
     if (project) {
@@ -197,7 +217,7 @@ export class ProjectsController {
   @Put(':id')
   @Permissions('projects:edit')
   async update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() projectDefinition: ProjectDefinitionDTO
   ): Promise<ProjectDefinitionDTO> {
     this.logger.debug(
@@ -208,7 +228,9 @@ export class ProjectsController {
 
   @Delete(':id')
   @Permissions('projects:delete')
-  async remove(@Param('id') id: number): Promise<{ destroyJobId: number }> {
+  async remove(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<{ destroyJobId: number }> {
     const project = await this.projectsService.findOne(id);
     if (project) {
       const cloudprovider = await this.cloudproviderService.findOne(

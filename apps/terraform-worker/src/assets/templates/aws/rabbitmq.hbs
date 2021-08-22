@@ -1,0 +1,57 @@
+variable "project_keycloak_host" {
+    default = "{{ project_keycloak_host }}"
+}
+variable "do_api_token" {
+  default = "{{ do_api_token }}"
+}
+variable "ssh_via_bastion_config" {}
+variable "host_private_key" {}
+variable "bastion_private_key" {}
+
+module "rabbitmq_cluster" {
+  source = "{{ module_rabbitmq_source }}"
+
+  project_name                                  = "{{ project_name }}"
+  enable_rabbitmq                               = "{{ enable_rabbitmq }}"
+  rabbitmq_cluster_name                         = "{{ rabbitmq_cluster_name }}"
+  rabbitmq_nodes_count                          = {{ rabbitmq_nodes_count }}
+  rabbitmq_cluster_image_name                   = "{{ rabbitmq_cluster_image_name }}"
+  rabbitmq_cluster_compute_flavor_name          = "{{ rabbitmq_cluster_compute_flavor_name }}"
+  rabbitmq_cluster_keypair_name                 = "{{ rabbitmq_cluster_keypair_name }}"
+  rabbitmq_cluster_network                      = "{{ rabbitmq_cluster_network }}"
+  rabbitmq_cluster_security_groups_to_associate = ["{{ rabbitmq_cluster_security_groups_to_associate }}"]
+  rabbitmq_cluster_availability_zone            = "{{ rabbitmq_cluster_availability_zone }}"
+  rabbitmq_plugin_list                          = "{{ rabbitmq_plugin_list }}"
+  rabbitmq_enable_logging_graylog               = "1"
+
+  project_consul_domain     = "{{ project_consul_domain }}"
+  project_consul_datacenter = "{{ project_consul_datacenter }}"
+
+  ssh_via_bastion_config = var.ssh_via_bastion_config
+  host_private_key       = var.host_private_key
+  bastion_private_key    = var.bastion_private_key
+  do_api_token           = var.do_api_token
+}
+
+output "rabbitmq_cluster_instance_ids" {
+  value = module.rabbitmq_cluster.rabbitmq_cluster_instance_ids
+}
+
+output "rabbitmq_cluster_network_private_fixed_ip_v4" {
+  value = module.rabbitmq_cluster.rabbitmq_cluster_network_private_fixed_ip_v4
+}
+output "rabbitmq_cluster_network_public_fixed_ip_v4" {
+  value = module.rabbitmq_cluster.rabbitmq_cluster_network_public_fixed_ip_v4
+}
+
+output "rabbitmq_cluster_default_username" {
+  value = module.rabbitmq_cluster.rabbitmq_cluster_default_username
+}
+
+output "rabbitmq_cluster_default_password" {
+  value = module.rabbitmq_cluster.rabbitmq_cluster_default_password
+}
+
+output "rabbitmq_cluster_default_vhost" {
+  value = module.rabbitmq_cluster.rabbitmq_cluster_default_vhost
+}

@@ -32,6 +32,7 @@ import * as archiver from 'archiver';
 import path = require('path');
 import os = require('os');
 import * as extract from 'extract-zip';
+import { computeTerraformModuleTemplateContextForAWS } from './../aws/index';
 import { computeTerraformModuleTemplateContextForDigitalocean } from '../digitalocean';
 import { computeTerraformModuleTemplateContextForOpenstack } from '../openstack';
 import Handlebars = require('handlebars');
@@ -373,7 +374,7 @@ export class Terraform extends Base {
     try {
       fs.writeFileSync(
         path.join(destination, 'backend.tf'),
-        this.renderTemplate(`${cloudProviderId}/backend.hbs`, {
+        this.renderTemplate(`common/backend.hbs`, {
           min_required_version: this.configService.get(
             'terraform.min_required_version'
           ),
@@ -408,6 +409,13 @@ export class Terraform extends Base {
     if ('digitalocean' === cloudprovider) {
       providerContext = { access_token: cloudConfig.access_token };
     }
+    if ('aws' === cloudprovider) {
+      providerContext = {
+        access_key_id: cloudConfig.access_key_id,
+        secret_access_key: cloudConfig.secret_access_key,
+        region: cloudConfig.region,
+      };
+    }
     try {
       fs.writeFileSync(
         path.join(destination, 'provider.tf'),
@@ -425,14 +433,11 @@ export class Terraform extends Base {
     try {
       fs.writeFileSync(
         path.join(destination, 'keycloak-provider.tf'),
-        this.renderTemplate(
-          `${project.cloud_provider.cloud}/keycloak-provider.hbs`,
-          {
-            keycloak_host: project.keycloak_host,
-            keycloak_client_id: project.keycloak_client_id,
-            keycloak_client_secret: project.keycloak_client_secret,
-          }
-        )
+        this.renderTemplate(`common/keycloak-provider.hbs`, {
+          keycloak_host: project.keycloak_host,
+          keycloak_client_id: project.keycloak_client_id,
+          keycloak_client_secret: project.keycloak_client_secret,
+        })
       );
     } catch (err) {
       this.nestLogger.error(err);
@@ -551,24 +556,50 @@ export class Terraform extends Base {
         this.configService.getTerraformModuleSource(moduleId, 'digitalocean')
       );
     }
+    if ('aws' === cloudprovider) {
+      return computeTerraformModuleTemplateContextForAWS(
+        moduleId,
+        cloudprovider,
+        moduleData,
+        projectConsul,
+        cloudConfig,
+        this.configService.getTerraformModuleSource(moduleId, 'aws')
+      );
+    }
   }
 
   addSshViaBastionConfigFileToModule(
-    cloudProviderId: string,
+    cloudProviderId: CloudProviderId,
     projectState: any,
     destination: string
   ) {
     try {
       fs.writeFileSync(
         path.join(destination, 'ssh-via-bastion.tfvars'),
-        this.renderTemplate(`${cloudProviderId}/ssh-via-bastion.hbs`, {
+        this.renderTemplate(`common/ssh-via-bastion.hbs`, {
           project_private_key: projectState.outputs.project_private_key.value,
           bastion_private_key: projectState.outputs.bastion_private_key.value,
           bastion_host: projectState.outputs.bastion_floating_ip.value,
+          bastion_ssh_user:
+            this.getBastionUserFromCloudProviderId(cloudProviderId),
         })
       );
     } catch (err) {
       this.nestLogger.error(err);
+    }
+  }
+
+  private getBastionUserFromCloudProviderId(
+    cloudProviderId: CloudProviderId
+  ): string {
+    switch (cloudProviderId) {
+      case 'digitalocean':
+        return 'root';
+      case 'aws':
+      case 'openstack':
+        return 'centos';
+      default:
+        return 'centos';
     }
   }
 }

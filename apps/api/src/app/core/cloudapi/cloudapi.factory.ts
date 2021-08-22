@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { OpenstackApiService } from './openstack.api.service';
+import { OpenstackApiService } from './openstack/openstack.api.service';
+import { AWSApiService } from './aws/aws.api.service';
 import { DigitalOceanApiService } from './do/digitalocean.api.service';
 import { ICloudApi, ICloudApiConfig } from '@dinivas/api-interfaces';
 
@@ -10,7 +11,8 @@ import YAML = require('js-yaml');
 export class CloudApiFactory {
   constructor(
     private openstackApiService: OpenstackApiService,
-    private digitalOceanApiService: DigitalOceanApiService
+    private digitalOceanApiService: DigitalOceanApiService,
+    private awsApiService: AWSApiService
   ) {}
 
   getCloudApiService(provider: string): ICloudApi {
@@ -19,6 +21,8 @@ export class CloudApiFactory {
         return this.openstackApiService;
       case 'digitalocean':
         return this.digitalOceanApiService;
+      case 'aws':
+        return this.awsApiService;
       default:
         return this.openstackApiService;
     }
@@ -32,15 +36,20 @@ export class CloudApiFactory {
           username: OSCloudConfig.openstack.auth.username,
           password: OSCloudConfig.openstack.auth.password,
           auth_url: OSCloudConfig.openstack.auth.auth_url,
-          project_id: OSCloudConfig.openstack.auth.project_id
+          project_id: OSCloudConfig.openstack.auth.project_id,
         } as ICloudApiConfig;
       case 'digitalocean':
         const DOCloudConfig = YAML.load(config);
         return {
-          username: '',
           password: DOCloudConfig['access_token'],
-          auth_url: '',
-          project_id: DOCloudConfig['project_id']
+          project_id: DOCloudConfig['project_id'],
+        } as ICloudApiConfig;
+      case 'aws':
+        const awsCloudConfig = YAML.load(config);
+        return {
+          username: awsCloudConfig['access_key_id'],
+          password: awsCloudConfig['secret_access_key'],
+          region_name: awsCloudConfig['region'],
         } as ICloudApiConfig;
       default:
         throw new BadRequestException(

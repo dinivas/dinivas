@@ -9,7 +9,8 @@ import {
   ICloudApiImage,
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
-  ICloudApiProjectFloatingIp
+  ICloudApiProjectFloatingIp,
+  ICloudApiKeyPair
 } from '@dinivas/api-interfaces';
 import { Injectable } from '@angular/core';
 
@@ -57,6 +58,11 @@ export class CloudproviderService {
   getCloudProviderFlavors(id: number): Observable<ICloudApiFlavor[]> {
     return this.http.get<ICloudApiFlavor[]>(
       `${environment.apiUrl}/cloudproviders/${id}/flavors`
+    );
+  }
+  getCloudProviderKeyPairs(id: number): Observable<ICloudApiKeyPair[]> {
+    return this.http.get<ICloudApiKeyPair[]>(
+      `${environment.apiUrl}/cloudproviders/${id}/keypairs`
     );
   }
 

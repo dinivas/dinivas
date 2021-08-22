@@ -82,3 +82,32 @@ dinivas:
         type: git
         provider: digitalocean
         url: github.com/dinivas/terraform-digitalocean-rabbitmq
+      - name: project_base
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-project-base
+      - name: project_instance
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-project-instance
+      - name: jenkins
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-jenkins
+      - name: gitlab
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-gitlab
+      - name: consul
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-consul
+      - name: keypair
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-keypair
+      - name: rabbitmq
+        type: git
+        provider: aws
+        url: github.com/dinivas/terraform-aws-rabbitmq
+

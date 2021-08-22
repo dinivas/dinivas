@@ -14,7 +14,7 @@ import {
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
   ICloudApiProjectFloatingIp,
-  AvailableCloudProvider,
+  ICloudApiKeyPair,
 } from '@dinivas/api-interfaces';
 import DigitalOcean from 'do-wrapper';
 import VPCs from './vpcs';
@@ -100,7 +100,7 @@ export class DigitalOceanApiService implements ICloudApi {
           in_use: droplets.length,
           limit: account.droplet_limit,
           reserved: 0,
-          cloudprovider: 'digitalocean',
+          cloudprovider: CLOUD_PROVIDER_NAME,
         },
         cores: {
           in_use: droplets
@@ -108,21 +108,21 @@ export class DigitalOceanApiService implements ICloudApi {
             .reduce((accumulator, currentValue) => accumulator + currentValue),
           limit: 0,
           reserved: 0,
-          cloudprovider: 'digitalocean',
+          cloudprovider: CLOUD_PROVIDER_NAME,
         },
         ram: {
           in_use: droplets
-          .map((d) => d.memory)
-          .reduce((accumulator, currentValue) => accumulator + currentValue),
+            .map((d) => d.memory)
+            .reduce((accumulator, currentValue) => accumulator + currentValue),
           limit: 0,
           reserved: 0,
-          cloudprovider: 'digitalocean',
+          cloudprovider: CLOUD_PROVIDER_NAME,
         },
         floating_ips: {
           in_use: floatingIps.length,
           limit: account.floating_ip_limit,
           reserved: 0,
-          cloudprovider: 'digitalocean',
+          cloudprovider: CLOUD_PROVIDER_NAME,
         },
       };
       resolve(result);
@@ -212,6 +212,32 @@ export class DigitalOceanApiService implements ICloudApi {
                 } as ICloudApiNetwork;
               }
             )
+          );
+        })
+        .catch((err) => {
+          this.logger.error(err);
+          reject(err);
+        });
+    });
+  }
+
+  getProjectKeyPairs(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiKeyPair[]> {
+    return new Promise<ICloudApiKeyPair[]>((resolve, reject) => {
+      this.getDOInstance(cloudConfig)
+        .keys.getAll('')
+        .then((data) => {
+          this.logger.debug(`Project SSH Keypair datas: ${JSON.stringify(data)}`);
+          resolve(
+            data.ssh_keys.map((key: { id: any; name: any; fingerprint: any }) => {
+              return {
+                id: key.id,
+                name: key.name,
+                fingerprint: key.fingerprint,
+                cloudprovider: CLOUD_PROVIDER_NAME,
+              };
+            })
           );
         })
         .catch((err) => {

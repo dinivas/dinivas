@@ -1,8 +1,8 @@
 export interface ICloudApiConfig {
-  auth_url: string;
-  username: string;
-  password: string;
-  project_id: string;
+  auth_url?: string;
+  username?: string;
+  password?: string;
+  project_id?: string;
   region_name?: string;
 }
 
@@ -48,9 +48,14 @@ export interface ICloudApiInstance {
   metadata: any;
   cloudprovider: AvailableCloudProvider;
   techId?: number;
+  cpuCoresCount?: number;
 }
 
-export type AvailableCloudProvider = 'openstack' | 'digitalocean' | 'aws' | 'gcp';
+export type AvailableCloudProvider =
+  | 'openstack'
+  | 'digitalocean'
+  | 'aws'
+  | 'gcp';
 
 export interface ICloudApiImage {
   id: string;
@@ -127,6 +132,12 @@ export interface ICloudApiAvailabilityZone {
   };
   cloudprovider: AvailableCloudProvider;
 }
+export interface ICloudApiKeyPair {
+  id: string;
+  name: string;
+  fingerprint: string;
+  cloudprovider: AvailableCloudProvider;
+}
 
 export interface ICloudApiNetwork {
   id: string;
@@ -150,11 +161,15 @@ export interface ICloudApi {
   getProjectRouters(
     cloudConfig: ICloudApiConfig
   ): Promise<ICloudApiProjectRouter[]>;
+  getProjectKeyPairs(cloudConfig: ICloudApiConfig): Promise<ICloudApiKeyPair[]>;
 
   //Compute infos
   getAllinstances(cloudConfig: ICloudApiConfig): Promise<ICloudApiInstance[]>;
   getAllFlavors(cloudConfig: ICloudApiConfig): Promise<ICloudApiFlavor[]>;
-  getAllImages(cloudConfig: ICloudApiConfig, context: Record<string, unknown>): Promise<ICloudApiImage[]>;
+  getAllImages(
+    cloudConfig: ICloudApiConfig,
+    context: Record<string, unknown>
+  ): Promise<ICloudApiImage[]>;
   getAllDisks(cloudConfig: ICloudApiConfig): Promise<ICloudApiDisk[]>;
   getAllAvailabilityZones(
     cloudConfig: ICloudApiConfig

@@ -61,6 +61,8 @@ export class Project {
   @Column({ nullable: true })
   bastion_cloud_flavor: string;
   @Column({ nullable: true })
+  bastion_cloud_keypair: string;
+  @Column({ nullable: true })
   prometheus_cloud_flavor: string;
   @Column({ nullable: false })
   keycloak_host: string;

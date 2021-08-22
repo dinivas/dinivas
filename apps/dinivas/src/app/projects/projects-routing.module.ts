@@ -1,3 +1,4 @@
+import { CloudKeyPairsResolver } from './../shared/cloudprovider/cloud-keypairs.resolver';
 import { ProjectViewComponent } from './project-view.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
 import { CurrentProjectResolver } from './../shared/project/current-project.resolver';
@@ -38,6 +39,7 @@ const routes: Routes = [
         resolve: {
           cloudFlavors: CloudFlavorsResolver,
           cloudImages: CloudImagesResolver,
+          cloudKeyPairs: CloudKeyPairsResolver,
           currentProjectInfo: CurrentProjectResolver,
           availabilityZones: AvailabilityZonesResolver
         }

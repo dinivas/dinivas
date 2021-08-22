@@ -14,6 +14,7 @@ import {
   ICloudApiAvailabilityZone,
   ICloudApiNetwork,
   ICloudApiProjectFloatingIp,
+  ICloudApiKeyPair,
 } from '@dinivas/api-interfaces';
 import OSWrap = require('openstack-wrapper');
 
@@ -125,6 +126,21 @@ export class OpenstackApiService implements ICloudApi {
       });
     });
   }
+  getProjectKeyPairs(
+    cloudConfig: ICloudApiConfig
+  ): Promise<ICloudApiKeyPair[]> {
+    return this.doOnProject(cloudConfig, (project, resolve, reject) => {
+      project.nova.listProjectNetworks((error, network_array) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(network_array as ICloudApiKeyPair[]);
+        }
+      });
+    });
+  }
+
+
 
   getProjectRouters(
     cloudConfig: ICloudApiConfig

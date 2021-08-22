@@ -1,6 +1,7 @@
 @import '../../app/core/components/need-your-contribution/need-your-contribution.component.scss';
 @import '../../app/core/components/architecture-type-radios/architecture-type-radios.component.scss';
 @import '../../app/core/components/cloud-flavor-radios/cloud-flavor-radios.component.scss';
+@import '../../app/core/components/cloud-keypair-radios/cloud-keypair-radios.component.scss';
 @import '../../app/core/dialog/select-project-dialog/select-project-dialog.component.scss';
 @import '../../app/core/components/cloud-image-radios/cloud-image-radios.component.scss';
 @import '../../app/shared/terraform/terraform-module-wizard/terraform-module-wizard.component.scss';
@@ -138,6 +139,7 @@
   @include architecture-type-radios-theme($theme);
   @include cloud-flavor-radios-theme($theme);
   @include cloud-image-radios-theme($theme);
+  @include cloud-keypair-radios-theme($theme);
   @include terraform-module-wizard-theme($theme);
   @include project-status-theme($theme);
   @include jenkins-status-theme($theme);

@@ -2,7 +2,8 @@
   <span class="label" *ngIf="label">{{ label }}</span>
   <div class="images">
     <div class="cloud-image" *ngFor="let cloudImage of cloudImages" [class.selected]="('openstack' === image?.cloudprovider && image.name === cloudImage.name ) ||
-    ('digitalocean' === image?.cloudprovider && image.id === cloudImage.id)"
+    ('digitalocean' === image?.cloudprovider && image.id === cloudImage.id) ||
+    ('aws' === image?.cloudprovider && image.id === cloudImage.id)"
       [class.disabled]="disabled" (click)="select(cloudImage)">
       <mat-icon class="main-icon" svgIcon="disc"></mat-icon>
       <span class="name">{{ cloudImage.name }}</span>

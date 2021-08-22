@@ -1,0 +1,13 @@
+<div class="keypairs-container">
+  <span class="label" *ngIf="label">{{ label }}</span>
+  <div class="keypairs">
+    <div class="cloud-keypair" *ngFor="let keypair of cloudKeyPairs" [class.selected]="cloudKeyPair?.name === keypair.name"
+      [class.disabled]="disabled" (click)="select(keypair)">
+      <span class="name">{{ keypair.name }}</span>
+      <mat-icon class="main-icon" svgIcon="key"></mat-icon>
+      <span class="fingerprint"><small>{{ keypair.fingerprint }}</small></span>
+      <div class="checkmark-overlay"></div>
+      <mat-icon class="checkmark">check</mat-icon>
+    </div>
+  </div>
+</div>

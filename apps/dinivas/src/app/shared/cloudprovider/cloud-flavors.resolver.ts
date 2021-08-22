@@ -30,7 +30,8 @@ export class CloudFlavorsResolver implements Resolve<ICloudApiFlavor[]> {
           (flavor) =>
             ('openstack' === flavor.cloudprovider &&
               flavor.name.indexOf('dinivas') > -1) ||
-            'digitalocean' === flavor.cloudprovider
+            'digitalocean' === flavor.cloudprovider ||
+            'aws' === flavor.cloudprovider
         ),
         toArray(),
         map((items) =>

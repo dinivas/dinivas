@@ -23,6 +23,14 @@ export class TerraformRepresentationComponent implements OnInit {
     digitalocean_ssh_key: 'key',
     digitalocean_vpc: 'network',
     digitalocean_floating_ip_assignment: 'ip',
+    // AWS
+    aws_instance: 'server2',
+    aws_key_pair: 'key',
+    aws_nat_gateway: 'router',
+    aws_internet_gateway: 'router',
+    aws_vpc: 'network',
+    aws_subnet: 'subnet',
+    aws_eip: 'ip',
   };
 
   ngOnInit() {}

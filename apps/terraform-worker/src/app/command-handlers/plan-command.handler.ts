@@ -5,6 +5,7 @@ import {
   TerraformModuleEvent,
   TFPlanRepresentation,
   TerraformCommand,
+  CloudProviderId
 } from '@dinivas/api-interfaces';
 import { TerraformStateService } from '../terraform-state.service';
 import { firstValueFrom } from 'rxjs';
@@ -51,7 +52,7 @@ export class PlanCommandHandler {
           job.progress(15);
           if ('project_base' !== command.moduleId) {
             this.terraform.addSshViaBastionConfigFileToModule(
-              command.project.cloud_provider.cloud,
+              command.project.cloud_provider.cloud as CloudProviderId,
               rawProjectState,
               workingDir
             );

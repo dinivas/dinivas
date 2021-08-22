@@ -6,6 +6,7 @@ import {
   ICloudApiFlavor,
   ICloudApiImage,
   ProjectDefinitionDTO,
+  ICloudApiKeyPair,
 } from '@dinivas/api-interfaces';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -31,6 +32,11 @@ export class ProjectsService {
   getProjectFlavors(id: number): Observable<ICloudApiFlavor[]> {
     return this.http.get<ICloudApiFlavor[]>(
       `${environment.apiUrl}/projects/${id}/flavors`
+    );
+  }
+  getProjectKeyPairs(id: number): Observable<ICloudApiKeyPair[]> {
+    return this.http.get<ICloudApiKeyPair[]>(
+      `${environment.apiUrl}/projects/${id}/keypairs`
     );
   }
 

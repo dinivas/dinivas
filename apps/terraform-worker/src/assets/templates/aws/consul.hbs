@@ -1,0 +1,58 @@
+variable "project_keycloak_host" {
+    default = "{{ project_keycloak_host }}"
+}
+variable "do_api_token" {
+    default = "{{ do_api_token }}"
+}
+variable "ssh_via_bastion_config" {}
+variable "host_private_key" {}
+variable "bastion_private_key" {}
+
+module "consul_cluster" {
+  source = "{{ module_consul_source }}"
+
+  project_name                                = "{{ project_name }}"
+  enable_consul_cluster                       = "{{ enable_consul_cluster }}"
+  consul_cluster_name                         = "{{ consul_cluster_name }}"
+  consul_cluster_domain                       = "{{ project_consul_domain }}"
+  consul_cluster_datacenter                   = "{{ project_consul_datacenter }}"
+  consul_cluster_availability_zone            = "{{ consul_cluster_availability_zone }}"
+  consul_cluster_network_name                 = "{{ consul_cluster_network }}"
+  consul_server_instance_count                = {{ consul_server_instance_count }}
+  consul_server_image_name                    = "{{ consul_server_image_name }}"
+  consul_server_flavor_name                   = "{{ consul_server_flavor_name }}"
+  consul_client_instance_count                = {{ consul_client_instance_count }}
+  consul_client_image_name                    = "{{ consul_client_image_name }}"
+  consul_client_flavor_name                   = "{{ consul_client_flavor_name }}"
+  consul_cluster_security_groups_to_associate = ["{{ consul_cluster_security_groups_to_associate }}"]
+
+  ssh_via_bastion_config = var.ssh_via_bastion_config
+  host_private_key       = var.host_private_key
+  bastion_private_key    = var.bastion_private_key
+  do_api_token           = var.do_api_token
+}
+
+output "consul_server_ids" {
+  value = module.consul_cluster.consul_server_ids
+}
+output "consul_server_names" {
+  value = module.consul_cluster.consul_server_names
+}
+output "consul_client_ids" {
+  value = module.consul_cluster.consul_client_ids
+}
+output "consul_client_names" {
+  value = module.consul_cluster.consul_client_names
+}
+output "consul_server_private_fixed_ip_v4" {
+  value = module.consul_cluster.consul_server_private_fixed_ip_v4
+}
+output "consul_client_private_fixed_ip_v4" {
+  value = module.consul_cluster.consul_client_private_fixed_ip_v4
+}
+output "consul_server_public_fixed_ip_v4" {
+  value = module.consul_cluster.consul_server_public_fixed_ip_v4
+}
+output "consul_client_public_fixed_ip_v4" {
+  value = module.consul_cluster.consul_client_public_fixed_ip_v4
+}

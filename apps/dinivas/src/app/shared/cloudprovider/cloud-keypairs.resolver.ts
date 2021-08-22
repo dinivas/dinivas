@@ -6,13 +6,15 @@ import {
   RouterStateSnapshot,
   Resolve,
 } from '@angular/router';
-import { ICloudApiImage, CONSTANT } from '@dinivas/api-interfaces';
-import { filter, flatMap, toArray } from 'rxjs/operators';
+import {
+  CONSTANT,
+  ICloudApiKeyPair,
+} from '@dinivas/api-interfaces';
 import { LocalStorageService } from 'ngx-webstorage';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class CloudImagesResolver implements Resolve<ICloudApiImage[]> {
+export class CloudKeyPairsResolver implements Resolve<ICloudApiKeyPair[]> {
   constructor(
     private readonly projectService: ProjectsService,
     private storage: LocalStorageService
@@ -20,22 +22,10 @@ export class CloudImagesResolver implements Resolve<ICloudApiImage[]> {
   async resolve(
     route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
-  ): Promise<ICloudApiImage[]> {
+  ): Promise<ICloudApiKeyPair[]> {
     const projectId =
       <string>route.paramMap.get('projectId') ||
       this.storage.retrieve(CONSTANT.BROWSER_STORAGE_PROJECT_ID_KEY);
-    return firstValueFrom(
-      this.projectService.getProjectImages(projectId).pipe(
-        flatMap((t) => t),
-        filter(
-          (img) =>
-            ('openstack' === img.cloudprovider &&
-              img.tags.indexOf('dinivas') > -1) ||
-            'digitalocean' === img.cloudprovider ||
-            'aws' === img.cloudprovider
-        ),
-        toArray()
-      )
-    );
+    return firstValueFrom(this.projectService.getProjectKeyPairs(projectId));
   }
 }

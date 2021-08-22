@@ -18,7 +18,7 @@
           <mat-label>Cloud type</mat-label>
           <mat-select formControlName="cloud" required>
             <mat-option class="cloudprovider-option" *ngFor="let cloudType of cloudTypes" [value]="cloudType.code"
-              [disabled]="cloudType.code !== 'openstack' && cloudType.code !== 'digitalocean'">
+              [disabled]="cloudType.code !== 'openstack' && cloudType.code !== 'digitalocean' && cloudType.code !== 'aws'">
               <span>{{ cloudType.label }}</span>
               <mat-icon class="ml-15" [svgIcon]="cloudType.svgIcon"></mat-icon>
             </mat-option>
@@ -33,8 +33,10 @@
           <textarea matInput formControlName="config" rows=10 required></textarea>
           <mat-hint *ngIf="cloudproviderForm.value.cloud === 'openstack'">For Openstack use the cloud.yaml file
           </mat-hint>
-          <mat-hint *ngIf="cloudproviderForm.value.cloud === 'digitalocean'">For Digital Ocean Put the Access Token ({{
+          <mat-hint *ngIf="cloudproviderForm.value.cloud === 'digitalocean'">For DigitalOcean put ({{
             '{' }}access_token: xxxx, project_id: xxx {{ '}' }})</mat-hint>
+          <mat-hint *ngIf="cloudproviderForm.value.cloud === 'aws'">For AWS put ({{
+            '{' }}access_key_id: xxxx, secret_access_key: xxx, , region: xxx {{ '}' }})</mat-hint>
         </mat-form-field>
       </div>
       <div class="actions">
@@ -69,11 +71,35 @@
 
           </mat-panel-description>
         </mat-expansion-panel-header>
+        <p>You can access your access token <a target="_blank"
+            href="https://cloud.digitalocean.com/account/api/tokens">https://cloud.digitalocean.com/account/api/tokens</a>
+          on your account.</p>
         <p>For Digitalocean please use this format:</p>
         <pre>
 {{'{'}}
   access_token: xxxx,
   project_id: xxx
+{{'}'}}
+        </pre>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            AWS
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>You can access your access token <a target="_blank"
+            href="https://cloud.digitalocean.com/account/api/tokens">https://cloud.digitalocean.com/account/api/tokens</a>
+          on your account.</p>
+        <p>For AWS please use this format:</p>
+        <pre>
+{{'{'}}
+  access_key_id: xxxx,
+  secret_access_key: xxx,
+  region: xxx
 {{'}'}}
         </pre>
 

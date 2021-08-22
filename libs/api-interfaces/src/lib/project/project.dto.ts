@@ -24,6 +24,7 @@ export class ProjectDTO {
   graylog_compute_flavour_name: string;
   bastion_cloud_image: string;
   bastion_cloud_flavor: string;
+  bastion_cloud_keypair: string;
   prometheus_cloud_flavor: string;
   keycloak_host: string;
   keycloak_client_id: string;
