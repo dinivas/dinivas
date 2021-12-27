@@ -15,6 +15,20 @@ Some companies also can't just go to public Cloud due to data governance and man
 
 **Dinivas** is the on premise solution to get quickly a full managed services (PAAS) based on most popular Opensouce solution, Therefore you will not be *locked* to the Cloud provider.
 
+## Watch Dinivas in action
+
+### Create Dinivas base project
+[![Create Dinivas base project](https://img.youtube.com/vi/f7FnJgS2eds/maxresdefault.jpg)](https://www.youtube.com/watch?v=f7FnJgS2eds)
+
+### Dinivas Project Overview
+[![Dinivas Project Overview](https://img.youtube.com/vi/ao3pP460I7w/maxresdefault.jpg)](https://www.youtube.com/watch?v=ao3pP460I7w)
+
+### Managed Jenkins with Dinivas
+[![Managed Jenkins with Dinivas](https://img.youtube.com/vi/wj5BdLye0Is/maxresdefault.jpg)](https://www.youtube.com/watch?v=wj5BdLye0Is)
+
+### Managed RabbitMQ with Dinivas
+[![Managed RabbitMQ with Dinivas](https://img.youtube.com/vi/ivgzxhNSMig/maxresdefault.jpg)](https://www.youtube.com/watch?v=ivgzxhNSMig)
+
 ## Status
 
     Dinivas is still under developement and therefore not ready at all for use in production. You may watch the repo to keep touched about the evolution.
