@@ -1,0 +1,2524 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  GitlabWizardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/dinivas/src/app/build/gitlab/gitlab-wizard/gitlab-wizard.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewChecked" target="_blank" >AfterViewChecked</a></code>
+                    <code><a href="../injectables/Terraform.html" target="_self" >TerraformModuleWizardVarsProvider</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>dinivas-gitlab-wizard</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./gitlab-wizard.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyApplied" >applyApplied</a>
+                            </li>
+                            <li>
+                                <a href="#architectureType" >architectureType</a>
+                            </li>
+                            <li>
+                                <a href="#cloudFlavors" >cloudFlavors</a>
+                            </li>
+                            <li>
+                                <a href="#gitlab" >gitlab</a>
+                            </li>
+                            <li>
+                                <a href="#gitlabForm" >gitlabForm</a>
+                            </li>
+                            <li>
+                                <a href="#handleSlaveValidators" >handleSlaveValidators</a>
+                            </li>
+                            <li>
+                                <a href="#moduleWizardStepper" >moduleWizardStepper</a>
+                            </li>
+                            <li>
+                                <a href="#onArchitectureTypeChanged" >onArchitectureTypeChanged</a>
+                            </li>
+                            <li>
+                                <a href="#planApplied" >planApplied</a>
+                            </li>
+                            <li>
+                                <a href="#project" >project</a>
+                            </li>
+                            <li>
+                                <a href="#projectKeypair" >projectKeypair</a>
+                            </li>
+                            <li>
+                                <a href="#projectNetwork" >projectNetwork</a>
+                            </li>
+                            <li>
+                                <a href="#projectNetworkSubnet" >projectNetworkSubnet</a>
+                            </li>
+                            <li>
+                                <a href="#projectTfState" >projectTfState</a>
+                            </li>
+                            <li>
+                                <a href="#projectTfStateSubject" >projectTfStateSubject</a>
+                            </li>
+                            <li>
+                                <a href="#runnerCloudImages" >runnerCloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#runnerExecutors" >runnerExecutors</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#separatorKeysCodes" >separatorKeysCodes</a>
+                            </li>
+                            <li>
+                                <a href="#serverCloudImages" >serverCloudImages</a>
+                            </li>
+                            <li>
+                                <a href="#shouldShowSensitiveData" >shouldShowSensitiveData</a>
+                            </li>
+                            <li>
+                                <a href="#showingDirectOutput" >showingDirectOutput</a>
+                            </li>
+                            <li>
+                                <a href="#showOutputApplied" >showOutputApplied</a>
+                            </li>
+                            <li>
+                                <a href="#terraformStateOutputs" >terraformStateOutputs</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addGitlabSlave" >addGitlabSlave</a>
+                            </li>
+                            <li>
+                                <a href="#addRunnerGroupTag" >addRunnerGroupTag</a>
+                            </li>
+                            <li>
+                                <a href="#createSlaveFormGroup" >createSlaveFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#initGitlabForm" >initGitlabForm</a>
+                            </li>
+                            <li>
+                                <a href="#isFormValid" >isFormValid</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServiceApplyPlan" >moduleServiceApplyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServicePlan" >moduleServicePlan</a>
+                            </li>
+                            <li>
+                                <a href="#moduleServiceTerraformState" >moduleServiceTerraformState</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewChecked" >ngAfterViewChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#prepareGitlabDTOBeforeSendToServer" >prepareGitlabDTOBeforeSendToServer</a>
+                            </li>
+                            <li>
+                                <a href="#removeRunner" >removeRunner</a>
+                            </li>
+                            <li>
+                                <a href="#removeRunnerGroupTag" >removeRunnerGroupTag</a>
+                            </li>
+                            <li>
+                                <a href="#resetFormControlValidatorsAndErrors" >resetFormControlValidatorsAndErrors</a>
+                            </li>
+                            <li>
+                                <a href="#setExistingMasterValidators" >setExistingMasterValidators</a>
+                            </li>
+                            <li>
+                                <a href="#setManageSlaveValidators" >setManageSlaveValidators</a>
+                            </li>
+                            <li>
+                                <a href="#showGitlabOutput" >showGitlabOutput</a>
+                            </li>
+                            <li>
+                                <a href="#submitApplyPlan" >submitApplyPlan</a>
+                            </li>
+                            <li>
+                                <a href="#submitPlanGitlab" >submitPlanGitlab</a>
+                            </li>
+                            <li>
+                                <a href="#terraformWebsocketEventId" >terraformWebsocketEventId</a>
+                            </li>
+                            <li>
+                                <a href="#toCloudProviderImageId" >toCloudProviderImageId</a>
+                            </li>
+                            <li>
+                                <a href="#toCloudProviderNetworkIdentifier" >toCloudProviderNetworkIdentifier</a>
+                            </li>
+                            <li>
+                                <a href="#toCloudProviderSubnetNetworkIdentifier" >toCloudProviderSubnetNetworkIdentifier</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, gitlabService: <a href="../injectables/GitlabService.html" target="_self">GitlabService</a>, confirmService: <a href="../injectables/ConfirmDialogService.html" target="_self">ConfirmDialogService</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gitlabService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GitlabService.html" target="_self" >GitlabService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>confirmService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfirmDialogService.html" target="_self" >ConfirmDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addGitlabSlave"></a>
+                    <span class="name">
+                        <span ><b>addGitlabSlave</b></span>
+                        <a href="#addGitlabSlave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addGitlabSlave(gitlabRunnerGroup: <a href="../classes/GitlabRunnerDTO.html" target="_self">GitlabRunnerDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlabRunnerGroup</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabRunnerDTO.html" target="_self" >GitlabRunnerDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addRunnerGroupTag"></a>
+                    <span class="name">
+                        <span ><b>addRunnerGroupTag</b></span>
+                        <a href="#addRunnerGroupTag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addRunnerGroupTag(gitlabRunnerGroup: <a href="../classes/GitlabRunnerDTO.html" target="_self">GitlabRunnerDTO</a>, event: MatChipInputEvent)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlabRunnerGroup</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabRunnerDTO.html" target="_self" >GitlabRunnerDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MatChipInputEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createSlaveFormGroup"></a>
+                    <span class="name">
+                        <span ><b>createSlaveFormGroup</b></span>
+                        <a href="#createSlaveFormGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createSlaveFormGroup(gitlabRunnerGroup: <a href="../classes/GitlabRunnerDTO.html" target="_self">GitlabRunnerDTO</a>, manageSlave: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlabRunnerGroup</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabRunnerDTO.html" target="_self" >GitlabRunnerDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>manageSlave</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initGitlabForm"></a>
+                    <span class="name">
+                        <span ><b>initGitlabForm</b></span>
+                        <a href="#initGitlabForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initGitlabForm()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFormValid"></a>
+                    <span class="name">
+                        <span ><b>isFormValid</b></span>
+                        <a href="#isFormValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isFormValid()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServiceApplyPlan"></a>
+                    <span class="name">
+                        <span ><b>moduleServiceApplyPlan</b></span>
+                        <a href="#moduleServiceApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServiceApplyPlan(moduleEntity: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServicePlan"></a>
+                    <span class="name">
+                        <span ><b>moduleServicePlan</b></span>
+                        <a href="#moduleServicePlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServicePlan(moduleEntity: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleServiceTerraformState"></a>
+                    <span class="name">
+                        <span ><b>moduleServiceTerraformState</b></span>
+                        <a href="#moduleServiceTerraformState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>moduleServiceTerraformState(moduleEntity: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewChecked"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewChecked</b></span>
+                        <a href="#ngAfterViewChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewChecked()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareGitlabDTOBeforeSendToServer"></a>
+                    <span class="name">
+                        <span ><b>prepareGitlabDTOBeforeSendToServer</b></span>
+                        <a href="#prepareGitlabDTOBeforeSendToServer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prepareGitlabDTOBeforeSendToServer(gitlab: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlab</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeRunner"></a>
+                    <span class="name">
+                        <span ><b>removeRunner</b></span>
+                        <a href="#removeRunner"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeRunner(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeRunnerGroupTag"></a>
+                    <span class="name">
+                        <span ><b>removeRunnerGroupTag</b></span>
+                        <a href="#removeRunnerGroupTag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeRunnerGroupTag(gitlabRunnerGroup: <a href="../classes/GitlabRunnerDTO.html" target="_self">GitlabRunnerDTO</a>, tag: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlabRunnerGroup</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabRunnerDTO.html" target="_self" >GitlabRunnerDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>tag</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetFormControlValidatorsAndErrors"></a>
+                    <span class="name">
+                        <span ><b>resetFormControlValidatorsAndErrors</b></span>
+                        <a href="#resetFormControlValidatorsAndErrors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetFormControlValidatorsAndErrors(...formControls: AbstractControl[])</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>formControls</td>
+                                    <td>
+                                            <code>AbstractControl[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setExistingMasterValidators"></a>
+                    <span class="name">
+                        <span ><b>setExistingMasterValidators</b></span>
+                        <a href="#setExistingMasterValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setExistingMasterValidators()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setManageSlaveValidators"></a>
+                    <span class="name">
+                        <span ><b>setManageSlaveValidators</b></span>
+                        <a href="#setManageSlaveValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setManageSlaveValidators()</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showGitlabOutput"></a>
+                    <span class="name">
+                        <span ><b>showGitlabOutput</b></span>
+                        <a href="#showGitlabOutput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showGitlabOutput(gitlab: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlab</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitApplyPlan"></a>
+                    <span class="name">
+                        <span ><b>submitApplyPlan</b></span>
+                        <a href="#submitApplyPlan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitApplyPlan(gitlab: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlab</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitPlanGitlab"></a>
+                    <span class="name">
+                        <span ><b>submitPlanGitlab</b></span>
+                        <a href="#submitPlanGitlab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitPlanGitlab(gitlab: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>gitlab</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="terraformWebsocketEventId"></a>
+                    <span class="name">
+                        <span ><b>terraformWebsocketEventId</b></span>
+                        <a href="#terraformWebsocketEventId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>terraformWebsocketEventId(moduleEntity: <a href="../classes/GitlabDTO.html" target="_self">GitlabDTO</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>moduleEntity</td>
+                                    <td>
+                                                <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toCloudProviderImageId"></a>
+                    <span class="name">
+                        <span ><b>toCloudProviderImageId</b></span>
+                        <a href="#toCloudProviderImageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toCloudProviderImageId(image: <a href="../interfaces/ICloudApiImage.html" target="_self">ICloudApiImage</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>image</td>
+                                    <td>
+                                                <code><a href="../interfaces/ICloudApiImage.html" target="_self" >ICloudApiImage</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toCloudProviderNetworkIdentifier"></a>
+                    <span class="name">
+                        <span ><b>toCloudProviderNetworkIdentifier</b></span>
+                        <a href="#toCloudProviderNetworkIdentifier"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toCloudProviderNetworkIdentifier(cloudprovider: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, stateOutput: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cloudprovider</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>stateOutput</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toCloudProviderSubnetNetworkIdentifier"></a>
+                    <span class="name">
+                        <span ><b>toCloudProviderSubnetNetworkIdentifier</b></span>
+                        <a href="#toCloudProviderSubnetNetworkIdentifier"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toCloudProviderSubnetNetworkIdentifier(cloudprovider: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, stateOutput: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cloudprovider</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>stateOutput</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyApplied"></a>
+                    <span class="name">
+                        <span ><b>applyApplied</b></span>
+                        <a href="#applyApplied"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="architectureType"></a>
+                    <span class="name">
+                        <span ><b>architectureType</b></span>
+                        <a href="#architectureType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cloudFlavors"></a>
+                    <span class="name">
+                        <span ><b>cloudFlavors</b></span>
+                        <a href="#cloudFlavors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ICloudApiFlavor[]</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlab"></a>
+                    <span class="name">
+                        <span ><b>gitlab</b></span>
+                        <a href="#gitlab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/GitlabDTO.html" target="_self" >GitlabDTO</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gitlabForm"></a>
+                    <span class="name">
+                        <span ><b>gitlabForm</b></span>
+                        <a href="#gitlabForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleSlaveValidators"></a>
+                    <span class="name">
+                        <span ><b>handleSlaveValidators</b></span>
+                        <a href="#handleSlaveValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moduleWizardStepper"></a>
+                    <span class="name">
+                        <span ><b>moduleWizardStepper</b></span>
+                        <a href="#moduleWizardStepper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;MatVerticalStepper&gt;</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onArchitectureTypeChanged"></a>
+                    <span class="name">
+                        <span ><b>onArchitectureTypeChanged</b></span>
+                        <a href="#onArchitectureTypeChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="planApplied"></a>
+                    <span class="name">
+                        <span ><b>planApplied</b></span>
+                        <a href="#planApplied"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="project"></a>
+                    <span class="name">
+                        <span ><b>project</b></span>
+                        <a href="#project"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/ProjectDTO.html" target="_self" >ProjectDTO</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectKeypair"></a>
+                    <span class="name">
+                        <span ><b>projectKeypair</b></span>
+                        <a href="#projectKeypair"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectNetwork"></a>
+                    <span class="name">
+                        <span ><b>projectNetwork</b></span>
+                        <a href="#projectNetwork"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectNetworkSubnet"></a>
+                    <span class="name">
+                        <span ><b>projectNetworkSubnet</b></span>
+                        <a href="#projectNetworkSubnet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectTfState"></a>
+                    <span class="name">
+                        <span ><b>projectTfState</b></span>
+                        <a href="#projectTfState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectTfStateSubject"></a>
+                    <span class="name">
+                        <span ><b>projectTfStateSubject</b></span>
+                        <a href="#projectTfStateSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;any&gt;()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="runnerCloudImages"></a>
+                    <span class="name">
+                        <span ><b>runnerCloudImages</b></span>
+                        <a href="#runnerCloudImages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="runnerExecutors"></a>
+                    <span class="name">
+                        <span ><b>runnerExecutors</b></span>
+                        <a href="#runnerExecutors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>(&quot;shell&quot; | &quot;docker&quot; | &quot;docker+machine&quot;)[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &#x27;shell&#x27;,
+    &#x27;docker&#x27;,
+    &#x27;docker+machine&#x27;,
+  ]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="separatorKeysCodes"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>separatorKeysCodes</b></span>
+                        <a href="#separatorKeysCodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[ENTER, COMMA]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="serverCloudImages"></a>
+                    <span class="name">
+                        <span ><b>serverCloudImages</b></span>
+                        <a href="#serverCloudImages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ICloudApiImage[]</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldShowSensitiveData"></a>
+                    <span class="name">
+                        <span ><b>shouldShowSensitiveData</b></span>
+                        <a href="#shouldShowSensitiveData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showingDirectOutput"></a>
+                    <span class="name">
+                        <span ><b>showingDirectOutput</b></span>
+                        <a href="#showingDirectOutput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showOutputApplied"></a>
+                    <span class="name">
+                        <span ><b>showOutputApplied</b></span>
+                        <a href="#showOutputApplied"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="terraformStateOutputs"></a>
+                    <span class="name">
+                        <span ><b>terraformStateOutputs</b></span>
+                        <a href="#terraformStateOutputs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;form [formGroup]&#x3D;&quot;gitlabForm&quot; *ngIf&#x3D;&quot;gitlabForm&quot; (ngSubmit)&#x3D;&quot;submitPlanGitlab(gitlabForm.getRawValue())&quot;
+  class&#x3D;&quot;gitlab-wizard-form&quot;&gt;
+  &lt;ng-template matStepLabel&gt;Gitlab informations - &lt;span class&#x3D;&quot;text-warn&quot;&gt;This step will not create any
+      resources&lt;/span&gt;&lt;/ng-template&gt;
+  &lt;div class&#x3D;&quot;mat-form-container&quot; fxLayout&#x3D;&quot;column&quot;&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Gitlab code&lt;/mat-label&gt;
+      &lt;input id&#x3D;&quot;gitlab-code&quot; type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;code&quot; required&gt;
+      &lt;span *ngIf&#x3D;&quot;!gitlab?.id&quot; matPrefix&gt;{{ project.code.toLowerCase() }}-&lt;/span&gt;
+      &lt;mat-hint&gt;The Gitlab code will be used to suffix most components. You can&#x27;t change it after Gitlab
+        creation.&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Gitlab network&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;network_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectNetwork&quot;&gt;
+          {{ projectNetwork }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;Gitlab will be added to project Network by default&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Gitlab network subnet&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;network_subnet_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectNetworkSubnet&quot;&gt;
+          {{ projectNetworkSubnet }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;Gitlab will be added to project Network by default&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+      &lt;mat-label&gt;Gitlab instances keypair&lt;/mat-label&gt;
+      &lt;mat-select formControlName&#x3D;&quot;keypair_name&quot; required&gt;
+        &lt;mat-option [value]&#x3D;&quot;projectKeypair&quot;&gt;
+          {{ projectKeypair }}
+        &lt;/mat-option&gt;
+      &lt;/mat-select&gt;
+      &lt;mat-hint&gt;This Keypair will be added to all instances crated&lt;/mat-hint&gt;
+    &lt;/mat-form-field&gt;
+    &lt;!-- Gitlab Master configuration --&gt;
+    &lt;h4&gt;Gitlab Server&lt;/h4&gt;
+    &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+      &lt;mat-slide-toggle formControlName&#x3D;&quot;use_existing_instance&quot; color&#x3D;&quot;accent&quot;&gt;
+        Use an external existing server and not create a new one?
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-hint&gt;The existing server won&#x27;t be managed by Dinivas, but only reference in Dinivas&lt;/mat-hint&gt;
+    &lt;/div&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;!gitlabForm?.value.use_existing_instance&quot;&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Gitlab admin username&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;admin_username&quot;
+          [required]&#x3D;&quot;!gitlabForm?.value.use_existing_instance&quot; autocomplete&#x3D;&quot;username&quot;&gt;
+        &lt;mat-hint&gt;The Gitlab admin username. Default value is &lt;strong&gt;admin&lt;/strong&gt;&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Gitlab admin password&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;password&quot; matInput formControlName&#x3D;&quot;admin_password&quot;
+          [required]&#x3D;&quot;!gitlabForm?.value.use_existing_instance&quot; autocomplete&#x3D;&quot;current-password&quot;&gt;
+        &lt;mat-hint&gt;The Gitlab admin password. Default value is &lt;strong&gt;password&lt;/strong&gt;&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Description&lt;/mat-label&gt;
+        &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+      &lt;/mat-form-field&gt;
+      &lt;dinivas-cloud-image-radios *ngIf&#x3D;&quot;serverCloudImages?.length &gt; 0; else loading_master_image&quot;
+        formControlName&#x3D;&quot;_cloud_image&quot; label&#x3D;&quot;Select Gitlab instance image to use&quot; [cloudImages]&#x3D;&quot;serverCloudImages&quot;&gt;
+      &lt;/dinivas-cloud-image-radios&gt;
+      &lt;ng-template #loading_master_image&gt;
+        &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;No image that match filter found.&lt;/p&gt;
+      &lt;/ng-template&gt;
+      &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0; else loading_master_flavor&quot;
+        formControlName&#x3D;&quot;_cloud_flavor&quot; label&#x3D;&quot;Select Gitlab instance flavor to use&quot; [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+      &lt;/dinivas-cloud-flavor-radios&gt;
+      &lt;ng-template #loading_master_flavor&gt;
+        &lt;p class&#x3D;&quot;no-data-checkbox&quot;&gt;Select a cloudprovider to display &lt;strong&gt;flavors&lt;/strong&gt; for &lt;strong&gt;Master
+            instance&lt;/strong&gt;&lt;/p&gt;
+      &lt;/ng-template&gt;
+      &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+        &lt;mat-slide-toggle formControlName&#x3D;&quot;use_floating_ip&quot; color&#x3D;&quot;accent&quot;&gt;
+          Use floating IP?
+        &lt;/mat-slide-toggle&gt;
+        &lt;mat-hint&gt;A proxy will expose services to external network&lt;/mat-hint&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+        &lt;mat-slide-toggle formControlName&#x3D;&quot;link_to_keycloak&quot; color&#x3D;&quot;accent&quot;&gt;
+          Link this Gitlab Master to project Keycloak?
+        &lt;/mat-slide-toggle&gt;
+        &lt;mat-hint&gt;Gitlab authentication will be delegated to Keycloak&lt;/mat-hint&gt;
+      &lt;/div&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot; *ngIf&#x3D;&quot;gitlabForm?.value.link_to_keycloak&quot;&gt;
+        &lt;mat-label&gt;Keycloak client id&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;keycloak_client_id&quot;
+          [required]&#x3D;&quot;gitlabForm?.value.link_to_keycloak&quot;&gt;
+        &lt;mat-hint&gt;Keycloak OIDC Client Id&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;!-- Existing Gitlab instance --&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;gitlabForm?.value.use_existing_instance&quot;&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;External Gitlab instance URL&lt;/mat-label&gt;
+        &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;existing_instance_url&quot; autocomplete&#x3D;&quot;gitlab_url&quot;
+          [required]&#x3D;&quot;gitlabForm?.value.use_existing_instance&quot;&gt;
+        &lt;mat-hint&gt;The external Gitlab username to use for remote access (API)&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-label&gt;Description&lt;/mat-label&gt;
+        &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;div class&#x3D;&quot;slide-toggle-container&quot;&gt;
+      &lt;mat-slide-toggle formControlName&#x3D;&quot;manage_runner&quot; color&#x3D;&quot;accent&quot;&gt;
+        Manage Runners for this Gitlab?
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-hint&gt;Dinivas will manage Gitlab Runners for you. &lt;strong *ngIf&#x3D;&quot;!gitlab&quot;&gt;You will be able to add runner once
+          you will create the Gitlab instance&lt;/strong&gt;&lt;/mat-hint&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Gitlab runner configuration --&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;gitlabForm?.value.manage_runner&quot;&gt;
+      &lt;h4&gt;Runner groups &lt;small *ngIf&#x3D;&quot;gitlabForm.get(&#x27;runners&#x27;)[&#x27;controls&#x27;].length &gt; 0&quot;&gt;({{
+          gitlabForm.get(&#x27;runners&#x27;)[&#x27;controls&#x27;].length }}
+          groups)&lt;/small&gt;&lt;/h4&gt;
+      &lt;div class&#x3D;&quot;gitlab-runner-groups-container&quot;&gt;
+        &lt;div formArrayName&#x3D;&quot;runners&quot; class&#x3D;&quot;gitlab-runner-group-container mat-elevation-z4&quot;
+          *ngFor&#x3D;&quot;let runnerGroup of gitlabForm.get(&#x27;runners&#x27;)[&#x27;controls&#x27;]; let runnerGroupIndex &#x3D; index;&quot;&gt;
+          &lt;span class&#x3D;&quot;runner-group-number&quot;&gt;Runner group #{{ runnerGroupIndex + 1 }}&lt;/span&gt;
+          &lt;div [formGroupName]&#x3D;&quot;runnerGroupIndex&quot; class&#x3D;&quot;&quot; fxLayout&#x3D;&quot;column&quot;&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Runner code (internal use)&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;code&quot; required&gt;
+              &lt;span *ngIf&#x3D;&quot;gitlabForm?.value.code&quot; matPrefix&gt;{{ project.code.toLowerCase() }}-{{
+                gitlabForm?.value.code.toLowerCase() }}-&lt;/span&gt;
+              &lt;mat-hint&gt;This is just an identification for this runner group&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Runner name&lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;runner_name&quot; required&gt;
+              &lt;mat-hint&gt;The runner visible name on Gitlab&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Description&lt;/mat-label&gt;
+              &lt;textarea matInput formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Gitlab runner token &lt;/mat-label&gt;
+              &lt;input type&#x3D;&quot;text&quot; matInput formControlName&#x3D;&quot;gitlab_token&quot; required&gt;
+              &lt;mat-hint&gt;The Gitlab Runner registration token. It can be obtain in your &lt;strong&gt;Gitlab Group/Project settings/ci_cd&lt;/strong&gt;&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-label&gt;Runner executor&lt;/mat-label&gt;
+              &lt;mat-select formControlName&#x3D;&quot;executor&quot;  required&gt;
+                &lt;mat-option *ngFor&#x3D;&quot;let executor of runnerExecutors&quot; [value]&#x3D;&quot;executor&quot;&gt;
+                  {{ executor }}
+                &lt;/mat-option&gt;
+              &lt;/mat-select&gt;
+              &lt;mat-hint&gt;Recomended executor is &lt;strong&gt;docker&lt;/strong&gt;, depending on the executor some packages may be present on the instance&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-form-field class&#x3D;&quot;&quot; appearance&#x3D;&quot;outline&quot;&gt;
+              &lt;mat-chip-list #chipList aria-label&#x3D;&quot;Runners tags&quot; formControlName&#x3D;&quot;tags&quot;&gt;
+                &lt;mat-chip *ngFor&#x3D;&quot;let tag of gitlabForm?.value.runners[runnerGroupIndex].tags&quot; [selectable]&#x3D;&quot;false&quot;
+                  [removable]&#x3D;&quot;true&quot; color&#x3D;&quot;accent&quot; selected
+                  (removed)&#x3D;&quot;removeRunnerGroupTag(gitlabForm.value.runners[runnerGroupIndex], tag)&quot;&gt;
+                  {{tag}}
+                  &lt;mat-icon matChipRemove&gt;cancel&lt;/mat-icon&gt;
+                &lt;/mat-chip&gt;
+                &lt;input placeholder&#x3D;&quot;Runner labels&quot; [matChipInputFor]&#x3D;&quot;chipList&quot;
+                  [matChipInputSeparatorKeyCodes]&#x3D;&quot;separatorKeysCodes&quot; [matChipInputAddOnBlur]&#x3D;&quot;true&quot;
+                  (matChipInputTokenEnd)&#x3D;&quot;addRunnerGroupTag(gitlabForm.value.runners[runnerGroupIndex], $event)&quot;&gt;
+              &lt;/mat-chip-list&gt;
+              &lt;mat-hint&gt;Those label could be used to mark runners&lt;/mat-hint&gt;
+            &lt;/mat-form-field&gt;
+            &lt;div class&#x3D;&quot;slider-container&quot;&gt;
+              &lt;span&gt;Select the number of runner instances&lt;/span&gt;
+              &lt;mat-slider class&#x3D;&quot;&quot; [class.cdk-focused]&#x3D;&quot;true&quot; formControlName&#x3D;&quot;instance_count&quot; [max]&#x3D;&quot;10&quot; [min]&#x3D;&quot;1&quot;
+                [step]&#x3D;&quot;1&quot; [thumbLabel]&#x3D;&quot;true&quot; [tickInterval]&#x3D;&quot;0&quot; [vertical]&#x3D;&quot;false&quot;&gt;
+              &lt;/mat-slider&gt;
+              {{ gitlabForm?.value.runners[runnerGroupIndex][&#x27;instance_count&#x27;] | json}}
+            &lt;/div&gt;
+            &lt;dinivas-cloud-image-radios *ngIf&#x3D;&quot;runnerCloudImages?.length &gt; 0&quot; formControlName&#x3D;&quot;runner_cloud_image&quot;
+              label&#x3D;&quot;Select Runner image to use&quot; [cloudImages]&#x3D;&quot;runnerCloudImages&quot;&gt;
+            &lt;/dinivas-cloud-image-radios&gt;
+            &lt;dinivas-cloud-flavor-radios *ngIf&#x3D;&quot;cloudFlavors?.length &gt; 0&quot; formControlName&#x3D;&quot;runner_cloud_flavor&quot;
+              label&#x3D;&quot;Select Runner flavor to use&quot; [cloudFlavors]&#x3D;&quot;cloudFlavors&quot;&gt;
+            &lt;/dinivas-cloud-flavor-radios&gt;
+            &lt;div fxLayout&#x3D;&quot;row&quot; fxLayoutAlign&#x3D;&quot;end&quot;&gt;
+              &lt;button type&#x3D;&quot;button&quot; mat-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;removeRunner(runnerGroupIndex)&quot;&gt;
+                &lt;mat-icon&gt;delete&lt;/mat-icon&gt;Delete this
+                Runner group
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;add-gitlab-runner&quot; mat-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;addGitlabSlave(null)&quot;&gt;
+        &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+        Add new Gitlab runner
+      &lt;/button&gt;
+    &lt;/ng-container&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;actions&quot;&gt;
+    &lt;button mat-button [routerLink]&#x3D;&quot;[&#x27;/build&#x27;, &#x27;gitlab&#x27;]&quot; queryParamsHandling&#x3D;&quot;merge&quot; type&#x3D;&quot;button&quot;&gt;Cancel&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; mat-button matStepperPrevious&gt;Back&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; mat-button class&#x3D;&quot;ml-10&quot; *ngIf&#x3D;&quot;(gitlab?.id &amp;&amp; isFormValid())&quot;
+      (click)&#x3D;&quot;showGitlabOutput(gitlabForm.getRawValue())&quot;&gt;Show gitlab
+      infra infos&lt;/button&gt;
+    &lt;button type&#x3D;&quot;submit&quot; mat-raised-button color&#x3D;&quot;primary&quot; class&#x3D;&quot;ml-10&quot;
+      [disabled]&#x3D;&quot;!isFormValid() || isFormValid() &amp;&amp; !gitlabForm.dirty&quot;&gt;Plan
+      Gitlab
+      resources&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><form [formGroup]="gitlabForm" *ngIf="gitlabForm" (ngSubmit)="submitPlanGitlab(gitlabForm.getRawValue())"  class="gitlab-wizard-form">  <ng-template matStepLabel>Gitlab informations - <span class="text-warn">This step will not create any      resources</span></ng-template>  <div class="mat-form-container" fxLayout="column">    <mat-form-field class="" appearance="outline">      <mat-label>Gitlab code</mat-label>      <input id="gitlab-code" type="text" matInput formControlName="code" required>      <span *ngIf="!gitlab?.id" matPrefix>{{ project.code.toLowerCase() }}-</span>      <mat-hint>The Gitlab code will be used to suffix most components. You can\'t change it after Gitlab        creation.</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Gitlab network</mat-label>      <mat-select formControlName="network_name" required>        <mat-option [value]="projectNetwork">          {{ projectNetwork }}        </mat-option>      </mat-select>      <mat-hint>Gitlab will be added to project Network by default</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Gitlab network subnet</mat-label>      <mat-select formControlName="network_subnet_name" required>        <mat-option [value]="projectNetworkSubnet">          {{ projectNetworkSubnet }}        </mat-option>      </mat-select>      <mat-hint>Gitlab will be added to project Network by default</mat-hint>    </mat-form-field>    <mat-form-field class="" appearance="outline">      <mat-label>Gitlab instances keypair</mat-label>      <mat-select formControlName="keypair_name" required>        <mat-option [value]="projectKeypair">          {{ projectKeypair }}        </mat-option>      </mat-select>      <mat-hint>This Keypair will be added to all instances crated</mat-hint>    </mat-form-field>    <!-- Gitlab Master configuration -->    <h4>Gitlab Server</h4>    <div class="slide-toggle-container">      <mat-slide-toggle formControlName="use_existing_instance" color="accent">        Use an external existing server and not create a new one?      </mat-slide-toggle>      <mat-hint>The existing server won\'t be managed by Dinivas, but only reference in Dinivas</mat-hint>    </div>    <ng-container *ngIf="!gitlabForm?.value.use_existing_instance">      <mat-form-field class="" appearance="outline">        <mat-label>Gitlab admin username</mat-label>        <input type="text" matInput formControlName="admin_username"          [required]="!gitlabForm?.value.use_existing_instance" autocomplete="username">        <mat-hint>The Gitlab admin username. Default value is <strong>admin</strong></mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Gitlab admin password</mat-label>        <input type="password" matInput formControlName="admin_password"          [required]="!gitlabForm?.value.use_existing_instance" autocomplete="current-password">        <mat-hint>The Gitlab admin password. Default value is <strong>password</strong></mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Description</mat-label>        <textarea matInput formControlName="description" rows="3"></textarea>      </mat-form-field>      <dinivas-cloud-image-radios *ngIf="serverCloudImages?.length > 0; else loading_master_image"        formControlName="_cloud_image" label="Select Gitlab instance image to use" [cloudImages]="serverCloudImages">      </dinivas-cloud-image-radios>      <ng-template #loading_master_image>        <p class="no-data-checkbox">No image that match filter found.</p>      </ng-template>      <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0; else loading_master_flavor"        formControlName="_cloud_flavor" label="Select Gitlab instance flavor to use" [cloudFlavors]="cloudFlavors">      </dinivas-cloud-flavor-radios>      <ng-template #loading_master_flavor>        <p class="no-data-checkbox">Select a cloudprovider to display <strong>flavors</strong> for <strong>Master            instance</strong></p>      </ng-template>      <div class="slide-toggle-container">        <mat-slide-toggle formControlName="use_floating_ip" color="accent">          Use floating IP?        </mat-slide-toggle>        <mat-hint>A proxy will expose services to external network</mat-hint>      </div>      <div class="slide-toggle-container">        <mat-slide-toggle formControlName="link_to_keycloak" color="accent">          Link this Gitlab Master to project Keycloak?        </mat-slide-toggle>        <mat-hint>Gitlab authentication will be delegated to Keycloak</mat-hint>      </div>      <mat-form-field class="" appearance="outline" *ngIf="gitlabForm?.value.link_to_keycloak">        <mat-label>Keycloak client id</mat-label>        <input type="text" matInput formControlName="keycloak_client_id"          [required]="gitlabForm?.value.link_to_keycloak">        <mat-hint>Keycloak OIDC Client Id</mat-hint>      </mat-form-field>    </ng-container>    <!-- Existing Gitlab instance -->    <ng-container *ngIf="gitlabForm?.value.use_existing_instance">      <mat-form-field class="" appearance="outline">        <mat-label>External Gitlab instance URL</mat-label>        <input type="text" matInput formControlName="existing_instance_url" autocomplete="gitlab_url"          [required]="gitlabForm?.value.use_existing_instance">        <mat-hint>The external Gitlab username to use for remote access (API)</mat-hint>      </mat-form-field>      <mat-form-field class="" appearance="outline">        <mat-label>Description</mat-label>        <textarea matInput formControlName="description" rows="3"></textarea>      </mat-form-field>    </ng-container>    <div class="slide-toggle-container">      <mat-slide-toggle formControlName="manage_runner" color="accent">        Manage Runners for this Gitlab?      </mat-slide-toggle>      <mat-hint>Dinivas will manage Gitlab Runners for you. <strong *ngIf="!gitlab">You will be able to add runner once          you will create the Gitlab instance</strong></mat-hint>    </div>    <!-- Gitlab runner configuration -->    <ng-container *ngIf="gitlabForm?.value.manage_runner">      <h4>Runner groups <small *ngIf="gitlabForm.get(\'runners\')[\'controls\'].length > 0">({{          gitlabForm.get(\'runners\')[\'controls\'].length }}          groups)</small></h4>      <div class="gitlab-runner-groups-container">        <div formArrayName="runners" class="gitlab-runner-group-container mat-elevation-z4"          *ngFor="let runnerGroup of gitlabForm.get(\'runners\')[\'controls\']; let runnerGroupIndex = index;">          <span class="runner-group-number">Runner group #{{ runnerGroupIndex + 1 }}</span>          <div [formGroupName]="runnerGroupIndex" class="" fxLayout="column">            <mat-form-field class="" appearance="outline">              <mat-label>Runner code (internal use)</mat-label>              <input type="text" matInput formControlName="code" required>              <span *ngIf="gitlabForm?.value.code" matPrefix>{{ project.code.toLowerCase() }}-{{                gitlabForm?.value.code.toLowerCase() }}-</span>              <mat-hint>This is just an identification for this runner group</mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Runner name</mat-label>              <input type="text" matInput formControlName="runner_name" required>              <mat-hint>The runner visible name on Gitlab</mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Description</mat-label>              <textarea matInput formControlName="description" rows="3"></textarea>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Gitlab runner token </mat-label>              <input type="text" matInput formControlName="gitlab_token" required>              <mat-hint>The Gitlab Runner registration token. It can be obtain in your <strong>Gitlab Group/Project settings/ci_cd</strong></mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-label>Runner executor</mat-label>              <mat-select formControlName="executor"  required>                <mat-option *ngFor="let executor of runnerExecutors" [value]="executor">                  {{ executor }}                </mat-option>              </mat-select>              <mat-hint>Recomended executor is <strong>docker</strong>, depending on the executor some packages may be present on the instance</mat-hint>            </mat-form-field>            <mat-form-field class="" appearance="outline">              <mat-chip-list #chipList aria-label="Runners tags" formControlName="tags">                <mat-chip *ngFor="let tag of gitlabForm?.value.runners[runnerGroupIndex].tags" [selectable]="false"                  [removable]="true" color="accent" selected                  (removed)="removeRunnerGroupTag(gitlabForm.value.runners[runnerGroupIndex], tag)">                  {{tag}}                  <mat-icon matChipRemove>cancel</mat-icon>                </mat-chip>                <input placeholder="Runner labels" [matChipInputFor]="chipList"                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"                  (matChipInputTokenEnd)="addRunnerGroupTag(gitlabForm.value.runners[runnerGroupIndex], $event)">              </mat-chip-list>              <mat-hint>Those label could be used to mark runners</mat-hint>            </mat-form-field>            <div class="slider-container">              <span>Select the number of runner instances</span>              <mat-slider class="" [class.cdk-focused]="true" formControlName="instance_count" [max]="10" [min]="1"                [step]="1" [thumbLabel]="true" [tickInterval]="0" [vertical]="false">              </mat-slider>              {{ gitlabForm?.value.runners[runnerGroupIndex][\'instance_count\'] | json}}            </div>            <dinivas-cloud-image-radios *ngIf="runnerCloudImages?.length > 0" formControlName="runner_cloud_image"              label="Select Runner image to use" [cloudImages]="runnerCloudImages">            </dinivas-cloud-image-radios>            <dinivas-cloud-flavor-radios *ngIf="cloudFlavors?.length > 0" formControlName="runner_cloud_flavor"              label="Select Runner flavor to use" [cloudFlavors]="cloudFlavors">            </dinivas-cloud-flavor-radios>            <div fxLayout="row" fxLayoutAlign="end">              <button type="button" mat-button color="warn" (click)="removeRunner(runnerGroupIndex)">                <mat-icon>delete</mat-icon>Delete this                Runner group              </button>            </div>          </div>        </div>      </div>      <button type="button" class="add-gitlab-runner" mat-button color="accent" (click)="addGitlabSlave(null)">        <mat-icon>add</mat-icon>        Add new Gitlab runner      </button>    </ng-container>  </div>  <div class="actions">    <button mat-button [routerLink]="[\'/build\', \'gitlab\']" queryParamsHandling="merge" type="button">Cancel</button>    <button type="button" mat-button matStepperPrevious>Back</button>    <button type="button" mat-button class="ml-10" *ngIf="(gitlab?.id && isFormValid())"      (click)="showGitlabOutput(gitlabForm.getRawValue())">Show gitlab      infra infos</button>    <button type="submit" mat-raised-button color="primary" class="ml-10"      [disabled]="!isFormValid() || isFormValid() && !gitlabForm.dirty">Plan      Gitlab      resources</button>  </div></form></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'dinivas-admin'},{'name': 'AdminIamComponent', 'selector': 'dinivas-admin-iam'},{'name': 'AdminIAMMemberComponent', 'selector': 'dinivas-admin-members'},{'name': 'AdminIAMMemberEditComponent', 'selector': 'dinivas-admin-member-edit'},{'name': 'AppComponent', 'selector': 'dinivas-root'},{'name': 'ArchitectureTypeRadiosComponent', 'selector': 'dinivas-architecture-type-radios'},{'name': 'BullDashboardComponent', 'selector': 'dinivas-bull-dashboard'},{'name': 'CloudFlavorRadiosComponent', 'selector': 'dinivas-cloud-flavor-radios'},{'name': 'CloudImageRadiosComponent', 'selector': 'dinivas-cloud-image-radios'},{'name': 'CloudKeyPairRadiosComponent', 'selector': 'dinivas-cloud-keypair-radios'},{'name': 'CloudproviderEditComponent', 'selector': 'dinivas-cloudprovider-edit'},{'name': 'CloudprovidersComponent', 'selector': 'dinivas-cloudproviders'},{'name': 'ConfirmationDialogComponent', 'selector': 'dinivas-confirmation-dialog'},{'name': 'ConfirmDialogComponent', 'selector': 'dinivas-confirm-dialog'},{'name': 'ConsulComponent', 'selector': 'dinivas-consul'},{'name': 'ConsulStatusComponent', 'selector': 'dinivas-consul-status'},{'name': 'ConsulViewComponent', 'selector': 'dinivas-consul-view'},{'name': 'ConsulWizardComponent', 'selector': 'dinivas-consul-wizard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DashboardComponent', 'selector': 'dinivas-dashboard'},{'name': 'DisksComponent', 'selector': 'dinivas-disks'},{'name': 'DisplayTerraformStateDialogComponent', 'selector': ''},{'name': 'DockerswarmComponent', 'selector': 'dinivas-dockerswarm'},{'name': 'DroneciComponent', 'selector': 'dinivas-droneci'},{'name': 'ElasticsearchComponent', 'selector': 'dinivas-elasticsearch'},{'name': 'FilterBarComponent', 'selector': 'dinivas-filter-bar'},{'name': 'FilterCriterionComponent', 'selector': 'dinivas-filter-criterion'},{'name': 'FooterComponent', 'selector': 'dinivas-footer'},{'name': 'GalaxyComponent', 'selector': 'dinivas-galaxy'},{'name': 'GitlabComponent', 'selector': 'dinivas-gitlab'},{'name': 'GitlabStatusComponent', 'selector': 'dinivas-gitlab-status'},{'name': 'GitlabViewComponent', 'selector': 'dinivas-gitlab-view'},{'name': 'GitlabWizardComponent', 'selector': 'dinivas-gitlab-wizard'},{'name': 'HarborComponent', 'selector': 'dinivas-harbor'},{'name': 'HistoryComponent', 'selector': 'dinivas-history'},{'name': 'IamComponent', 'selector': 'dinivas-iam'},{'name': 'ImagesComponent', 'selector': 'dinivas-images'},{'name': 'ImageToBuildDialogComponent', 'selector': ''},{'name': 'InstancesComponent', 'selector': 'dinivas-instances'},{'name': 'InstanceStatusComponent', 'selector': 'dinivas-instance-status'},{'name': 'InstanceViewComponent', 'selector': 'dinivas-instance-view'},{'name': 'InstanceWizardComponent', 'selector': 'dinivas-instance-wizard'},{'name': 'JenkinsComponent', 'selector': 'dinivas-jenkins'},{'name': 'JenkinsStatusComponent', 'selector': 'dinivas-jenkins-status'},{'name': 'JenkinsViewComponent', 'selector': 'dinivas-jenkins-view'},{'name': 'JenkinsWizardComponent', 'selector': 'dinivas-jenkins-wizard'},{'name': 'KafkaComponent', 'selector': 'dinivas-kafka'},{'name': 'KubernetesComponent', 'selector': 'dinivas-kubernetes'},{'name': 'MemberEditComponent', 'selector': 'dinivas-member-edit'},{'name': 'MembersComponent', 'selector': 'dinivas-members'},{'name': 'MinioComponent', 'selector': 'dinivas-minio'},{'name': 'MongodbComponent', 'selector': 'dinivas-mongodb'},{'name': 'MqttComponent', 'selector': 'dinivas-mqtt'},{'name': 'MyContentComponent', 'selector': 'dinivas-my-content'},{'name': 'MyImportComponent', 'selector': 'dinivas-my-import'},{'name': 'MySettingsComponent', 'selector': 'dinivas-my-settings'},{'name': 'NeedYourContributionComponent', 'selector': 'dinivas-need-your-contribution'},{'name': 'OpenshiftComponent', 'selector': 'dinivas-openshift'},{'name': 'PostgresqlComponent', 'selector': 'dinivas-postgresql'},{'name': 'PostgresqlStatusComponent', 'selector': 'dinivas-postgresql-status'},{'name': 'PostgresqlViewComponent', 'selector': 'dinivas-postgresql-view'},{'name': 'PostgresqlWizardVarsComponent', 'selector': 'dinivas-postgresql-wizard-vars'},{'name': 'ProjectsComponent', 'selector': 'dinivas-projects'},{'name': 'ProjectStatusComponent', 'selector': 'dinivas-project-status'},{'name': 'ProjectViewComponent', 'selector': 'dinivas-project-view'},{'name': 'ProjectWizardComponent', 'selector': 'dinivas-project-wizard'},{'name': 'ProvidersComponent', 'selector': 'dinivas-providers'},{'name': 'RabbitmqComponent', 'selector': 'dinivas-rabbitmq'},{'name': 'RabbitmqStatusComponent', 'selector': 'dinivas-rabbitmq-status'},{'name': 'RabbitMQViewComponent', 'selector': 'dinivas-rabbitmq-view'},{'name': 'RabbitmqWizardComponent', 'selector': 'dinivas-rabbitmq-wizard'},{'name': 'RadiusComponent', 'selector': 'dinivas-radius'},{'name': 'RedisComponent', 'selector': 'dinivas-redis'},{'name': 'RepoContentDetailComponent', 'selector': 'dinivas-repo-content-detail'},{'name': 'SearchComponent', 'selector': 'dinivas-search'},{'name': 'SelectNamespaceDialogComponent', 'selector': ''},{'name': 'SelectProjectDialogComponent', 'selector': 'dinivas-select-project-dialog'},{'name': 'SelectRepoDialogComponent', 'selector': ''},{'name': 'ServerInfoComponent', 'selector': 'dinivas-server-info'},{'name': 'ServerMonitorStatusComponent', 'selector': 'dinivas-server-monitor-status'},{'name': 'SnackAlertDangerComponent', 'selector': 'dinivas-snack-alert-danger'},{'name': 'SnackAlertSuccessComponent', 'selector': 'dinivas-snack-alert-success'},{'name': 'SnackAlertWarningComponent', 'selector': 'dinivas-snack-alert-warning'},{'name': 'SshTerminalComponent', 'selector': 'dinivas-ssh-terminal'},{'name': 'TerraformModuleWizardComponent', 'selector': 'dinivas-terraform-module-wizard'},{'name': 'TerraformRepresentationComponent', 'selector': 'dinivas-terraform-representation'},{'name': 'TerraformStateComponent', 'selector': 'dinivas-terraform-state'}];
+    var DIRECTIVES = [{'name': 'MatCrudComponent', 'selector': ''},{'name': 'TerraformModuleWizardVarsDirective', 'selector': '[dinivasTerraformModuleWizardVars]'}];
+    var ACTUAL_COMPONENT = {'name': 'GitlabWizardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'GitlabWizardComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+            <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                ga('create', 'UA-202797428-1', 'https://dinivas.github.io/dinivas/');
+                ga('send', 'pageview');
+            </script>
+
+    </body>
+</html>

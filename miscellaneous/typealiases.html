@@ -1,0 +1,371 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dinivas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Dinivas</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-typealiases">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+<ol class="breadcrumb">
+  <li>Miscellaneous</li>
+  <li>Type aliases</li>
+</ol>
+
+<section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#AvailableCloudProvider" title="libs/api-interfaces/src/lib/cloudapi/cloudapi.ts" ><b>AvailableCloudProvider</b>&nbsp;&nbsp;&nbsp;(libs/.../cloudapi.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ByteUnit" title="apps/dinivas/src/app/core/pipes/bytes.pipe.ts" ><b>ByteUnit</b>&nbsp;&nbsp;&nbsp;(apps/.../bytes.pipe.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CloudProviderId" title="libs/api-interfaces/src/lib/terraform-command.interface.ts" ><b>CloudProviderId</b>&nbsp;&nbsp;&nbsp;(libs/.../terraform-command.interface.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CollectionPredicate" title="apps/dinivas/src/app/core/pipes/utils.ts" ><b>CollectionPredicate</b>&nbsp;&nbsp;&nbsp;(apps/.../utils.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Output" title="apps/terraform-worker/src/app/terraform/core/types.ts" ><b>Output</b>&nbsp;&nbsp;&nbsp;(apps/.../types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ResourceCounts" title="apps/terraform-worker/src/app/terraform/core/types.ts" ><b>ResourceCounts</b>&nbsp;&nbsp;&nbsp;(apps/.../types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SimpleOutput" title="apps/terraform-worker/src/app/terraform/core/types.ts" ><b>SimpleOutput</b>&nbsp;&nbsp;&nbsp;(apps/.../types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TerraformModule" title="libs/api-interfaces/src/lib/terraform-command.interface.ts" ><b>TerraformModule</b>&nbsp;&nbsp;&nbsp;(libs/.../terraform-command.interface.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TerraformModuleType" title="apps/dinivas/src/app/shared/terraform/terraform-module-wizard/terraform-module-wizard.ts" ><b>TerraformModuleType</b>&nbsp;&nbsp;&nbsp;(apps/.../terraform-module-wizard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TerraformMultipleOutput" title="apps/terraform-worker/src/app/terraform/core/types.ts" ><b>TerraformMultipleOutput</b>&nbsp;&nbsp;&nbsp;(apps/.../types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TerraformSingleOutput" title="apps/terraform-worker/src/app/terraform/core/types.ts" ><b>TerraformSingleOutput</b>&nbsp;&nbsp;&nbsp;(apps/.../types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TfModule" title="apps/terraform-worker/src/app/configuration.service.ts" ><b>TfModule</b>&nbsp;&nbsp;&nbsp;(apps/.../configuration.service.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>libs/api-interfaces/src/lib/cloudapi/cloudapi.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AvailableCloudProvider"></a>
+                    <span class="name "><b>AvailableCloudProvider</b><a href="#AvailableCloudProvider"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;openstack&quot; | &quot;digitalocean&quot; | &quot;aws&quot; | &quot;gcp&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/dinivas/src/app/core/pipes/bytes.pipe.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ByteUnit"></a>
+                    <span class="name "><b>ByteUnit</b><a href="#ByteUnit"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;B&quot; | &quot;kB&quot; | &quot;KB&quot; | &quot;MB&quot; | &quot;GB&quot; | &quot;TB&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>libs/api-interfaces/src/lib/terraform-command.interface.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CloudProviderId"></a>
+                    <span class="name "><b>CloudProviderId</b><a href="#CloudProviderId"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;openstack&quot; | &quot;digitalocean&quot; | &quot;aws&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TerraformModule"></a>
+                    <span class="name "><b>TerraformModule</b><a href="#TerraformModule"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;project_base&quot; | &quot;jenkins&quot; | &quot;rabbitmq&quot; | &quot;project_instance&quot; | &quot;consul&quot; | &quot;gitlab&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/dinivas/src/app/core/pipes/utils.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CollectionPredicate"></a>
+                    <span class="name "><b>CollectionPredicate</b><a href="#CollectionPredicate"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/terraform-worker/src/app/terraform/core/types.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Output"></a>
+                    <span class="name "><b>Output</b><a href="#Output"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ResourceCounts"></a>
+                    <span class="name "><b>ResourceCounts</b><a href="#ResourceCounts"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SimpleOutput"></a>
+                    <span class="name "><b>SimpleOutput</b><a href="#SimpleOutput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TerraformMultipleOutput"></a>
+                    <span class="name "><b>TerraformMultipleOutput</b><a href="#TerraformMultipleOutput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TerraformSingleOutput"></a>
+                    <span class="name "><b>TerraformSingleOutput</b><a href="#TerraformSingleOutput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../miscellaneous/typealiases.html#Output" target="_self" >Output</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/dinivas/src/app/shared/terraform/terraform-module-wizard/terraform-module-wizard.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TerraformModuleType"></a>
+                    <span class="name "><b>TerraformModuleType</b><a href="#TerraformModuleType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>GitlabDTO | JenkinsDTO | InstanceDTO | ConsulDTO | RabbitMQDTO</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>apps/terraform-worker/src/app/configuration.service.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TfModule"></a>
+                    <span class="name "><b>TfModule</b><a href="#TfModule"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
+            var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+            <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                ga('create', 'UA-202797428-1', 'https://dinivas.github.io/dinivas/');
+                ga('send', 'pageview');
+            </script>
+
+    </body>
+</html>
