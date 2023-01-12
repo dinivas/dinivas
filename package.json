@@ -96,7 +96,7 @@
     "bull": "^3.26.0",
     "chart.js": "^2.9.4",
     "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1",
+    "class-validator": "^0.14.0",
     "do-wrapper": "^4.5.1",
     "extract-zip": "^2.0.1",
     "git-repo-info": "^2.1.1",
